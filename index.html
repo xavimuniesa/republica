@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>República — Rellotge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    :root{
+        --bg:#000000;
+        --dial:#0a0a0a;
+        --lume:#dfe6bd;
+        --lume-shadow:#1a1a1a;
+        --groc:#fcdd09;
+        --vermell:#da121a;
+        --gray:#8a8a8a;
+        --card:#141414;
+        --shell: clamp(240px, 84vw, 380px);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+    body{
+        background:var(--bg);
+        color:#fff;
+        min-height:100vh;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;
+        padding:24px 20px;
+    }
+    main{
+        display:grid;grid-template-columns:1fr;gap:34px;
+        width:100%;max-width:1100px;justify-items:center;
+    }
+    .clock-column{display:flex;flex-direction:column;align-items:center;gap:16px;}
+
+    /* Cas d'acer raspallat estil rellotge de quars: mida definida en px (via clamp)
+       en lloc de percentatge dins un contenidor flex, per evitar l'ovalització. */
+    .clock-shell{
+        position:relative;
+        width:var(--shell);
+        height:var(--shell);
+        border-radius:50%;
+        flex:none;
+        background:
+            repeating-conic-gradient(from 0deg,
+                #e8eaec 0deg 2deg, #c7cacd 2deg 4deg,
+                #f2f3f4 4deg 6deg, #b3b6b9 6deg 8deg);
+        box-shadow:
+            0 6px 14px rgba(0,0,0,.55),
+            inset 0 0 0 2px rgba(255,255,255,.35),
+            inset 0 2px 6px rgba(255,255,255,.5),
+            inset 0 -6px 10px rgba(0,0,0,.55);
+        padding:clamp(9px,3.2%,15px);
+    }
+    .clock-shell::before{
+        content:"";
+        position:absolute;inset:0;border-radius:50%;
+        background:radial-gradient(circle at 30% 26%, rgba(255,255,255,.55), transparent 45%),
+                   radial-gradient(circle at 72% 78%, rgba(0,0,0,.4), transparent 50%);
+        pointer-events:none;
+    }
+    .screw{
+        position:absolute;width:5.5%;height:5.5%;border-radius:50%;
+        background:radial-gradient(circle at 35% 30%, #f4f5f6, #8c8f92 60%, #4a4c4e 100%);
+        box-shadow:inset 0 0 0 1px rgba(0,0,0,.4);
+    }
+    .screw::after{
+        content:"";position:absolute;top:50%;left:15%;width:70%;height:1.4px;
+        background:rgba(0,0,0,.55);transform:translateY(-50%) rotate(38deg);
+    }
+    .screw.n{top:2.5%;left:47.25%;} .screw.e{top:47.25%;right:2.5%;}
+    .screw.s{bottom:2.5%;left:47.25%;} .screw.w{top:47.25%;left:2.5%;}
+
+    .dial-inset{
+        position:relative;width:100%;height:100%;border-radius:50%;
+        background:radial-gradient(circle at 32% 28%, #262626, #000 72%);
+        box-shadow:inset 0 0 0 2px #050505, inset 0 0 14px 4px rgba(0,0,0,.85);
+        overflow:hidden;
+    }
+    #dial{width:100%;height:100%;display:block;}
+
+    .info-widgets{
+        display:flex;gap:10px;width:var(--shell);
+    }
+    .metal-frame{
+        position:relative;overflow:hidden;
+        border:2px solid transparent;
+        background-image:
+            linear-gradient(var(--card), var(--card)),
+            repeating-conic-gradient(from 0deg,
+                #e8eaec 0deg 2deg, #c7cacd 2deg 4deg,
+                #f2f3f4 4deg 6deg, #b3b6b9 6deg 8deg);
+        background-origin:border-box;
+        background-clip:padding-box, border-box;
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.22),
+            inset 0 -2px 5px rgba(0,0,0,.55),
+            inset 1px 0 0 rgba(255,255,255,.08),
+            inset -1px 0 0 rgba(0,0,0,.35);
+    }
+    .metal-frame::after{
+        content:"";position:absolute;top:-70%;left:-25%;width:55%;height:240%;
+        background:linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.16) 45%, rgba(255,255,255,0) 62%);
+        transform:rotate(18deg);
+        pointer-events:none;
+    }
+    .info-chip{
+        flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+        border-radius:12px;
+        padding:7px 10px;min-width:0;
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.05), 0 3px 8px rgba(0,0,0,.4);
+    }
+    .info-chip svg{width:16px;height:16px;flex:none;}
+    .info-chip .txt{display:flex;flex-direction:column;align-items:center;line-height:1.1;min-width:0;overflow:hidden;}
+    .info-chip .label{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:1.2px;color:var(--gray);text-transform:uppercase;text-align:center;}
+    .info-chip .value{font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;color:var(--groc);white-space:nowrap;text-align:center;}
+
+    .calendar-section{
+        width:var(--shell);border-radius:18px;
+        padding:16px 18px;
+        box-shadow:0 6px 16px rgba(0,0,0,.4);
+    }
+    .calendar-header{display:flex;justify-content:center;margin-bottom:10px;}
+    .month-title{
+        font-family:'Oswald',sans-serif;font-size:18px;font-weight:600;
+        letter-spacing:2px;text-transform:uppercase;color:var(--groc);
+    }
+    .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px 4px;text-align:center;}
+    .day-name{color:#555;font-size:11px;margin-bottom:3px;font-weight:500;text-transform:uppercase;letter-spacing:.5px;}
+    .day{padding:4px 0;font-size:14px;border-radius:7px;font-weight:500;color:#ddd;}
+    .day.active-today{
+        background:linear-gradient(160deg,#e8434a,var(--vermell) 55%,#a80d14);
+        color:#fff;font-weight:600;
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.4), inset 0 -2px 3px rgba(0,0,0,.35);
+    }
+    .day.empty-cell{visibility:hidden;}
+
+    /* Mòbil en horitzontal i tauletes (qualsevol orientació) → dues columnes */
+    @media (min-width:700px), (orientation:landscape) and (min-width:560px){
+        main{grid-template-columns:1fr 1fr;align-items:center;gap:56px;}
+        :root{ --shell: clamp(240px, 30vw, 420px); }
+    }
+    /* Tauleta gran / escriptori */
+    @media (min-width:1000px){
+        :root{ --shell: clamp(320px, 26vw, 460px); }
+    }
+    /* iPhone petit en vertical */
+    @media (max-width:380px){
+        :root{ --shell: clamp(220px, 84vw, 320px); }
+        .info-widgets{font-size:12px;}
+        .calendar-grid{gap:4px;}
+        .day{font-size:14px;padding:9px 0;}
+    }
+</style>
+</head>
+<body>
+
+<main>
+    <div class="clock-column">
+        <div class="clock-shell">
+            <span class="screw n"></span><span class="screw e"></span>
+            <span class="screw s"></span><span class="screw w"></span>
+            <div class="dial-inset">
+            <svg id="dial" viewBox="0 0 600 600">
+                <defs>
+                    <filter id="lumeDepth" x="-30%" y="-30%" width="160%" height="160%">
+                        <feDropShadow dx="2.5" dy="2.5" stdDeviation="0" flood-color="#000" flood-opacity="0.65"/>
+                    </filter>
+                    <filter id="handDepth" x="-60%" y="-60%" width="220%" height="220%">
+                        <feDropShadow dx="3" dy="3" stdDeviation="0" flood-color="#000" flood-opacity="0.6"/>
+                    </filter>
+                </defs>
+
+                <circle cx="300" cy="300" r="290" fill="var(--dial)"/>
+
+                <!-- Marques de minuts -->
+                <g id="minuteTicks" stroke="var(--lume)" stroke-width="2" opacity="0.55"></g>
+
+                <!-- Marques horàries amb relleu -->
+                <g id="hourTicks" filter="url(#lumeDepth)"></g>
+
+                <!-- Numerals cardinals: 12 i les fraccions de quart (hores catalanes) -->
+                <g id="cardinals" font-family="Oswald, sans-serif" font-weight="600" fill="var(--groc)" text-anchor="middle">
+                    <text x="300" y="118" font-size="48">12</text>
+                    <text x="488" y="325" font-size="34" letter-spacing="-1">1/4</text>
+                    <text x="300" y="518" font-size="34" letter-spacing="-1">2/4</text>
+                    <text x="112" y="325" font-size="34" letter-spacing="-1">3/4</text>
+                </g>
+
+                <!-- Hores catalanes: "i5" / "i10" a les posicions horàries intermèdies -->
+                <g id="quartLabels" font-family="Oswald, sans-serif" font-weight="500" font-size="30" fill="var(--lume)" opacity="0.8" text-anchor="middle">
+                    <text x="397.5" y="145">i 5</text>
+                    <text x="468.9" y="216.5">i 10</text>
+                    <text x="468.9" y="411.5">i 5</text>
+                    <text x="397.5" y="482.9">i 10</text>
+                    <text x="202.5" y="482.9">i 5</text>
+                    <text x="131.1" y="411.5">i 10</text>
+                    <text x="131.1" y="216.5">i 5</text>
+                    <text x="202.5" y="145">i 10</text>
+                </g>
+
+                <!-- Signatura: wordmark REPÚBLICA + Estelada (senyera 4 barres/5 grogues + triangle i estel) -->
+                <g id="signature" text-anchor="middle" opacity="0.95">
+                    <text x="300" y="168" font-family="Oswald, sans-serif" font-weight="500" font-size="13" letter-spacing="1.4" textLength="120" lengthAdjust="spacingAndGlyphs" fill="var(--groc)">DONEC PERFICIAM</text>
+                    <g transform="translate(240,175)">
+                        <!-- 9 barres: 5 grogues, 4 vermelles (bandera de 120x80, proporció 3:2) -->
+                        <rect x="0" y="0.00" width="120" height="8.889" fill="var(--groc)"/>
+                        <rect x="0" y="8.889" width="120" height="8.889" fill="var(--vermell)"/>
+                        <rect x="0" y="17.778" width="120" height="8.889" fill="var(--groc)"/>
+                        <rect x="0" y="26.667" width="120" height="8.889" fill="var(--vermell)"/>
+                        <rect x="0" y="35.556" width="120" height="8.889" fill="var(--groc)"/>
+                        <rect x="0" y="44.444" width="120" height="8.889" fill="var(--vermell)"/>
+                        <rect x="0" y="53.333" width="120" height="8.889" fill="var(--groc)"/>
+                        <rect x="0" y="62.222" width="120" height="8.889" fill="var(--vermell)"/>
+                        <rect x="0" y="71.111" width="120" height="8.889" fill="var(--groc)"/>
+                        <!-- Triangle blau a l'extrem esquerre -->
+                        <polygon points="0,0 50,40 0,80" fill="#004b98"/>
+                        <!-- Estel blanc de cinc puntes, girat perquè una punta assenyali l'esquerra -->
+                        <polygon points="5,40 13.28,37.30 13.29,28.59 18.42,35.63 26.71,32.95 21.6,40 26.71,47.05 18.42,44.38 13.29,51.41 13.28,42.70" fill="#ffffff"/>
+                    </g>
+                </g>
+
+                <!-- Busques: perfil dauphine facetat (hora/minut) i agulla d'aviador amb contrapès (segons) -->
+                <g id="hourHand" filter="url(#handDepth)">
+                    <polygon points="-8,10 -8,-92 -4,-114 0,-132 4,-114 8,-92 8,10" fill="var(--lume)"/>
+                    <line x1="0" y1="-126" x2="0" y2="6" stroke="#f6f8e6" stroke-width="1.3" stroke-linecap="round" opacity="0.55"/>
+                </g>
+                <g id="minuteHand" filter="url(#handDepth)">
+                    <polygon points="-6,14 -6,-140 -3,-196 0,-215 3,-196 6,-140 6,14" fill="var(--lume)"/>
+                    <line x1="0" y1="-207" x2="0" y2="10" stroke="#f6f8e6" stroke-width="1.1" stroke-linecap="round" opacity="0.55"/>
+                </g>
+                <g id="secondHand">
+                    <polygon points="-1,24 -1,-230 -4,-236 0,-248 4,-236 1,-230 1,24" fill="var(--vermell)"/>
+                    <circle cx="0" cy="29" r="8" fill="var(--vermell)" stroke="var(--dial)" stroke-width="2"/>
+                </g>
+
+                <circle cx="300" cy="301.5" r="6" fill="#000" opacity="0.65"/>
+                <circle cx="300" cy="300" r="6" fill="#fff"/>
+            </svg>
+            </div>
+        </div>
+
+        <div class="info-widgets">
+            <div class="info-chip metal-frame">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--groc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3a2 2 0 0 0-2 2v9.17a4 4 0 1 0 4 0V5a2 2 0 0 0-2-2z"/>
+                    <circle cx="12" cy="18" r="2.2" fill="var(--groc)" stroke="none"/>
+                </svg>
+                <div class="txt">
+                    <span class="label">Temperatura</span>
+                    <span class="value" id="temp-display">—</span>
+                </div>
+            </div>
+            <div class="info-chip metal-frame">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--groc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 20 10 6l3 5 2-3 6 12H3z"/>
+                </svg>
+                <div class="txt">
+                    <span class="label">Altitud</span>
+                    <span class="value" id="alt-display">—</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="calendar-section metal-frame" id="calendarSection"></section>
+</main>
+
+<script>
+/* ==================== CONSTRUCCIÓ ESTÀTICA DEL DIAL ==================== */
+const cx = 300, cy = 300, r = 290;
+
+const minuteTicksG = document.getElementById('minuteTicks');
+const hourTicksG = document.getElementById('hourTicks');
+
+for(let i=0;i<60;i++){
+    const angle = i * Math.PI/30 - Math.PI/2;
+    if(i % 5 === 0){
+        const bx = cx + Math.cos(angle)*(r-14);
+        const by = cy + Math.sin(angle)*(r-14);
+        const tx = cx + Math.cos(angle)*(r-46);
+        const ty = cy + Math.sin(angle)*(r-46);
+        const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+        line.setAttribute('x1',bx); line.setAttribute('y1',by);
+        line.setAttribute('x2',tx); line.setAttribute('y2',ty);
+        line.setAttribute('stroke','var(--lume)');
+        line.setAttribute('stroke-width','13');
+        line.setAttribute('stroke-linecap','square');
+        hourTicksG.appendChild(line);
+    } else {
+        const ox = cx + Math.cos(angle)*(r-14);
+        const oy = cy + Math.sin(angle)*(r-14);
+        const ix = cx + Math.cos(angle)*(r-24);
+        const iy = cy + Math.sin(angle)*(r-24);
+        const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+        line.setAttribute('x1',ox); line.setAttribute('y1',oy);
+        line.setAttribute('x2',ix); line.setAttribute('y2',iy);
+        minuteTicksG.appendChild(line);
+    }
+}
+
+/* ==================== RELLOTGE (requestAnimationFrame) ==================== */
+const hourHand = document.getElementById('hourHand');
+const minuteHand = document.getElementById('minuteHand');
+const secondHand = document.getElementById('secondHand');
+
+function tick(){
+    const now = new Date();
+    const h = now.getHours() % 12;
+    const m = now.getMinutes();
+    const s = now.getSeconds() + now.getMilliseconds()/1000;
+
+    const hourAngle = (h*30 + m*0.5 + s*0.00833);
+    const minuteAngle = (m*6 + s*0.1);
+    const secondAngle = s*6;
+
+    hourHand.setAttribute('transform', `translate(${cx},${cy}) rotate(${hourAngle})`);
+    minuteHand.setAttribute('transform', `translate(${cx},${cy}) rotate(${minuteAngle})`);
+    secondHand.setAttribute('transform', `translate(${cx},${cy}) rotate(${secondAngle})`);
+
+    requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+/* ==================== CALENDARI ==================== */
+function renderCalendar(){
+    const el = document.getElementById('calendarSection');
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const today = now.getDate();
+
+    const monthNames = ["Gener","Febrer","Març","Abril","Maig","Juny","Juliol","Agost","Setembre","Octubre","Novembre","Desembre"];
+    const dayNames = ['dl','dm','dc','dj','dv','ds','dg'];
+    const firstDay = new Date(year, month, 1).getDay();
+    const offset = firstDay === 0 ? 6 : firstDay - 1;
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+
+    let html = `<div class="calendar-header"><span class="month-title">${monthNames[month]} ${year}</span></div><div class="calendar-grid">`;
+    dayNames.forEach(d => html += `<div class="day-name">${d}</div>`);
+    for(let i=0;i<offset;i++) html += `<div class="day empty-cell"></div>`;
+    for(let i=1;i<=daysInMonth;i++){
+        html += `<div class="day ${i===today?'active-today':''}">${i}</div>`;
+    }
+    const total = offset + daysInMonth;
+    const rem = total % 7 === 0 ? 0 : 7 - (total % 7);
+    for(let i=0;i<rem;i++) html += `<div class="day empty-cell"></div>`;
+    html += `</div>`;
+    el.innerHTML = html;
+}
+renderCalendar();
+setInterval(renderCalendar, 60000);
+
+/* ==================== TEMPERATURA I ALTITUD ==================== */
+const tempDisplay = document.getElementById('temp-display');
+const altDisplay = document.getElementById('alt-display');
+const RETRY_MS = 5 * 60 * 1000;
+
+function fetchWeather(lat, lon){
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
+        .then(r => r.json())
+        .then(data => { tempDisplay.textContent = `${Math.round(data.current_weather.temperature)} °C`; })
+        .catch(err => {
+            tempDisplay.textContent = "—";
+            console.error("Error API Temperatura:", err);
+            setTimeout(() => fetchWeather(lat, lon), RETRY_MS);
+        });
+}
+
+function fetchElevationFallback(lat, lon){
+    fetch(`https://api.open-elevation.com/api/v1/lookup?locations=${lat},${lon}`)
+        .then(r => r.json())
+        .then(data => { altDisplay.textContent = `${Math.round(data.results[0].elevation)} m`; })
+        .catch(err => {
+            altDisplay.textContent = "—";
+            console.error("Error API Elevació:", err);
+            setTimeout(() => fetchElevationFallback(lat, lon), RETRY_MS);
+        });
+}
+
+// Ja rebem lat/lon/altitude d'una única crida a getCurrentPosition — no en tornem a demanar.
+function resolveAltitude(lat, lon, deviceAltitude){
+    if(deviceAltitude !== null && deviceAltitude !== undefined){
+        altDisplay.textContent = `${Math.round(deviceAltitude)} m`;
+    } else {
+        fetchElevationFallback(lat, lon);
+    }
+}
+
+function getLocationAndData(){
+    if(!navigator.geolocation){
+        tempDisplay.textContent = "N/D";
+        altDisplay.textContent = "N/D";
+        return;
+    }
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const { latitude: lat, longitude: lon, altitude } = position.coords;
+            fetchWeather(lat, lon);
+            resolveAltitude(lat, lon, altitude);
+        },
+        (error) => {
+            console.warn("Permís de ubicació denegat o error:", error.message);
+            tempDisplay.textContent = "Desconegut";
+            altDisplay.textContent = "Desconegut";
+        }
+    );
+}
+getLocationAndData();
+</script>
+</body>
+</html>

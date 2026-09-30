@@ -466,7 +466,6 @@
               <span><i class="ll-cs"></i>Cap de setmana</span>
               <span><i class="ll-fe"></i>Festiu</span>
             </div>
-            <div class="punts" id="calPunts"></div>
             <button class="boto-avui" id="botoAvui">Avui</button>
           </div>
           <div class="etiqueta" id="etiqueta" role="status"></div>
@@ -1067,113 +1066,123 @@
     return res;
   }
   function festiu(d){ return festiusAny(d.getFullYear()).get(clauData(d)) || null; }
-  let darreraConsulta = 0;
-  function consultaFestius(){
-    darreraConsulta = Date.now();
-    const avui = new Date();
-    const anys = new Set();
-    for (let k=-4;k<=4;k++) anys.add(new Date(avui.getFullYear(), avui.getMonth()+k, 1).getFullYear());
-    anys.forEach(any=>{
-      fetch(`https://date.nager.at/api/v3/PublicHolidays/${any}/ES`)
-        .then(r=> r.ok ? r.json() : Promise.reject(r.status))
-        .then(llista=>{
-          const m = new Map();
-          llista.forEach(h=>{
-            if (!h.counties || h.counties.includes('ES-CT')){
-              m.set(h.date, {nom:h.localName || h.name, ambit: h.counties ? 'Catalunya' : 'Estatal'});
-            }
-          });
-          if (m.size){ festiusAPI[any] = m; if (window.__calendariRefresca) window.__calendariRefresca(true); }
-        })
-        .catch(()=>{ /* sense connexió: es mantenen els festius calculats */ });
-    });
+  // Consulta en línia per any (sota demanda: cada any que es visita) i es refresca periòdicament
+  const consultats = {}; // any -> moment de la darrera consulta
+  function consultaAny(any, forca){
+    const ara = Date.now();
+    if (!forca && consultats[any] && ara - consultats[any] < 6*60*60*1000) return;
+    consultats[any] = ara;
+    fetch(`https://date.nager.at/api/v3/PublicHolidays/${any}/ES`)
+      .then(r=> r.ok ? r.json() : Promise.reject(r.status))
+      .then(llista=>{
+        const m = new Map();
+        llista.forEach(h=>{
+          if (!h.counties || h.counties.includes('ES-CT')){
+            m.set(h.date, {nom:h.localName || h.name, ambit: h.counties ? 'Catalunya' : 'Estatal'});
+          }
+        });
+        if (m.size){ festiusAPI[any] = m; if (window.__calendariRefresca) window.__calendariRefresca(true); }
+      })
+      .catch(()=>{ consultats[any] = ara - 5.5*60*60*1000; /* sense connexió: es reintenta d'aquí a mitja hora */ });
   }
-  consultaFestius();
-  setInterval(consultaFestius, 6*60*60*1000);
-  document.addEventListener('visibilitychange', ()=>{
-    if (document.visibilityState==='visible' && Date.now()-darreraConsulta > 6*60*60*1000) consultaFestius();
-  });
+  function refrescaTots(){ Object.keys(consultats).forEach(a=>consultaAny(+a)); consultaAny(new Date().getFullYear()); }
+  setInterval(refrescaTots, 30*60*1000);
+  document.addEventListener('visibilitychange', ()=>{ if (document.visibilityState==='visible') refrescaTots(); });
 
-  // ========================= CALENDARI =========================
+  // ========================= CALENDARI (sense límits) =========================
   (function(){
-    const RANG = 4;
     const pistaEl = document.getElementById('calPista');
     const finestra = document.getElementById('calFinestra');
     const titol = document.getElementById('calTitol');
-    const punts = document.getElementById('calPunts');
     const bAnt = document.getElementById('calAnt'), bSeg = document.getElementById('calSeg');
     const bAvui = document.getElementById('botoAvui');
     const etiqueta = document.getElementById('etiqueta');
     const paper = document.getElementById('calPaper');
-    let idx = RANG, amplada = 0, mesos = [], iman = null, cellaAvui = null;
+    // desplac = mesos respecte del mes actual (0 = avui). Sempre hi ha 3 panells: anterior, actual, següent.
+    let desplac = 0, amplada = 0, iman = null, cellaAvui = null, animant = false;
 
-    function construeix(){
+    const mesDe = k => { const a = new Date(); return new Date(a.getFullYear(), a.getMonth()+k, 1); };
+
+    function panellMes(d0){
       const avui = new Date();
-      pistaEl.innerHTML = ''; punts.innerHTML = ''; mesos = [];
-      for (let k=-RANG;k<=RANG;k++){
-        const d0 = new Date(avui.getFullYear(), avui.getMonth()+k, 1);
-        mesos.push(d0);
-        const panell = document.createElement('div');
-        panell.className = 'cal-mes';
-        const g = document.createElement('div');
-        g.className = 'cal-graella';
-        ['Dl','Dt','Dc','Dj','Dv','Ds','Dg'].forEach((n,i)=>{
-          const c = document.createElement('div');
-          c.className = 'cap-dia' + (i>=5 ? ' cs' : '');
-          c.textContent = n; g.appendChild(c);
-        });
-        const offset = (d0.getDay()+6)%7;
-        for (let i=0;i<offset;i++){ const b=document.createElement('div'); b.className='dia buit'; g.appendChild(b); }
-        const dies = new Date(d0.getFullYear(), d0.getMonth()+1, 0).getDate();
-        for (let dd=1; dd<=dies; dd++){
-          const data = new Date(d0.getFullYear(), d0.getMonth(), dd);
-          const c = document.createElement('div');
-          const ds = data.getDay();
-          let cls = 'dia';
-          if (ds===0 || ds===6) cls += ' cs';
-          const fe = festiu(data);
-          if (fe){ cls += ' festiu'; c.dataset.festa = fe.nom; c.dataset.ambit = fe.ambit; }
-          const esAvui = data.toDateString() === avui.toDateString();
-          c.className = cls;
-          c.dataset.data = clauData(data);
-          c.innerHTML = `<span class="num">${dd}</span>`;
-          if (fe) c.setAttribute('aria-label', `${dd}: ${fe.nom}`);
-          if (esAvui){
-            cellaAvui = c;
-            iman = document.createElement('div');
-            iman.className = 'iman';
-            iman.innerHTML = '<div class="anella"></div>';
-            c.appendChild(iman);
-          }
-          g.appendChild(c);
+      consultaAny(d0.getFullYear());
+      const panell = document.createElement('div');
+      panell.className = 'cal-mes';
+      const g = document.createElement('div');
+      g.className = 'cal-graella';
+      ['Dl','Dt','Dc','Dj','Dv','Ds','Dg'].forEach((n,i)=>{
+        const c = document.createElement('div');
+        c.className = 'cap-dia' + (i>=5 ? ' cs' : '');
+        c.textContent = n; g.appendChild(c);
+      });
+      const offset = (d0.getDay()+6)%7;
+      for (let i=0;i<offset;i++){ const b=document.createElement('div'); b.className='dia buit'; g.appendChild(b); }
+      const dies = new Date(d0.getFullYear(), d0.getMonth()+1, 0).getDate();
+      for (let dd=1; dd<=dies; dd++){
+        const data = new Date(d0.getFullYear(), d0.getMonth(), dd);
+        const c = document.createElement('div');
+        const ds = data.getDay();
+        let cls = 'dia';
+        if (ds===0 || ds===6) cls += ' cs';
+        const fe = festiu(data);
+        if (fe){ cls += ' festiu'; c.dataset.festa = fe.nom; c.dataset.ambit = fe.ambit; c.setAttribute('aria-label', `${dd}: ${fe.nom}`); }
+        c.className = cls;
+        c.dataset.data = clauData(data);
+        c.innerHTML = `<span class="num">${dd}</span>`;
+        if (data.toDateString() === avui.toDateString()){
+          cellaAvui = c;
+          iman = document.createElement('div');
+          iman.className = 'iman';
+          iman.innerHTML = '<div class="anella"></div>';
+          c.appendChild(iman);
         }
-        panell.appendChild(g);
-        pistaEl.appendChild(panell);
-        const p = document.createElement('span');
-        p.className = 'punt' + (k===0 ? ' centre' : '');
-        punts.appendChild(p);
+        g.appendChild(c);
       }
-      mesura();
-      situa(false);
+      panell.appendChild(g);
+      return panell;
     }
-    function mesura(){ amplada = finestra.clientWidth; }
-    function situa(anim){
-      pistaEl.style.transition = anim ? 'transform .45s cubic-bezier(.25,.9,.3,1)' : 'none';
-      pistaEl.style.transform = `translate3d(${-idx*amplada}px,0,0)`;
-      const d = mesos[idx];
+    function pinta(){
+      iman = null; cellaAvui = null;
+      pistaEl.innerHTML = '';
+      [-1,0,1].forEach(k=> pistaEl.appendChild(panellMes(mesDe(desplac+k))));
+      const d = mesDe(desplac);
       titol.innerHTML = `${cap(MESOS[d.getMonth()])}<small>${d.getFullYear()}</small>`;
-      [...punts.children].forEach((p,i)=>p.classList.toggle('actiu', i===idx));
-      bAnt.disabled = idx===0; bSeg.disabled = idx===mesos.length-1;
-      bAvui.classList.toggle('visible', idx!==RANG);
+      bAvui.classList.toggle('visible', desplac!==0);
+      posa(0, false);
       amagaEtiqueta();
     }
-    let idxPrevi = RANG;
-    function vesA(i){
-      i = Math.max(0, Math.min(mesos.length-1, i));
-      const tornaAvui = (i===RANG && idxPrevi!==RANG);
-      idx = i; idxPrevi = i;
-      situa(true);
-      if (tornaAvui) encaixa(350);
+    function mesura(){ amplada = finestra.clientWidth; }
+    function posa(dx, anim){
+      pistaEl.style.transition = anim ? 'transform .42s cubic-bezier(.25,.9,.3,1)' : 'none';
+      pistaEl.style.transform = `translate3d(${-amplada + dx}px,0,0)`;
+    }
+    // Llisca un mes endavant (+1) o enrere (-1), i quan acaba es recentra la pista
+    function llisca(dir){
+      if (animant) return;
+      animant = true;
+      amagaEtiqueta();
+      posa(-dir*amplada, true);
+      const d = mesDe(desplac+dir);
+      titol.innerHTML = `${cap(MESOS[d.getMonth()])}<small>${d.getFullYear()}</small>`;
+      setTimeout(()=>{
+        desplac += dir;
+        animant = false;
+        pinta();
+        if (desplac===0) encaixa(80);
+      }, 440);
+    }
+    // Torna al mes actual: lliscant si és a tocar, o amb un fos si és lluny
+    function tornaAvui(){
+      if (desplac===0){ encaixa(0); return; }
+      if (Math.abs(desplac)===1){ llisca(-desplac); return; }
+      if (animant) return;
+      animant = true;
+      pistaEl.style.transition = 'opacity .22s'; pistaEl.style.opacity = '0';
+      setTimeout(()=>{
+        desplac = 0; pinta();
+        pistaEl.style.transition = 'opacity .28s'; pistaEl.style.opacity = '1';
+        animant = false; encaixa(120);
+      }, 230);
     }
     function encaixa(retard){
       if (!iman) return;
@@ -1181,14 +1190,25 @@
       a.classList.remove('encaixa');
       setTimeout(()=>{ void a.offsetWidth; a.classList.add('encaixa'); }, retard||0);
     }
-    bAnt.addEventListener('click', ()=>vesA(idx-1));
-    bSeg.addEventListener('click', ()=>vesA(idx+1));
-    bAvui.addEventListener('click', ()=>vesA(RANG));
+    bAnt.addEventListener('click', ()=>llisca(-1));
+    bSeg.addEventListener('click', ()=>llisca(1));
+    bAvui.addEventListener('click', tornaAvui);
+
+    // Doble toc (o doble clic) sobre el nom del mes: torna al mes actual
+    let darrerTocTitol = 0;
+    titol.style.cursor = 'pointer';
+    titol.style.touchAction = 'manipulation';
+    titol.title = 'Doble toc: tornar al mes actual';
+    titol.addEventListener('pointerup', ()=>{
+      const ara = performance.now();
+      if (ara - darrerTocTitol < 380){ darrerTocTitol = 0; tornaAvui(); }
+      else darrerTocTitol = ara;
+    });
 
     // Arrossegar amb el dit o el ratolí
     let ini = null, arrossegant = false, suprimeixClic = false;
     finestra.addEventListener('pointerdown', e=>{
-      if (e.pointerType==='mouse' && e.button!==0) return;
+      if (animant || (e.pointerType==='mouse' && e.button!==0)) return;
       ini = {x:e.clientX, y:e.clientY, t:performance.now(), id:e.pointerId};
       arrossegant = false; suprimeixClic = false;
     });
@@ -1200,40 +1220,41 @@
           arrossegant = true; suprimeixClic = true;
           try{ finestra.setPointerCapture(e.pointerId); }catch(err){}
           finestra.classList.add('arrossega');
-          pistaEl.style.transition = 'none';
           amagaEtiqueta();
         } else if (Math.abs(dy) > 10){ ini = null; return; }
       }
-      if (arrossegant){
-        let desp = dx;
-        if ((idx===0 && dx>0) || (idx===mesos.length-1 && dx<0)) desp = dx*0.3; // resistència als extrems
-        pistaEl.style.transform = `translate3d(${-idx*amplada + desp}px,0,0)`;
-      }
+      if (arrossegant) posa(Math.max(-amplada, Math.min(amplada, dx)), false);
     });
     function acaba(e){
       if (!ini) return;
       if (arrossegant){
         const dx = e.clientX - ini.x;
         const v = dx / Math.max(1, performance.now()-ini.t);
-        let nou = idx;
-        if (dx < -amplada*0.22 || v < -0.45) nou = idx+1;
-        else if (dx > amplada*0.22 || v > 0.45) nou = idx-1;
         finestra.classList.remove('arrossega');
-        vesA(nou);
+        if (dx < -amplada*0.22 || v < -0.45) llisca(1);
+        else if (dx > amplada*0.22 || v > 0.45) llisca(-1);
+        else posa(0, true);
       }
       ini = null; arrossegant = false;
     }
     finestra.addEventListener('pointerup', acaba);
-    finestra.addEventListener('pointercancel', e=>{ if (ini){ finestra.classList.remove('arrossega'); situa(true); } ini=null; arrossegant=false; });
-    // roda / trackpad horitzontal
+    finestra.addEventListener('pointercancel', ()=>{ if (arrossegant){ finestra.classList.remove('arrossega'); posa(0, true); } ini=null; arrossegant=false; });
+    // Roda / trackpad horitzontal
     let rodaAcum = 0, rodaBloq = 0;
     finestra.addEventListener('wheel', e=>{
       if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
       e.preventDefault();
       if (performance.now() < rodaBloq) return;
       rodaAcum += e.deltaX;
-      if (Math.abs(rodaAcum) > 60){ vesA(idx + (rodaAcum>0?1:-1)); rodaAcum = 0; rodaBloq = performance.now()+500; }
+      if (Math.abs(rodaAcum) > 60){ llisca(rodaAcum>0?1:-1); rodaAcum = 0; rodaBloq = performance.now()+500; }
     }, {passive:false});
+    // Teclat: fletxes esquerra/dreta i tecla Inici
+    document.addEventListener('keydown', e=>{
+      if (e.target.closest && e.target.closest('input,textarea')) return;
+      if (e.key==='ArrowLeft') llisca(-1);
+      else if (e.key==='ArrowRight') llisca(1);
+      else if (e.key==='Home') tornaAvui();
+    });
 
     // Etiqueta de la festa
     let tempsEtiqueta = null;
@@ -1245,7 +1266,7 @@
       if (!c.dataset.festa){ amagaEtiqueta(); return; }
       const [a,m,d] = c.dataset.data.split('-').map(Number);
       const data = new Date(a, m-1, d);
-      etiqueta.innerHTML = `<b>${c.dataset.festa}</b>${cap(DIES[data.getDay()])}, ${d} ${deMes(m-1)}<em>${c.dataset.ambit}</em>`;
+      etiqueta.innerHTML = `<b>${c.dataset.festa}</b>${cap(DIES[data.getDay()])}, ${d} ${deMes(m-1)} de ${a}<em>${c.dataset.ambit}</em>`;
       etiqueta.classList.remove('avall');
       etiqueta.classList.add('visible');
       const rp = paper.getBoundingClientRect(), rc = c.getBoundingClientRect();
@@ -1263,7 +1284,7 @@
 
     // Anella imantada: s'estira cap al dit o el punter quan s'hi acosta
     paper.addEventListener('pointermove', e=>{
-      if (!iman || !cellaAvui || idx!==RANG || arrossegant) return;
+      if (!iman || !cellaAvui || desplac!==0 || arrossegant) return;
       const r = cellaAvui.getBoundingClientRect();
       const dx = e.clientX - (r.left + r.width/2), dy = e.clientY - (r.top + r.height/2);
       const dist = Math.hypot(dx, dy);
@@ -1278,15 +1299,15 @@
     });
     paper.addEventListener('pointerleave', ()=>{ if (iman){ iman.style.setProperty('--mx','0px'); iman.style.setProperty('--my','0px'); } });
 
-    window.addEventListener('resize', ()=>{ mesura(); situa(false); });
+    window.addEventListener('resize', ()=>{ mesura(); posa(0, false); });
     window.__calendariRefresca = function(nomesFestius){
-      const guarda = idx;
-      construeix();
-      idx = nomesFestius ? guarda : RANG; idxPrevi = idx;
-      situa(false);
-      if (!nomesFestius) encaixa(500);
+      if (animant) return setTimeout(()=>window.__calendariRefresca(nomesFestius), 500);
+      if (!nomesFestius) desplac = 0; // canvi de dia: torna al mes actual
+      pinta();
+      if (!nomesFestius) encaixa(300);
     };
-    construeix();
+    mesura();
+    pinta();
     encaixa(700);
   })();
 

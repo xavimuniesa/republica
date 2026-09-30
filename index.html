@@ -206,7 +206,7 @@
     color:#3a2208; text-shadow: 0 1px 0 rgba(255,250,230,.7);
     text-align:center; flex:1;
   }
-  .cal-titol small{ display:block; font-family:'Cinzel', serif; font-size:9px; letter-spacing:4px; opacity:.65; margin-top:1px; }
+  .cal-titol small{ display:block; font-family:'Cinzel', serif; font-weight:700; font-size:15px; letter-spacing:3px; color: var(--vermell); text-shadow: 0 1px 0 rgba(255,250,230,.7); margin-top:2px; }
   .boto-llauto{
     width:30px; height:30px; border-radius:50%; border:none; cursor:pointer;
     background: radial-gradient(circle at 35% 30%, #fbe7a8, #c1913c 55%, #6b4712);
@@ -386,7 +386,7 @@
     .dia{ font-size: clamp(13px, calc(var(--fila) * .62), 20px); }
     .cal-cap{ padding: 4px 8px 0; }
     .cal-titol{ font-size: clamp(17px, 2.5svh, 22px); }
-    .cal-titol small{ display:inline; margin-left:6px; font-size:9px; }
+    .cal-titol small{ display:inline; margin-left:8px; font-size:clamp(14px, 2.2svh, 18px); vertical-align: 1px; }
     .boto-llauto{ width:26px; height:26px; line-height:26px; font-size:14px; }
     .cal-peu{ padding: 1px 10px 5px; }
     .cal-marc{ padding:6px; }
@@ -771,15 +771,6 @@
   let diaActualClau = '';
   function actualitzaBusques(){
     const ara = new Date();
-    const h = ara.getHours(), m = ara.getMinutes(), s = ara.getSeconds();
-    const aH = ((h%12) + m/60 + s/3600) * 30;
-    const aM = (m + s/60) * 6;
-    const aS = s * 6;
-    [busquesA, busquesB].forEach(b=>{
-      b.h.setAttribute('transform', `rotate(${aH.toFixed(3)} ${C} ${C})`);
-      b.m.setAttribute('transform', `rotate(${aM.toFixed(3)} ${C} ${C})`);
-      b.s.setAttribute('transform', `rotate(${aS} ${C} ${C})`);
-    });
     const clau = ara.toDateString();
     if (clau !== diaActualClau){
       const canviDeDia = diaActualClau !== '';
@@ -790,6 +781,21 @@
     }
     comprovaCampanades(ara);
   }
+  // Busques amb moviment continu (escapament de corda): es redibuixen a cada fotograma
+  function mouBusques(){
+    const ara = new Date();
+    const s = ara.getSeconds() + ara.getMilliseconds()/1000;
+    const m = ara.getMinutes() + s/60;
+    const h = (ara.getHours()%12) + m/60;
+    const aH = (h*30).toFixed(3), aM = (m*6).toFixed(3), aS = (s*6).toFixed(3);
+    [busquesA, busquesB].forEach(b=>{
+      b.h.setAttribute('transform', `rotate(${aH} ${C} ${C})`);
+      b.m.setAttribute('transform', `rotate(${aM} ${C} ${C})`);
+      b.s.setAttribute('transform', `rotate(${aS} ${C} ${C})`);
+    });
+    requestAnimationFrame(mouBusques);
+  }
+  requestAnimationFrame(mouBusques);
   function programaTic(){
     actualitzaBusques();
     setTimeout(programaTic, 1000 - (Date.now() % 1000) + 5);

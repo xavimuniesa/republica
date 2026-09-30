@@ -368,8 +368,27 @@
     .columna.dre{ width: min(50vw, 420px); flex:0 1 auto; height:100%; }
     .lema{ display:none; }
   }
+  /* Vertical (iPhone): calendari compacte i el rellotge s'queda tot l'espai restant */
+  @media (orientation: portrait){
+    :root{ --fila: clamp(22px, 3.6dvh, 34px); }
+    .columna.esq{ flex:1 1 auto; min-height:0; container-type:size; justify-content:center; }
+    .rellotge{ width: min(100cqw, calc(100cqh - 58px)); margin-bottom: 8px; }
+    .columna.dre{ flex:0 0 auto; }
+    .calendari{ flex:0 0 auto; }
+    .cal-finestra{ flex:0 0 auto; height: calc(var(--fila) * 6 + 24px); }
+    .cal-graella{ grid-template-rows: auto repeat(6, var(--fila)); gap: 1px 3px; }
+    .cap-dia{ padding: 2px 0; font-size:10px; }
+    .dia{ font-size: clamp(13px, calc(var(--fila) * .62), 20px); }
+    .cal-cap{ padding: 4px 8px 0; }
+    .cal-titol{ font-size: clamp(17px, 2.5dvh, 22px); }
+    .cal-titol small{ display:inline; margin-left:6px; font-size:9px; }
+    .boto-llauto{ width:26px; height:26px; line-height:26px; font-size:14px; }
+    .cal-peu{ padding: 1px 10px 5px; }
+    .cal-marc{ padding:6px; }
+    .pista-toc{ bottom:-1.3em; }
+  }
   @media (orientation: portrait) and (max-height: 600px){
-    :root{ --mida: min(80vw, 30dvh); }
+    :root{ --fila: 21px; }
     .lema{ display:none; }
     .llegenda{ display:none; }
   }

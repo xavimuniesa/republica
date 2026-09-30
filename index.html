@@ -20,12 +20,16 @@
     --tinta:#231709;
     --paper:#efdfb8;
     --vermell:#9e2418;
-    --mida: min(80vw, 34dvh, 470px);
+    --mida: min(80vw, 34svh, 470px);
     --ample: min(100%, 470px);
   }
   *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
   html,body{ margin:0; min-height:100%; }
   html{ background:#120c07; }
+  @media (min-height: 520px){
+    html, body{ height:100%; overflow:hidden; overscroll-behavior:none; }
+    body{ position:fixed; inset:0; }
+  }
   body{
     background:
       radial-gradient(ellipse 90% 60% at 50% -5%, #4a3420 0%, transparent 60%),
@@ -34,8 +38,9 @@
     background-attachment: fixed;
     color: var(--paper);
     font-family:'Cormorant Garamond', serif;
-    min-height:100dvh;
+    min-height:100svh;
     overflow-x:hidden;
+    touch-action: manipulation;
     -webkit-user-select:none; user-select:none;
   }
   body::before{
@@ -46,18 +51,18 @@
   .app{
     position:relative;
     display:flex; flex-direction:column; align-items:center;
-    height:100vh; height:100dvh; min-height: 520px;
-    gap: 1.2dvh;
+    height:100vh; height:100svh; min-height: 520px;
+    gap: 1.2svh;
     padding: max(14px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
   }
-  .columna{ display:flex; flex-direction:column; align-items:center; gap:1.2dvh; width:100%; }
+  .columna{ display:flex; flex-direction:column; align-items:center; gap:1.2svh; width:100%; }
   .columna.esq{ flex:0 0 auto; }
   .columna.dre{ flex:1 1 auto; min-height:0; width: min(100%, 470px); }
 
   .capcalera{ text-align:center; line-height:1.1; }
   .data-llarga{
     font-family:'IM Fell English', serif; font-style:italic;
-    font-size: clamp(14px, 2.4dvh, 22px);
+    font-size: clamp(14px, 2.4svh, 22px);
     color: var(--or-clar);
     text-shadow: 0 1px 0 #000, 0 0 14px rgba(201,154,62,.35);
   }
@@ -134,7 +139,7 @@
     flex:0 0 auto;
     position:relative;
     display:flex; align-items:center; gap:9px;
-    padding: clamp(4px,.8dvh,8px) 20px clamp(4px,.8dvh,8px) 18px;
+    padding: clamp(4px,.8svh,8px) 20px clamp(4px,.8svh,8px) 18px;
     border-radius: 9px;
     color:#2b1c07;
     background:
@@ -156,7 +161,7 @@
   .placa svg{ width:22px; height:22px; flex:0 0 auto; stroke:#3a2608; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; filter: drop-shadow(0 1px 0 rgba(255,240,195,.6)); }
   .placa .txt{ display:flex; flex-direction:column; line-height:1.05; }
   .placa .etq{ font-family:'Cinzel', serif; font-size:9px; letter-spacing:1.6px; text-transform:uppercase; opacity:.8; }
-  .placa .val{ font-family:'Cinzel', serif; font-weight:700; font-size:clamp(14px,2dvh,17px); white-space:nowrap; }
+  .placa .val{ font-family:'Cinzel', serif; font-weight:700; font-size:clamp(14px,2svh,17px); white-space:nowrap; }
   .placa.pluja{ background:
       linear-gradient(180deg, rgba(255,255,255,.35) 0%, rgba(255,255,255,0) 40%),
       linear-gradient(180deg, #c9d3d6 0%, #8c9ea6 48%, #56686f 100%); color:#101b20; }
@@ -194,10 +199,10 @@
   }
   .cal-cap{
     position:relative; display:flex; align-items:center; justify-content:space-between;
-    padding: clamp(4px,1dvh,10px) 10px 2px; flex:0 0 auto;
+    padding: clamp(4px,1svh,10px) 10px 2px; flex:0 0 auto;
   }
   .cal-titol{
-    font-family:'IM Fell English', serif; font-size: clamp(18px, 3dvh, 26px); line-height:1;
+    font-family:'IM Fell English', serif; font-size: clamp(18px, 3svh, 26px); line-height:1;
     color:#3a2208; text-shadow: 0 1px 0 rgba(255,250,230,.7);
     text-align:center; flex:1;
   }
@@ -224,7 +229,7 @@
   .dia{
     position:relative; container-type: size;
     display:grid; place-items:center; min-height:0;
-    font-family:'Cormorant Garamond', serif; font-weight:700; font-size: clamp(13px, min(4.6vw, 2.7dvh), 21px);
+    font-family:'Cormorant Garamond', serif; font-weight:700; font-size: clamp(13px, min(4.6vw, 2.7svh), 21px);
     color:#2a1a07; border-radius: 7px;
   }
   .dia.buit{ visibility:hidden; }
@@ -293,7 +298,7 @@
 
   .cal-peu{
     position:relative; display:flex; align-items:center; justify-content:space-between; gap:8px;
-    padding: 3px 10px clamp(4px,1dvh,10px); flex:0 0 auto;
+    padding: 3px 10px clamp(4px,1svh,10px); flex:0 0 auto;
   }
   .punts{ display:flex; gap:6px; align-items:center; }
   .punt{ width:6px; height:6px; border-radius:50%; background: rgba(80,50,15,.3); transition: all .3s; }
@@ -356,13 +361,13 @@
 
   /* ====================== DISPOSICIONS ====================== */
   @media (orientation: landscape) and (min-width: 820px){
-    :root{ --mida: min(46vw, 76dvh, 640px); }
+    :root{ --mida: min(46vw, 76svh, 640px); }
     .app{ flex-direction:row; justify-content:center; gap: 5vw; }
     .columna.esq{ width:auto; }
-    .columna.dre{ width: min(40vw, 470px); flex:0 1 auto; height: min(88dvh, 640px); }
+    .columna.dre{ width: min(40vw, 470px); flex:0 1 auto; height: min(88svh, 640px); }
   }
   @media (orientation: landscape) and (max-height: 540px){
-    :root{ --mida: min(42vw, 72dvh); }
+    :root{ --mida: min(42vw, 72svh); }
     .app{ flex-direction:row; justify-content:center; gap: 3vw; min-height:0; }
     .columna.esq{ width:auto; }
     .columna.dre{ width: min(50vw, 420px); flex:0 1 auto; height:100%; }
@@ -370,7 +375,7 @@
   }
   /* Vertical (iPhone): calendari compacte i el rellotge s'queda tot l'espai restant */
   @media (orientation: portrait){
-    :root{ --fila: clamp(22px, 3.6dvh, 34px); }
+    :root{ --fila: clamp(22px, 3.6svh, 34px); }
     .columna.esq{ flex:1 1 auto; min-height:0; container-type:size; justify-content:center; }
     .rellotge{ width: min(100cqw, calc(100cqh - 58px)); margin-bottom: 8px; }
     .columna.dre{ flex:0 0 auto; }
@@ -380,7 +385,7 @@
     .cap-dia{ padding: 2px 0; font-size:10px; }
     .dia{ font-size: clamp(13px, calc(var(--fila) * .62), 20px); }
     .cal-cap{ padding: 4px 8px 0; }
-    .cal-titol{ font-size: clamp(17px, 2.5dvh, 22px); }
+    .cal-titol{ font-size: clamp(17px, 2.5svh, 22px); }
     .cal-titol small{ display:inline; margin-left:6px; font-size:9px; }
     .boto-llauto{ width:26px; height:26px; line-height:26px; font-size:14px; }
     .cal-peu{ padding: 1px 10px 5px; }
@@ -408,7 +413,7 @@
   <div class="columna esq">
     <header class="capcalera">
       <div class="data-llarga" id="dataLlarga">—</div>
-      <div class="lema">Tempus fugit</div>
+      <div class="lema">Carpe diem</div>
     </header>
 
     <div class="rellotge" id="rellotge" role="button" tabindex="0" aria-label="Rellotge: prem per girar l'esfera">

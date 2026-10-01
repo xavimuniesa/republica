@@ -362,13 +362,13 @@
   /* ====================== DISPOSICIONS ====================== */
   @media (orientation: landscape) and (min-width: 820px){
     :root{ --mida: min(46vw, 76svh, 640px); }
-    .app{ flex-direction:row; justify-content:center; gap: 5vw; }
+    .app{ flex-direction:row; justify-content:center; gap: 5vw; padding-right: max(66px, env(safe-area-inset-right)); }
     .columna.esq{ width:auto; }
     .columna.dre{ width: min(40vw, 470px); flex:0 1 auto; height: min(88svh, 640px); }
   }
   @media (orientation: landscape) and (max-height: 540px){
     :root{ --mida: min(42vw, 72svh); }
-    .app{ flex-direction:row; justify-content:center; gap: 3vw; min-height:0; }
+    .app{ flex-direction:row; justify-content:center; gap: 3vw; min-height:0; padding-right: max(62px, env(safe-area-inset-right)); }
     .columna.esq{ width:auto; }
     .columna.dre{ width: min(50vw, 420px); flex:0 1 auto; height:100%; }
     .lema{ display:none; }
@@ -1165,14 +1165,14 @@
     function mesura(){ amplada = finestra.clientWidth; }
     function posa(dx, anim){
       pistaEl.style.transition = anim ? 'transform .42s cubic-bezier(.25,.9,.3,1)' : 'none';
-      pistaEl.style.transform = `translate3d(${-amplada + dx}px,0,0)`;
+      pistaEl.style.transform = `translate3d(calc(-100% + ${dx.toFixed(1)}px),0,0)`;
     }
     // Llisca un mes endavant (+1) o enrere (-1), i quan acaba es recentra la pista
     function llisca(dir){
       if (animant) return;
       animant = true;
       amagaEtiqueta();
-      posa(-dir*amplada, true);
+      mesura(); posa(-dir*amplada, true);
       const d = mesDe(desplac+dir);
       titol.innerHTML = `${cap(MESOS[d.getMonth()])}<small>${d.getFullYear()}</small>`;
       setTimeout(()=>{
@@ -1228,6 +1228,7 @@
       const dx = e.clientX - ini.x, dy = e.clientY - ini.y;
       if (!arrossegant){
         if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)){
+          mesura();
           arrossegant = true; suprimeixClic = true;
           try{ finestra.setPointerCapture(e.pointerId); }catch(err){}
           finestra.classList.add('arrossega');
@@ -1310,7 +1311,10 @@
     });
     paper.addEventListener('pointerleave', ()=>{ if (iman){ iman.style.setProperty('--mx','0px'); iman.style.setProperty('--my','0px'); } });
 
-    window.addEventListener('resize', ()=>{ mesura(); posa(0, false); });
+    const recolloca = ()=>{ mesura(); if (!animant) posa(0, false); amagaEtiqueta(); };
+    window.addEventListener('resize', recolloca);
+    window.addEventListener('orientationchange', ()=>{ setTimeout(recolloca, 300); });
+    if ('ResizeObserver' in window) new ResizeObserver(recolloca).observe(finestra);
     window.__calendariRefresca = function(nomesFestius){
       if (animant) return setTimeout(()=>window.__calendariRefresca(nomesFestius), 500);
       if (!nomesFestius) desplac = 0; // canvi de dia: torna al mes actual

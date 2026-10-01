@@ -413,7 +413,7 @@
   <div class="columna esq">
     <header class="capcalera">
       <div class="data-llarga" id="dataLlarga">—</div>
-      <div class="lema">Carpe diem</div>
+      <div class="lema" id="lema">Carpe diem</div>
     </header>
 
     <div class="rellotge" id="rellotge" role="button" tabindex="0" aria-label="Rellotge: prem per girar l'esfera">
@@ -609,6 +609,30 @@
     el('circle', {cx:C, cy:C, r:262, fill:'url(#aPaper)', filter:'url(#aTaques)'}, svg);
     el('circle', {cx:C, cy:C, r:262, fill:'url(#aOmbraInt)'}, svg);
 
+    // Senyera envellida dins l'esfera interior: quatre barres burdeus sobre el crema del pergamí
+    const clip = el('clipPath', {id:'aRetallInterior'}, defs);
+    el('circle', {cx:C, cy:C, r:145.3}, clip);
+    gradient(defs, 'linearGradient', 'aBurdeus', {x1:'0', y1:'0', x2:'0.15', y2:'1'}, [['0%','#82211f'],['50%','#6a1517'],['100%','#4e0f12']]);
+    const fS = el('filter', {id:'aSenyeraVella', x:'0', y:'0', width:'100%', height:'100%'}, defs);
+    el('feTurbulence', {type:'fractalNoise', baseFrequency:'0.9', numOctaves:'2', seed:'17', result:'n'}, fS);
+    el('feColorMatrix', {in:'n', type:'matrix', values:'0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.4 1.62', result:'craquelat'}, fS);
+    el('feTurbulence', {type:'fractalNoise', baseFrequency:'0.02', numOctaves:'3', seed:'6', result:'n2'}, fS);
+    el('feColorMatrix', {in:'n2', type:'matrix', values:'0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.55', result:'desgast'}, fS);
+    el('feComposite', {in:'craquelat', in2:'desgast', operator:'arithmetic', k1:'1', k2:'0', k3:'0', k4:'0', result:'mascara'}, fS);
+    el('feComposite', {in:'SourceGraphic', in2:'mascara', operator:'in'}, fS);
+    const senyera = el('g', {'clip-path':'url(#aRetallInterior)', style:'display:none'}, svg);
+    // fons crema una mica més clar perquè les barres llegeixin com a bandera
+    el('circle', {cx:C, cy:C, r:146, fill:'#efd9a6', opacity:.55, filter:'url(#aTaques)'}, senyera);
+    const barres = el('g', {filter:'url(#aSenyeraVella)', opacity:.97, style:'mix-blend-mode:multiply'}, senyera);
+    const ampla = 292/9, x0 = C - 146;
+    for (let i=1;i<9;i+=2){
+      el('rect', {x:(x0 + i*ampla).toFixed(2), y:C-150, width:ampla.toFixed(2), height:300, fill:'url(#aBurdeus)'}, barres);
+    }
+    // ombra interior perquè quedi enfonsada dins el cercle
+    gradient(defs, 'radialGradient', 'aOmbraSenyera', {cx:'50%', cy:'50%', r:'50%'}, [['80%','#2a1604',0],['100%','#2a1604',.45]]);
+    el('circle', {cx:C, cy:C, r:146, fill:'url(#aOmbraSenyera)'}, senyera);
+    window.__senyera = senyera;
+
     const tinta = el('g', {filter:'url(#aTinta)', fill:'#1a1209', stroke:'#1a1209'}, svg);
     el('circle', {cx:C, cy:C, r:249, fill:'none', 'stroke-width':2.2}, tinta);
     el('circle', {cx:C, cy:C, r:239, fill:'none', 'stroke-width':1.1}, tinta);
@@ -777,6 +801,9 @@
       diaActualClau = clau;
       document.getElementById('dataLlarga').textContent =
         `${cap(DIES[ara.getDay()])}, ${ara.getDate()} ${deMes(ara.getMonth())} de ${ara.getFullYear()}`;
+      const republica = ara.getMonth()===9 && ara.getDate()===1;
+      document.getElementById('lema').textContent = republica ? 'Dia de la República' : 'Carpe diem';
+      if (window.__senyera) window.__senyera.style.display = republica ? '' : 'none';
       if (canviDeDia && window.__calendariRefresca) window.__calendariRefresca();
     }
     comprovaCampanades(ara);
@@ -1058,6 +1085,7 @@
       f(8,15,"L'Assumpció",'Estatal'),
       f(9,11,'Diada Nacional de Catalunya','Catalunya'),
       f(9,24,'La Mercè','Festa local de Barcelona'),
+      f(10,1,'Dia de la República','Commemoració · 1 d\'octubre de 2017'),
       f(10,12,"Festa Nacional d'Espanya",'Estatal'),
       f(11,1,'Tots Sants','Estatal'),
       f(12,6,'Dia de la Constitució','Estatal'),
@@ -1073,7 +1101,7 @@
     if (!api) return base;
     const res = new Map();
     api.forEach((v,k)=>{ res.set(k, base.has(k) ? base.get(k) : v); });
-    base.forEach((v,k)=>{ if (v.ambit.startsWith('Festa local')) res.set(k, v); });
+    base.forEach((v,k)=>{ if (v.ambit.startsWith('Festa local') || v.ambit.startsWith('Commemoració')) res.set(k, v); });
     return res;
   }
   function festiu(d){ return festiusAny(d.getFullYear()).get(clauData(d)) || null; }

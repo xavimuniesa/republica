@@ -1,6 +1,6 @@
 // Service worker del Rellotge d'Època: permet obrir l'app sense connexió.
 // Canvia VERSIO cada cop que pugis una nova versió de l'index.html.
-const VERSIO = 'rellotge-v1';
+const VERSIO = 'rellotge-v3';
 const BASICS = ['./', './index.html', './manifest.webmanifest',
   './icones/apple-touch-icon.png', './icones/icona-192.png', './icones/icona-512.png',
   './icones/icona-maskable-512.png', './icones/favicon-32.png'];

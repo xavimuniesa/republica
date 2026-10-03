@@ -752,7 +752,9 @@
     const clipF = el('clipPath', {id:'cClipDia'}, defs);
     el('rect', {x:FX, y:FY, width:FW, height:FH, rx:2.5}, clipF);
     const finestraDia = el('g', {'clip-path':'url(#cClipDia)'}, svg);
-    el('rect', {x:FX, y:FY, width:FW, height:FH, fill:'#f7efdc', filter:'url(#cGra)'}, finestraDia);
+    gradient(defs, 'linearGradient', 'cMaragda', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#1f8a64'],['50%','#0f6b4c'],['100%','#094a35']]);
+    gradient(defs, 'linearGradient', 'cBurdeus', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#9a2a24'],['50%','#7a1a16'],['100%','#55100e']]);
+    const fonsDia = el('rect', {x:FX, y:FY, width:FW, height:FH, fill:'#f7efdc', filter:'url(#cGra)'}, finestraDia);
     const tambor = el('g', {}, finestraDia);
     const textDia = el('text', {x:C, y:FY+FH/2+1, 'text-anchor':'middle', 'dominant-baseline':'central',
       'font-family':"'IM Fell English SC', 'IM Fell English', serif", 'font-size':27, 'letter-spacing':3, fill:'#2c241c'}, tambor);
@@ -872,8 +874,12 @@
       // dia de la setmana, amb color segons sigui dissabte, diumenge o festiu
       const nom = DIES[ara.getDay()].toUpperCase();
       const fe = festiu(ara);
-      const color = (ara.getDay()===0 || fe) ? '#7a1a16' : (ara.getDay()===6 ? '#0f6b4c' : '#2c241c');
+      // dissabte (no festiu): fons maragda; diumenge i festius: fons burdeus; lletra marfil. La resta: marfil i tinta fosca
+      const fons = (ara.getDay()===0 || fe) ? 'url(#cBurdeus)' : (ara.getDay()===6 ? 'url(#cMaragda)' : '#f7efdc');
+      const color = fons === '#f7efdc' ? '#2c241c' : '#f6ecd4';
+      fonsDia.setAttribute('fill', fons);
       textDia.setAttribute('fill', color);
+      textDia.setAttribute('style', fons === '#f7efdc' ? '' : 'text-shadow:0 1px 0 rgba(0,0,0,.35)');
       const clau = nom + color;
       if (clau !== diaMostrat){
         diaMostrat = clau;

@@ -182,7 +182,8 @@
           clip-path: inset(-22px -40px -24px -40px); }
   .pager-pista{ flex:1; display:flex; min-width:0; position:relative; will-change:transform; }
   .full-cal{ flex:1; display:flex; min-width:0; }
-  .full{ position:absolute; left:0; right:0; height:100%; top: calc(var(--k) * (100% + 48px)); display:flex; }
+  .full{ position:absolute; left:0; right:0; height:100%; top:0; display:flex; }
+  .full-cal, .full{ will-change:transform; }
   .full-marc{
     flex:1; display:flex; padding:7px; border-radius:16px;
     background: linear-gradient(145deg, #fde7cf 0%, #d39a72 22%, #f3cba7 44%, #9a5e3c 72%, #d8a07a 100%);
@@ -1750,13 +1751,25 @@
     const N = 5, SEP = 48;
     let pag = 0, ini = null, vertical = false;
     for (let i=0;i<N;i++) punts.appendChild(document.createElement('span'));
+    // Fulls en cercle: cada full se situa segons la distància (−2…+2) respecte del full actual,
+    // de manera que després d'Avisos torna el calendari, i abans del calendari hi ha Avisos.
+    const fulls = [...pista.children];
+    const previ = [];
+    const rel = i => { let o = ((i - pag) % N + N) % N; if (o > N/2) o -= N; return o; };
     function posa(dy, anim){
-      pista.style.transition = anim ? 'transform .55s cubic-bezier(.22,.9,.3,1)' : 'none';
-      pista.style.transform = `translate3d(0, calc(${-pag} * (100% + ${SEP}px) + ${dy.toFixed(1)}px), 0)`;
+      fulls.forEach((f, i)=>{
+        const o = rel(i);
+        const salt = previ[i] !== undefined && Math.abs(o - previ[i]) > 1; // passa de dalt a baix per fora de la vista
+        f.style.transition = (anim && !salt) ? 'transform .55s cubic-bezier(.22,.9,.3,1)' : 'none';
+        f.style.transform = `translate3d(0, calc(${o} * (100% + ${SEP}px) + ${dy.toFixed(1)}px), 0)`;
+        f.style.visibility = Math.abs(o) > 1 ? 'hidden' : '';
+        f.setAttribute('aria-hidden', o === 0 ? 'false' : 'true');
+        previ[i] = o;
+      });
       [...punts.children].forEach((p,i)=>p.classList.toggle('actiu', i===pag));
     }
     function vesA(i){
-      pag = Math.max(0, Math.min(N-1, i));
+      pag = ((i % N) + N) % N;
       const et = document.getElementById('etiqueta'); if (et) et.classList.remove('visible');
       posa(0, true);
     }
@@ -1774,8 +1787,7 @@
           try{ pager.setPointerCapture(e.pointerId); }catch(err){}
         } else return;
       }
-      const resist = (pag===0 && dy>0) || (pag===N-1 && dy<0) ? 0.3 : 1;
-      posa(dy*resist, false);
+      posa(dy, false);
     });
     function acaba(e){
       if (!ini) return;

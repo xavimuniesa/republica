@@ -225,6 +225,12 @@
   .d-any{ font-family:'Cinzel', serif; font-weight:700; font-size: min(8cqh, 5cqw); letter-spacing:.3em; color:#8a5536; margin-top:1cqh; }
   .d-detall{ font-family:'Cinzel', serif; font-size: min(5.6cqh, 3.4cqw); letter-spacing:.12em; color:#7a6646; margin-top:2.5cqh; text-transform:uppercase; }
   .d-detall + .d-detall{ margin-top:1cqh; }
+  /* Rètol "Avui": ocupa tota l'alçada, amb el número sense tocar les línies de sota */
+  .full-cara.d-cara{ justify-content:space-evenly; gap:0; padding-top:6px; padding-bottom:10px; }
+  .d-cara .full-titol{ margin-bottom:0; }
+  .d-cara .d-num{ font-size: min(44cqh, 28cqw); line-height:1; padding-bottom:1cqh; }
+  .d-cara .d-peu{ display:flex; flex-direction:column; align-items:center; gap:1.4cqh; }
+  .d-cara .d-detall{ margin-top:0; font-size: min(6cqh, 3.5cqw); }
   /* Lloc */
   .l-nom{ font-family:'IM Fell English SC', 'IM Fell English', serif; font-size: min(20cqh, 11cqw); line-height:1; color:#2c241c; text-shadow: 0 1px 0 #fff, 0 2px 4px rgba(90,55,20,.2); }
   .l-regio{ font-family:'IM Fell English', serif; font-style:italic; font-size: min(9cqh, 5.8cqw); color:#5c4632; margin-top:1cqh; }
@@ -573,7 +579,7 @@
           </div>
 
           <div class="full" style="--k:2" aria-label="La data">
-            <div class="full-marc"><div class="full-cara">
+            <div class="full-marc"><div class="full-cara d-cara">
               <div class="full-titol">Avui</div>
               <div class="d-fila">
                 <div class="d-num" id="fDiaNum">–</div>
@@ -583,8 +589,11 @@
                   <div class="d-any" id="fAny">—</div>
                 </div>
               </div>
-              <div class="d-detall" id="fDetall">—</div>
-              <div class="d-detall" id="fSol">—</div>
+              <div class="d-peu">
+                <div class="d-detall" id="fDetall">—</div>
+                <div class="d-detall" id="fFase">—</div>
+                <div class="d-detall" id="fSol">—</div>
+              </div>
             </div></div>
           </div>
 
@@ -675,9 +684,10 @@
   }
   function numeralRomans(svg, r, mida, attrs, estil){
     const g = el('g', {}, svg);
-    ['XII','I','II','III','IIII','V','VI','VII','VIII','IX','X','XI'].forEach((n,i)=>{
+    [estil.dotze || 'XII','I','II','III','IIII','V','VI','VII','VIII','IX','X','XI'].forEach((n,i)=>{
       const a = i*30;
-      const gg = el('g', {transform:`translate(${px(r,a)} ${py(r,a)}) rotate(${a}) scale(${estil.sx} ${estil.sy})`}, g);
+      const sx = (i===0 && estil.dotze && estil.dotze.length===1) ? estil.sx*1.55 : estil.sx; // el monograma de les 12, més ample
+      const gg = el('g', {transform:`translate(${px(r,a)} ${py(r,a)}) rotate(${a}) scale(${sx} ${estil.sy})`}, g);
       const t = el('text', Object.assign({x:0, y:mida*0.36, 'text-anchor':'middle', 'font-size':mida, 'font-family':'Cinzel, serif', 'font-weight':700, 'letter-spacing':estil.ls||0}, attrs), gg);
       t.textContent = n;
     });
@@ -857,7 +867,7 @@
     // ---- Xifres romanes aplicades d'or rosa ----
     const xifres = el('g', {filter:'url(#cOmbraXifra)'}, svg);
     const xifresOr = el('g', {filter:'url(#cRelleu)'}, xifres);
-    numeralRomans(xifresOr, 224, 46, {fill:'url(#cOrRosa)', stroke:'#7a4529', 'stroke-width':0.7}, {sx:0.72, sy:1.18, ls:-1});
+    numeralRomans(xifresOr, 224, 46, {fill:'url(#cOrRosa)', stroke:'#7a4529', 'stroke-width':0.7}, {sx:0.72, sy:1.18, ls:-1, dotze:'XM'});
 
     // ---- Anell de dates (1-31): gira perquè la data d'avui quedi a les 12 ----
     const anellDates = el('g', {}, svg);
@@ -873,7 +883,7 @@
     el('path', {d:`M ${C-6},${C-200} L ${C+6},${C-200} L ${C},${C-191} Z`, fill:'url(#cOrRosa)', stroke:'#7a4529', 'stroke-width':.6, filter:'url(#cOmbraXifra)'}, svg);
 
     // ---- Finestra llarga del dia de la setmana ----
-    const FX = C-86, FY = C-124, FW = 172, FH = 38;
+    const FX = C-95, FY = C-124, FW = 190, FH = 38;
     el('rect', {x:FX-4, y:FY-4, width:FW+8, height:FH+8, rx:5, fill:'url(#cOrRosa)', filter:'url(#cOmbraXifra)'}, svg);
     el('rect', {x:FX-1.5, y:FY-1.5, width:FW+3, height:FH+3, rx:3.5, fill:'url(#cOrRosaInv)'}, svg);
     const clipF = el('clipPath', {id:'cClipDia'}, defs);
@@ -1012,12 +1022,25 @@
         diaMostrat = clau;
         // tambor que gira: el nom nou puja des de baix
         textDia.textContent = nom;
-        textDia.removeAttribute('textLength'); textDia.removeAttribute('lengthAdjust');
-        try { if (textDia.getComputedTextLength() > FW-18){ textDia.setAttribute('textLength', FW-18); textDia.setAttribute('lengthAdjust', 'spacingAndGlyphs'); } } catch(e){}
+        ajustaLletraDia();
         animaAngle(FH, 0, 900, y => tambor.setAttribute('transform', `translate(0 ${y.toFixed(2)})`));
       }
       posaLluna(ara, anim);
     }
+    // Mida de lletra comuna per a tots els dies: la que fa cabre el més llarg (DIVENDRES, DIUMENGE…) amb marge
+    function ajustaLletraDia(){
+      try {
+        const prova = el('text', {x:0, y:-999, 'font-family':textDia.getAttribute('font-family'), 'font-size':27, 'letter-spacing':3}, svg);
+        let mx = 0;
+        DIES.forEach(n=>{ prova.textContent = n.toUpperCase(); mx = Math.max(mx, prova.getComputedTextLength()); });
+        prova.remove();
+        if (!mx) return;
+        const mida = Math.min(27, 27 * (FW - 22) / mx);
+        textDia.setAttribute('font-size', mida.toFixed(2));
+        textDia.setAttribute('letter-spacing', (3 * mida / 27).toFixed(2));
+      } catch(e){}
+    }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajustaLletraDia);
     window.__esferaCal = actualitza;
     setInterval(()=>posaLluna(new Date(), false), 10*60*1000);
     return {h:hB.rot, m:mB.rot, s:sB.rot};
@@ -1174,7 +1197,7 @@
   let eco = null;
   function sortidaMagica(ctx){
     if (eco) return eco;
-    const entrada = ctx.createGain();
+    const entrada = ctx.createGain(); entrada.gain.value = 0.42; // volum general de les campanetes del gir
     const ret = ctx.createDelay(1.0); ret.delayTime.value = 0.23;
     const fb = ctx.createGain(); fb.gain.value = 0.38;
     const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 5200;
@@ -1203,7 +1226,7 @@
     const o = ctx.createOscillator(), g = ctx.createGain();
     o.type='triangle';
     o.frequency.setValueAtTime(190, quan); o.frequency.exponentialRampToValueAtTime(55, quan+0.14);
-    g.gain.setValueAtTime(0.0001, quan); g.gain.linearRampToValueAtTime(.5, quan+0.008); g.gain.exponentialRampToValueAtTime(0.0008, quan+0.25);
+    g.gain.setValueAtTime(0.0001, quan); g.gain.linearRampToValueAtTime(.28, quan+0.008); g.gain.exponentialRampToValueAtTime(0.0008, quan+0.25);
     o.connect(g); g.connect(ctx.destination); o.start(quan); o.stop(quan+0.3);
   }
   function soMagic(durada){
@@ -1710,7 +1733,8 @@
       $('fAny').textContent = roma(any);
       const fe = festiu(ara);
       $('fDiaNum').style.color = (ara.getDay()===0 || fe) ? '#7a1a16' : (ara.getDay()===6 ? '#0f6b4c' : '#2c241c');
-      $('fDetall').textContent = `Dia ${diaAny} de l'any · Setmana ${setmanaISO(ara)} · ${faseNom(ara)}`;
+      $('fDetall').textContent = `Dia ${diaAny} de l'any · Setmana ${setmanaISO(ara)}`;
+      $('fFase').textContent = faseNom(ara);
       pintaAvisos();
     }
     window.__fulls = {

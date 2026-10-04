@@ -176,6 +176,74 @@
   /* ====================== CALENDARI ====================== */
   .calendari{ width: var(--ample); flex:1 1 auto; min-height:0; min-width:0; display:flex; }
   .calendari, .cal-marc, .cal-paper, .cal-finestra, .columna{ min-width:0; }
+  /* ---- Fulls lliscants verticals (calendari, temps, data, lloc, avisos) ---- */
+  .calendari{ position:relative; }
+  .pager{ flex:1; display:flex; min-width:0; min-height:0; touch-action:none;
+          clip-path: inset(-22px -40px -24px -40px); }
+  .pager-pista{ flex:1; display:flex; min-width:0; position:relative; will-change:transform; }
+  .full-cal{ flex:1; display:flex; min-width:0; }
+  .full{ position:absolute; left:0; right:0; height:100%; top: calc(var(--k) * (100% + 48px)); display:flex; }
+  .full-marc{
+    flex:1; display:flex; padding:7px; border-radius:16px;
+    background: linear-gradient(145deg, #fde7cf 0%, #d39a72 22%, #f3cba7 44%, #9a5e3c 72%, #d8a07a 100%);
+    box-shadow: 0 18px 30px rgba(0,0,0,.6), 0 2px 0 #3a1f10, inset 0 1px 1px rgba(255,240,225,.85), inset 0 -2px 3px rgba(60,30,10,.55);
+  }
+  .full-cara{
+    flex:1; position:relative; overflow:hidden; border-radius:9px; container-type:size;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+    padding: 6px 12px; color:#2c241c;
+    background: radial-gradient(ellipse at 40% 30%, #fcf8ee 0%, #efe6d1 55%, #dccfb0 100%);
+    box-shadow: inset 0 0 22px rgba(58,42,20,.38), inset 0 3px 7px rgba(42,26,8,.4);
+  }
+  .full-cara::before{
+    content:""; position:absolute; inset:0; pointer-events:none; opacity:.35; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/><feColorMatrix values='0 0 0 0 .45  0 0 0 0 .38  0 0 0 0 .25  0 0 0 .5 -.1'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  }
+  .full-cara > *{ position:relative; }
+  .full-titol{
+    display:flex; align-items:center; gap:10px;
+    font-family:'IM Fell English SC', 'IM Fell English', serif; font-size: clamp(11px, 6.5cqh, 16px);
+    letter-spacing:.3em; color:#8a5536; margin-bottom: 3cqh;
+  }
+  .full-titol::before, .full-titol::after{ content:""; width: 9cqw; height:1px; background: linear-gradient(90deg, transparent, #b97752); }
+  .full-titol::after{ transform: scaleX(-1); }
+  /* Temps */
+  .t-fila{ display:flex; align-items:center; justify-content:center; gap:5cqw; }
+  .icona-cel{ width: min(36cqh, 26cqw); height: min(36cqh, 26cqw); filter: drop-shadow(0 2px 2px rgba(60,40,15,.35)); }
+  .t-gran{ font-family:'Cormorant Garamond', serif; font-weight:700; font-size: min(40cqh, 25cqw); line-height:.9; color:#2c241c; text-shadow: 0 1px 0 #fff, 0 2px 4px rgba(90,55,20,.25); }
+  .t-desc{ font-family:'IM Fell English', serif; font-style:italic; font-size: min(10cqh, 6.4cqw); color:#5c4632; margin-top:1cqh; }
+  .t-detall{ display:flex; gap:5cqw; margin-top: 3cqh; font-family:'Cinzel', serif; font-size: min(5.5cqh, 3.3cqw); letter-spacing:.1em; color:#7a6646; text-transform:uppercase; }
+  .t-detall b, .l-fila b{ display:block; font-family:'Cormorant Garamond', serif; font-weight:700; font-size: min(10cqh, 6cqw); letter-spacing:0; color:#2c241c; text-transform:none; }
+  /* Data */
+  .d-fila{ display:flex; align-items:center; justify-content:center; gap: 5cqw; }
+  .d-num{ font-family:'Cormorant Garamond', serif; font-weight:700; font-size: min(52cqh, 30cqw); line-height:.82; color:#2c241c;
+          text-shadow: 0 1px 0 #fff, 2px 3px 0 rgba(185,119,82,.45); }
+  .d-text{ text-align:left; line-height:1.05; }
+  .d-setmana{ font-family:'IM Fell English', serif; font-style:italic; font-size: min(13cqh, 8cqw); color:#2c241c; }
+  .d-mes{ font-family:'IM Fell English SC', 'IM Fell English', serif; font-size: min(11cqh, 6.8cqw); letter-spacing:.08em; color:#5c4632; }
+  .d-any{ font-family:'Cinzel', serif; font-weight:700; font-size: min(8cqh, 5cqw); letter-spacing:.3em; color:#8a5536; margin-top:1cqh; }
+  .d-detall{ font-family:'Cinzel', serif; font-size: min(5.6cqh, 3.4cqw); letter-spacing:.12em; color:#7a6646; margin-top:2.5cqh; text-transform:uppercase; }
+  .d-detall + .d-detall{ margin-top:1cqh; }
+  /* Lloc */
+  .l-nom{ font-family:'IM Fell English SC', 'IM Fell English', serif; font-size: min(20cqh, 11cqw); line-height:1; color:#2c241c; text-shadow: 0 1px 0 #fff, 0 2px 4px rgba(90,55,20,.2); }
+  .l-regio{ font-family:'IM Fell English', serif; font-style:italic; font-size: min(9cqh, 5.8cqw); color:#5c4632; margin-top:1cqh; }
+  .l-fila{ display:flex; gap: 8cqw; margin-top:4cqh; font-family:'Cinzel', serif; font-size: min(5.5cqh, 3.3cqw); letter-spacing:.12em; color:#7a6646; text-transform:uppercase; }
+  /* Avisos */
+  .avisos{ list-style:none; margin:0; padding:0; width:100%; max-width: 420px; display:flex; flex-direction:column; gap: 2.2cqh; }
+  .avisos li{ display:flex; align-items:center; gap:10px; text-align:left; padding: 1.6cqh 10px; border-radius:6px;
+              font-family:'Cormorant Garamond', serif; font-weight:600; font-size: min(7.6cqh, 4.6cqw); line-height:1.1;
+              background: rgba(185,119,82,.10); border-left: 3px solid #b97752; }
+  .avisos li svg{ width: min(10cqh, 7cqw); height: min(10cqh, 7cqw); flex:0 0 auto; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .avisos li.groc{ background: rgba(201,150,46,.14); border-left-color:#c9962e; } .avisos li.groc svg{ stroke:#8a6a1e; }
+  .avisos li.taronja{ background: rgba(192,96,30,.14); border-left-color:#c0601e; } .avisos li.taronja svg{ stroke:#8e3f12; }
+  .avisos li.vermell{ background: rgba(122,26,22,.14); border-left-color:#7a1a16; } .avisos li.vermell svg{ stroke:#7a1a16; }
+  .avisos li.info{ background: rgba(15,107,76,.10); border-left-color:#0f6b4c; } .avisos li.info svg{ stroke:#0f6b4c; }
+  .avisos li.cap{ justify-content:center; background:none; border:none; font-family:'IM Fell English', serif; font-style:italic; font-weight:400; font-size: min(9cqh, 5.6cqw); color:#5c4632; }
+  .avisos-peu{ font-family:'Cinzel', serif; font-size: min(4.6cqh, 2.9cqw); letter-spacing:.12em; color:#9a8664; margin-top:2.5cqh; text-transform:uppercase; }
+  /* Punts indicadors (vertical) */
+  .pager-punts{ position:absolute; right:-1px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:6px; z-index:5; pointer-events:none; }
+  .pager-punts span{ width:5px; height:5px; border-radius:50%; background: rgba(60,35,10,.45); box-shadow: 0 0 0 1px rgba(255,235,200,.35); transition: all .3s; }
+  .pager-punts span.actiu{ background:#f3dc97; transform: scale(1.4); box-shadow: 0 0 6px rgba(243,220,151,.8); }
   .cal-marc{
     flex:1; min-height:0; display:flex;
     padding: 8px;
@@ -221,7 +289,7 @@
   .boto-llauto:active{ transform: translateY(1px); box-shadow: 0 1px 2px rgba(0,0,0,.45); }
   .boto-llauto:disabled{ opacity:.35; cursor:default; }
 
-  .cal-finestra{ position:relative; overflow:hidden; touch-action: pan-y; cursor: grab; flex:1 1 auto; min-height:0; }
+  .cal-finestra{ position:relative; overflow:hidden; touch-action: none; cursor: grab; flex:1 1 auto; min-height:0; }
   .cal-finestra.arrossega{ cursor: grabbing; }
   .cal-pista{ display:flex; height:100%; will-change: transform; }
   .cal-mes{ flex: 0 0 100%; height:100%; padding: 2px 8px 2px; }
@@ -462,7 +530,10 @@
       </div>
     </div>
 
-    <section class="calendari" aria-label="Calendari">
+    <section class="calendari" aria-label="Calendari i informació">
+      <div class="pager" id="pager">
+        <div class="pager-pista" id="pagerPista">
+          <div class="full-cal">
       <div class="cal-marc">
         <div class="cal-paper" id="calPaper">
           <div class="cal-cap">
@@ -483,6 +554,61 @@
           <div class="etiqueta" id="etiqueta" role="status"></div>
         </div>
       </div>
+          </div>
+
+          <div class="full" style="--k:1" aria-label="El temps">
+            <div class="full-marc"><div class="full-cara">
+              <div class="full-titol">El temps</div>
+              <div class="t-fila">
+                <svg class="icona-cel" id="fIcona" viewBox="0 0 64 64" aria-hidden="true"></svg>
+                <div class="t-gran" id="fTemp">--°</div>
+              </div>
+              <div class="t-desc" id="fDesc">Esperant dades…</div>
+              <div class="t-detall">
+                <span>Màx<b id="fMax">--°</b></span><span>Mín<b id="fMin">--°</b></span>
+                <span>Sensació<b id="fSens">--°</b></span><span>Humitat<b id="fHum">--%</b></span>
+              </div>
+            </div></div>
+          </div>
+
+          <div class="full" style="--k:2" aria-label="La data">
+            <div class="full-marc"><div class="full-cara">
+              <div class="full-titol">Avui</div>
+              <div class="d-fila">
+                <div class="d-num" id="fDiaNum">–</div>
+                <div class="d-text">
+                  <div class="d-setmana" id="fDiaSet">—</div>
+                  <div class="d-mes" id="fMes">—</div>
+                  <div class="d-any" id="fAny">—</div>
+                </div>
+              </div>
+              <div class="d-detall" id="fDetall">—</div>
+              <div class="d-detall" id="fSol">—</div>
+            </div></div>
+          </div>
+
+          <div class="full" style="--k:3" aria-label="La localitat">
+            <div class="full-marc"><div class="full-cara">
+              <div class="full-titol">On som</div>
+              <div class="l-nom" id="fLloc">—</div>
+              <div class="l-regio" id="fRegio">—</div>
+              <div class="l-fila">
+                <div><span>Altitud</span><b id="fAlt">-- m</b></div>
+                <div><span>Coordenades</span><b id="fCoord">—</b></div>
+              </div>
+            </div></div>
+          </div>
+
+          <div class="full" style="--k:4" aria-label="Avisos">
+            <div class="full-marc"><div class="full-cara">
+              <div class="full-titol">Avisos</div>
+              <ul class="avisos" id="fAvisos"><li class="cap">Esperant la previsió…</li></ul>
+              <div class="avisos-peu">Segons la previsió per a les properes hores</div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+      <div class="pager-punts" id="pagerPunts" aria-hidden="true"></div>
     </section>
   </div>
 </main>
@@ -925,6 +1051,7 @@
       document.getElementById('dataLlarga').textContent =
         `${cap(DIES[ara.getDay()])}, ${ara.getDate()} ${deMes(ara.getMonth())} de ${ara.getFullYear()}`;
       if (window.__esferaCal) window.__esferaCal(ara, !canviDeDia);
+      if (window.__fulls) window.__fulls.data(ara);
       const republica = ara.getMonth()===9 && ara.getDate()===1;
       document.getElementById('lema').textContent = republica ? 'Dia de la República' : 'Carpe diem';
       if (window.__senyera) window.__senyera.style.display = republica ? '' : 'none';
@@ -1147,8 +1274,9 @@
   const fmt = v => v.toFixed(1).replace('.', ',');
   function carregaAmbient(lat, lon){
     const qs = `latitude=${lat.toFixed(4)}&longitude=${lon.toFixed(4)}`;
+    if (window.__fulls) window.__fulls.coords(lat, lon);
     Promise.allSettled([
-      fetch(`https://api.open-meteo.com/v1/forecast?${qs}&current=temperature_2m,relative_humidity_2m,apparent_temperature&hourly=precipitation_probability&forecast_hours=7&timezone=auto`).then(r=>r.json()),
+      fetch(`https://api.open-meteo.com/v1/forecast?${qs}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,is_day,wind_gusts_10m&hourly=precipitation_probability,wind_gusts_10m,uv_index,weather_code&forecast_hours=12&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&forecast_days=1&timezone=auto`).then(r=>r.json()),
       fetch(`https://api.open-meteo.com/v1/elevation?${qs}`).then(r=>r.json()),
       fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?${qs}&localityLanguage=ca`).then(r=>r.json())
     ]).then(([rM, rE, rL])=>{
@@ -1162,14 +1290,17 @@
         const placa = document.getElementById('placaPluja');
         placa.hidden = !(max6 > 40);
         document.getElementById('vPluja').textContent = max6+'%';
+        if (window.__fulls) window.__fulls.temps(rM.value, max6);
       }
       if (rE.status==='fulfilled' && rE.value && rE.value.elevation){
         document.getElementById('vAlt').textContent = Math.round(rE.value.elevation[0])+' m';
+        if (window.__fulls) window.__fulls.altitud(rE.value.elevation[0]);
       }
       if (rL.status==='fulfilled' && rL.value){
         const d = rL.value;
         const nom = d.city || d.locality || d.principalSubdivision;
         if (nom) document.getElementById('vLloc').textContent = nom;
+        if (window.__fulls) window.__fulls.lloc(d);
       }
     });
   }
@@ -1476,6 +1607,206 @@
     mesura();
     pinta();
     encaixa(700);
+  })();
+
+
+  // ========================= FULLS: temps, data, lloc i avisos =========================
+  (function(){
+    const $ = id => document.getElementById(id);
+    const DESC = {0:'Cel serè',1:'Gairebé serè',2:'Parcialment ennuvolat',3:'Cel cobert',45:'Boira',48:'Boira gebradora',
+      51:'Plugim feble',53:'Plugim',55:'Plugim intens',56:'Plugim gelat',57:'Plugim gelat',61:'Pluja feble',63:'Pluja',65:'Pluja forta',
+      66:'Pluja gelada',67:'Pluja gelada',71:'Neu feble',73:'Neu',75:'Neu forta',77:'Neu granulada',80:'Ruixats febles',81:'Ruixats',
+      82:'Ruixats forts',85:'Ruixats de neu',86:'Ruixats de neu',95:'Tempesta',96:'Tempesta amb calamarsa',99:'Tempesta amb calamarsa'};
+    // Icones gravades a joc amb l'esfera: sol d'or rosa, núvols marfil, gotes blau nit
+    const SOL = `<g><circle cx="32" cy="32" r="11" fill="url(#gSol)" stroke="#8a5536" stroke-width="1.4"/>${[...Array(8)].map((_,i)=>{const a=i*45*Math.PI/180;return `<line x1="${32+16*Math.cos(a)}" y1="${32+16*Math.sin(a)}" x2="${32+23*Math.cos(a)}" y2="${32+23*Math.sin(a)}" stroke="#b97752" stroke-width="2.6" stroke-linecap="round"/>`}).join('')}</g>`;
+    const LLUNA = `<path d="M38 12a20 20 0 1 0 14 30A16 16 0 0 1 38 12z" fill="url(#gSol)" stroke="#8a5536" stroke-width="1.4"/>`;
+    const NUVOL = (dx=0,dy=0,s=1) => `<path transform="translate(${dx} ${dy}) scale(${s})" d="M18 48h28a10 10 0 0 0 0-20 14 14 0 0 0-27-3A11 11 0 0 0 18 48z" fill="#f8f0de" stroke="#5c4c32" stroke-width="1.8" stroke-linejoin="round"/>`;
+    const GOTES = n => [...Array(n)].map((_,i)=>`<line x1="${22+i*9}" y1="52" x2="${19+i*9}" y2="60" stroke="#2b4486" stroke-width="2.4" stroke-linecap="round"/>`).join('');
+    const FLOCS = `<g stroke="#2b4486" stroke-width="1.6" stroke-linecap="round">${[22,32,42].map(x=>`<path d="M${x} 52v8M${x-3.5} 54l7 4M${x-3.5} 58l7-4"/>`).join('')}</g>`;
+    const LLAMP = `<path d="M33 46l-6 9h6l-4 8 10-11h-6l4-6z" fill="#7a1a16" stroke="#4e0f12" stroke-width="1" stroke-linejoin="round"/>`;
+    const BOIRA = `<g stroke="#7a6646" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="50" x2="52" y2="50"/><line x1="16" y1="56" x2="48" y2="56"/></g>`;
+    const DEFS = `<defs><radialGradient id="gSol" cx="35%" cy="30%" r="70%"><stop offset="0%" stop-color="#fff0de"/><stop offset="50%" stop-color="#e3a983"/><stop offset="100%" stop-color="#9a5e3c"/></radialGradient></defs>`;
+    function icona(codi, dia){
+      const astre = dia ? SOL : LLUNA;
+      if (codi === 0) return DEFS + astre;
+      if (codi <= 2) return DEFS + `<g transform="translate(-8 -8) scale(.85)">${astre}</g>` + NUVOL(4, 4, .9);
+      if (codi === 3) return DEFS + NUVOL(-6, -6, .8) + NUVOL(2, 2, 1);
+      if (codi === 45 || codi === 48) return DEFS + NUVOL(0, -8, 1) + BOIRA;
+      if (codi >= 95) return DEFS + NUVOL(0, -6, 1) + LLAMP;
+      if ((codi >= 71 && codi <= 77) || codi === 85 || codi === 86) return DEFS + NUVOL(0, -8, 1) + FLOCS;
+      if (codi >= 51) return DEFS + (codi >= 80 ? `<g transform="translate(-8 -10) scale(.8)">${astre}</g>` : '') + NUVOL(0, -8, 1) + GOTES(codi === 65 || codi === 82 ? 4 : 3);
+      return DEFS + astre;
+    }
+    const graus = v => v == null ? '--°' : (Math.round(v*10)/10).toString().replace('.', ',') + '°';
+    const hora = s => s ? s.slice(11, 16) : '--:--';
+    let darrerMeteo = null, darrerMax6 = 0;
+
+    // Icones dels avisos
+    const IC = {
+      pluja:'<svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 18 0z"/><path d="M12 12v6.5a2 2 0 0 1-4 0"/></svg>',
+      vent:'<svg viewBox="0 0 24 24"><path d="M3 8h11a2.5 2.5 0 1 0-2.5-2.5"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h7"/></svg>',
+      uv:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+      calor:'<svg viewBox="0 0 24 24"><path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z"/><path d="M12 8v8"/></svg>',
+      fred:'<svg viewBox="0 0 24 24"><path d="M12 2v20M4 6l16 12M20 6L4 18"/></svg>',
+      tempesta:'<svg viewBox="0 0 24 24"><path d="M6 15a5 5 0 1 1 3-9 6 6 0 0 1 11 3 4 4 0 0 1-1 6"/><path d="M13 12l-3 5h4l-2 5"/></svg>',
+      boira:'<svg viewBox="0 0 24 24"><path d="M3 9h18M5 13h14M3 17h18"/></svg>',
+      festa:'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="12" cy="15" r="2"/></svg>'
+    };
+    function pintaAvisos(){
+      const llista = [];
+      const m = darrerMeteo;
+      if (m){
+        const h = m.hourly || {}, dd = m.daily || {}, c = m.current || {};
+        const ratxa = Math.max(c.wind_gusts_10m || 0, ...((h.wind_gusts_10m || []).slice(0, 7).map(v=>v||0)));
+        const codis = [c.weather_code, ...((h.weather_code || []).slice(0, 7))];
+        const uv = (dd.uv_index_max && dd.uv_index_max[0]) || Math.max(0, ...((h.uv_index || []).map(v=>v||0)));
+        const tmax = dd.temperature_2m_max && dd.temperature_2m_max[0], tmin = dd.temperature_2m_min && dd.temperature_2m_min[0];
+        if (codis.some(k => k >= 95)) llista.push(['vermell', IC.tempesta, 'Risc de tempesta a les properes hores']);
+        if (darrerMax6 > 40) llista.push([darrerMax6 > 70 ? 'taronja' : 'groc', IC.pluja, `Pluja probable (${darrerMax6}%) en 6 hores: agafa el paraigua`]);
+        if (ratxa >= 70) llista.push(['taronja', IC.vent, `Vent fort: ratxes de fins a ${Math.round(ratxa)} km/h`]);
+        else if (ratxa >= 50) llista.push(['groc', IC.vent, `Ratxes de vent de fins a ${Math.round(ratxa)} km/h`]);
+        if (tmax != null && tmax >= 35) llista.push(['taronja', IC.calor, `Calor intensa: màxima de ${graus(tmax)}`]);
+        else if (tmax != null && tmax >= 31) llista.push(['groc', IC.calor, `Fa calor: màxima de ${graus(tmax)}`]);
+        if (tmin != null && tmin <= 0) llista.push(['taronja', IC.fred, `Glaçada: mínima de ${graus(tmin)}`]);
+        else if (tmin != null && tmin <= 4) llista.push(['groc', IC.fred, `Fred: mínima de ${graus(tmin)}`]);
+        if (uv >= 8) llista.push(['taronja', IC.uv, `Índex UV molt alt (${Math.round(uv)}): protegeix-te del sol`]);
+        else if (uv >= 6) llista.push(['groc', IC.uv, `Índex UV alt (${Math.round(uv)}): protecció solar`]);
+        if (codis.some(k => k === 45 || k === 48)) llista.push(['groc', IC.boira, 'Boira: visibilitat reduïda']);
+      }
+      // festius d'avui i de demà
+      const avui = new Date(), dema = new Date(avui.getFullYear(), avui.getMonth(), avui.getDate()+1);
+      const fa = festiu(avui), fd = festiu(dema);
+      if (fa) llista.push(['info', IC.festa, `Avui és festiu: ${fa.nom}`]);
+      if (fd) llista.push(['info', IC.festa, `Demà és festiu: ${fd.nom}`]);
+      const ul = $('fAvisos');
+      if (!llista.length){
+        ul.innerHTML = m ? '<li class="cap">Cap avís per a les properes hores</li>' : '<li class="cap">Esperant la previsió…</li>';
+        return;
+      }
+      ul.innerHTML = llista.slice(0, 4).map(([cls, ic, txt]) => `<li class="${cls}">${ic}<span>${txt}</span></li>`).join('');
+    }
+    function setmanaISO(d){
+      const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+      const dia = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate() + 4 - dia);
+      const inici = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+      return Math.ceil(((t - inici) / 86400000 + 1) / 7);
+    }
+    function roma(n){
+      const v = [[1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],[100,'C'],[90,'XC'],[50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];
+      let s = ''; v.forEach(([x, r]) => { while (n >= x){ s += r; n -= x; } }); return s;
+    }
+    function faseNom(d){
+      const sin = 29.530588853, edat = (((d.getTime() - Date.UTC(2000,0,6,18,14))/86400000) % sin + sin) % sin;
+      const noms = ['Lluna nova','Lluna creixent','Quart creixent','Gibosa creixent','Lluna plena','Gibosa minvant','Quart minvant','Lluna minvant'];
+      return noms[Math.floor((edat / sin) * 8 + 0.5) % 8];
+    }
+    function pintaData(ara){
+      const any = ara.getFullYear();
+      const diaAny = Math.round((new Date(any, ara.getMonth(), ara.getDate()) - new Date(any, 0, 1)) / 86400000) + 1;
+      $('fDiaNum').textContent = ara.getDate();
+      $('fDiaSet').textContent = cap(DIES[ara.getDay()]);
+      $('fMes').textContent = deMes(ara.getMonth());
+      $('fAny').textContent = roma(any);
+      const fe = festiu(ara);
+      $('fDiaNum').style.color = (ara.getDay()===0 || fe) ? '#7a1a16' : (ara.getDay()===6 ? '#0f6b4c' : '#2c241c');
+      $('fDetall').textContent = `Dia ${diaAny} de l'any · Setmana ${setmanaISO(ara)} · ${faseNom(ara)}`;
+      pintaAvisos();
+    }
+    window.__fulls = {
+      temps(m, max6){
+        darrerMeteo = m; darrerMax6 = max6 || 0;
+        const c = m.current || {}, d = m.daily || {};
+        $('fTemp').textContent = graus(c.temperature_2m);
+        $('fDesc').textContent = DESC[c.weather_code] || '—';
+        $('fIcona').innerHTML = icona(c.weather_code ?? 0, c.is_day !== 0);
+        $('fSens').textContent = graus(c.apparent_temperature);
+        $('fHum').textContent = c.relative_humidity_2m != null ? Math.round(c.relative_humidity_2m)+'%' : '--%';
+        $('fMax').textContent = graus(d.temperature_2m_max && d.temperature_2m_max[0]);
+        $('fMin').textContent = graus(d.temperature_2m_min && d.temperature_2m_min[0]);
+        if (d.sunrise && d.sunset) $('fSol').textContent = `Sortida del sol ${hora(d.sunrise[0])} · Posta ${hora(d.sunset[0])}`;
+        pintaAvisos();
+      },
+      altitud(e){ $('fAlt').textContent = Math.round(e) + ' m'; },
+      lloc(d){
+        const nom = d.city || d.locality || d.principalSubdivision;
+        if (nom) $('fLloc').textContent = nom;
+        const regio = [d.locality && d.locality !== nom ? d.locality : null, d.principalSubdivision, d.countryName].filter(Boolean);
+        $('fRegio').textContent = [...new Set(regio)].join(' · ') || '—';
+      },
+      coords(lat, lon){
+        const gms = (v, p, n) => { const a = Math.abs(v), g = Math.floor(a), mi = Math.floor((a - g) * 60), s = Math.round(((a - g) * 60 - mi) * 60); return `${g}°${String(mi).padStart(2,'0')}′${String(s).padStart(2,'0')}″ ${v >= 0 ? p : n}`; };
+        $('fCoord').textContent = `${gms(lat,'N','S')} · ${gms(lon,'E','O')}`;
+      },
+      data: pintaData
+    };
+    pintaData(new Date());
+  })();
+
+  // ========================= LLISCAMENT VERTICAL ENTRE FULLS =========================
+  (function(){
+    const pager = document.getElementById('pager');
+    const pista = document.getElementById('pagerPista');
+    const punts = document.getElementById('pagerPunts');
+    const N = 5, SEP = 48;
+    let pag = 0, ini = null, vertical = false;
+    for (let i=0;i<N;i++) punts.appendChild(document.createElement('span'));
+    function posa(dy, anim){
+      pista.style.transition = anim ? 'transform .55s cubic-bezier(.22,.9,.3,1)' : 'none';
+      pista.style.transform = `translate3d(0, calc(${-pag} * (100% + ${SEP}px) + ${dy.toFixed(1)}px), 0)`;
+      [...punts.children].forEach((p,i)=>p.classList.toggle('actiu', i===pag));
+    }
+    function vesA(i){
+      pag = Math.max(0, Math.min(N-1, i));
+      const et = document.getElementById('etiqueta'); if (et) et.classList.remove('visible');
+      posa(0, true);
+    }
+    pager.addEventListener('pointerdown', e=>{
+      if (e.pointerType==='mouse' && e.button!==0) return;
+      ini = {x:e.clientX, y:e.clientY, t:performance.now(), id:e.pointerId}; vertical = false;
+    });
+    pager.addEventListener('pointermove', e=>{
+      if (!ini || e.pointerId!==ini.id) return;
+      const dx = e.clientX - ini.x, dy = e.clientY - ini.y;
+      if (!vertical){
+        if (Math.abs(dx) > 8 && Math.abs(dx) >= Math.abs(dy)){ ini = null; return; } // gest horitzontal: és del calendari
+        if (Math.abs(dy) > 10 && Math.abs(dy) > Math.abs(dx)){
+          vertical = true;
+          try{ pager.setPointerCapture(e.pointerId); }catch(err){}
+        } else return;
+      }
+      const resist = (pag===0 && dy>0) || (pag===N-1 && dy<0) ? 0.3 : 1;
+      posa(dy*resist, false);
+    });
+    function acaba(e){
+      if (!ini) return;
+      if (vertical){
+        const dy = e.clientY - ini.y, v = dy / Math.max(1, performance.now()-ini.t);
+        const alt = pager.clientHeight;
+        if (dy < -alt*0.18 || v < -0.45) vesA(pag+1);
+        else if (dy > alt*0.18 || v > 0.45) vesA(pag-1);
+        else posa(0, true);
+        // que el toc final no s'interpreti com un clic sobre un dia
+        const bloca = ev=>{ ev.stopPropagation(); ev.preventDefault(); };
+        window.addEventListener('click', bloca, {capture:true, once:true});
+        setTimeout(()=>window.removeEventListener('click', bloca, {capture:true}), 350);
+      }
+      ini = null; vertical = false;
+    }
+    pager.addEventListener('pointerup', acaba);
+    pager.addEventListener('pointercancel', ()=>{ if (vertical) posa(0, true); ini = null; vertical = false; });
+    let rodaBloq = 0;
+    pager.addEventListener('wheel', e=>{
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      e.preventDefault();
+      if (performance.now() < rodaBloq || Math.abs(e.deltaY) < 12) return;
+      vesA(pag + (e.deltaY > 0 ? 1 : -1)); rodaBloq = performance.now() + 650;
+    }, {passive:false});
+    document.addEventListener('keydown', e=>{
+      if (e.key==='ArrowDown' || e.key==='PageDown') vesA(pag+1);
+      else if (e.key==='ArrowUp' || e.key==='PageUp') vesA(pag-1);
+    });
+    window.addEventListener('resize', ()=>posa(0, false));
+    posa(0, false);
   })();
 
   programaTic();

@@ -23,7 +23,7 @@
     --or-fosc:#7a5519;
     --tinta:#231709;
     --paper:#efdfb8;
-    --vermell:#9e2418;
+    --vermell:#7a1a16;
     --mida: min(80vw, 34svh, 470px);
     --ample: min(100%, 470px);
   }
@@ -171,6 +171,15 @@
       linear-gradient(180deg, rgba(255,255,255,.35) 0%, rgba(255,255,255,0) 40%),
       linear-gradient(180deg, #c9d3d6 0%, #8c9ea6 48%, #56686f 100%); color:#101b20; }
   .placa.pluja svg{ stroke:#6d130b; }
+  /* Avís meteorològic extrem: bordeus i lletra marfil, com els diumenges de l'esfera */
+  .placa.avis{ color:#f6ecd4; text-shadow: 0 1px 0 rgba(0,0,0,.45);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 40%),
+      linear-gradient(180deg, #9a2a24 0%, #7a1a16 50%, #55100e 100%);
+    box-shadow: inset 0 1px 0 rgba(255,215,200,.45), inset 0 -2px 4px rgba(30,0,0,.5), 0 1px 0 #2a0806, 0 6px 10px rgba(0,0,0,.55); }
+  .placa.avis svg{ stroke:#f6ecd4; filter: drop-shadow(0 1px 0 rgba(0,0,0,.45)); }
+  .placa.avis .etq{ opacity:.85; }
+  .placa.avis::before, .placa.avis::after{ background: radial-gradient(circle at 35% 30%, #fbe7c8, #b9784f 60%, #4a240f); }
   .placa[hidden]{ display:none; }
 
   /* ====================== CALENDARI ====================== */
@@ -305,7 +314,7 @@
     text-align:center; font-family:'Cinzel', serif; font-weight:700; font-size:11px; letter-spacing:1px;
     padding: 3px 0 3px; color:#4a3010; border-bottom: 1px solid rgba(90,55,15,.35);
   }
-  .cap-dia.cs{ color: var(--vermell); background: rgba(158,36,24,.10); border-radius: 6px 6px 0 0; }
+  .cap-dia.cs{ color: var(--vermell); background: rgba(122,26,22,.10); border-radius: 6px 6px 0 0; }
   .dia{
     position:relative; container-type: size;
     display:grid; place-items:center; min-height:0;
@@ -313,12 +322,12 @@
     color:#2a1a07; border-radius: 7px;
   }
   .dia.buit{ visibility:hidden; }
-  .dia.cs{ background: rgba(158,36,24,.12); color: var(--vermell); }
+  .dia.cs{ background: rgba(122,26,22,.12); color: var(--vermell); }
   .dia .num{ position:relative; z-index:2; }
   .dia.festiu{ cursor:pointer; }
   .dia.festiu::before{
     content:""; position:absolute; width:min(84cqw, 84cqh); height:min(84cqw, 84cqh); border-radius:50%; z-index:1;
-    background: radial-gradient(circle at 38% 32%, #d8543f 0%, #a3231a 45%, #5e0f09 100%);
+    background: radial-gradient(circle at 38% 32%, #b0413a 0%, #7a1a16 45%, #480c0a 100%);
     box-shadow: 0 2px 3px rgba(60,10,5,.5), inset 0 -2px 3px rgba(0,0,0,.35), inset 0 1px 2px rgba(255,190,160,.5);
     /* segell de lacre lleugerament irregular */
     border-radius: 48% 52% 50% 47% / 51% 47% 53% 49%;
@@ -382,13 +391,13 @@
   }
   .punts{ display:flex; gap:6px; align-items:center; }
   .punt{ width:6px; height:6px; border-radius:50%; background: rgba(80,50,15,.3); transition: all .3s; }
-  .punt.centre{ width:8px; height:8px; box-shadow: 0 0 0 1.5px rgba(158,36,24,.55); }
+  .punt.centre{ width:8px; height:8px; box-shadow: 0 0 0 1.5px rgba(122,26,22,.55); }
   .punt.actiu{ background:#8a5b17; transform: scale(1.35); }
   .llegenda{ display:flex; gap:10px; font-family:'Cinzel', serif; font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#4a3010; }
   .llegenda span{ display:flex; align-items:center; gap:4px; white-space:nowrap; }
   .llegenda i{ display:inline-block; width:10px; height:10px; border-radius:3px; }
-  .ll-cs{ background: rgba(158,36,24,.22); }
-  .ll-fe{ border-radius:50% !important; background: radial-gradient(circle at 38% 32%, #d8543f, #5e0f09); }
+  .ll-cs{ background: rgba(122,26,22,.22); }
+  .ll-fe{ border-radius:50% !important; background: radial-gradient(circle at 38% 32%, #b0413a, #480c0a); }
   .ll-av{ border-radius:50% !important; border:2px solid; border-color:#9a3326 #9a3326 #8a4a1c #8a4a1c; }
   .boto-avui{
     border:none; cursor:pointer; border-radius: 12px; padding: 4px 10px;
@@ -514,6 +523,10 @@
       <div class="placa">
         <svg viewBox="0 0 24 24"><path d="M12 21s-6.5-6.2-6.5-11A6.5 6.5 0 0 1 18.5 10c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
         <div class="txt"><span class="etq">Població</span><span class="val" id="vLloc">—</span></div>
+      </div>
+      <div class="placa avis" id="placaAvis" hidden>
+        <svg viewBox="0 0 24 24" id="icAvis"><path d="M12 3l9.5 17h-19z"/><path d="M12 10v4.5"/><circle cx="12" cy="17.2" r=".6"/></svg>
+        <div class="txt"><span class="etq">Avís</span><span class="val" id="vAvis">—</span></div>
       </div>
       <div class="placa">
         <svg viewBox="0 0 24 24"><path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z"/><path d="M12 9v7"/><circle cx="12" cy="17.5" r="1.2"/></svg>
@@ -743,11 +756,25 @@
 
     filtreOmbra(defs, 'aOmbraMa', 4, 7, 3, .45);
 
-    // Marc
-    el('circle', {cx:C, cy:C, r:299, fill:'url(#aMarc)', filter:'url(#aDesgast)'}, svg);
-    el('circle', {cx:C, cy:C, r:291, fill:'none', stroke:'url(#aBisell)', 'stroke-width':12}, svg);
-    el('circle', {cx:C, cy:C, r:298, fill:'none', stroke:'#000', 'stroke-width':2}, svg);
-    el('circle', {cx:C, cy:C, r:276, fill:'none', stroke:'url(#aBisellInv)', 'stroke-width':10, filter:'url(#aDesgast)'}, svg);
+    // Corona bisellada esglaonada (la mateixa de CAPITAINE), en coure vell enfosquit
+    gradient(defs, 'linearGradient', 'aCoure', {x1:'0', y1:'0', x2:'0.35', y2:'1'}, [['0%','#d6a77f'],['30%','#a36a45'],['62%','#6e4127'],['100%','#331a0c']]);
+    gradient(defs, 'linearGradient', 'aCoureInv', {x1:'0.35', y1:'1', x2:'0', y2:'0'}, [['0%','#c99772'],['35%','#8a5636'],['70%','#55301b'],['100%','#28140a']]);
+    const fCV = el('filter', {id:'aCoureVell', x:'0', y:'0', width:'100%', height:'100%'}, defs);
+    el('feTurbulence', {type:'fractalNoise', baseFrequency:'0.05', numOctaves:'3', seed:'27', result:'t'}, fCV);
+    el('feColorMatrix', {in:'t', type:'matrix', values:'0 0 0 0 .12  0 0 0 0 .06  0 0 0 0 .02  1.6 0 0 0 -.62', result:'taca'}, fCV);
+    el('feComposite', {in:'taca', in2:'SourceGraphic', operator:'in', result:'tacaR'}, fCV);
+    el('feTurbulence', {type:'fractalNoise', baseFrequency:'0.9', numOctaves:'2', seed:'9', result:'g'}, fCV);
+    el('feColorMatrix', {in:'g', type:'matrix', values:'0 0 0 0 .1  0 0 0 0 .05  0 0 0 0 .02  0 0 0 .35 -.08', result:'gra'}, fCV);
+    el('feComposite', {in:'gra', in2:'SourceGraphic', operator:'in', result:'graR'}, fCV);
+    const mCV = el('feMerge', {}, fCV); ['SourceGraphic','tacaR','graR'].forEach(n=> el('feMergeNode', {in:n}, mCV));
+    const corona = el('g', {filter:'url(#aCoureVell)'}, svg);
+    el('circle', {cx:C, cy:C, r:299, fill:'#24120a'}, corona);
+    el('circle', {cx:C, cy:C, r:296, fill:'url(#aCoure)'}, corona);
+    el('circle', {cx:C, cy:C, r:287, fill:'none', stroke:'url(#aCoureInv)', 'stroke-width':6}, corona);
+    el('circle', {cx:C, cy:C, r:283.5, fill:'none', stroke:'#3a1d0e', 'stroke-width':1, opacity:.7}, corona);
+    el('circle', {cx:C, cy:C, r:278, fill:'none', stroke:'url(#aCoure)', 'stroke-width':10}, corona);
+    el('circle', {cx:C, cy:C, r:272.5, fill:'none', stroke:'url(#aCoureInv)', 'stroke-width':3}, corona);
+    el('circle', {cx:C, cy:C, r:270.5, fill:'#2e180b'}, corona);
     el('circle', {cx:C, cy:C, r:268, fill:'#0a0705'}, svg);
     // Esfera de pergamí
     el('circle', {cx:C, cy:C, r:262, fill:'url(#aPaper)', filter:'url(#aTaques)'}, svg);
@@ -867,7 +894,7 @@
     // ---- Xifres romanes aplicades d'or rosa ----
     const xifres = el('g', {filter:'url(#cOmbraXifra)'}, svg);
     const xifresOr = el('g', {filter:'url(#cRelleu)'}, xifres);
-    numeralRomans(xifresOr, 224, 46, {fill:'url(#cOrRosa)', stroke:'#7a4529', 'stroke-width':0.7}, {sx:0.72, sy:1.18, ls:-1, dotze:'JB'});
+    numeralRomans(xifresOr, 224, 46, {fill:'url(#cOrRosa)', stroke:'#7a4529', 'stroke-width':0.7}, {sx:0.72, sy:1.18, ls:-1, dotze:'XM'});
 
     // ---- Anell de dates (1-31): gira perquè la data d'avui quedi a les 12 ----
     const anellDates = el('g', {}, svg);
@@ -904,7 +931,7 @@
     // ---- Nom de la casa, imprès a l'esfera ----
     const nomCasa = el('text', {x:C, y:C-58, 'text-anchor':'middle', 'dominant-baseline':'central',
       'font-family':'Cinzel, serif', 'font-weight':700, 'font-size':17, 'letter-spacing':2.2, fill:'#2c241c'}, svg);
-    nomCasa.textContent = 'BLANCPAIN';
+    nomCasa.textContent = 'CAPITAINE';
     el('line', {x1:C-26, y1:C-45, x2:C+26, y2:C-45, stroke:'#b97752', 'stroke-width':.9}, svg);
     el('path', {d:`M ${C},${C-48} L ${C+3},${C-45} L ${C},${C-42} L ${C-3},${C-45} Z`, fill:'url(#cOrRosa)'}, svg);
 
@@ -1294,13 +1321,40 @@
     centra();
   })();
 
+  // ========================= AVÍS METEOROLÒGIC EXTREM =========================
+  // Pluja forta, vent fort, neu o glaç a les properes 12 hores (segons la previsió d'Open-Meteo)
+  const IC_AVIS = {
+    pluja:'<path d="M6 13a5 5 0 1 1 3-9 6 6 0 0 1 11 3 4 4 0 0 1-1 6"/><path d="M8 16l-1.5 4M12 16l-1.5 4M16 16l-1.5 4"/>',
+    vent:'<path d="M3 8h11a2.5 2.5 0 1 0-2.5-2.5"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h7"/>',
+    neu:'<path d="M12 2v20M3.5 7l17 10M20.5 7l-17 10"/><path d="M9.5 3.5L12 6l2.5-2.5M9.5 20.5L12 18l2.5 2.5"/>',
+    glac:'<path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"/><circle cx="12" cy="12" r="2.5"/>'
+  };
+  function mostraAvisExtrem(m){
+    const h = m.hourly || {}, c = m.current || {}, dd = m.daily || {};
+    const n = 12, sl = a => (a || []).slice(0, n).map(v => v ?? 0);
+    const codis = [c.weather_code, ...sl(h.weather_code)].filter(v => v != null);
+    const prec = sl(h.precipitation), ratxes = [c.wind_gusts_10m || 0, ...sl(h.wind_gusts_10m)];
+    const temps = sl(h.temperature_2m).concat(dd.temperature_2m_min ? [dd.temperature_2m_min[0]] : []);
+    const avisos = [];
+    const maxPrec = Math.max(0, ...prec), maxRatxa = Math.max(0, ...ratxes), minT = temps.length ? Math.min(...temps) : 99;
+    if (maxPrec >= 10 || codis.some(k => k === 65 || k === 82 || k >= 95)) avisos.push(['pluja', codis.some(k => k >= 95) ? 'Tempesta' : 'Pluja forta']);
+    if (maxRatxa >= 70) avisos.push(['vent', `Vent ${Math.round(maxRatxa)} km/h`]);
+    if (codis.some(k => (k >= 71 && k <= 77) || k === 85 || k === 86)) avisos.push(['neu', 'Neu']);
+    if (codis.some(k => k === 56 || k === 57 || k === 66 || k === 67) || minT <= 0) avisos.push(['glac', 'Glaç']);
+    const placa = document.getElementById('placaAvis');
+    if (!avisos.length){ placa.hidden = true; return; }
+    document.getElementById('icAvis').innerHTML = IC_AVIS[avisos[0][0]];
+    document.getElementById('vAvis').textContent = avisos.map(a => a[1]).join(' · ');
+    placa.hidden = false;
+  }
+
   // ========================= METEO I LLOC =========================
   const fmt = v => v.toFixed(1).replace('.', ',');
   function carregaAmbient(lat, lon){
     const qs = `latitude=${lat.toFixed(4)}&longitude=${lon.toFixed(4)}`;
     if (window.__fulls) window.__fulls.coords(lat, lon);
     Promise.allSettled([
-      fetch(`https://api.open-meteo.com/v1/forecast?${qs}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,is_day,wind_gusts_10m&hourly=precipitation_probability,wind_gusts_10m,uv_index,weather_code&forecast_hours=12&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&forecast_days=1&timezone=auto`).then(r=>r.json()),
+      fetch(`https://api.open-meteo.com/v1/forecast?${qs}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,is_day,wind_gusts_10m&hourly=precipitation_probability,precipitation,wind_gusts_10m,uv_index,weather_code,temperature_2m&forecast_hours=12&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&forecast_days=1&timezone=auto`).then(r=>r.json()),
       fetch(`https://api.open-meteo.com/v1/elevation?${qs}`).then(r=>r.json()),
       fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?${qs}&localityLanguage=ca`).then(r=>r.json())
     ]).then(([rM, rE, rL])=>{
@@ -1315,6 +1369,7 @@
         placa.hidden = !(max6 > 40);
         document.getElementById('vPluja').textContent = max6+'%';
         if (window.__fulls) window.__fulls.temps(rM.value, max6);
+        mostraAvisExtrem(rM.value);
       }
       if (rE.status==='fulfilled' && rE.value && rE.value.elevation){
         document.getElementById('vAlt').textContent = Math.round(rE.value.elevation[0])+' m';

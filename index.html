@@ -1206,6 +1206,71 @@
         return `Falten ${minuts(falten)} per a ${QUARTS[qn]} ${deN(seg)} ${franja(seg)}`;
       }
     },
+    gl: {
+      nom:'Galego', veu:'gl-ES', reserva:['es','pt'],
+      mesos:['xaneiro','febreiro','marzo','abril','maio','xuño','xullo','agosto','setembro','outubro','novembro','decembro'],
+      dies:['domingo','luns','martes','mércores','xoves','venres','sábado'],
+      curts:['Lu','Ma','Mé','Xo','Ve','Sá','Do'],
+      deMes: m => 'de ' + m,
+      data: (ds, d, mes, a) => `${ds}, ${d} de ${mes} de ${a}`,
+      poblacio:'Localidade', avis:'Aviso', temperatura:'Temperatura', humitat:'Humidade', sensacio:'Sensación', pluja6:'Choiva · 6 h', altitud:'Altitude',
+      capSetmana:'Fin de semana', festiu:'Festivo', avui:'Hoxe',
+      elTemps:'O tempo', titolAvui:'Hoxe', onSom:'Onde estamos', avisos:'Avisos', max:'Máx', min:'Mín', coordenades:'Coordenadas',
+      esperantDades:'Agardando datos…', esperantPrev:'Agardando a previsión…', capAvis:'Sen avisos para as próximas horas', avisosPeu:'Segundo a previsión para as próximas horas',
+      tocaEsfera:'Toca a esfera', republica:'Día da República',
+      diaAny:(n,s) => `Día ${n} do ano · Semana ${s}`, sol:(a,p) => `Saída do sol ${a} · Solpor ${p}`,
+      fases:['Lúa nova','Lúa crecente','Cuarto crecente','Crecente xibosa','Lúa chea','Minguante xibosa','Cuarto minguante','Lúa minguante'],
+      cel:['Ceo despexado','Case despexado','Parcialmente anubrado','Cuberto','Néboa','Néboa xeada','Babuxa feble','Babuxa','Babuxa intensa','Babuxa xeada','Babuxa xeada','Choiva feble','Choiva','Choiva forte','Choiva xeada','Choiva xeada','Neve feble','Neve','Neve forte','Neve granulada','Chuvascos febles','Chuvascos','Chuvascos fortes','Chuvascos de neve','Chuvascos de neve','Treboada','Treboada con sarabia','Treboada con sarabia'],
+      a:{ tempesta:'Risco de treboada nas próximas horas', pluja:p=>`Choiva probable (${p}%) en 6 horas: colle o paraugas`, ventFort:v=>`Vento forte: refachos de ata ${v} km/h`, ratxes:v=>`Refachos de vento de ata ${v} km/h`,
+          calorInt:t=>`Calor intensa: máxima de ${t}`, calor:t=>`Vai calor: máxima de ${t}`, glacada:t=>`Xeada: mínima de ${t}`, fred:t=>`Frío: mínima de ${t}`,
+          uvMolt:u=>`Índice UV moi alto (${u}): protéxete do sol`, uv:u=>`Índice UV alto (${u}): protección solar`, boira:'Néboa: visibilidade reducida',
+          avuiFestiu:n=>`Hoxe é festivo: ${n}`, demaFestiu:n=>`Mañá é festivo: ${n}` },
+      x:{ tempesta:'Treboada', pluja:'Choiva forte', vent:v=>`Vento ${v} km/h`, neu:'Neve', glac:'Xeo' },
+      parla:'Dime a hora', idioma:'Lingua',
+      // «Son as dez e cuarto», «É a unha e media», «Son as once menos cuarto»
+      hora:(h,m) => {
+        const NOMES = ['doce','unha','dúas','tres','catro','cinco','seis','sete','oito','nove','dez','once'];
+        const franxa = x => { x = (x+24)%24; return x===0 ? 'da noite' : x<6 ? 'da madrugada' : x<12 ? 'da mañá' : x<13 ? 'do mediodía' : x<21 ? 'da tarde' : 'da noite'; };
+        const as = x => (((x%12)+12)%12)===1 ? 'É a unha' : `Son as ${NOMES[((x%12)+12)%12]}`;
+        if (m===0) return `${as(h)} en punto ${franxa(h)}`;
+        if (m<=30){ const r = m===15 ? 'cuarto' : m===30 ? 'media' : m; return `${as(h)} e ${r} ${franxa(h)}`; }
+        const f = 60-m, r = f===15 ? 'cuarto' : f;
+        return `${as(h+1)} menos ${r} ${franxa(h+1)}`;
+      }
+    },
+    eu: {
+      nom:'Euskara', veu:'eu-ES', reserva:['es'],
+      mesos:['urtarrila','otsaila','martxoa','apirila','maiatza','ekaina','uztaila','abuztua','iraila','urria','azaroa','abendua'],
+      dies:['igandea','astelehena','asteartea','asteazkena','osteguna','ostirala','larunbata'],
+      curts:['Al','Ar','Az','Og','Or','Lr','Ig'],
+      deMes: m => m,
+      data: (ds, d, mes, a) => `${a}ko ${mes}ren ${d}a, ${ds.toLowerCase()}`,
+      poblacio:'Herria', avis:'Abisua', temperatura:'Tenperatura', humitat:'Hezetasuna', sensacio:'Sentsazioa', pluja6:'Euria · 6 h', altitud:'Altitudea',
+      capSetmana:'Asteburua', festiu:'Jaieguna', avui:'Gaur',
+      elTemps:'Eguraldia', titolAvui:'Gaur', onSom:'Non gaude', avisos:'Abisuak', max:'Max', min:'Min', coordenades:'Koordenatuak',
+      esperantDades:'Datuen zain…', esperantPrev:'Iragarpenaren zain…', capAvis:'Ez dago abisurik hurrengo orduetarako', avisosPeu:'Hurrengo orduetako iragarpenaren arabera',
+      tocaEsfera:'Ukitu esfera', republica:'Errepublikaren Eguna',
+      diaAny:(n,s) => `Urteko ${n}. eguna · ${s}. astea`, sol:(a,p) => `Eguzkia irten ${a} · Ilunabarra ${p}`,
+      fases:['Ilberria','Ilgora','Lehen laurdena','Ilgora','Ilbetea','Ilbehera','Azken laurdena','Ilbehera'],
+      cel:['Zeru oskarbia','Ia oskarbia','Partzialki hodeitsua','Estalia','Lainoa','Laino izoztua','Zirimiri ahula','Zirimiria','Zirimiri trinkoa','Zirimiri izoztua','Zirimiri izoztua','Euri ahula','Euria','Euri handia','Euri izoztua','Euri izoztua','Elur ahula','Elurra','Elur handia','Elur pikorrak','Zaparrada ahulak','Zaparradak','Zaparrada handiak','Elur-zaparradak','Elur-zaparradak','Ekaitza','Ekaitza txingorrarekin','Ekaitza txingorrarekin'],
+      a:{ tempesta:'Ekaitz arriskua hurrengo orduetan', pluja:p=>`Euria litekeena (%${p}) 6 orduren buruan: hartu aterkia`, ventFort:v=>`Haize bortitza: ${v} km/h arteko boladak`, ratxes:v=>`${v} km/h arteko haize-boladak`,
+          calorInt:t=>`Bero handia: gehienez ${t}`, calor:t=>`Beroa: gehienez ${t}`, glacada:t=>`Izotza: gutxienez ${t}`, fred:t=>`Hotza: gutxienez ${t}`,
+          uvMolt:u=>`UV indize oso altua (${u}): babestu eguzkitik`, uv:u=>`UV indize altua (${u}): eguzki-babesa`, boira:'Lainoa: ikusgarritasun txikia',
+          avuiFestiu:n=>`Gaur jaieguna da: ${n}`, demaFestiu:n=>`Bihar jaieguna da: ${n}` },
+      x:{ tempesta:'Ekaitza', pluja:'Euri handia', vent:v=>`Haizea ${v} km/h`, neu:'Elurra', glac:'Izotza' },
+      parla:'Esan ordua', idioma:'Hizkuntza',
+      // «Goizeko hamarrak eta laurden dira», «Arratsaldeko bostak eta erdi dira», «Gaueko hamaikak laurden gutxi dira»
+      hora:(h,m) => {
+        const IZENAK = ['hamabiak','ordu bata','ordubiak','hirurak','laurak','bostak','seiak','zazpiak','zortziak','bederatziak','hamarrak','hamaikak'];
+        const tartea = x => { x = (x+24)%24; return x<6 ? 'Goizaldeko' : x<12 ? 'Goizeko' : x<14 ? 'Eguerdiko' : x<20 ? 'Arratsaldeko' : 'Gaueko'; };
+        const izena = x => IZENAK[((x%12)+12)%12];
+        const da = x => (((x%12)+12)%12)===1 ? 'da' : 'dira';
+        if (m===0) return `${tartea(h)} ${izena(h)} ${da(h)}`;
+        if (m<=30){ const r = m===15 ? 'laurden' : m===30 ? 'erdi' : m; return `${tartea(h)} ${izena(h)} eta ${r} ${da(h)}`; }
+        const f = 60-m, r = f===15 ? 'laurden' : f;
+        return `${tartea(h+1)} ${izena(h+1)} ${r} gutxi ${da(h+1)}`;
+      }
+    },
     fr: {
       nom:'Français', veu:'fr-FR',
       mesos:['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
@@ -1345,29 +1410,29 @@
   };
   // Noms dels festius (la llista base és en català i fa de clau)
   const FESTES = {
-    "Cap d'Any":{fr:"Jour de l'An",en:"New Year's Day",de:'Neujahr',it:'Capodanno',pt:'Ano Novo'},
-    'Reis':{fr:'Épiphanie',en:'Epiphany',de:'Heilige Drei Könige',it:'Epifania',pt:'Dia de Reis'},
-    'Divendres Sant':{fr:'Vendredi saint',en:'Good Friday',de:'Karfreitag',it:'Venerdì santo',pt:'Sexta-feira Santa'},
-    'Dilluns de Pasqua Florida':{fr:'Lundi de Pâques',en:'Easter Monday',de:'Ostermontag',it:'Lunedì dell\'Angelo',pt:'Segunda-feira de Páscoa'},
-    'Festa del Treball':{fr:'Fête du Travail',en:'Labour Day',de:'Tag der Arbeit',it:'Festa dei lavoratori',pt:'Dia do Trabalhador'},
-    'Dilluns de Pasqua Granada':{fr:'Lundi de Pentecôte',en:'Whit Monday',de:'Pfingstmontag',it:'Lunedì di Pentecoste',pt:'Segunda-feira de Pentecostes'},
-    'Sant Joan':{fr:'Saint-Jean',en:'Saint John\'s Day',de:'Johannistag',it:'San Giovanni',pt:'São João'},
-    "L'Assumpció":{fr:'Assomption',en:'Assumption Day',de:'Mariä Himmelfahrt',it:'Ferragosto',pt:'Assunção de Nossa Senhora'},
-    'Diada Nacional de Catalunya':{fr:'Fête nationale de la Catalogne',en:'National Day of Catalonia',de:'Nationalfeiertag Kataloniens',it:'Festa nazionale della Catalogna',pt:'Dia Nacional da Catalunha'},
-    'La Mercè':{fr:'La Mercè',en:'La Mercè',de:'La Mercè',it:'La Mercè',pt:'La Mercè'},
-    'Dia de la República':{fr:'Jour de la République',en:'Republic Day',de:'Tag der Republik',it:'Giorno della Repubblica',pt:'Dia da República'},
-    "Festa Nacional d'Espanya":{fr:"Fête nationale de l'Espagne",en:'National Day of Spain',de:'Spanischer Nationalfeiertag',it:'Festa nazionale della Spagna',pt:'Dia Nacional de Espanha'},
-    'Tots Sants':{fr:'Toussaint',en:"All Saints' Day",de:'Allerheiligen',it:'Ognissanti',pt:'Dia de Todos os Santos'},
-    'Dia de la Constitució':{fr:'Jour de la Constitution',en:'Constitution Day',de:'Tag der Verfassung',it:'Giorno della Costituzione',pt:'Dia da Constituição'},
-    'La Immaculada':{fr:'Immaculée Conception',en:'Immaculate Conception',de:'Mariä Empfängnis',it:'Immacolata Concezione',pt:'Imaculada Conceição'},
-    'Nadal':{fr:'Noël',en:'Christmas Day',de:'Weihnachten',it:'Natale',pt:'Natal'},
-    'Sant Esteve':{fr:'Saint-Étienne',en:"Saint Stephen's Day",de:'Stephanstag',it:'Santo Stefano',pt:'Santo Estêvão'}
+    "Cap d'Any":{gl:'Aninovo',eu:'Urteberri eguna',fr:"Jour de l'An",en:"New Year's Day",de:'Neujahr',it:'Capodanno',pt:'Ano Novo'},
+    'Reis':{gl:'Reis',eu:'Errege eguna',fr:'Épiphanie',en:'Epiphany',de:'Heilige Drei Könige',it:'Epifania',pt:'Dia de Reis'},
+    'Divendres Sant':{gl:'Venres Santo',eu:'Ostiral Santua',fr:'Vendredi saint',en:'Good Friday',de:'Karfreitag',it:'Venerdì santo',pt:'Sexta-feira Santa'},
+    'Dilluns de Pasqua Florida':{gl:'Luns de Pascua',eu:'Pazko astelehena',fr:'Lundi de Pâques',en:'Easter Monday',de:'Ostermontag',it:'Lunedì dell\'Angelo',pt:'Segunda-feira de Páscoa'},
+    'Festa del Treball':{gl:'Día do Traballo',eu:'Langileen eguna',fr:'Fête du Travail',en:'Labour Day',de:'Tag der Arbeit',it:'Festa dei lavoratori',pt:'Dia do Trabalhador'},
+    'Dilluns de Pasqua Granada':{gl:'Luns de Pentecoste',eu:'Mendekoste astelehena',fr:'Lundi de Pentecôte',en:'Whit Monday',de:'Pfingstmontag',it:'Lunedì di Pentecoste',pt:'Segunda-feira de Pentecostes'},
+    'Sant Joan':{gl:'San Xoán',eu:'San Joan',fr:'Saint-Jean',en:'Saint John\'s Day',de:'Johannistag',it:'San Giovanni',pt:'São João'},
+    "L'Assumpció":{gl:'A Asunción',eu:'Andre Mariaren jasokundea',fr:'Assomption',en:'Assumption Day',de:'Mariä Himmelfahrt',it:'Ferragosto',pt:'Assunção de Nossa Senhora'},
+    'Diada Nacional de Catalunya':{gl:'Día Nacional de Cataluña',eu:'Kataluniako Egun Nazionala',fr:'Fête nationale de la Catalogne',en:'National Day of Catalonia',de:'Nationalfeiertag Kataloniens',it:'Festa nazionale della Catalogna',pt:'Dia Nacional da Catalunha'},
+    'La Mercè':{gl:'La Mercè',eu:'La Mercè',fr:'La Mercè',en:'La Mercè',de:'La Mercè',it:'La Mercè',pt:'La Mercè'},
+    'Dia de la República':{gl:'Día da República',eu:'Errepublikaren Eguna',fr:'Jour de la République',en:'Republic Day',de:'Tag der Republik',it:'Giorno della Repubblica',pt:'Dia da República'},
+    "Festa Nacional d'Espanya":{gl:'Festa Nacional de España',eu:'Espainiako Jai Nazionala',fr:"Fête nationale de l'Espagne",en:'National Day of Spain',de:'Spanischer Nationalfeiertag',it:'Festa nazionale della Spagna',pt:'Dia Nacional de Espanha'},
+    'Tots Sants':{gl:'Día de Todos os Santos',eu:'Santu Guztien eguna',fr:'Toussaint',en:"All Saints' Day",de:'Allerheiligen',it:'Ognissanti',pt:'Dia de Todos os Santos'},
+    'Dia de la Constitució':{gl:'Día da Constitución',eu:'Konstituzioaren eguna',fr:'Jour de la Constitution',en:'Constitution Day',de:'Tag der Verfassung',it:'Giorno della Costituzione',pt:'Dia da Constituição'},
+    'La Immaculada':{gl:'A Inmaculada',eu:'Sortzez Garbiaren eguna',fr:'Immaculée Conception',en:'Immaculate Conception',de:'Mariä Empfängnis',it:'Immacolata Concezione',pt:'Imaculada Conceição'},
+    'Nadal':{gl:'Nadal',eu:'Eguberri eguna',fr:'Noël',en:'Christmas Day',de:'Weihnachten',it:'Natale',pt:'Natal'},
+    'Sant Esteve':{gl:'Santo Estevo',eu:'San Esteban eguna',fr:'Saint-Étienne',en:"Saint Stephen's Day",de:'Stephanstag',it:'Santo Stefano',pt:'Santo Estêvão'}
   };
   const AMBITS = {
-    'Estatal':{fr:'National',en:'National',de:'Landesweit',it:'Nazionale',pt:'Nacional'},
-    'Catalunya':{fr:'Catalogne',en:'Catalonia',de:'Katalonien',it:'Catalogna',pt:'Catalunha'},
-    'Festa local de Barcelona':{fr:'Fête locale de Barcelone',en:'Barcelona local holiday',de:'Lokaler Feiertag in Barcelona',it:'Festa locale di Barcellona',pt:'Feriado local de Barcelona'},
-    "Commemoració · 1 d'octubre de 2017":{fr:'Commémoration · 1er octobre 2017',en:'Commemoration · 1 October 2017',de:'Gedenktag · 1. Oktober 2017',it:'Commemorazione · 1 ottobre 2017',pt:'Comemoração · 1 de outubro de 2017'}
+    'Estatal':{gl:'Estatal',eu:'Estatukoa',fr:'National',en:'National',de:'Landesweit',it:'Nazionale',pt:'Nacional'},
+    'Catalunya':{gl:'Cataluña',eu:'Katalunia',fr:'Catalogne',en:'Catalonia',de:'Katalonien',it:'Catalogna',pt:'Catalunha'},
+    'Festa local de Barcelona':{gl:'Festa local de Barcelona',eu:'Bartzelonako tokiko jaia',fr:'Fête locale de Barcelone',en:'Barcelona local holiday',de:'Lokaler Feiertag in Barcelona',it:'Festa locale di Barcellona',pt:'Feriado local de Barcelona'},
+    "Commemoració · 1 d'octubre de 2017":{gl:'Conmemoración · 1 de outubro de 2017',eu:'Oroimena · 2017ko urriaren 1a',fr:'Commémoration · 1er octobre 2017',en:'Commemoration · 1 October 2017',de:'Gedenktag · 1. Oktober 2017',it:'Commemorazione · 1 ottobre 2017',pt:'Comemoração · 1 de outubro de 2017'}
   };
   let LLENGUA = 'ca';
   try { const g = localStorage.getItem('rellotge-llengua'); if (g && I18N[g]) LLENGUA = g; } catch(e){}
@@ -2228,7 +2293,8 @@
     if (!('speechSynthesis' in window)) return null;
     const veus = speechSynthesis.getVoices();
     const pref = L.veu.toLowerCase(), base = pref.slice(0, 2);
-    const delIdioma = veus.filter(v => (v.lang || '').toLowerCase().replace('_','-').startsWith(base));
+    let delIdioma = veus.filter(v => (v.lang || '').toLowerCase().replace('_','-').startsWith(base));
+    for (const alt of (L.reserva || [])){ if (delIdioma.length) break; delIdioma = veus.filter(v => (v.lang || '').toLowerCase().startsWith(alt)); }
     const puntua = v => (FEMENINES.test(v.name) ? 4 : 0) - (MASCULINES.test(v.name) ? 5 : 0) + ((v.lang||'').toLowerCase().replace('_','-') === pref ? 2 : 0) + (v.localService ? 1 : 0);
     return delIdioma.sort((a,b) => puntua(b) - puntua(a))[0] || null;
   }

@@ -187,7 +187,7 @@
   .calendari, .cal-marc, .cal-paper, .cal-finestra, .columna{ min-width:0; }
   /* ---- Fulls lliscants verticals (calendari, temps, data, lloc, avisos) ---- */
   .calendari{ position:relative; }
-  .pager{ flex:1; display:flex; min-width:0; min-height:0; touch-action:none;
+  .pager{ flex:1; display:flex; min-width:0; min-height:0; touch-action:none; overflow:clip; overflow-clip-margin: 40px;
           clip-path: inset(-22px -40px -24px -40px); }
   .pager-pista{ flex:1; display:flex; min-width:0; position:relative; will-change:transform; }
   .full-cal{ flex:1; display:flex; min-width:0; }
@@ -488,6 +488,34 @@
   }
   .estel{ animation: centelleig 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
   @keyframes centelleig{ 0%,100%{ opacity:.35; } 50%{ opacity:1; } }
+  /* Botons de llengua i de veu (a l'esquerra, simètrics amb la campana) */
+  .botonera-esq{ position:fixed; z-index:30; top: max(12px, env(safe-area-inset-top)); left: max(12px, env(safe-area-inset-left)); display:flex; gap:8px; }
+  .boto-rodo{
+    width:40px; height:40px; border-radius:50%; border:none; cursor:pointer; padding:0; display:grid; place-items:center;
+    background: radial-gradient(circle at 35% 30%, #fbe7a8, #c1913c 55%, #6b4712);
+    box-shadow: 0 3px 6px rgba(0,0,0,.55), inset 0 -1px 2px rgba(0,0,0,.35);
+    color:#3a2208; font-family:'Cinzel', serif; font-weight:700; font-size:13px; letter-spacing:1px;
+  }
+  .boto-rodo:active{ transform: translateY(1px); }
+  .boto-rodo svg{ width:22px; height:22px; stroke:#3a2208; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+  .boto-veu.parlant{ box-shadow: 0 0 0 3px rgba(243,220,151,.55), 0 0 16px rgba(243,220,151,.7), inset 0 -1px 2px rgba(0,0,0,.35); }
+  .boto-veu.parlant .ona1{ animation: ona 1s ease-in-out infinite; }
+  .boto-veu.parlant .ona2{ animation: ona 1s ease-in-out .25s infinite; }
+  @keyframes ona{ 0%,100%{ opacity:.25; } 50%{ opacity:1; } }
+  .menu-idioma{
+    position:absolute; top:48px; left:0; margin:0; padding:6px; list-style:none; min-width:160px;
+    background: linear-gradient(180deg, #fbf3dc, #eadbb3); border:1px solid #9c7430; border-radius:10px;
+    box-shadow: 0 10px 24px rgba(0,0,0,.6);
+  }
+  .menu-idioma li{
+    display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:7px; cursor:pointer;
+    font-family:'Cormorant Garamond', serif; font-weight:700; font-size:17px; color:#2a1a07;
+  }
+  .menu-idioma li b{ font-family:'Cinzel', serif; font-size:11px; letter-spacing:1px; color:#8a5536; width:22px; }
+  .menu-idioma li.actiu{ background: rgba(122,26,22,.12); color:#7a1a16; }
+  .menu-idioma li:active{ background: rgba(122,26,22,.2); }
+  .capcalera{ min-height:40px; display:flex; flex-direction:column; justify-content:center; padding: 0 96px; }
+  .lema{ font-size: 11px !important; }
   @media (prefers-reduced-motion: reduce){
     .gir{ transition-duration: .01s; }
     .iman::after{ animation:none; }
@@ -500,10 +528,17 @@
   <svg viewBox="0 0 24 24"><path d="M6 17h12l-1.6-2.2V10a4.4 4.4 0 0 0-8.8 0v4.8z"/><path d="M10.2 19.2a1.9 1.9 0 0 0 3.6 0"/><path d="M12 4.2v1.4"/><path class="barra" d="M4 4l16 16" stroke="#7d1a10" stroke-width="2.2"/></svg>
 </button>
 
+<div class="botonera-esq">
+  <button class="boto-rodo boto-idioma" id="botoIdioma" aria-haspopup="true" aria-expanded="false"><span id="codiIdioma">CA</span></button>
+  <button class="boto-rodo boto-veu" id="botoVeu">
+    <svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="ona1" d="M15.5 9a4 4 0 0 1 0 6"/><path class="ona2" d="M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
+  </button>
+  <ul class="menu-idioma" id="menuIdioma" role="menu" hidden></ul>
+</div>
+
 <main class="app">
   <div class="columna esq">
     <header class="capcalera">
-      <div class="data-llarga" id="dataLlarga">—</div>
       <div class="lema" id="lema">Carpe diem</div>
     </header>
 
@@ -514,7 +549,7 @@
         <div class="cara davant"><svg id="esferaB" viewBox="0 0 600 600"></svg></div>
         <div class="cara darrere"><svg id="esferaA" viewBox="0 0 600 600"></svg></div>
       </div>
-      <div class="pista-toc" id="pistaToc">Toca l'esfera</div>
+      <div class="pista-toc" id="pistaToc" data-i18n="tocaEsfera">Toca l'esfera</div>
     </div>
   </div>
 
@@ -522,31 +557,31 @@
     <div class="cinta" id="cinta" aria-label="Condicions actuals">
       <div class="placa">
         <svg viewBox="0 0 24 24"><path d="M12 21s-6.5-6.2-6.5-11A6.5 6.5 0 0 1 18.5 10c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
-        <div class="txt"><span class="etq">Població</span><span class="val" id="vLloc">—</span></div>
+        <div class="txt"><span class="etq" data-i18n="poblacio">Població</span><span class="val" id="vLloc">—</span></div>
       </div>
       <div class="placa avis" id="placaAvis" hidden>
         <svg viewBox="0 0 24 24" id="icAvis"><path d="M12 3l9.5 17h-19z"/><path d="M12 10v4.5"/><circle cx="12" cy="17.2" r=".6"/></svg>
-        <div class="txt"><span class="etq">Avís</span><span class="val" id="vAvis">—</span></div>
+        <div class="txt"><span class="etq" data-i18n="avis">Avís</span><span class="val" id="vAvis">—</span></div>
       </div>
       <div class="placa">
         <svg viewBox="0 0 24 24"><path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z"/><path d="M12 9v7"/><circle cx="12" cy="17.5" r="1.2"/></svg>
-        <div class="txt"><span class="etq">Temperatura</span><span class="val" id="vTemp">--°C</span></div>
+        <div class="txt"><span class="etq" data-i18n="temperatura">Temperatura</span><span class="val" id="vTemp">--°C</span></div>
       </div>
       <div class="placa">
         <svg viewBox="0 0 24 24"><path d="M12 3.5s-6 6.8-6 11a6 6 0 0 0 12 0c0-4.2-6-11-6-11z"/><path d="M9 15a3 3 0 0 0 3 3"/></svg>
-        <div class="txt"><span class="etq">Humitat</span><span class="val" id="vHum">--%</span></div>
+        <div class="txt"><span class="etq" data-i18n="humitat">Humitat</span><span class="val" id="vHum">--%</span></div>
       </div>
       <div class="placa">
         <svg viewBox="0 0 24 24"><path d="M3 8h11a2.5 2.5 0 1 0-2.5-2.5"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h7"/></svg>
-        <div class="txt"><span class="etq">Sensació</span><span class="val" id="vSens">--°C</span></div>
+        <div class="txt"><span class="etq" data-i18n="sensacio">Sensació</span><span class="val" id="vSens">--°C</span></div>
       </div>
       <div class="placa pluja" id="placaPluja" hidden>
         <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 18 0z"/><path d="M12 12v6.5a2 2 0 0 1-4 0"/><path d="M12 3v0.5"/></svg>
-        <div class="txt"><span class="etq">Pluja · 6 h</span><span class="val" id="vPluja">--%</span></div>
+        <div class="txt"><span class="etq" data-i18n="pluja6">Pluja · 6 h</span><span class="val" id="vPluja">--%</span></div>
       </div>
       <div class="placa">
         <svg viewBox="0 0 24 24"><path d="M2.5 19.5l6.5-11 4 6.5 2.5-3.8 6 8.3z"/><path d="M7.4 11.2l1.6 1.4 1.4-1.2"/></svg>
-        <div class="txt"><span class="etq">Altitud</span><span class="val" id="vAlt">-- m</span></div>
+        <div class="txt"><span class="etq" data-i18n="altitud">Altitud</span><span class="val" id="vAlt">-- m</span></div>
       </div>
     </div>
 
@@ -566,10 +601,10 @@
           </div>
           <div class="cal-peu">
             <div class="llegenda">
-              <span><i class="ll-cs"></i>Cap de setmana</span>
-              <span><i class="ll-fe"></i>Festiu</span>
+              <span><i class="ll-cs"></i><span data-i18n="capSetmana">Cap de setmana</span></span>
+              <span><i class="ll-fe"></i><span data-i18n="festiu">Festiu</span></span>
             </div>
-            <button class="boto-avui" id="botoAvui">Avui</button>
+            <button class="boto-avui" id="botoAvui" data-i18n="avui">Avui</button>
           </div>
           <div class="etiqueta" id="etiqueta" role="status"></div>
         </div>
@@ -578,22 +613,22 @@
 
           <div class="full" style="--k:1" aria-label="El temps">
             <div class="full-marc"><div class="full-cara">
-              <div class="full-titol">El temps</div>
+              <div class="full-titol" data-i18n="elTemps">El temps</div>
               <div class="t-fila">
                 <svg class="icona-cel" id="fIcona" viewBox="0 0 64 64" aria-hidden="true"></svg>
                 <div class="t-gran" id="fTemp">--°</div>
               </div>
-              <div class="t-desc" id="fDesc">Esperant dades…</div>
+              <div class="t-desc" id="fDesc" data-i18n="esperantDades">Esperant dades…</div>
               <div class="t-detall">
-                <span>Màx<b id="fMax">--°</b></span><span>Mín<b id="fMin">--°</b></span>
-                <span>Sensació<b id="fSens">--°</b></span><span>Humitat<b id="fHum">--%</b></span>
+                <span><span data-i18n="max">Màx</span><b id="fMax">--°</b></span><span><span data-i18n="min">Mín</span><b id="fMin">--°</b></span>
+                <span><span data-i18n="sensacio">Sensació</span><b id="fSens">--°</b></span><span><span data-i18n="humitat">Humitat</span><b id="fHum">--%</b></span>
               </div>
             </div></div>
           </div>
 
           <div class="full" style="--k:2" aria-label="La data">
             <div class="full-marc"><div class="full-cara d-cara">
-              <div class="full-titol">Avui</div>
+              <div class="full-titol" data-i18n="titolAvui">Avui</div>
               <div class="d-fila">
                 <div class="d-num" id="fDiaNum">–</div>
                 <div class="d-text">
@@ -612,21 +647,21 @@
 
           <div class="full" style="--k:3" aria-label="La localitat">
             <div class="full-marc"><div class="full-cara">
-              <div class="full-titol">On som</div>
+              <div class="full-titol" data-i18n="onSom">On som</div>
               <div class="l-nom" id="fLloc">—</div>
               <div class="l-regio" id="fRegio">—</div>
               <div class="l-fila">
-                <div><span>Altitud</span><b id="fAlt">-- m</b></div>
-                <div><span>Coordenades</span><b id="fCoord">—</b></div>
+                <div><span data-i18n="altitud">Altitud</span><b id="fAlt">-- m</b></div>
+                <div><span data-i18n="coordenades">Coordenades</span><b id="fCoord">—</b></div>
               </div>
             </div></div>
           </div>
 
           <div class="full" style="--k:4" aria-label="Avisos">
             <div class="full-marc"><div class="full-cara">
-              <div class="full-titol">Avisos</div>
-              <ul class="avisos" id="fAvisos"><li class="cap">Esperant la previsió…</li></ul>
-              <div class="avisos-peu">Segons la previsió per a les properes hores</div>
+              <div class="full-titol" data-i18n="avisos">Avisos</div>
+              <ul class="avisos" id="fAvisos"><li class="cap" data-i18n="esperantPrev">Esperant la previsió…</li></ul>
+              <div class="avisos-peu" data-i18n="avisosPeu">Segons la previsió per a les properes hores</div>
             </div></div>
           </div>
         </div>
@@ -819,6 +854,40 @@
     }
     numeralRomans(tinta, 194, 66, {stroke:'none', fill:'#1a1209'}, {sx:0.7, sy:1.22, ls:-2});
 
+    // ---- Visor del dia de la setmana (com el de CAPITAINE, però amb fons de pergamí) ----
+    const AX = C-80, AY = C-114, AW = 160, AH = 34;
+    gradient(defs, 'linearGradient', 'aVisorPaper', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#f1dcae'],['55%','#e6c993'],['100%','#d4b072']]);
+    gradient(defs, 'linearGradient', 'aOmbraVisor', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2a1604',.42],['24%','#2a1604',0],['80%','#2a1604',0],['100%','#2a1604',.28]]);
+    const visorA = el('g', {filter:'url(#aOmbraMa)'}, svg);
+    el('rect', {x:AX-4, y:AY-4, width:AW+8, height:AH+8, rx:5, fill:'url(#aCoure)'}, visorA);
+    el('rect', {x:AX-1.5, y:AY-1.5, width:AW+3, height:AH+3, rx:3.5, fill:'url(#aCoureInv)'}, visorA);
+    const clipVA = el('clipPath', {id:'aClipDia'}, defs);
+    el('rect', {x:AX, y:AY, width:AW, height:AH, rx:2.5}, clipVA);
+    const finA = el('g', {'clip-path':'url(#aClipDia)'}, svg);
+    const fonsA = el('rect', {x:AX, y:AY, width:AW, height:AH, fill:'url(#aVisorPaper)', filter:'url(#aTaques)'}, finA);
+    const tamborA = el('g', {}, finA);
+    const textA = el('text', {x:C, y:AY+AH/2+1, 'text-anchor':'middle', 'dominant-baseline':'central',
+      'font-family':"'IM Fell English SC', 'IM Fell English', serif", 'font-size':24, 'letter-spacing':2.6, fill:'#1a1209'}, tamborA);
+    el('rect', {x:AX, y:AY, width:AW, height:AH, fill:'url(#aOmbraVisor)'}, finA);
+    let mostratA = '';
+    window.__esferaCalA = function(nom, fons, color){
+      const festa = fons !== '#f7efdc';
+      fonsA.setAttribute('fill', festa ? fons : 'url(#aVisorPaper)');
+      fonsA.setAttribute('filter', festa ? '' : 'url(#aTaques)');
+      textA.setAttribute('fill', festa ? color : '#1a1209');
+      if (nom + fons === mostratA) return;
+      mostratA = nom + fons;
+      textA.textContent = nom;
+      try {
+        const prova = el('text', {x:0, y:-999, 'font-family':textA.getAttribute('font-family'), 'font-size':24, 'letter-spacing':2.6}, svg);
+        let mx = 0; diesEsfera().forEach(n=>{ prova.textContent = n; mx = Math.max(mx, prova.getComputedTextLength()); }); prova.remove();
+        if (mx){ const mida = Math.min(24, 24 * (AW - 18) / mx); textA.setAttribute('font-size', mida.toFixed(2)); textA.setAttribute('letter-spacing', (2.6*mida/24).toFixed(2)); }
+      } catch(e){}
+      const t0 = performance.now();
+      const pas = t => { const k = Math.min(1, (t-t0)/900), e = 1 - Math.pow(1-k, 3); tamborA.setAttribute('transform', `translate(0 ${(AH*(1-e)).toFixed(2)})`); if (k < 1) requestAnimationFrame(pas); };
+      requestAnimationFrame(pas);
+    };
+
     // Busques negres de pala
     const hA = busca(svg, 'aOmbraMa');
     el('path', {d:'M -4.5,24 L -3.6,-72 C -15,-78 -19,-95 -8.5,-107 C -5,-111 -2.2,-118 0,-138 C 2.2,-118 5,-111 8.5,-107 C 19,-95 15,-78 3.6,-72 L 4.5,24 Z', fill:'#0e0a06', 'fill-rule':'evenodd'}, hA.org);
@@ -931,7 +1000,7 @@
     // ---- Nom de la casa, imprès a l'esfera ----
     const nomCasa = el('text', {x:C, y:C-58, 'text-anchor':'middle', 'dominant-baseline':'central',
       'font-family':'Cinzel, serif', 'font-weight':700, 'font-size':17, 'letter-spacing':2.2, fill:'#2c241c'}, svg);
-    nomCasa.textContent = 'BLANCPAIN';
+    nomCasa.textContent = 'CAPITAINE';
     el('line', {x1:C-26, y1:C-45, x2:C+26, y2:C-45, stroke:'#b97752', 'stroke-width':.9}, svg);
     el('path', {d:`M ${C},${C-48} L ${C+3},${C-45} L ${C},${C-42} L ${C-3},${C-45} Z`, fill:'url(#cOrRosa)'}, svg);
 
@@ -1026,17 +1095,13 @@
       const objectiu = -(d-1)*360/31;
       const aplicaData = a => {
         anellDates.setAttribute('transform', `rotate(${a.toFixed(2)} ${C} ${C})`);
-        textosData.forEach((t,i)=>{
-          const base = i*360/31, efectiu = (((base + a) % 360) + 360) % 360;
-          const gir = (efectiu > 100 && efectiu < 260) ? base + 180 : base;
-          t.setAttribute('transform', `rotate(${gir.toFixed(2)} ${t.getAttribute('x')} ${t.getAttribute('y')})`);
-        });
+        // totes les xifres radials: la base sempre mirant el centre (les agulles)
       };
       if (angleDataActual === null || anim) animaAngle(objectiu + 3*360/31, objectiu, 2600, aplicaData); else if (angleDataActual !== objectiu) animaAngle(angleDataActual, objectiu, 1200, aplicaData);
       angleDataActual = objectiu;
       textosData.forEach((t,i)=>{ const avui = (i+1)===d; t.setAttribute('fill', avui ? '#7a1a16' : '#2c241c'); t.setAttribute('font-size', avui ? 20 : 17); });
       // dia de la setmana, amb color segons sigui dissabte, diumenge o festiu
-      const nom = DIES[ara.getDay()].toUpperCase();
+      const nom = diesEsfera()[ara.getDay()];
       const fe = festiu(ara);
       // dissabte (no festiu): fons maragda; diumenge i festius: fons burdeus; lletra marfil. La resta: marfil i tinta fosca
       const fons = (ara.getDay()===0 || fe) ? 'url(#cBurdeus)' : (ara.getDay()===6 ? 'url(#cMaragda)' : '#f7efdc');
@@ -1052,6 +1117,7 @@
         ajustaLletraDia();
         animaAngle(FH, 0, 900, y => tambor.setAttribute('transform', `translate(0 ${y.toFixed(2)})`));
       }
+      if (window.__esferaCalA) window.__esferaCalA(nom, fons, color);
       posaLluna(ara, anim);
     }
     // Mida de lletra comuna per a tots els dies: la que fa cabre el més llarg (DIVENDRES, DIUMENGE…) amb marge
@@ -1059,7 +1125,7 @@
       try {
         const prova = el('text', {x:0, y:-999, 'font-family':textDia.getAttribute('font-family'), 'font-size':27, 'letter-spacing':3}, svg);
         let mx = 0;
-        DIES.forEach(n=>{ prova.textContent = n.toUpperCase(); mx = Math.max(mx, prova.getComputedTextLength()); });
+        diesEsfera().forEach(n=>{ prova.textContent = n; mx = Math.max(mx, prova.getComputedTextLength()); });
         prova.remove();
         if (!mx) return;
         const mida = Math.min(27, 27 * (FW - 22) / mx);
@@ -1068,7 +1134,7 @@
       } catch(e){}
     }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajustaLletraDia);
-    window.__esferaCal = actualitza;
+    window.__esferaCal = (ara, anim) => { diaMostrat = ''; actualitza(ara, anim); };
     setInterval(()=>posaLluna(new Date(), false), 10*60*1000);
     return {h:hB.rot, m:mB.rot, s:sB.rot};
   })();
@@ -1087,10 +1153,234 @@
   })();
 
   // ========================= TEMPS =========================
-  const MESOS = ['gener','febrer','març','abril','maig','juny','juliol','agost','setembre','octubre','novembre','desembre'];
-  const DIES = ['diumenge','dilluns','dimarts','dimecres','dijous','divendres','dissabte'];
-  const deMes = m => (/^[aeiouà]/.test(MESOS[m]) ? "d'" : 'de ') + MESOS[m];
+  // ========================= LLENGÜES =========================
+  // Català, francès, anglès, alemany, italià i portuguès. Tota la interfície surt d'aquí.
+  const CODIS_CEL = [0,1,2,3,45,48,51,53,55,56,57,61,63,65,66,67,71,73,75,77,80,81,82,85,86,95,96,99];
+  const I18N = {
+    ca: {
+      nom:'Català', veu:'ca-ES',
+      mesos:['gener','febrer','març','abril','maig','juny','juliol','agost','setembre','octubre','novembre','desembre'],
+      dies:['diumenge','dilluns','dimarts','dimecres','dijous','divendres','dissabte'],
+      curts:['Dl','Dt','Dc','Dj','Dv','Ds','Dg'],
+      deMes: m => (/^[aeiouà]/.test(m) ? "d'" : 'de ') + m,
+      data: (ds, d, mes, a) => `${ds}, ${d} ${/^[aeiouà]/.test(mes) ? "d'" : 'de '}${mes} de ${a}`,
+      poblacio:'Població', avis:'Avís', temperatura:'Temperatura', humitat:'Humitat', sensacio:'Sensació', pluja6:'Pluja · 6 h', altitud:'Altitud',
+      capSetmana:'Cap de setmana', festiu:'Festiu', avui:'Avui',
+      elTemps:'El temps', titolAvui:'Avui', onSom:'On som', avisos:'Avisos', max:'Màx', min:'Mín', coordenades:'Coordenades',
+      esperantDades:'Esperant dades…', esperantPrev:'Esperant la previsió…', capAvis:'Cap avís per a les properes hores', avisosPeu:'Segons la previsió per a les properes hores',
+      tocaEsfera:"Toca l'esfera", republica:'Dia de la República',
+      diaAny:(n,s) => `Dia ${n} de l'any · Setmana ${s}`, sol:(a,p) => `Sortida del sol ${a} · Posta ${p}`,
+      fases:['Lluna nova','Lluna creixent','Quart creixent','Gibosa creixent','Lluna plena','Gibosa minvant','Quart minvant','Lluna minvant'],
+      cel:['Cel serè','Gairebé serè','Parcialment ennuvolat','Cel cobert','Boira','Boira gebradora','Plugim feble','Plugim','Plugim intens','Plugim gelat','Plugim gelat','Pluja feble','Pluja','Pluja forta','Pluja gelada','Pluja gelada','Neu feble','Neu','Neu forta','Neu granulada','Ruixats febles','Ruixats','Ruixats forts','Ruixats de neu','Ruixats de neu','Tempesta','Tempesta amb calamarsa','Tempesta amb calamarsa'],
+      a:{ tempesta:'Risc de tempesta a les properes hores', pluja:p=>`Pluja probable (${p}%) en 6 hores: agafa el paraigua`, ventFort:v=>`Vent fort: ratxes de fins a ${v} km/h`, ratxes:v=>`Ratxes de vent de fins a ${v} km/h`,
+          calorInt:t=>`Calor intensa: màxima de ${t}`, calor:t=>`Fa calor: màxima de ${t}`, glacada:t=>`Glaçada: mínima de ${t}`, fred:t=>`Fred: mínima de ${t}`,
+          uvMolt:u=>`Índex UV molt alt (${u}): protegeix-te del sol`, uv:u=>`Índex UV alt (${u}): protecció solar`, boira:'Boira: visibilitat reduïda',
+          avuiFestiu:n=>`Avui és festiu: ${n}`, demaFestiu:n=>`Demà és festiu: ${n}` },
+      x:{ tempesta:'Tempesta', pluja:'Pluja forta', vent:v=>`Vent ${v} km/h`, neu:'Neu', glac:'Glaç' },
+      parla:'Digues l\'hora', idioma:'Llengua',
+      // Hora a la manera tradicional catalana, amb quarts: «un quart de deu», «dos quarts i cinc de vuit»,
+      // «falten cinc minuts per a tres quarts de nou», «són les set en punt»...
+      hora:(h,m) => {
+        const NOMS = ['dotze','una','dues','tres','quatre','cinc','sis','set','vuit','nou','deu','onze'];
+        const QUARTS = ['','un quart','dos quarts','tres quarts'];
+        const franja = h24 => { h24 = (h24+24)%24; return h24===0 ? 'de la nit' : h24<6 ? 'de la matinada' : h24<12 ? 'del matí' : h24<15 ? 'del migdia' : h24<20 ? 'de la tarda' : h24<22 ? 'del vespre' : 'de la nit'; };
+        const nom = h24 => NOMS[((h24%12)+12)%12];
+        const lesN = h24 => (((h24%12)+12)%12)===1 ? 'la una' : 'les ' + nom(h24);   // la una / les set
+        const deN  = h24 => { const n = nom(h24); return /^[aeiou]/.test(n) ? "d'" + n : 'de ' + n; }; // d'una, d'onze, de vuit
+        const verb = h24 => (((h24%12)+12)%12)===1 ? 'És' : 'Són';
+        const minuts = n => n===1 ? '1 minut' : `${n} minuts`;
+        const q = Math.floor(m/15), r = m%15, seg = h+1;
+        // punt exacte d'un quart
+        if (r===0){
+          if (q===0) return `${verb(h)} ${lesN(h)} en punt ${franja(h)}`;
+          return `${q===1 ? 'És' : 'Són'} ${QUARTS[q]} ${deN(seg)} ${franja(seg)}`;
+        }
+        // primera meitat del quart: «i cinc»
+        if (r<=7){
+          if (q===0) return `${verb(h)} ${lesN(h)} i ${r} ${franja(h)}`;
+          return `${q===1 ? 'És' : 'Són'} ${QUARTS[q]} i ${r} ${deN(seg)} ${franja(seg)}`;
+        }
+        // segona meitat: «falten X minuts per a...»
+        const falten = 15 - r, qn = q+1;
+        if (qn===4) return `Falten ${minuts(falten)} per a ${lesN(seg)} ${franja(seg)}`;
+        return `Falten ${minuts(falten)} per a ${QUARTS[qn]} ${deN(seg)} ${franja(seg)}`;
+      }
+    },
+    fr: {
+      nom:'Français', veu:'fr-FR',
+      mesos:['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+      dies:['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],
+      curts:['Lu','Ma','Me','Je','Ve','Sa','Di'],
+      deMes: m => m,
+      data: (ds, d, mes, a) => `${ds} ${d === 1 ? '1er' : d} ${mes} ${a}`,
+      poblacio:'Localité', avis:'Alerte', temperatura:'Température', humitat:'Humidité', sensacio:'Ressenti', pluja6:'Pluie · 6 h', altitud:'Altitude',
+      capSetmana:'Week-end', festiu:'Férié', avui:"Aujourd'hui",
+      elTemps:'La météo', titolAvui:"Aujourd'hui", onSom:'Où sommes-nous', avisos:'Alertes', max:'Max', min:'Min', coordenades:'Coordonnées',
+      esperantDades:'En attente des données…', esperantPrev:'En attente des prévisions…', capAvis:'Aucune alerte pour les prochaines heures', avisosPeu:'Selon les prévisions des prochaines heures',
+      tocaEsfera:'Touchez le cadran', republica:'Jour de la République',
+      diaAny:(n,s) => `${n}e jour de l'année · Semaine ${s}`, sol:(a,p) => `Lever du soleil ${a} · Coucher ${p}`,
+      fases:['Nouvelle lune','Premier croissant','Premier quartier','Gibbeuse croissante','Pleine lune','Gibbeuse décroissante','Dernier quartier','Dernier croissant'],
+      cel:['Ciel dégagé','Peu nuageux','Partiellement nuageux','Couvert','Brouillard','Brouillard givrant','Bruine légère','Bruine','Bruine dense','Bruine verglaçante','Bruine verglaçante','Pluie faible','Pluie','Forte pluie','Pluie verglaçante','Pluie verglaçante','Neige faible','Neige','Forte neige','Grésil','Averses faibles','Averses','Fortes averses','Averses de neige','Averses de neige','Orage','Orage avec grêle','Orage avec grêle'],
+      a:{ tempesta:'Risque d\'orage dans les prochaines heures', pluja:p=>`Pluie probable (${p} %) dans les 6 heures : prenez un parapluie`, ventFort:v=>`Vent fort : rafales jusqu'à ${v} km/h`, ratxes:v=>`Rafales de vent jusqu'à ${v} km/h`,
+          calorInt:t=>`Forte chaleur : maximale de ${t}`, calor:t=>`Il fait chaud : maximale de ${t}`, glacada:t=>`Gel : minimale de ${t}`, fred:t=>`Froid : minimale de ${t}`,
+          uvMolt:u=>`Indice UV très élevé (${u}) : protégez-vous du soleil`, uv:u=>`Indice UV élevé (${u}) : protection solaire`, boira:'Brouillard : visibilité réduite',
+          avuiFestiu:n=>`Aujourd'hui est férié : ${n}`, demaFestiu:n=>`Demain est férié : ${n}` },
+      x:{ tempesta:'Orage', pluja:'Forte pluie', vent:v=>`Vent ${v} km/h`, neu:'Neige', glac:'Verglas' },
+      parla:"Dire l'heure", idioma:'Langue',
+      hora:(h,m) => {
+        if (h===0 && m===0) return 'Il est minuit';
+        if (h===12 && m===0) return 'Il est midi';
+        const hh = h===0 ? 'minuit' : h===12 ? 'midi' : `${h} heure${h>1?'s':''}`;
+        return m===0 ? `Il est ${hh} pile` : `Il est ${hh} ${m}`;
+      }
+    },
+    en: {
+      nom:'English', veu:'en-GB',
+      mesos:['January','February','March','April','May','June','July','August','September','October','November','December'],
+      dies:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+      curts:['Mo','Tu','We','Th','Fr','Sa','Su'],
+      deMes: m => m,
+      data: (ds, d, mes, a) => `${ds}, ${d} ${mes} ${a}`,
+      poblacio:'Town', avis:'Warning', temperatura:'Temperature', humitat:'Humidity', sensacio:'Feels like', pluja6:'Rain · 6 h', altitud:'Altitude',
+      capSetmana:'Weekend', festiu:'Holiday', avui:'Today',
+      elTemps:'The weather', titolAvui:'Today', onSom:'Where we are', avisos:'Warnings', max:'Max', min:'Min', coordenades:'Coordinates',
+      esperantDades:'Waiting for data…', esperantPrev:'Waiting for the forecast…', capAvis:'No warnings for the coming hours', avisosPeu:'Based on the forecast for the coming hours',
+      tocaEsfera:'Touch the dial', republica:'Republic Day',
+      diaAny:(n,s) => `Day ${n} of the year · Week ${s}`, sol:(a,p) => `Sunrise ${a} · Sunset ${p}`,
+      fases:['New moon','Waxing crescent','First quarter','Waxing gibbous','Full moon','Waning gibbous','Last quarter','Waning crescent'],
+      cel:['Clear sky','Mainly clear','Partly cloudy','Overcast','Fog','Freezing fog','Light drizzle','Drizzle','Heavy drizzle','Freezing drizzle','Freezing drizzle','Light rain','Rain','Heavy rain','Freezing rain','Freezing rain','Light snow','Snow','Heavy snow','Snow grains','Light showers','Showers','Heavy showers','Snow showers','Snow showers','Thunderstorm','Thunderstorm with hail','Thunderstorm with hail'],
+      a:{ tempesta:'Risk of thunderstorms in the coming hours', pluja:p=>`Rain likely (${p}%) within 6 hours: take an umbrella`, ventFort:v=>`Strong wind: gusts up to ${v} km/h`, ratxes:v=>`Wind gusts up to ${v} km/h`,
+          calorInt:t=>`Intense heat: high of ${t}`, calor:t=>`Hot: high of ${t}`, glacada:t=>`Frost: low of ${t}`, fred:t=>`Cold: low of ${t}`,
+          uvMolt:u=>`Very high UV index (${u}): protect yourself from the sun`, uv:u=>`High UV index (${u}): use sun protection`, boira:'Fog: reduced visibility',
+          avuiFestiu:n=>`Today is a holiday: ${n}`, demaFestiu:n=>`Tomorrow is a holiday: ${n}` },
+      x:{ tempesta:'Thunderstorm', pluja:'Heavy rain', vent:v=>`Wind ${v} km/h`, neu:'Snow', glac:'Ice' },
+      parla:'Say the time', idioma:'Language',
+      hora:(h,m) => {
+        const h12 = h%12 || 12, p = h<12 ? 'in the morning' : h<18 ? 'in the afternoon' : 'in the evening';
+        if (h===0 && m===0) return "It's midnight";
+        if (h===12 && m===0) return "It's noon";
+        return m===0 ? `It's ${h12} o'clock ${p}` : `It's ${h12} ${m<10 ? 'oh ' + m : m} ${p}`;
+      }
+    },
+    de: {
+      nom:'Deutsch', veu:'de-DE',
+      mesos:['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+      dies:['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+      curts:['Mo','Di','Mi','Do','Fr','Sa','So'],
+      deMes: m => m,
+      data: (ds, d, mes, a) => `${ds}, ${d}. ${mes} ${a}`,
+      poblacio:'Ort', avis:'Warnung', temperatura:'Temperatur', humitat:'Feuchte', sensacio:'Gefühlt', pluja6:'Regen · 6 Std.', altitud:'Höhe',
+      capSetmana:'Wochenende', festiu:'Feiertag', avui:'Heute',
+      elTemps:'Das Wetter', titolAvui:'Heute', onSom:'Wo wir sind', avisos:'Warnungen', max:'Max', min:'Min', coordenades:'Koordinaten',
+      esperantDades:'Warte auf Daten…', esperantPrev:'Warte auf die Vorhersage…', capAvis:'Keine Warnungen für die nächsten Stunden', avisosPeu:'Laut Vorhersage für die nächsten Stunden',
+      tocaEsfera:'Zifferblatt berühren', republica:'Tag der Republik',
+      diaAny:(n,s) => `${n}. Tag des Jahres · Woche ${s}`, sol:(a,p) => `Sonnenaufgang ${a} · Untergang ${p}`,
+      fases:['Neumond','Zunehmende Sichel','Erstes Viertel','Zunehmender Mond','Vollmond','Abnehmender Mond','Letztes Viertel','Abnehmende Sichel'],
+      cel:['Klarer Himmel','Überwiegend klar','Teilweise bewölkt','Bedeckt','Nebel','Gefrierender Nebel','Leichter Nieselregen','Nieselregen','Starker Nieselregen','Gefrierender Niesel','Gefrierender Niesel','Leichter Regen','Regen','Starker Regen','Gefrierender Regen','Gefrierender Regen','Leichter Schnee','Schnee','Starker Schnee','Schneegriesel','Leichte Schauer','Schauer','Starke Schauer','Schneeschauer','Schneeschauer','Gewitter','Gewitter mit Hagel','Gewitter mit Hagel'],
+      a:{ tempesta:'Gewittergefahr in den nächsten Stunden', pluja:p=>`Regen wahrscheinlich (${p} %) in 6 Stunden: Regenschirm mitnehmen`, ventFort:v=>`Starker Wind: Böen bis ${v} km/h`, ratxes:v=>`Windböen bis ${v} km/h`,
+          calorInt:t=>`Große Hitze: Höchstwert ${t}`, calor:t=>`Heiß: Höchstwert ${t}`, glacada:t=>`Frost: Tiefstwert ${t}`, fred:t=>`Kalt: Tiefstwert ${t}`,
+          uvMolt:u=>`Sehr hoher UV-Index (${u}): vor der Sonne schützen`, uv:u=>`Hoher UV-Index (${u}): Sonnenschutz`, boira:'Nebel: eingeschränkte Sicht',
+          avuiFestiu:n=>`Heute ist Feiertag: ${n}`, demaFestiu:n=>`Morgen ist Feiertag: ${n}` },
+      x:{ tempesta:'Gewitter', pluja:'Starkregen', vent:v=>`Wind ${v} km/h`, neu:'Schnee', glac:'Glätte' },
+      parla:'Uhrzeit ansagen', idioma:'Sprache',
+      hora:(h,m) => m===0 ? `Es ist ${h} Uhr` : `Es ist ${h} Uhr ${m}`
+    },
+    it: {
+      nom:'Italiano', veu:'it-IT',
+      mesos:['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'],
+      dies:['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'],
+      curts:['Lu','Ma','Me','Gi','Ve','Sa','Do'],
+      deMes: m => m,
+      data: (ds, d, mes, a) => `${ds} ${d} ${mes} ${a}`,
+      poblacio:'Località', avis:'Allerta', temperatura:'Temperatura', humitat:'Umidità', sensacio:'Percepita', pluja6:'Pioggia · 6 h', altitud:'Altitudine',
+      capSetmana:'Fine settimana', festiu:'Festivo', avui:'Oggi',
+      elTemps:'Il tempo', titolAvui:'Oggi', onSom:'Dove siamo', avisos:'Allerte', max:'Max', min:'Min', coordenades:'Coordinate',
+      esperantDades:'In attesa dei dati…', esperantPrev:'In attesa delle previsioni…', capAvis:'Nessuna allerta per le prossime ore', avisosPeu:'Secondo le previsioni per le prossime ore',
+      tocaEsfera:'Tocca il quadrante', republica:'Giorno della Repubblica',
+      diaAny:(n,s) => `Giorno ${n} dell'anno · Settimana ${s}`, sol:(a,p) => `Alba ${a} · Tramonto ${p}`,
+      fases:['Luna nuova','Luna crescente','Primo quarto','Gibbosa crescente','Luna piena','Gibbosa calante','Ultimo quarto','Luna calante'],
+      cel:['Cielo sereno','Poco nuvoloso','Parzialmente nuvoloso','Coperto','Nebbia','Nebbia gelata','Pioviggine leggera','Pioviggine','Pioviggine intensa','Pioviggine gelata','Pioviggine gelata','Pioggia debole','Pioggia','Pioggia forte','Pioggia gelata','Pioggia gelata','Neve debole','Neve','Neve forte','Neve granulosa','Rovesci deboli','Rovesci','Rovesci forti','Rovesci di neve','Rovesci di neve','Temporale','Temporale con grandine','Temporale con grandine'],
+      a:{ tempesta:'Rischio di temporali nelle prossime ore', pluja:p=>`Pioggia probabile (${p}%) entro 6 ore: prendi l'ombrello`, ventFort:v=>`Vento forte: raffiche fino a ${v} km/h`, ratxes:v=>`Raffiche di vento fino a ${v} km/h`,
+          calorInt:t=>`Caldo intenso: massima di ${t}`, calor:t=>`Fa caldo: massima di ${t}`, glacada:t=>`Gelata: minima di ${t}`, fred:t=>`Freddo: minima di ${t}`,
+          uvMolt:u=>`Indice UV molto alto (${u}): proteggiti dal sole`, uv:u=>`Indice UV alto (${u}): protezione solare`, boira:'Nebbia: visibilità ridotta',
+          avuiFestiu:n=>`Oggi è festivo: ${n}`, demaFestiu:n=>`Domani è festivo: ${n}` },
+      x:{ tempesta:'Temporale', pluja:'Pioggia forte', vent:v=>`Vento ${v} km/h`, neu:'Neve', glac:'Ghiaccio' },
+      parla:"Dimmi l'ora", idioma:'Lingua',
+      hora:(h,m) => {
+        if (h===0) return m===0 ? 'È mezzanotte' : `È mezzanotte e ${m}`;
+        if (h===12) return m===0 ? 'È mezzogiorno' : `È mezzogiorno e ${m}`;
+        const base = h===1 ? "È l'una" : `Sono le ${h}`;
+        return m===0 ? `${base} in punto` : `${base} e ${m}`;
+      }
+    },
+    pt: {
+      nom:'Português', veu:'pt-PT',
+      mesos:['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'],
+      dies:['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'],
+      esfera:['DOMINGO','SEGUNDA','TERÇA','QUARTA','QUINTA','SEXTA','SÁBADO'],
+      curts:['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+      deMes: m => 'de ' + m,
+      data: (ds, d, mes, a) => `${ds}, ${d} de ${mes} de ${a}`,
+      poblacio:'Localidade', avis:'Aviso', temperatura:'Temperatura', humitat:'Humidade', sensacio:'Sensação', pluja6:'Chuva · 6 h', altitud:'Altitude',
+      capSetmana:'Fim de semana', festiu:'Feriado', avui:'Hoje',
+      elTemps:'O tempo', titolAvui:'Hoje', onSom:'Onde estamos', avisos:'Avisos', max:'Máx', min:'Mín', coordenades:'Coordenadas',
+      esperantDades:'À espera de dados…', esperantPrev:'À espera da previsão…', capAvis:'Sem avisos para as próximas horas', avisosPeu:'Segundo a previsão para as próximas horas',
+      tocaEsfera:'Toque no mostrador', republica:'Dia da República',
+      diaAny:(n,s) => `Dia ${n} do ano · Semana ${s}`, sol:(a,p) => `Nascer do sol ${a} · Pôr do sol ${p}`,
+      fases:['Lua nova','Lua crescente','Quarto crescente','Crescente gibosa','Lua cheia','Minguante gibosa','Quarto minguante','Lua minguante'],
+      cel:['Céu limpo','Pouco nublado','Parcialmente nublado','Encoberto','Nevoeiro','Nevoeiro gelado','Chuvisco fraco','Chuvisco','Chuvisco forte','Chuvisco gelado','Chuvisco gelado','Chuva fraca','Chuva','Chuva forte','Chuva gelada','Chuva gelada','Neve fraca','Neve','Neve forte','Grãos de neve','Aguaceiros fracos','Aguaceiros','Aguaceiros fortes','Aguaceiros de neve','Aguaceiros de neve','Trovoada','Trovoada com granizo','Trovoada com granizo'],
+      a:{ tempesta:'Risco de trovoada nas próximas horas', pluja:p=>`Chuva provável (${p}%) em 6 horas: leve o guarda-chuva`, ventFort:v=>`Vento forte: rajadas até ${v} km/h`, ratxes:v=>`Rajadas de vento até ${v} km/h`,
+          calorInt:t=>`Calor intenso: máxima de ${t}`, calor:t=>`Está calor: máxima de ${t}`, glacada:t=>`Geada: mínima de ${t}`, fred:t=>`Frio: mínima de ${t}`,
+          uvMolt:u=>`Índice UV muito alto (${u}): proteja-se do sol`, uv:u=>`Índice UV alto (${u}): proteção solar`, boira:'Nevoeiro: visibilidade reduzida',
+          avuiFestiu:n=>`Hoje é feriado: ${n}`, demaFestiu:n=>`Amanhã é feriado: ${n}` },
+      x:{ tempesta:'Trovoada', pluja:'Chuva forte', vent:v=>`Vento ${v} km/h`, neu:'Neve', glac:'Gelo' },
+      parla:'Dizer a hora', idioma:'Idioma',
+      hora:(h,m) => {
+        if (h===0) return m===0 ? 'É meia-noite' : `É meia-noite e ${m}`;
+        if (h===12) return m===0 ? 'É meio-dia' : `É meio-dia e ${m}`;
+        const base = h===1 ? 'É uma hora' : `São ${h} horas`;
+        return m===0 ? `${base} em ponto` : `${base} e ${m} minuto${m>1?'s':''}`;
+      }
+    }
+  };
+  // Noms dels festius (la llista base és en català i fa de clau)
+  const FESTES = {
+    "Cap d'Any":{fr:"Jour de l'An",en:"New Year's Day",de:'Neujahr',it:'Capodanno',pt:'Ano Novo'},
+    'Reis':{fr:'Épiphanie',en:'Epiphany',de:'Heilige Drei Könige',it:'Epifania',pt:'Dia de Reis'},
+    'Divendres Sant':{fr:'Vendredi saint',en:'Good Friday',de:'Karfreitag',it:'Venerdì santo',pt:'Sexta-feira Santa'},
+    'Dilluns de Pasqua Florida':{fr:'Lundi de Pâques',en:'Easter Monday',de:'Ostermontag',it:'Lunedì dell\'Angelo',pt:'Segunda-feira de Páscoa'},
+    'Festa del Treball':{fr:'Fête du Travail',en:'Labour Day',de:'Tag der Arbeit',it:'Festa dei lavoratori',pt:'Dia do Trabalhador'},
+    'Dilluns de Pasqua Granada':{fr:'Lundi de Pentecôte',en:'Whit Monday',de:'Pfingstmontag',it:'Lunedì di Pentecoste',pt:'Segunda-feira de Pentecostes'},
+    'Sant Joan':{fr:'Saint-Jean',en:'Saint John\'s Day',de:'Johannistag',it:'San Giovanni',pt:'São João'},
+    "L'Assumpció":{fr:'Assomption',en:'Assumption Day',de:'Mariä Himmelfahrt',it:'Ferragosto',pt:'Assunção de Nossa Senhora'},
+    'Diada Nacional de Catalunya':{fr:'Fête nationale de la Catalogne',en:'National Day of Catalonia',de:'Nationalfeiertag Kataloniens',it:'Festa nazionale della Catalogna',pt:'Dia Nacional da Catalunha'},
+    'La Mercè':{fr:'La Mercè',en:'La Mercè',de:'La Mercè',it:'La Mercè',pt:'La Mercè'},
+    'Dia de la República':{fr:'Jour de la République',en:'Republic Day',de:'Tag der Republik',it:'Giorno della Repubblica',pt:'Dia da República'},
+    "Festa Nacional d'Espanya":{fr:"Fête nationale de l'Espagne",en:'National Day of Spain',de:'Spanischer Nationalfeiertag',it:'Festa nazionale della Spagna',pt:'Dia Nacional de Espanha'},
+    'Tots Sants':{fr:'Toussaint',en:"All Saints' Day",de:'Allerheiligen',it:'Ognissanti',pt:'Dia de Todos os Santos'},
+    'Dia de la Constitució':{fr:'Jour de la Constitution',en:'Constitution Day',de:'Tag der Verfassung',it:'Giorno della Costituzione',pt:'Dia da Constituição'},
+    'La Immaculada':{fr:'Immaculée Conception',en:'Immaculate Conception',de:'Mariä Empfängnis',it:'Immacolata Concezione',pt:'Imaculada Conceição'},
+    'Nadal':{fr:'Noël',en:'Christmas Day',de:'Weihnachten',it:'Natale',pt:'Natal'},
+    'Sant Esteve':{fr:'Saint-Étienne',en:"Saint Stephen's Day",de:'Stephanstag',it:'Santo Stefano',pt:'Santo Estêvão'}
+  };
+  const AMBITS = {
+    'Estatal':{fr:'National',en:'National',de:'Landesweit',it:'Nazionale',pt:'Nacional'},
+    'Catalunya':{fr:'Catalogne',en:'Catalonia',de:'Katalonien',it:'Catalogna',pt:'Catalunha'},
+    'Festa local de Barcelona':{fr:'Fête locale de Barcelone',en:'Barcelona local holiday',de:'Lokaler Feiertag in Barcelona',it:'Festa locale di Barcellona',pt:'Feriado local de Barcelona'},
+    "Commemoració · 1 d'octubre de 2017":{fr:'Commémoration · 1er octobre 2017',en:'Commemoration · 1 October 2017',de:'Gedenktag · 1. Oktober 2017',it:'Commemorazione · 1 ottobre 2017',pt:'Comemoração · 1 de outubro de 2017'}
+  };
+  let LLENGUA = 'ca';
+  try { const g = localStorage.getItem('rellotge-llengua'); if (g && I18N[g]) LLENGUA = g; } catch(e){}
+  let L = I18N[LLENGUA];
+  let MESOS = L.mesos, DIES = L.dies;
+  const deMes = m => L.deMes(MESOS[m]);
   const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+  const diesEsfera = () => L.esfera || DIES.map(n => n.toUpperCase());
+  const nomFesta = fe => !fe ? '' : (LLENGUA === 'ca' ? fe.nom : ((FESTES[fe.nom] && FESTES[fe.nom][LLENGUA]) || (LLENGUA === 'en' && fe.nomEn) || fe.nomEn || fe.nom));
+  const nomAmbit = a => LLENGUA === 'ca' ? a : ((AMBITS[a] && AMBITS[a][LLENGUA]) || a);
+  const descCel = codi => { const i = CODIS_CEL.indexOf(codi); return i < 0 ? '—' : L.cel[i]; };
+  const dataLlarga = d => L.data(cap(DIES[d.getDay()]), d.getDate(), MESOS[d.getMonth()], d.getFullYear());
+
 
   let diaActualClau = '';
   function actualitzaBusques(){
@@ -1099,12 +1389,10 @@
     if (clau !== diaActualClau){
       const canviDeDia = diaActualClau !== '';
       diaActualClau = clau;
-      document.getElementById('dataLlarga').textContent =
-        `${cap(DIES[ara.getDay()])}, ${ara.getDate()} ${deMes(ara.getMonth())} de ${ara.getFullYear()}`;
       if (window.__esferaCal) window.__esferaCal(ara, !canviDeDia);
       if (window.__fulls) window.__fulls.data(ara);
       const republica = ara.getMonth()===9 && ara.getDate()===1;
-      document.getElementById('lema').textContent = republica ? 'Dia de la República' : 'Carpe diem';
+      document.getElementById('lema').textContent = republica ? L.republica : 'Carpe diem';
       if (window.__senyera) window.__senyera.style.display = republica ? '' : 'none';
       if (canviDeDia && window.__calendariRefresca) window.__calendariRefresca();
     }
@@ -1329,7 +1617,9 @@
     neu:'<path d="M12 2v20M3.5 7l17 10M20.5 7l-17 10"/><path d="M9.5 3.5L12 6l2.5-2.5M9.5 20.5L12 18l2.5 2.5"/>',
     glac:'<path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"/><circle cx="12" cy="12" r="2.5"/>'
   };
+  let darrerMeteoExtrem = null;
   function mostraAvisExtrem(m){
+    darrerMeteoExtrem = m;
     const h = m.hourly || {}, c = m.current || {}, dd = m.daily || {};
     const n = 12, sl = a => (a || []).slice(0, n).map(v => v ?? 0);
     const codis = [c.weather_code, ...sl(h.weather_code)].filter(v => v != null);
@@ -1337,10 +1627,10 @@
     const temps = sl(h.temperature_2m).concat(dd.temperature_2m_min ? [dd.temperature_2m_min[0]] : []);
     const avisos = [];
     const maxPrec = Math.max(0, ...prec), maxRatxa = Math.max(0, ...ratxes), minT = temps.length ? Math.min(...temps) : 99;
-    if (maxPrec >= 10 || codis.some(k => k === 65 || k === 82 || k >= 95)) avisos.push(['pluja', codis.some(k => k >= 95) ? 'Tempesta' : 'Pluja forta']);
-    if (maxRatxa >= 70) avisos.push(['vent', `Vent ${Math.round(maxRatxa)} km/h`]);
-    if (codis.some(k => (k >= 71 && k <= 77) || k === 85 || k === 86)) avisos.push(['neu', 'Neu']);
-    if (codis.some(k => k === 56 || k === 57 || k === 66 || k === 67) || minT <= 0) avisos.push(['glac', 'Glaç']);
+    if (maxPrec >= 10 || codis.some(k => k === 65 || k === 82 || k >= 95)) avisos.push(['pluja', codis.some(k => k >= 95) ? L.x.tempesta : L.x.pluja]);
+    if (maxRatxa >= 70) avisos.push(['vent', L.x.vent(Math.round(maxRatxa))]);
+    if (codis.some(k => (k >= 71 && k <= 77) || k === 85 || k === 86)) avisos.push(['neu', L.x.neu]);
+    if (codis.some(k => k === 56 || k === 57 || k === 66 || k === 67) || minT <= 0) avisos.push(['glac', L.x.glac]);
     const placa = document.getElementById('placaAvis');
     if (!avisos.length){ placa.hidden = true; return; }
     document.getElementById('icAvis').innerHTML = IC_AVIS[avisos[0][0]];
@@ -1451,7 +1741,7 @@
         const m = new Map();
         llista.forEach(h=>{
           if (!h.counties || h.counties.includes('ES-CT')){
-            m.set(h.date, {nom:h.localName || h.name, ambit: h.counties ? 'Catalunya' : 'Estatal'});
+            m.set(h.date, {nom:h.localName || h.name, nomEn:h.name, ambit: h.counties ? 'Catalunya' : 'Estatal'});
           }
         });
         if (m.size){ festiusAPI[any] = m; if (window.__calendariRefresca) window.__calendariRefresca(true); if (window.__esferaCal) window.__esferaCal(new Date(), false); }
@@ -1483,7 +1773,7 @@
       panell.className = 'cal-mes';
       const g = document.createElement('div');
       g.className = 'cal-graella';
-      ['Dl','Dt','Dc','Dj','Dv','Ds','Dg'].forEach((n,i)=>{
+      L.curts.forEach((n,i)=>{
         const c = document.createElement('div');
         c.className = 'cap-dia' + (i>=5 ? ' cs' : '');
         c.textContent = n; g.appendChild(c);
@@ -1498,7 +1788,7 @@
         let cls = 'dia';
         if (ds===0 || ds===6) cls += ' cs';
         const fe = festiu(data);
-        if (fe){ cls += ' festiu'; c.dataset.festa = fe.nom; c.dataset.ambit = fe.ambit; c.setAttribute('aria-label', `${dd}: ${fe.nom}`); }
+        if (fe){ cls += ' festiu'; c.dataset.festa = nomFesta(fe); c.dataset.ambit = nomAmbit(fe.ambit); c.setAttribute('aria-label', `${dd}: ${nomFesta(fe)}`); }
         c.className = cls;
         c.dataset.data = clauData(data);
         c.innerHTML = `<span class="num">${dd}</span>`;
@@ -1640,7 +1930,7 @@
       if (!c.dataset.festa){ amagaEtiqueta(); return; }
       const [a,m,d] = c.dataset.data.split('-').map(Number);
       const data = new Date(a, m-1, d);
-      etiqueta.innerHTML = `<b>${c.dataset.festa}</b>${cap(DIES[data.getDay()])}, ${d} ${deMes(m-1)} de ${a}<em>${c.dataset.ambit}</em>`;
+      etiqueta.innerHTML = `<b>${c.dataset.festa}</b>${dataLlarga(data)}<em>${c.dataset.ambit}</em>`;
       etiqueta.classList.remove('avall');
       etiqueta.classList.add('visible');
       const rp = paper.getBoundingClientRect(), rc = c.getBoundingClientRect();
@@ -1692,10 +1982,7 @@
   // ========================= FULLS: temps, data, lloc i avisos =========================
   (function(){
     const $ = id => document.getElementById(id);
-    const DESC = {0:'Cel serè',1:'Gairebé serè',2:'Parcialment ennuvolat',3:'Cel cobert',45:'Boira',48:'Boira gebradora',
-      51:'Plugim feble',53:'Plugim',55:'Plugim intens',56:'Plugim gelat',57:'Plugim gelat',61:'Pluja feble',63:'Pluja',65:'Pluja forta',
-      66:'Pluja gelada',67:'Pluja gelada',71:'Neu feble',73:'Neu',75:'Neu forta',77:'Neu granulada',80:'Ruixats febles',81:'Ruixats',
-      82:'Ruixats forts',85:'Ruixats de neu',86:'Ruixats de neu',95:'Tempesta',96:'Tempesta amb calamarsa',99:'Tempesta amb calamarsa'};
+    const DESC = { get: k => descCel(k) };
     // Icones gravades a joc amb l'esfera: sol d'or rosa, núvols marfil, gotes blau nit
     const SOL = `<g><circle cx="32" cy="32" r="11" fill="url(#gSol)" stroke="#8a5536" stroke-width="1.4"/>${[...Array(8)].map((_,i)=>{const a=i*45*Math.PI/180;return `<line x1="${32+16*Math.cos(a)}" y1="${32+16*Math.sin(a)}" x2="${32+23*Math.cos(a)}" y2="${32+23*Math.sin(a)}" stroke="#b97752" stroke-width="2.6" stroke-linecap="round"/>`}).join('')}</g>`;
     const LLUNA = `<path d="M38 12a20 20 0 1 0 14 30A16 16 0 0 1 38 12z" fill="url(#gSol)" stroke="#8a5536" stroke-width="1.4"/>`;
@@ -1740,26 +2027,26 @@
         const codis = [c.weather_code, ...((h.weather_code || []).slice(0, 7))];
         const uv = (dd.uv_index_max && dd.uv_index_max[0]) || Math.max(0, ...((h.uv_index || []).map(v=>v||0)));
         const tmax = dd.temperature_2m_max && dd.temperature_2m_max[0], tmin = dd.temperature_2m_min && dd.temperature_2m_min[0];
-        if (codis.some(k => k >= 95)) llista.push(['vermell', IC.tempesta, 'Risc de tempesta a les properes hores']);
-        if (darrerMax6 > 40) llista.push([darrerMax6 > 70 ? 'taronja' : 'groc', IC.pluja, `Pluja probable (${darrerMax6}%) en 6 hores: agafa el paraigua`]);
-        if (ratxa >= 70) llista.push(['taronja', IC.vent, `Vent fort: ratxes de fins a ${Math.round(ratxa)} km/h`]);
-        else if (ratxa >= 50) llista.push(['groc', IC.vent, `Ratxes de vent de fins a ${Math.round(ratxa)} km/h`]);
-        if (tmax != null && tmax >= 35) llista.push(['taronja', IC.calor, `Calor intensa: màxima de ${graus(tmax)}`]);
-        else if (tmax != null && tmax >= 31) llista.push(['groc', IC.calor, `Fa calor: màxima de ${graus(tmax)}`]);
-        if (tmin != null && tmin <= 0) llista.push(['taronja', IC.fred, `Glaçada: mínima de ${graus(tmin)}`]);
-        else if (tmin != null && tmin <= 4) llista.push(['groc', IC.fred, `Fred: mínima de ${graus(tmin)}`]);
-        if (uv >= 8) llista.push(['taronja', IC.uv, `Índex UV molt alt (${Math.round(uv)}): protegeix-te del sol`]);
-        else if (uv >= 6) llista.push(['groc', IC.uv, `Índex UV alt (${Math.round(uv)}): protecció solar`]);
-        if (codis.some(k => k === 45 || k === 48)) llista.push(['groc', IC.boira, 'Boira: visibilitat reduïda']);
+        if (codis.some(k => k >= 95)) llista.push(['vermell', IC.tempesta, L.a.tempesta]);
+        if (darrerMax6 > 40) llista.push([darrerMax6 > 70 ? 'taronja' : 'groc', IC.pluja, L.a.pluja(darrerMax6)]);
+        if (ratxa >= 70) llista.push(['taronja', IC.vent, L.a.ventFort(Math.round(ratxa))]);
+        else if (ratxa >= 50) llista.push(['groc', IC.vent, L.a.ratxes(Math.round(ratxa))]);
+        if (tmax != null && tmax >= 35) llista.push(['taronja', IC.calor, L.a.calorInt(graus(tmax))]);
+        else if (tmax != null && tmax >= 31) llista.push(['groc', IC.calor, L.a.calor(graus(tmax))]);
+        if (tmin != null && tmin <= 0) llista.push(['taronja', IC.fred, L.a.glacada(graus(tmin))]);
+        else if (tmin != null && tmin <= 4) llista.push(['groc', IC.fred, L.a.fred(graus(tmin))]);
+        if (uv >= 8) llista.push(['taronja', IC.uv, L.a.uvMolt(Math.round(uv))]);
+        else if (uv >= 6) llista.push(['groc', IC.uv, L.a.uv(Math.round(uv))]);
+        if (codis.some(k => k === 45 || k === 48)) llista.push(['groc', IC.boira, L.a.boira]);
       }
       // festius d'avui i de demà
       const avui = new Date(), dema = new Date(avui.getFullYear(), avui.getMonth(), avui.getDate()+1);
       const fa = festiu(avui), fd = festiu(dema);
-      if (fa) llista.push(['info', IC.festa, `Avui és festiu: ${fa.nom}`]);
-      if (fd) llista.push(['info', IC.festa, `Demà és festiu: ${fd.nom}`]);
+      if (fa) llista.push(['info', IC.festa, L.a.avuiFestiu(nomFesta(fa))]);
+      if (fd) llista.push(['info', IC.festa, L.a.demaFestiu(nomFesta(fd))]);
       const ul = $('fAvisos');
       if (!llista.length){
-        ul.innerHTML = m ? '<li class="cap">Cap avís per a les properes hores</li>' : '<li class="cap">Esperant la previsió…</li>';
+        ul.innerHTML = `<li class="cap">${m ? L.capAvis : L.esperantPrev}</li>`;
         return;
       }
       ul.innerHTML = llista.slice(0, 4).map(([cls, ic, txt]) => `<li class="${cls}">${ic}<span>${txt}</span></li>`).join('');
@@ -1776,7 +2063,7 @@
     }
     function faseNom(d){
       const sin = 29.530588853, edat = (((d.getTime() - Date.UTC(2000,0,6,18,14))/86400000) % sin + sin) % sin;
-      const noms = ['Lluna nova','Lluna creixent','Quart creixent','Gibosa creixent','Lluna plena','Gibosa minvant','Quart minvant','Lluna minvant'];
+      const noms = L.fases;
       return noms[Math.floor((edat / sin) * 8 + 0.5) % 8];
     }
     function pintaData(ara){
@@ -1788,22 +2075,23 @@
       $('fAny').textContent = roma(any);
       const fe = festiu(ara);
       $('fDiaNum').style.color = (ara.getDay()===0 || fe) ? '#7a1a16' : (ara.getDay()===6 ? '#0f6b4c' : '#2c241c');
-      $('fDetall').textContent = `Dia ${diaAny} de l'any · Setmana ${setmanaISO(ara)}`;
+      $('fDetall').textContent = L.diaAny(diaAny, setmanaISO(ara));
       $('fFase').textContent = faseNom(ara);
       pintaAvisos();
     }
+    window.__fullsRepinta = () => { if (darrerMeteo) window.__fulls.temps(darrerMeteo, darrerMax6); pintaData(new Date()); if (window.__fullsCoords) window.__fulls.coords(...window.__fullsCoords); };
     window.__fulls = {
       temps(m, max6){
         darrerMeteo = m; darrerMax6 = max6 || 0;
         const c = m.current || {}, d = m.daily || {};
         $('fTemp').textContent = graus(c.temperature_2m);
-        $('fDesc').textContent = DESC[c.weather_code] || '—';
+        $('fDesc').textContent = descCel(c.weather_code);
         $('fIcona').innerHTML = icona(c.weather_code ?? 0, c.is_day !== 0);
         $('fSens').textContent = graus(c.apparent_temperature);
         $('fHum').textContent = c.relative_humidity_2m != null ? Math.round(c.relative_humidity_2m)+'%' : '--%';
         $('fMax').textContent = graus(d.temperature_2m_max && d.temperature_2m_max[0]);
         $('fMin').textContent = graus(d.temperature_2m_min && d.temperature_2m_min[0]);
-        if (d.sunrise && d.sunset) $('fSol').textContent = `Sortida del sol ${hora(d.sunrise[0])} · Posta ${hora(d.sunset[0])}`;
+        if (d.sunrise && d.sunset) $('fSol').textContent = L.sol(hora(d.sunrise[0]), hora(d.sunset[0]));
         pintaAvisos();
       },
       altitud(e){ $('fAlt').textContent = Math.round(e) + ' m'; },
@@ -1814,8 +2102,9 @@
         $('fRegio').textContent = [...new Set(regio)].join(' · ') || '—';
       },
       coords(lat, lon){
+        window.__fullsCoords = [lat, lon];
         const gms = (v, p, n) => { const a = Math.abs(v), g = Math.floor(a), mi = Math.floor((a - g) * 60), s = Math.round(((a - g) * 60 - mi) * 60); return `${g}°${String(mi).padStart(2,'0')}′${String(s).padStart(2,'0')}″ ${v >= 0 ? p : n}`; };
-        $('fCoord').textContent = `${gms(lat,'N','S')} · ${gms(lon,'E','O')}`;
+        $('fCoord').textContent = `${gms(lat,'N','S')} · ${gms(lon,'E', (LLENGUA==='en'||LLENGUA==='de') ? 'W' : 'O')}`;
       },
       data: pintaData
     };
@@ -1899,6 +2188,66 @@
     window.addEventListener('resize', ()=>posa(0, false));
     posa(0, false);
   })();
+
+  // ========================= CANVI DE LLENGUA =========================
+  function pintaTextos(){
+    document.documentElement.lang = LLENGUA;
+    document.querySelectorAll('[data-i18n]').forEach(n => { const v = L[n.dataset.i18n]; if (typeof v === 'string') n.textContent = v; });
+    document.getElementById('codiIdioma').textContent = LLENGUA.toUpperCase();
+    const bv = document.getElementById('botoVeu'); bv.setAttribute('aria-label', L.parla); bv.title = L.parla;
+    const bi = document.getElementById('botoIdioma'); bi.setAttribute('aria-label', L.idioma); bi.title = L.idioma;
+  }
+  function posaLlengua(codi){
+    if (!I18N[codi]) return;
+    LLENGUA = codi; L = I18N[codi]; MESOS = L.mesos; DIES = L.dies;
+    try { localStorage.setItem('rellotge-llengua', codi); } catch(e){}
+    pintaTextos();
+    const ara = new Date();
+    document.getElementById('lema').textContent = (ara.getMonth()===9 && ara.getDate()===1) ? L.republica : 'Carpe diem';
+    if (window.__esferaCal) window.__esferaCal(ara, false);
+    if (window.__calendariRefresca) window.__calendariRefresca(true);
+    if (window.__fullsRepinta) window.__fullsRepinta();
+    if (darrerMeteoExtrem) mostraAvisExtrem(darrerMeteoExtrem);
+    pintaMenu();
+  }
+  const menu = document.getElementById('menuIdioma'), botoIdioma = document.getElementById('botoIdioma');
+  function pintaMenu(){
+    menu.innerHTML = Object.keys(I18N).map(k => `<li role="menuitem" data-codi="${k}" class="${k===LLENGUA?'actiu':''}"><b>${k.toUpperCase()}</b>${I18N[k].nom}</li>`).join('');
+  }
+  function obreMenu(obre){ menu.hidden = !obre; botoIdioma.setAttribute('aria-expanded', obre ? 'true' : 'false'); }
+  botoIdioma.addEventListener('click', e => { e.stopPropagation(); obreMenu(menu.hidden); });
+  menu.addEventListener('click', e => { const li = e.target.closest('li'); if (!li) return; e.stopPropagation(); posaLlengua(li.dataset.codi); obreMenu(false); });
+  document.addEventListener('pointerdown', e => { if (!menu.hidden && !e.target.closest('.botonera-esq')) obreMenu(false); });
+  pintaMenu(); pintaTextos();
+
+  // ========================= VEU: DIU L'HORA =========================
+  // Tria una veu femenina de la llengua en curs (per nom conegut o perquè ho indica), si n'hi ha.
+  const FEMENINES = /montserrat|laia|amélie|amelie|audrey|aurélie|aurelie|marie|virginie|julie|céline|celine|samantha|karen|moira|tessa|serena|victoria|kate|fiona|susan|allison|ava|zoe|zira|aria|jenny|libby|sonia|hazel|anna|petra|helena|marlene|vicki|katja|hedda|alice|federica|elsa|paola|isabella|joana|luciana|catarina|fernanda|francisca|raquel|female|femme|weiblich|femminile|feminina/i;
+  const MASCULINES = /jordi|thomas|daniel|alex|fred|luca|markus|yannick|diego|reed|rocko|eddy|grandpa|ralph|albert|bruce|junior|aaron|arthur|oliver|martin|nicolas|guy|david|mark|george|stefan|cosimo|duarte|pablo|jorge/i;
+  function triaVeu(){
+    if (!('speechSynthesis' in window)) return null;
+    const veus = speechSynthesis.getVoices();
+    const pref = L.veu.toLowerCase(), base = pref.slice(0, 2);
+    const delIdioma = veus.filter(v => (v.lang || '').toLowerCase().replace('_','-').startsWith(base));
+    const puntua = v => (FEMENINES.test(v.name) ? 4 : 0) - (MASCULINES.test(v.name) ? 5 : 0) + ((v.lang||'').toLowerCase().replace('_','-') === pref ? 2 : 0) + (v.localService ? 1 : 0);
+    return delIdioma.sort((a,b) => puntua(b) - puntua(a))[0] || null;
+  }
+  if ('speechSynthesis' in window){ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices(); }
+  const botoVeu = document.getElementById('botoVeu');
+  botoVeu.addEventListener('click', e => {
+    e.stopPropagation();
+    if (!('speechSynthesis' in window)) return;
+    const ara = new Date();
+    const frase = L.hora(ara.getHours(), ara.getMinutes());
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(frase);
+    u.lang = L.veu;
+    const v = triaVeu(); if (v) u.voice = v;
+    u.rate = 0.92; u.pitch = 1.08; u.volume = 1;
+    u.onstart = () => botoVeu.classList.add('parlant');
+    u.onend = u.onerror = () => botoVeu.classList.remove('parlant');
+    speechSynthesis.speak(u);
+  });
 
   programaTic();
 

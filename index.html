@@ -1043,6 +1043,12 @@
       el('path', {d:'M 0,-8 L 5,4 L 0,1.5 L -5,4 Z', transform:`translate(${px(254,a)} ${py(254,a)}) rotate(${a})`, stroke:'none', fill:'#1a1209', class:'lume'}, tinta);
     }
     numeralRomans(tinta, 194, 66, {stroke:'none', fill:'#1a1209'}, {sx:0.7, sy:1.22, ls:-2}).classList.add('lume');
+    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de CAPITAINE
+    const marcaA = el('g', {transform:`translate(${C} ${C+82}) scale(0.72 1.18)`}, tinta);
+    el('text', {x:0, y:0, 'text-anchor':'middle', 'dominant-baseline':'central', 'font-family':'Cinzel, serif', 'font-weight':700,
+      'font-size':38, 'letter-spacing':-1, stroke:'none', fill:'#1a1209'}, marcaA).textContent = 'XM';
+    el('line', {x1:C-22, y1:C+108, x2:C+22, y2:C+108, stroke:'#1a1209', 'stroke-width':.9}, tinta);
+    el('path', {d:`M ${C},${C+105} L ${C+3},${C+108} L ${C},${C+111} L ${C-3},${C+108} Z`, stroke:'none', fill:'#1a1209'}, tinta);
 
     // ---- Visor del dia de la setmana (com el de CAPITAINE, però amb fons de pergamí) ----
     const AX = C-80, AY = C-114, AW = 160, AH = 34;
@@ -1324,6 +1330,7 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajustaLletraDia);
     window.__esferaCal = (ara, anim) => { diaMostrat = ''; actualitza(ara, anim); if (window.__esferaCalC) window.__esferaCalC(ara); };
     setInterval(()=>posaLluna(new Date(), false), 10*60*1000);
+    window.__animaLlunaB = () => posaLluna(new Date(), true);
     return {h:hB.rot, m:mB.rot, s:sB.rot};
   })();
 
@@ -1420,11 +1427,15 @@
     gradient(defs, 'radialGradient', 'dViaLactia', {cx:'50%', cy:'50%', r:'50%'}, [['0%','#9fb4ff',.18],['100%','#9fb4ff',0]]);
     el('ellipse', {cx:C+40, cy:C-60, rx:200, ry:40, transform:`rotate(-30 ${C} ${C})`, fill:'url(#dViaLactia)'}, firmament);
     let llavor = 7; const atzar = () => (llavor = (llavor * 9301 + 49297) % 233280) / 233280;
-    for (let i=0;i<150;i++){
-      const a = atzar()*360, r = 60 + atzar()*165, s = atzar();
+    for (let i=0;i<340;i++){
+      const a = atzar()*360, r = 40 + Math.sqrt(atzar())*188, s = atzar();
       if (s > 0.9) el('path', {d:'M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z', transform:`translate(${px(r,a).toFixed(1)} ${py(r,a).toFixed(1)}) scale(${(0.6+s*0.5).toFixed(2)})`, fill:'#fffbe8', class:'estel', style:`animation-delay:${(i*0.37)%2.6}s`}, firmament);
       else el('circle', {cx:px(r,a).toFixed(1), cy:py(r,a).toFixed(1), r:(0.4+s*1.1).toFixed(2), fill:'#ffffff', opacity:(0.35+s*0.6).toFixed(2)}, firmament);
     }
+    // estels grossos amb raigs, com els de CAPITAINE, repartits pel cel
+    [[-150,-40,1.4],[-95,-120,1.1],[30,-150,1.25],[120,-95,1.0],[160,20,1.3],[95,110,1.1],[-20,160,1.2],[-120,95,1.0],[-60,40,.8],[60,-30,.85],[-170,60,.9],[150,-150,.8]].forEach(([x,y,s],i)=>{
+      el('path', {d:'M0,-7 L1.4,-1.4 L7,0 L1.4,1.4 L0,7 L-1.4,1.4 L-7,0 L-1.4,-1.4 Z', transform:`translate(${C+x} ${C+y}) scale(${s})`, fill:'#fff6da', class:'estel', style:`animation-delay:${(i*0.53)%2.6}s`}, firmament);
+    });
     // Lluna realista: textura, mars, cràters amb vora il·luminada i enfosquiment del limbe
     // Lluna fotogràfica (la imatge que m'has passat), sense halo.
     // Mida i distància calculades perquè, plena, quedi tangent als dos arcs i a tocar de l'anell.
@@ -1536,7 +1547,7 @@
       const ilum = (1 - Math.cos(2*Math.PI*edat/sin)) / 2;
       const obj = (edat < sin/2 ? -1 : 1) * angleVisible(ilum);
       const aplica = a => firmament.setAttribute('transform', `rotate(${a.toFixed(2)} ${C} ${C})`);
-      if (angleFirm === null){
+      if (anim){
         const t0 = performance.now(), des = obj - 180;
         const pas = t => { const k = Math.min(1, (t-t0)/4200), e = 1 - Math.pow(1-k, 3); aplica(des + 180*e); if (k < 1) requestAnimationFrame(pas); };
         requestAnimationFrame(pas);
@@ -1544,6 +1555,7 @@
       angleFirm = obj;
     }
     setInterval(()=>posaFirmament(new Date(), false), 10*60*1000);
+    window.__animaLlunaC = () => posaFirmament(new Date(), true);
     window.__esferaCalC = function(ara){
       // mesos al bisell, en la llengua en curs; el mes actual en blanc i marcat en vermell
       textosMes.forEach(({t, tp}, i)=>{
@@ -2173,7 +2185,15 @@
   // El cilindre té dues cares: abans de cada gir, la cara amagada rep l'esfera següent de la rotació
   const ESFERES = ['esferaB', 'esferaA', 'esferaC'].map(id => document.getElementById(id));
   const cares = [document.querySelector('.cara.davant'), document.querySelector('.cara.darrere')];
-  let esferaActual = 0;
+  // A l'inici surt una de les tres esferes a l'atzar; la lluna de la que surt fa el seu recorregut
+  let esferaActual = Math.floor(Math.random() * ESFERES.length);
+  const magatzem = document.getElementById('magatzem');
+  if (esferaActual !== 0){
+    cares[0].replaceChildren(ESFERES[esferaActual]);
+    ESFERES.forEach(s => { if (!s.isConnected) magatzem.appendChild(s); });
+  }
+  const animaLluna = () => { if (esferaActual === 0 && window.__animaLlunaB) window.__animaLlunaB(); else if (esferaActual === 2 && window.__animaLlunaC) window.__animaLlunaC(); };
+  if (esferaActual === 2) setTimeout(animaLluna, 400);
   function giraEsfera(){
     if (girant) return;
     girant = true;
@@ -2190,6 +2210,7 @@
   gir.addEventListener('transitionend', (e)=>{
     if (e.target !== gir) return;
     girant = false;
+    animaLluna();
     rellotge.classList.remove('girant');
   });
   rellotge.addEventListener('click', giraEsfera);

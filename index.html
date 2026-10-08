@@ -256,6 +256,68 @@
   .avisos li.info{ background: rgba(15,107,76,.10); border-left-color:#0f6b4c; } .avisos li.info svg{ stroke:#0f6b4c; }
   .avisos li.cap{ justify-content:center; background:none; border:none; font-family:'IM Fell English', serif; font-style:italic; font-weight:400; font-size: min(9cqh, 5.6cqw); color:#5c4632; }
   .avisos-peu{ font-family:'Cinzel', serif; font-size: min(4.6cqh, 2.9cqw); letter-spacing:.12em; color:#9a8664; margin-top:2.5cqh; text-transform:uppercase; }
+
+  /* ---- Ràdio ---- */
+  .full-cara.m-cara{ justify-content:flex-start; padding: 6px 10px 8px; }
+  .m-cara .full-titol{ margin-bottom: 2.4cqh; flex:0 0 auto; }
+  .r-graella{ width:100%; flex:1 1 auto; min-height:0; display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:1fr; gap: 1.6cqh 2.2cqw; }
+  .r-boto, .p-boto{ appearance:none; -webkit-appearance:none; border:0; margin:0; font:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent;
+    color:#2c241c; border-radius:6px; position:relative; overflow:hidden;
+    background: linear-gradient(180deg, rgba(255,253,246,.75) 0%, rgba(239,228,205,.55) 100%);
+    box-shadow: inset 0 0 0 1px rgba(185,119,82,.6), inset 0 1px 0 rgba(255,255,255,.9), 0 1px 2px rgba(60,35,10,.18);
+    transition: box-shadow .2s, background .2s; }
+  .r-boto{ min-width:0; display:flex; align-items:center; gap: 2.2cqw; padding: 0 2.4cqw 0 2.6cqw; text-align:left; }
+  .r-boto:active, .p-boto:active{ background: rgba(185,119,82,.18); }
+  .r-txt{ display:flex; flex-direction:column; justify-content:center; min-width:0; flex:1 1 auto; line-height:1.08; }
+  .r-nom{ display:block; font-family:'IM Fell English SC','IM Fell English',serif; font-size: min(7.4cqh, 4.6cqw); white-space:nowrap; overflow:hidden; color:#2c241c; }
+  .r-sub{ display:block; font-family:'IM Fell English',serif; font-style:italic; font-size: min(5.2cqh, 3.3cqw); white-space:nowrap; overflow:hidden; color:#7a6646; }
+  .r-punt{ width:9px; height:9px; flex:0 0 auto; border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #fff3d9, #c9a57d 55%, #7a5232); box-shadow: 0 1px 1px rgba(0,0,0,.35); }
+  .sonant .r-punt{ background: radial-gradient(circle at 35% 30%, #ffb3a6, #c0281c 55%, #5e0d07); box-shadow: 0 0 7px rgba(192,40,28,.75); animation: batecRadio 1.6s ease-in-out infinite; }
+  .carregant .r-punt{ animation-duration:.55s; }
+  @keyframes batecRadio{ 0%,100%{ opacity:1; } 50%{ opacity:.45; } }
+  .r-boto.triat, .p-boto.triat{ background: linear-gradient(180deg, #fffaf0 0%, #f2e2c4 100%);
+    box-shadow: inset 0 0 0 1.5px #9a5e3c, inset 0 1px 0 #fff, 0 1px 3px rgba(60,35,10,.3); }
+  /* ---- Podcasts ---- */
+  .p-seccio{ width:100%; display:flex; flex-direction:column; align-items:center; gap: 1.3cqh; }
+  .full-cara.p-cara{ justify-content:space-evenly; }
+  .p-cara .full-titol{ margin-bottom:0; }
+  .p-cap{ font-family:'Cinzel',serif; font-weight:700; font-size: min(5.4cqh, 3.4cqw); letter-spacing:.2em; text-transform:uppercase; color:#8a5536; }
+  .p-cap small{ font-family:'IM Fell English',serif; font-style:italic; font-weight:400; letter-spacing:0; text-transform:none; color:#7a6646; font-size:1.05em; }
+  .p-fila{ width:100%; display:flex; justify-content:center; gap: 1.8cqw; }
+  .p-boto{ flex: 1 1 0; min-width:0; max-width: 21%; height: min(20cqh, 15cqw); display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1.05; padding: 0 2px 2px; }
+  #pVia .p-boto{ max-width: 34%; flex-direction:row; gap: 2cqw; }
+  .p-dia{ font-family:'IM Fell English SC','IM Fell English',serif; font-size: min(6.8cqh, 4.3cqw); color:#2c241c; white-space:nowrap; }
+  .p-data{ font-family:'Cinzel',serif; font-size: min(4.6cqh, 2.9cqw); color:#7a6646; letter-spacing:.05em; }
+  .p-ic{ position:absolute; top:3px; right:4px; width: min(3.6cqh, 2.4cqw); height: min(3.6cqh, 2.4cqw); color:#9a5e3c; opacity:.75; }
+  #pVia .p-ic{ position:static; width: min(4.4cqh, 2.9cqw); height: min(4.4cqh, 2.9cqw); }
+  .p-ic svg{ width:100%; height:100%; display:block; }
+  .p-ic .ic-pausa{ display:none; }
+  .sonant .p-ic .ic-play{ display:none; } .sonant .p-ic .ic-pausa{ display:block; }
+  .sonant .p-ic{ opacity:1; color:#b3261e; }
+  .p-boto.darrer{ box-shadow: inset 0 0 0 1px #9a5e3c, inset 0 -2px 0 rgba(154,94,60,.55), 0 1px 2px rgba(60,35,10,.25); }
+  .p-boto.triat{ box-shadow: inset 0 0 0 1.5px #9a5e3c, inset 0 1px 0 #fff, 0 1px 3px rgba(60,35,10,.3); }
+  .p-barra{ position:absolute; left:0; bottom:0; height:2px; width:0; background:#b3261e; transition: width .4s linear; }
+  .p-titol{ width:100%; display:flex; align-items:center; justify-content:center; gap:6px; min-width:0; }
+  .p-titol[hidden]{ display:none; }
+  .p-titol-txt{ min-width:0; text-align:center; line-height:1.15; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; font-family:'IM Fell English',serif; font-style:italic; font-size: min(5.8cqh, 3.7cqw); color:#5c4632; }
+  .p-titol a, .n-ext{ flex:0 0 auto; display:inline-flex; width:15px; height:15px; color:#9a5e3c; }
+  .p-titol a[hidden]{ display:none; }
+  .p-titol a svg, .n-ext svg{ width:100%; height:100%; }
+  /* ---- Notícies ---- */
+  .n-llista{ width:100%; flex:1 1 auto; min-height:0; overflow:hidden; display:flex; flex-direction:column; gap: 1.1cqh; text-align:left; }
+  .n-item{ display:flex; align-items:flex-start; gap: 2.4cqw; text-decoration:none; color:#2c241c; padding: 0 2px 1.1cqh; border-bottom: 1px dotted rgba(154,94,60,.55); -webkit-tap-highlight-color:transparent; }
+  .n-item[hidden]{ display:none; }
+  .n-item:last-of-type{ border-bottom:0; }
+  .n-num{ flex:0 0 auto; min-width:1.3em; text-align:right; font-family:'Cinzel',serif; font-weight:700; font-size: min(6cqh, 3.7cqw); line-height:1.3; color:#9a5e3c; }
+  .n-txt{ flex:1 1 auto; min-width:0; font-family:'Cormorant Garamond',serif; font-weight:600; font-size: min(7.2cqh, 4.4cqw); line-height:1.12;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .n-ext{ margin-top:2px; width:13px; height:13px; opacity:.7; }
+  .m-peu{ flex:0 0 auto; font-family:'Cinzel',serif; font-size: min(4.4cqh, 2.8cqw); letter-spacing:.1em; color:#9a8664; margin-top: 1.4cqh; text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
+  .m-estat{ margin:auto; font-family:'IM Fell English',serif; font-style:italic; font-size: min(7cqh, 4.4cqw); color:#5c4632; text-align:center; }
+  .m-estat a{ color:#8a5536; }
+  /* Placa «Ara sona» de la cinta */
+  .placa.sona{ cursor:pointer; -webkit-tap-highlight-color:transparent; }
   /* Punts indicadors (vertical) */
   .pager-punts{ position:absolute; right:-1px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:6px; z-index:5; pointer-events:none; }
   .pager-punts span{ width:5px; height:5px; border-radius:50%; background: rgba(60,35,10,.45); box-shadow: 0 0 0 1px rgba(255,235,200,.35); transition: all .3s; }
@@ -568,6 +630,15 @@
   html.nit .icona-cel{ filter: grayscale(1) sepia(1) saturate(7) hue-rotate(-28deg) brightness(.95); }
   html.nit .avisos li{ background: rgba(255,90,31,.08) !important; border-left-color: var(--nit) !important; }
   html.nit .avisos svg{ stroke:var(--nit) !important; }
+
+  html.nit .r-boto, html.nit .p-boto{ background:transparent !important; box-shadow: inset 0 0 0 1px rgba(255,90,31,.55) !important; }
+  html.nit .r-boto.triat, html.nit .p-boto.triat{ background: rgba(255,90,31,.12) !important; box-shadow: inset 0 0 0 1.5px var(--nit) !important; }
+  html.nit .p-boto.darrer:not(.triat){ box-shadow: inset 0 0 0 1px rgba(255,90,31,.55), inset 0 -2px 0 var(--nit) !important; }
+  html.nit .r-punt{ background: rgba(255,90,31,.3) !important; box-shadow:none !important; }
+  html.nit .sonant .r-punt{ background: var(--nit) !important; box-shadow: 0 0 6px rgba(255,90,31,.8) !important; }
+  html.nit .p-barra{ background: var(--nit) !important; }
+  html.nit .n-item{ border-bottom-color: rgba(255,90,31,.4) !important; }
+  html.nit .p-ic, html.nit .n-ext, html.nit .p-titol a{ color: var(--nit) !important; }
   html.nit .pager-punts span{ background: rgba(255,90,31,.35) !important; box-shadow:none !important; }
   html.nit .pager-punts span.actiu{ background: var(--nit) !important; }
   /* botó de mode i avís en pantalla */
@@ -654,6 +725,10 @@
 
   <div class="columna dre">
     <div class="cinta" id="cinta" aria-label="Condicions actuals">
+      <div class="placa sona" id="placaSona" role="button" tabindex="0" hidden>
+        <svg viewBox="0 0 24 24" id="icSona"><path d="M9 6v12M15 6v12"/></svg>
+        <div class="txt"><span class="etq" data-i18n="araSona">Ara sona</span><span class="val" id="vSona">—</span></div>
+      </div>
       <div class="placa">
         <svg viewBox="0 0 24 24"><path d="M12 21s-6.5-6.2-6.5-11A6.5 6.5 0 0 1 18.5 10c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
         <div class="txt"><span class="etq" data-i18n="poblacio">Població</span><span class="val" id="vLloc">—</span></div>
@@ -761,6 +836,35 @@
               <div class="full-titol" data-i18n="avisos">Avisos</div>
               <ul class="avisos" id="fAvisos"><li class="cap" data-i18n="esperantPrev">Esperant la previsió…</li></ul>
               <div class="avisos-peu" data-i18n="avisosPeu">Segons la previsió per a les properes hores</div>
+            </div></div>
+          </div>
+          <div class="full" style="--k:5" aria-label="Ràdio">
+            <div class="full-marc"><div class="full-cara m-cara">
+              <div class="full-titol" data-i18n="radio">Ràdio</div>
+              <div class="r-graella" id="mRadios"></div>
+            </div></div>
+          </div>
+
+          <div class="full" style="--k:6" aria-label="Podcasts">
+            <div class="full-marc"><div class="full-cara m-cara p-cara">
+              <div class="full-titol" data-i18n="podcasts">Podcasts</div>
+              <div class="p-seccio">
+                <div class="p-cap">La Competència <small>· RAC1</small></div>
+                <div class="p-fila" id="pCompetencia"></div>
+                <div class="p-titol" id="pTitol" hidden><span class="p-titol-txt"></span><a target="_blank" rel="noopener"></a></div>
+              </div>
+              <div class="p-seccio">
+                <div class="p-cap">Via lliure <small>· RAC1</small></div>
+                <div class="p-fila" id="pVia"></div>
+              </div>
+            </div></div>
+          </div>
+
+          <div class="full" style="--k:7" aria-label="Notícies">
+            <div class="full-marc"><div class="full-cara m-cara">
+              <div class="full-titol" data-i18n="noticies">Notícies</div>
+              <div class="n-llista" id="mNoticies"></div>
+              <div class="m-peu" id="nPeu"></div>
             </div></div>
           </div>
         </div>
@@ -1537,6 +1641,9 @@
   const I18N = {
     ca: {
       modeDia:'Mode diürn', modeNit:'Mode nocturn', modeNitFix:'Mode nocturn · pantalla sempre encesa', modeEtq:'Mode',
+      radio:'Ràdio', podcasts:'Podcasts', noticies:'Notícies', araSona:'Ara sona', directe:'en directe', carregant:'Carregant…',
+      errNoticies:"No s'han pogut carregar les notícies.", errProgrames:"No s'han pogut carregar els programes.", obreWeb:'Obre el web',
+      actualitzat:h=>`actualitzat a les ${h}`, toastRadio:n=>`${n} no respon ara. Torna-la a tocar per obrir-ne el web.`, toastPodcast:'Aquest programa no es pot reproduir ara.',
       nom:'Català', veu:'ca-ES',
       mesos:['gener','febrer','març','abril','maig','juny','juliol','agost','setembre','octubre','novembre','desembre'],
       dies:['diumenge','dilluns','dimarts','dimecres','dijous','divendres','dissabte'],
@@ -1587,6 +1694,9 @@
     },
     gl: {
       modeDia:'Modo diúrno', modeNit:'Modo nocturno', modeNitFix:'Modo nocturno · pantalla sempre acesa', modeEtq:'Modo',
+      radio:'Radio', podcasts:'Podcasts', noticies:'Novas', araSona:'Agora soa', directe:'en directo', carregant:'Cargando…',
+      errNoticies:'Non se puideron cargar as novas.', errProgrames:'Non se puideron cargar os programas.', obreWeb:'Abrir a web',
+      actualitzat:h=>`actualizado ás ${h}`, toastRadio:n=>`${n} non responde agora. Tócaa de novo para abrir a súa web.`, toastPodcast:'Este programa non se pode reproducir agora.',
       nom:'Galego', veu:'gl-ES', reserva:['es','pt'],
       mesos:['xaneiro','febreiro','marzo','abril','maio','xuño','xullo','agosto','setembro','outubro','novembro','decembro'],
       dies:['domingo','luns','martes','mércores','xoves','venres','sábado'],
@@ -1620,6 +1730,9 @@
     },
     eu: {
       modeDia:'Egun modua', modeNit:'Gau modua', modeNitFix:'Gau modua · pantaila beti piztuta', modeEtq:'Modua',
+      radio:'Irratia', podcasts:'Podcastak', noticies:'Albisteak', araSona:'Orain entzuten', directe:'zuzenean', carregant:'Kargatzen…',
+      errNoticies:'Ezin izan dira albisteak kargatu.', errProgrames:'Ezin izan dira saioak kargatu.', obreWeb:'Ireki webgunea',
+      actualitzat:h=>`eguneratua: ${h}`, toastRadio:n=>`${n} ez dabil orain. Ukitu berriro webgunea irekitzeko.`, toastPodcast:'Saio hau ezin da orain entzun.',
       nom:'Euskara', veu:'eu-ES', reserva:['es'],
       mesos:['urtarrila','otsaila','martxoa','apirila','maiatza','ekaina','uztaila','abuztua','iraila','urria','azaroa','abendua'],
       dies:['igandea','astelehena','asteartea','asteazkena','osteguna','ostirala','larunbata'],
@@ -1654,6 +1767,9 @@
     },
     fr: {
       modeDia:'Mode jour', modeNit:'Mode nuit', modeNitFix:'Mode nuit · écran toujours allumé', modeEtq:'Mode',
+      radio:'Radio', podcasts:'Podcasts', noticies:'Actualités', araSona:'En écoute', directe:'en direct', carregant:'Chargement…',
+      errNoticies:'Impossible de charger les actualités.', errProgrames:'Impossible de charger les émissions.', obreWeb:'Ouvrir le site',
+      actualitzat:h=>`mis à jour à ${h}`, toastRadio:n=>`${n} ne répond pas. Touchez-la de nouveau pour ouvrir son site.`, toastPodcast:'Cette émission ne peut pas être lue pour le moment.',
       nom:'Français', veu:'fr-FR',
       mesos:['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
       dies:['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],
@@ -1683,6 +1799,9 @@
     },
     en: {
       modeDia:'Day mode', modeNit:'Night mode', modeNitFix:'Night mode · screen always on', modeEtq:'Mode',
+      radio:'Radio', podcasts:'Podcasts', noticies:'News', araSona:'Now playing', directe:'live', carregant:'Loading…',
+      errNoticies:"Couldn't load the news.", errProgrames:"Couldn't load the shows.", obreWeb:'Open website',
+      actualitzat:h=>`updated at ${h}`, toastRadio:n=>`${n} isn't responding. Tap it again to open its website.`, toastPodcast:"This show can't be played right now.",
       nom:'English', veu:'en-GB',
       mesos:['January','February','March','April','May','June','July','August','September','October','November','December'],
       dies:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
@@ -1712,6 +1831,9 @@
     },
     de: {
       modeDia:'Tagmodus', modeNit:'Nachtmodus', modeNitFix:'Nachtmodus · Bildschirm bleibt an', modeEtq:'Modus',
+      radio:'Radio', podcasts:'Podcasts', noticies:'Nachrichten', araSona:'Jetzt läuft', directe:'live', carregant:'Wird geladen…',
+      errNoticies:'Die Nachrichten konnten nicht geladen werden.', errProgrames:'Die Sendungen konnten nicht geladen werden.', obreWeb:'Website öffnen',
+      actualitzat:h=>`aktualisiert um ${h}`, toastRadio:n=>`${n} antwortet nicht. Erneut tippen, um die Website zu öffnen.`, toastPodcast:'Diese Sendung kann gerade nicht abgespielt werden.',
       nom:'Deutsch', veu:'de-DE',
       mesos:['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
       dies:['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
@@ -1736,6 +1858,9 @@
     },
     it: {
       modeDia:'Modalità giorno', modeNit:'Modalità notte', modeNitFix:'Modalità notte · schermo sempre acceso', modeEtq:'Modalità',
+      radio:'Radio', podcasts:'Podcast', noticies:'Notizie', araSona:'In ascolto', directe:'in diretta', carregant:'Caricamento…',
+      errNoticies:'Impossibile caricare le notizie.', errProgrames:'Impossibile caricare i programmi.', obreWeb:'Apri il sito',
+      actualitzat:h=>`aggiornato alle ${h}`, toastRadio:n=>`${n} non risponde. Toccala di nuovo per aprire il sito.`, toastPodcast:'Questo programma non si può ascoltare ora.',
       nom:'Italiano', veu:'it-IT',
       mesos:['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'],
       dies:['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'],
@@ -1765,6 +1890,9 @@
     },
     pt: {
       modeDia:'Modo diurno', modeNit:'Modo noturno', modeNitFix:'Modo noturno · ecrã sempre ligado', modeEtq:'Modo',
+      radio:'Rádio', podcasts:'Podcasts', noticies:'Notícias', araSona:'A tocar', directe:'em direto', carregant:'A carregar…',
+      errNoticies:'Não foi possível carregar as notícias.', errProgrames:'Não foi possível carregar os programas.', obreWeb:'Abrir o site',
+      actualitzat:h=>`atualizado às ${h}`, toastRadio:n=>`${n} não responde. Toque de novo para abrir o site.`, toastPodcast:'Este programa não pode ser reproduzido agora.',
       nom:'Português', veu:'pt-PT',
       mesos:['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'],
       dies:['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'],
@@ -2577,11 +2705,12 @@
     const pager = document.getElementById('pager');
     const pista = document.getElementById('pagerPista');
     const punts = document.getElementById('pagerPunts');
-    const N = 5, SEP = 48;
+    const SEP = 48;
     let pag = 0, ini = null, vertical = false;
+    const N = pista.children.length;   // calendari, temps, avui, on som, avisos, ràdio, podcasts, notícies
     for (let i=0;i<N;i++) punts.appendChild(document.createElement('span'));
     // Fulls en cercle: cada full se situa segons la distància (−2…+2) respecte del full actual,
-    // de manera que després d'Avisos torna el calendari, i abans del calendari hi ha Avisos.
+    // de manera que després de l'últim (Notícies) torna el calendari, i abans del calendari hi ha Notícies.
     const fulls = [...pista.children];
     const previ = [];
     const rel = i => { let o = ((i - pag) % N + N) % N; if (o > N/2) o -= N; return o; };
@@ -2668,6 +2797,7 @@
     if (window.__esferaCal) window.__esferaCal(ara, false);
     if (window.__calendariRefresca) window.__calendariRefresca(true);
     if (window.__fullsRepinta) window.__fullsRepinta();
+    if (window.__mediaLlengua) window.__mediaLlengua();
     if (darrerMeteoExtrem) mostraAvisExtrem(darrerMeteoExtrem);
     pintaMenu();
     if (window.__aplicaMode) window.__aplicaMode();
@@ -2755,6 +2885,616 @@
   });
   window.__aplicaMode = () => aplicaMode(false);
   aplicaMode(false);
+
+  // ========================= RÀDIO, PODCASTS I NOTÍCIES =========================
+  // Un sol reproductor per a les ràdios en directe i els podcasts. Les emissores
+  // i les notícies canvien segons la llengua; els podcasts són sempre de RAC1.
+  (function(){
+    const $ = id => document.getElementById(id);
+    const majus = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+    const dosD = n => String(n).padStart(2, '0');
+    const neteja = s => (s || '').replace(/\s+/g, ' ').trim();
+    const ICON_EXT = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2L7 9"/></svg>';
+    const IC_PLAY = '<svg viewBox="0 0 10 10" class="ic-play"><path d="M2.4 1l6.6 4-6.6 4z" fill="currentColor"/></svg>';
+    const IC_PAUSA = '<svg viewBox="0 0 10 10" class="ic-pausa"><path d="M2 1h2.2v8H2zM5.8 1H8v8H5.8z" fill="currentColor"/></svg>';
+    // Icones de la placa «Ara sona» (traç, com les altres plaques)
+    const PL_PAUSA = '<path d="M9 6v12M15 6v12"/>';
+    const PL_PLAY = '<path d="M8 5.5v13l10.5-6.5z"/>';
+
+    function ambTemps(prom, ms){
+      return new Promise((res, rej) => {
+        const t = setTimeout(() => rej(new Error('temps')), ms);
+        prom.then(v => { clearTimeout(t); res(v); }, e => { clearTimeout(t); rej(e); });
+      });
+    }
+
+    // Avís breu (fa servir el mateix rètol que el canvi de mode)
+    const avisEl = $('avisMode');
+    let avisT = null;
+    function avisa(txt, ms){
+      avisEl.textContent = txt; avisEl.classList.add('visible');
+      clearTimeout(avisT); avisT = setTimeout(() => avisEl.classList.remove('visible'), ms || 5000);
+    }
+
+    // ---------- Reproductor ----------
+    const player = new Audio();
+    player.preload = 'none';
+    let sona = null; // { id, titol, sub, audio, web, rb, tipus }
+    const placa = $('placaSona');
+
+    function pintaEstat(){
+      const enMarxa = !!(sona && !player.paused);
+      document.querySelectorAll('[data-audio-id]').forEach(b => {
+        const meu = !!(sona && b.dataset.audioId === sona.id);
+        b.classList.toggle('sonant', meu && enMarxa);
+        b.classList.toggle('carregant', meu && enMarxa && player.readyState < 3);
+        b.classList.toggle('triat', meu);
+        const barra = b.querySelector('.p-barra');
+        if (barra && !meu) barra.style.width = '0';
+      });
+      placa.hidden = !sona;
+      if (sona){
+        $('icSona').innerHTML = enMarxa ? PL_PAUSA : PL_PLAY;
+        $('vSona').textContent = sona.titol + (sona.sub ? ' · ' + sona.sub : '');
+        placa.setAttribute('aria-label', `${L.araSona}: ${$('vSona').textContent}`);
+      }
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = sona ? (enMarxa ? 'playing' : 'paused') : 'none';
+      pintaTitolPodcast();
+    }
+
+    // HLS (.m3u8): Safari el reprodueix directament; als altres navegadors es carrega hls.js quan cal
+    let hls = null, hlsLib = null;
+    const esHls = u => /\.m3u8(\?|$)/i.test(u || '');
+    function aturaHls(){ if (hls){ try { hls.destroy(); } catch(e){} hls = null; } }
+    function carregaHls(){
+      if (window.Hls) return Promise.resolve(window.Hls);
+      if (!hlsLib) hlsLib = new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js';
+        s.onload = () => window.Hls ? res(window.Hls) : rej(new Error('hls'));
+        s.onerror = () => { hlsLib = null; rej(new Error('hls')); };
+        document.head.appendChild(s);
+      });
+      return hlsLib;
+    }
+
+    // Índex obert Radio Browser: si el flux conegut falla (o no se'n coneix cap),
+    // es busca l'emissora pel nom i el país, la més escoltada i en https
+    const resolts = {};
+    const RB = ['de1', 'nl1', 'at1', 'all'];
+    function radioBrowser(rb, i = 0){
+      if (i >= RB.length) return Promise.reject(new Error('rb'));
+      const url = `https://${RB[i]}.api.radio-browser.info/json/stations/search?name=${encodeURIComponent(rb.name)}&countrycode=${rb.cc}&hidebroken=true&order=clickcount&reverse=true&limit=20`;
+      return ambTemps(fetch(url), 7000)
+        .then(r => { if (!r.ok) throw new Error('http'); return r.json(); })
+        .then(llista => {
+          const ok = llista.filter(st => /^https:/i.test(st.url_resolved || ''));
+          const exactes = ok.filter(st => (st.name || '').trim().toLowerCase() === rb.name.toLowerCase());
+          const pou = exactes.length ? exactes : ok;
+          const millor = pou.find(st => !esHls(st.url_resolved)) || pou[0];
+          if (!millor) throw new Error('cap');
+          return millor.url_resolved;
+        })
+        .catch(() => radioBrowser(rb, i + 1));
+    }
+
+    function engega(item, url){
+      aturaHls();
+      item.url = url;
+      const intent = item.intent = (item.intent || 0) + 1;
+      if (esHls(url) && !player.canPlayType('application/vnd.apple.mpegurl')){
+        player.removeAttribute('src');
+        carregaHls().then(Hls => {
+          if (sona !== item || item.intent !== intent) return;
+          if (!Hls.isSupported()) throw new Error('hls');
+          hls = new Hls();
+          hls.on(Hls.Events.ERROR, (ev, d) => { if (d && d.fatal && sona === item && item.intent === intent) falla(item); });
+          hls.loadSource(url); hls.attachMedia(player);
+          player.play().catch(() => {});
+        }).catch(() => { if (sona === item && item.intent === intent) falla(item); });
+        pintaEstat();
+        return;
+      }
+      player.src = url;
+      player.play().catch(() => {});
+    }
+
+    function falla(item){
+      if (item.fallant) return;
+      if (item.rb && !item.rbProvat){
+        item.rbProvat = true; item.fallant = true;
+        radioBrowser(item.rb).then(url => {
+          item.fallant = false;
+          if (sona !== item) return;
+          if (url && url !== item.url){ resolts[item.id] = url; engega(item, url); }
+          else rendeix(item);
+        }).catch(() => { item.fallant = false; if (sona === item) rendeix(item); });
+        return;
+      }
+      rendeix(item);
+    }
+
+    function rendeix(item){
+      aturaHls();
+      player.removeAttribute('src'); try { player.load(); } catch(e){}
+      sona = null; delete resolts[item.id];
+      pintaEstat();
+      if (item.tipus === 'radio'){
+        const b = document.querySelector(`[data-audio-id="${item.id}"]`);
+        if (b) b.dataset.nomesWeb = '1';
+        avisa(L.toastRadio(item.titol), 6000);
+      } else avisa(L.toastPodcast, 6000);
+    }
+
+    function reprodueix(item){
+      if (sona && sona.id === item.id){
+        if (player.paused) player.play().catch(() => {}); else player.pause();
+        return;
+      }
+      sona = item;
+      const conegut = resolts[item.id] || item.audio;
+      if (conegut) engega(item, conegut);
+      else if (item.rb){
+        item.rbProvat = true; player.pause();
+        radioBrowser(item.rb).then(url => { if (sona !== item) return; resolts[item.id] = url; engega(item, url); })
+          .catch(() => { if (sona === item) rendeix(item); });
+      }
+      if ('mediaSession' in navigator && window.MediaMetadata){
+        try {
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: item.titol + (item.sub ? ' · ' + item.sub : ''),
+            artist: item.tipus === 'radio' ? L.directe : 'RAC1',
+            album: "Rellotge d'Època",
+            artwork: [{ src: 'icones/icona-512.png', sizes: '512x512', type: 'image/png' }]
+          });
+        } catch(e){}
+      }
+      pintaEstat();
+    }
+
+    ['play', 'playing', 'pause', 'waiting', 'canplay', 'ended'].forEach(ev => player.addEventListener(ev, pintaEstat));
+    player.addEventListener('timeupdate', () => {
+      if (!sona || sona.tipus !== 'podcast' || !player.duration) return;
+      const barra = document.querySelector(`[data-audio-id="${sona.id}"] .p-barra`);
+      if (barra) barra.style.width = (player.currentTime / player.duration * 100) + '%';
+    });
+    player.addEventListener('error', () => { if (sona && !hls && player.getAttribute('src')) falla(sona); });
+    const commuta = e => { e.stopPropagation(); if (!sona) return; if (player.paused) player.play().catch(() => {}); else player.pause(); };
+    placa.addEventListener('click', commuta);
+    placa.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); commuta(e); } });
+    if ('mediaSession' in navigator){
+      try {
+        navigator.mediaSession.setActionHandler('play', () => player.play().catch(() => {}));
+        navigator.mediaSession.setActionHandler('pause', () => player.pause());
+      } catch(e){}
+    }
+
+    // Redueix la lletra d'un text d'una sola línia fins que hi cap sencer (mai no es talla)
+    function encaixa(n, minim){
+      n.style.fontSize = '';
+      let mida = parseFloat(getComputedStyle(n).fontSize);
+      while (n.scrollWidth > n.clientWidth + 0.5 && mida > (minim || 8)){ mida -= 0.5; n.style.fontSize = mida + 'px'; }
+    }
+
+    // ---------- Ràdio en directe ----------
+    // Emissores de l'àrea de cada llengua. rb: nom i país per buscar el flux a
+    // Radio Browser si el conegut falla o no se'n coneix cap (audio: null).
+    const RADIOS = {
+      ca: [
+        { id: 'ca-rac1', nom: 'RAC1', sub: 'Generalista', audio: 'https://playerservices.streamtheworld.com/api/livestream-redirect/RAC_1.mp3', web: 'https://www.rac1.cat/', rb: { name: 'RAC1', cc: 'ES' } },
+        { id: 'ca-catradio', nom: 'Catalunya Ràdio', sub: '3Cat', audio: 'https://shoutcast.ccma.cat/ccma/catalunyaradioHD.mp3', web: 'https://www.3cat.cat/3cat/directes/catalunya-radio/', rb: { name: 'Catalunya Ràdio', cc: 'ES' } },
+        { id: 'ca-catinfo', nom: 'Catalunya Informació', sub: 'Notícies · 3Cat', audio: 'https://shoutcast.ccma.cat/ccma/catalunyainformacioHD.mp3', web: 'https://www.3cat.cat/3cat/directes/catalunya-informacio/', rb: { name: 'Catalunya Informació', cc: 'ES' } },
+        { id: 'ca-rac105', nom: 'RAC105', sub: 'Música', audio: 'https://playerservices.streamtheworld.com/api/livestream-redirect/RAC105.mp3', web: 'https://www.rac105.cat/', rb: { name: 'RAC105', cc: 'ES' } },
+        { id: 'ca-catmusica', nom: 'Catalunya Música', sub: 'Clàssica · 3Cat', audio: 'https://shoutcast.ccma.cat/ccma/catalunyamusicaHD.mp3', web: 'https://www.3cat.cat/3cat/directes/catalunya-musica/', rb: { name: 'Catalunya Música', cc: 'ES' } },
+        { id: 'ca-icat', nom: 'iCat', sub: 'Cultura · 3Cat', audio: 'https://shoutcast.ccma.cat/ccma/icatHD.mp3', web: 'https://www.3cat.cat/3cat/directes/icat/', rb: { name: 'iCat', cc: 'ES' } },
+        { id: 'ca-clasica', nom: 'Radio Clásica', sub: 'Clàssica · RNE', audio: 'https://rtvelivestream.rtve.es/rtvesec/rne/rne_r2_main.m3u8', web: 'https://www.rtve.es/radio/radioclasica/', rb: { name: 'Radio Clásica', cc: 'ES' } },
+        { id: 'ca-bbc', nom: 'BBC World Service', sub: 'Món · anglès', audio: 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service', web: 'https://www.bbc.com/audio', rb: { name: 'BBC World Service', cc: 'GB' } }
+      ],
+      gl: [
+        { id: 'gl-rg', nom: 'Radio Galega', sub: 'Xeneralista · CRTVG', audio: 'https://crtvg-radiogalega-hls.flumotion.cloud/playlist.m3u8', web: 'https://www.agalegaaudio.gal/', rb: { name: 'Radio Galega', cc: 'ES' } },
+        { id: 'gl-rgm', nom: 'Radio Galega Música', sub: 'Música · CRTVG', audio: 'https://crtvg-radiogalega-musica-hls.flumotion.cloud/playlist.m3u8', web: 'https://www.agalegaaudio.gal/', rb: { name: 'Radio Galega Música', cc: 'ES' } },
+        { id: 'gl-ser', nom: 'SER Galicia', sub: 'Xeneralista', audio: null, web: 'https://cadenaser.com/galicia/', rb: { name: 'Cadena Ser Radio Galicia', cc: 'ES' } },
+        { id: 'gl-rne1', nom: 'RNE Galicia', sub: 'Radio 1 · RNE', audio: 'https://dispatcher.rndfnk.com/crtve/rne1/gal/mp3/high', web: 'https://www.rtve.es/play/audios/programa/rne_gal-live/3893549/', rb: { name: 'RNE Radio 1 Galicia', cc: 'ES' } },
+        { id: 'gl-voz', nom: 'Radio Voz', sub: 'Xeneralista', audio: null, web: 'https://www.radiovoz.com/', rb: { name: 'Radio Voz (A Coruña)', cc: 'ES' } },
+        { id: 'gl-cuac', nom: 'Cuac FM', sub: 'Comunitaria · A Coruña', audio: 'https://streaming.cuacfm.org/cuacfm-128k.mp3', web: 'https://cuacfm.org/', rb: { name: 'Cuac FM', cc: 'ES' } },
+        { id: 'gl-clasica', nom: 'Radio Clásica', sub: 'Clásica · RNE', audio: 'https://rtvelivestream.rtve.es/rtvesec/rne/rne_r2_main.m3u8', web: 'https://www.rtve.es/radio/radioclasica/', rb: { name: 'Radio Clásica', cc: 'ES' } },
+        { id: 'gl-r5', nom: 'Radio 5 Galicia', sub: 'Información · RNE', audio: null, web: 'https://www.rtve.es/radio/radio5/', rb: { name: 'RNE Radio 5 Galicia', cc: 'ES' } }
+      ],
+      eu: [
+        { id: 'eu-ei', nom: 'Euskadi Irratia', sub: 'Orokorra · EITB', audio: null, web: 'https://guau.eus/st/euskadi-irratia', rb: { name: 'Euskadi Irratia', cc: 'ES' } },
+        { id: 'eu-gaztea', nom: 'Gaztea', sub: 'Musika · EITB', audio: null, web: 'https://www.eitb.eus/eu/gaztea/', rb: { name: 'Gaztea Irratia', cc: 'ES' } },
+        { id: 'eu-kantak', nom: 'EITB Euskal Kantak', sub: 'Euskal musika', audio: null, web: 'https://www.eitb.eus/eu/irratia/eitb-euskal-kantak/', rb: { name: 'EITB Euskal Kantak', cc: 'ES' } },
+        { id: 'eu-naiz', nom: 'naiz:irratia', sub: 'Orokorra', audio: 'https://zuzenean.naizirratia.eus/naiz_irratia.mp3', web: 'https://irratia.naiz.eus/eu', rb: { name: 'naiz:irratia', cc: 'ES' } },
+        { id: 'eu-ehi', nom: 'Euskalerria Irratia', sub: 'Iruñea', audio: null, web: 'https://euskalerriairratia.eus/', rb: { name: 'Euskalerria Irratia', cc: 'ES' } },
+        { id: 'eu-arraio', nom: 'Arraio Irratia', sub: 'Herri irratia', audio: null, web: 'https://arraioirratia.eus/', rb: { name: 'Arraio Irratia', cc: 'ES' } },
+        { id: 'eu-xorroxin', nom: 'Xorroxin Irratia', sub: 'Baztan', audio: null, web: 'https://xorroxin.eus/', rb: { name: 'Xorroxin Irratia', cc: 'ES' } },
+        { id: 'eu-clasica', nom: 'Radio Clásica', sub: 'Klasikoa · RNE', audio: 'https://rtvelivestream.rtve.es/rtvesec/rne/rne_r2_main.m3u8', web: 'https://www.rtve.es/radio/radioclasica/', rb: { name: 'Radio Clásica', cc: 'ES' } }
+      ],
+      fr: [
+        { id: 'fr-franceinfo', nom: 'franceinfo', sub: 'Info · Radio France', audio: 'https://icecast.radiofrance.fr/franceinfo-midfi.mp3?id=radiofrance', web: 'https://www.radiofrance.fr/franceinfo', rb: { name: 'franceinfo', cc: 'FR' } },
+        { id: 'fr-inter', nom: 'France Inter', sub: 'Généraliste', audio: 'https://icecast.radiofrance.fr/franceinter-midfi.mp3?id=radiofrance', web: 'https://www.radiofrance.fr/franceinter', rb: { name: 'France Inter', cc: 'FR' } },
+        { id: 'fr-rtl', nom: 'RTL', sub: 'Généraliste', audio: null, web: 'https://www.rtl.fr/ecouter', rb: { name: 'RTL', cc: 'FR' } },
+        { id: 'fr-nrj', nom: 'NRJ', sub: 'Hits', audio: 'https://scdn.nrjaudio.fm/adwz2/fr/30001/mp3_128.mp3?origine=fluxradios', web: 'https://www.nrj.fr/', rb: { name: 'NRJ', cc: 'FR' } },
+        { id: 'fr-musique', nom: 'France Musique', sub: 'Classique', audio: 'https://icecast.radiofrance.fr/francemusique-midfi.mp3?id=radiofrance', web: 'https://www.radiofrance.fr/francemusique', rb: { name: 'France Musique', cc: 'FR' } },
+        { id: 'fr-classique', nom: 'Radio Classique', sub: 'Classique', audio: 'https://str0.creacast.com/classique1', web: 'https://www.radioclassique.fr/', rb: { name: 'Radio Classique', cc: 'FR' } },
+        { id: 'fr-rmc', nom: 'RMC', sub: 'Sport · talk', audio: 'https://audio.bfmtv.com/rmcradio_128.mp3', web: 'https://rmc.bfmtv.com/', rb: { name: 'RMC', cc: 'FR' } },
+        { id: 'fr-nostalgie', nom: 'Nostalgie', sub: 'Années 60 70 80', audio: 'https://streaming.nrjaudio.fm/oug7girb92oc?origine=fluxradios', web: 'https://www.nostalgie.fr/', rb: { name: 'Nostalgie', cc: 'FR' } }
+      ],
+      en: [
+        { id: 'en-r4', nom: 'BBC Radio 4', sub: 'News · BBC', audio: 'https://lsn.lv/bbcradio.m3u8?station=bbc_radio_fourfm&bitrate=96000', web: 'https://www.bbc.co.uk/sounds/play/live:bbc_radio_fourfm', rb: { name: 'BBC Radio 4', cc: 'GB' } },
+        { id: 'en-lbc', nom: 'LBC', sub: 'Talk · news', audio: 'https://ice-sov.musicradio.com/LBCLondonHD?hdauth=:2000000000:a290d4b39a16153061d4c743008b9fe8d424a7e5ec6469d40acf51fdcd336e80', web: 'https://www.lbc.co.uk/', rb: { name: 'LBC', cc: 'GB' } },
+        { id: 'en-r2', nom: 'BBC Radio 2', sub: 'Pop · BBC', audio: 'https://lsn.lv/bbcradio.m3u8?station=bbc_radio_two&bitrate=96000', web: 'https://www.bbc.co.uk/sounds/play/live:bbc_radio_two', rb: { name: 'BBC Radio 2', cc: 'GB' } },
+        { id: 'en-heart', nom: 'Heart UK', sub: 'Pop', audio: 'https://media-ssl.musicradio.com/HeartUKMP3', web: 'https://www.heart.co.uk/', rb: { name: 'Heart UK', cc: 'GB' } },
+        { id: 'en-r3', nom: 'BBC Radio 3', sub: 'Classical · BBC', audio: 'https://lsn.lv/bbcradio.m3u8?station=bbc_radio_three&bitrate=96000', web: 'https://www.bbc.co.uk/sounds/play/live:bbc_radio_three', rb: { name: 'BBC Radio 3', cc: 'GB' } },
+        { id: 'en-classicfm', nom: 'Classic FM', sub: 'Classical', audio: 'https://media-ssl.musicradio.com/ClassicFM', web: 'https://www.classicfm.com/', rb: { name: 'Classic FM', cc: 'GB' } },
+        { id: 'en-talksport', nom: 'talkSPORT', sub: 'Sport', audio: 'https://radio.talksport.com/stream', web: 'https://talksport.com/', rb: { name: 'talkSPORT', cc: 'GB' } },
+        { id: 'en-r5', nom: 'BBC Radio 5 Live', sub: 'Sport · BBC', audio: 'https://lsn.lv/bbcradio.m3u8?station=bbc_radio_five_live&bitrate=96000', web: 'https://www.bbc.co.uk/sounds/play/live:bbc_radio_five_live', rb: { name: 'BBC Radio 5 Live', cc: 'GB' } }
+      ],
+      de: [
+        { id: 'de-dlf', nom: 'Deutschlandfunk', sub: 'Nachrichten', audio: 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3', web: 'https://www.deutschlandfunk.de/', rb: { name: 'Deutschlandfunk', cc: 'DE' } },
+        { id: 'de-br24', nom: 'BR24', sub: 'Nachrichten · BR', audio: 'https://dispatcher.rndfnk.com/br/br24/live/mp3/mid', web: 'https://www.br.de/radio/live/br24/', rb: { name: 'BR24', cc: 'DE' } },
+        { id: 'de-wdr2', nom: 'WDR 2', sub: 'Pop · WDR', audio: 'https://wdr-wdr2-rheinland.icecastssl.wdr.de/wdr/wdr2/rheinland/mp3/128/stream.mp3', web: 'https://www1.wdr.de/radio/wdr2/', rb: { name: 'WDR 2', cc: 'DE' } },
+        { id: 'de-swr3', nom: 'SWR3', sub: 'Pop · SWR', audio: 'https://liveradio.swr.de/sw282p3/swr3/play.mp3', web: 'https://www.swr3.de/', rb: { name: 'SWR3', cc: 'DE' } },
+        { id: 'de-brklassik', nom: 'BR-Klassik', sub: 'Klassik · BR', audio: 'https://dispatcher.rndfnk.com/br/brklassik/live/mp3/high', web: 'https://www.br-klassik.de/', rb: { name: 'BR-Klassik', cc: 'DE' } },
+        { id: 'de-klassik', nom: 'Klassik Radio', sub: 'Klassik', audio: 'https://klassikr.streamabc.net/klr-krdnational-mp3-192-4099384', web: 'https://www.klassikradio.de/', rb: { name: 'Klassik Radio', cc: 'DE' } },
+        { id: 'de-sportschau', nom: 'Sportschau', sub: 'Sport · ARD', audio: 'https://wdr-sportschau-liga1konferenz.icecastssl.wdr.de/wdr/sportschau/liga1konferenz/mp3/128/stream.mp3', web: 'https://www.sportschau.de/audio/', rb: { name: 'Sportschau', cc: 'DE' } },
+        { id: 'de-harmony', nom: 'harmony.fm', sub: '70er & 80er', audio: 'https://mp3.harmonyfm.de/harmonyfm/hqlivestream.mp3', web: 'https://www.harmonyfm.de/', rb: { name: 'harmony', cc: 'DE' } }
+      ],
+      it: [
+        { id: 'it-rai1', nom: 'Rai Radio 1', sub: 'Notizie · Rai', audio: 'https://icecdn-19d24861e90342cc8decb03c24c8a419.msvdn.net/icecastRelay/S16355530/Q4zh3NTu28Rx/icecast', web: 'https://www.raiplaysound.it/radio1', rb: { name: 'Rai Radio 1', cc: 'IT' } },
+        { id: 'it-rtl', nom: 'RTL 102.5', sub: 'Generalista', audio: 'https://StreamCdnF43-dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S97044836/tbbP8T1ZRPBL/playlist_audio.m3u8', web: 'https://www.rtl.it/', rb: { name: 'RTL 102.5', cc: 'IT' } },
+        { id: 'it-rds', nom: 'RDS', sub: 'Hit', audio: 'https://stream.rds.radio/audio/rds.stream_aac64/chunklist.m3u8', web: 'https://www.rds.it/', rb: { name: 'RDS', cc: 'IT' } },
+        { id: 'it-italia', nom: 'Radio Italia', sub: 'Pop italiano', audio: 'https://radioitaliasmi.akamaized.net/hls/live/2093120/RISMI/stream01/streamPlaylist.m3u8', web: 'https://www.radioitalia.it/', rb: { name: 'Radio Italia', cc: 'IT' } },
+        { id: 'it-rai3c', nom: 'Rai Radio 3 Classica', sub: 'Classica · Rai', audio: 'https://radiotreclassica-live.akamaized.net/hls/live/2032595/radiotreclassica/radiotreclassica/playlist.m3u8', web: 'https://www.raiplaysound.it/radio3classica', rb: { name: 'Rai Radio 3 Classica', cc: 'IT' } },
+        { id: 'it-classica', nom: 'Radio Classica', sub: 'Classica', audio: 'https://stream10.xdevel.com/audio0s978096-2470/stream/icecast.audio', web: 'https://www.radioclassica.fm/', rb: { name: 'Radio Classica', cc: 'IT' } },
+        { id: 'it-sportiva', nom: 'Radio Sportiva', sub: 'Sport', audio: 'https://sportiva.inmystream.it/stream/sportiva', web: 'https://www.radiosportiva.com/', rb: { name: 'Radio Sportiva', cc: 'IT' } },
+        { id: 'it-nostalgia', nom: 'Radio Nostalgia', sub: 'Successi di ieri', audio: 'https://rn1.fluidstream.eu/nostalgia_li.mp3', web: 'https://www.nostalgia.it/', rb: { name: 'Radio Nostalgia', cc: 'IT' } }
+      ],
+      pt: [
+        { id: 'pt-a1', nom: 'Antena 1', sub: 'Generalista · RTP', audio: 'https://streaming-live.rtp.pt/liveradio/antena180a/playlist.m3u8', web: 'https://www.rtp.pt/play/direto/antena1', rb: { name: 'Antena 1', cc: 'PT' } },
+        { id: 'pt-tsf', nom: 'TSF', sub: 'Notícias', audio: 'https://directo.tsf.pt/tsfdirecto.mp3', web: 'https://www.tsf.pt/', rb: { name: 'TSF Rádio Notícias', cc: 'PT' } },
+        { id: 'pt-rr', nom: 'Renascença', sub: 'Generalista', audio: 'https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_RENASCENCAAAC.aac', web: 'https://rr.pt/', rb: { name: 'Rádio Renascença', cc: 'PT' } },
+        { id: 'pt-observador', nom: 'Rádio Observador', sub: 'Notícias', audio: null, web: 'https://observador.pt/radio/', rb: { name: 'Rádio Observador', cc: 'PT' } },
+        { id: 'pt-a2', nom: 'Antena 2', sub: 'Clássica · RTP', audio: 'https://streaming-live.rtp.pt/liveradio/antena280a/playlist.m3u8', web: 'https://www.rtp.pt/play/direto/antena2', rb: { name: 'Antena 2', cc: 'PT' } },
+        { id: 'pt-a3', nom: 'Antena 3', sub: 'Música · RTP', audio: 'https://streaming-live.rtp.pt/liveradio/antena380a/playlist.m3u8', web: 'https://www.rtp.pt/play/direto/antena3', rb: { name: 'Antena 3', cc: 'PT' } },
+        { id: 'pt-comercial', nom: 'Rádio Comercial', sub: 'Pop', audio: null, web: 'https://radiocomercial.pt/', rb: { name: 'Rádio Comercial', cc: 'PT' } },
+        { id: 'pt-rfm', nom: 'RFM', sub: 'Hits', audio: null, web: 'https://rfm.pt/', rb: { name: 'RFM', cc: 'PT' } }
+      ]
+    };
+
+    function pintaRadios(){
+      const caixa = $('mRadios');
+      caixa.innerHTML = '';
+      (RADIOS[LLENGUA] || RADIOS.ca).forEach(r => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'r-boto'; b.dataset.audioId = r.id;
+        b.setAttribute('aria-label', `${r.nom} · ${L.directe}`);
+        b.innerHTML = '<span class="r-punt"></span><span class="r-txt"><span class="r-nom"></span><span class="r-sub"></span></span>';
+        b.querySelector('.r-nom').textContent = r.nom;
+        b.querySelector('.r-sub').textContent = r.sub;
+        b.addEventListener('click', () => {
+          if (b.dataset.nomesWeb){ window.open(r.web, '_blank', 'noopener'); return; }
+          reprodueix({ id: r.id, titol: r.nom, sub: L.directe, audio: r.audio, web: r.web, rb: r.rb, tipus: 'radio' });
+        });
+        caixa.appendChild(b);
+      });
+      requestAnimationFrame(() => caixa.querySelectorAll('.r-nom, .r-sub').forEach(n => encaixa(n, 8)));
+      pintaEstat();
+    }
+
+    // ---------- Podcasts: La Competència i Via lliure (RAC1) ----------
+    // Font: API pública d'Omny Studio (on RAC1 publica els programes sencers);
+    // si no respon, l'índex d'Apple Podcasts.
+    const OMNY_ORG = '47dc05c7-7279-4c6f-9b31-ae74013297d9';
+    const PROGRAMES = {
+      competencia: { omny: 'e38e0ded-b456-40ef-a8da-af1000eff5fc', apple: '330984064', n: 25, web: 'https://omny.fm/shows/la-competencia-programa-sencer' },
+      via: { omny: '48f190bf-f9df-4d37-961b-af0300af6177', apple: '395147618', n: 80, web: 'https://omny.fm/shows/via-lliure-programa-sencer' }
+    };
+    const NUM_DIA = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+    const fmtMadrid = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', weekday: 'short', day: 'numeric', month: 'numeric', hour: '2-digit', hourCycle: 'h23' });
+    function madrid(d){
+      const o = {}; fmtMadrid.formatToParts(d).forEach(p => { o[p.type] = p.value; });
+      return { dow: NUM_DIA[o.weekday], dia: +o.day, mes: +o.month, hora: parseInt(o.hour, 10) % 24 };
+    }
+    function clipsOmny(p){
+      return ambTemps(fetch(`https://api.omny.fm/orgs/${OMNY_ORG}/programs/${p.omny}/clips?pageSize=${p.n}`), 12000)
+        .then(r => { if (!r.ok) throw new Error('omny'); return r.json(); })
+        .then(j => (j.Clips || []).map(c => ({ id: c.Id, titol: neteja(c.Title), data: new Date(c.PublishedUtc), audio: c.AudioUrl, web: c.PublishedUrl })));
+    }
+    function clipsApple(p){
+      return new Promise((res, rej) => {
+        const cb = '__rellotgeApple' + Date.now() + Math.floor(Math.random() * 1e5);
+        const s = document.createElement('script');
+        const t = setTimeout(() => { neta(); rej(new Error('apple')); }, 12000);
+        function neta(){ clearTimeout(t); try { delete window[cb]; } catch(e){ window[cb] = undefined; } s.remove(); }
+        window[cb] = j => {
+          neta();
+          res((j.results || []).filter(r => r.wrapperType === 'podcastEpisode').map(r => ({
+            id: String(r.trackId), titol: neteja(r.trackName), data: new Date(r.releaseDate), audio: r.episodeUrl, web: r.trackViewUrl })));
+        };
+        s.onerror = () => { neta(); rej(new Error('apple')); };
+        s.src = `https://itunes.apple.com/lookup?id=${p.apple}&entity=podcastEpisode&limit=${p.n}&callback=${cb}`;
+        document.head.appendChild(s);
+      });
+    }
+    const clips = p => clipsOmny(p).catch(() => clipsApple(p));
+    // El darrer programa de cada dia indicat, del més antic al més recent (l'últim emès al final)
+    function darrerPerDia(llista, dies, hora){
+      const ara = Date.now(), perDia = {};
+      llista.forEach(c => {
+        if (!c.audio || isNaN(c.data) || c.data.getTime() > ara) return;
+        const m = madrid(c.data);
+        if (!dies.includes(m.dow)) return;
+        if (hora != null && m.hora !== hora) return;
+        if (!perDia[m.dow] || c.data > perDia[m.dow].data){ c.m = m; perDia[m.dow] = c; }
+      });
+      return Object.values(perDia).sort((a, b) => a.data - b.data);
+    }
+
+    const memoria = { competencia: null, via: null };
+    let progCarregats = 0, progOcupat = false;
+
+    function botoPrograma(c, darrer, programa, curt){
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'p-boto' + (darrer ? ' darrer' : '');
+      b.dataset.audioId = c.id;
+      const nomDia = majus(L.dies[c.m.dow]);
+      const etq = curt ? L.curts[(c.m.dow + 6) % 7] : nomDia;
+      b.innerHTML = `<span class="p-dia"></span><span class="p-data"></span><span class="p-ic">${IC_PLAY}${IC_PAUSA}</span><span class="p-barra"></span>`;
+      b.querySelector('.p-dia').textContent = etq;
+      b.querySelector('.p-data').textContent = `${c.m.dia}/${c.m.mes}`;
+      b.setAttribute('aria-label', `${programa}, ${nomDia} ${c.m.dia}/${c.m.mes}` + (c.titol ? `: ${c.titol}` : ''));
+      b.title = c.titol || '';
+      b.addEventListener('click', () => reprodueix({ id: c.id, titol: programa, sub: `${nomDia} ${c.m.dia}/${c.m.mes}`, audio: c.audio, web: c.web, tipus: 'podcast', clip: c }));
+      return b;
+    }
+
+    function errorProgrames(caixa, p){
+      caixa.innerHTML = '<div class="m-estat"><span></span> <a target="_blank" rel="noopener"></a></div>';
+      caixa.querySelector('span').textContent = L.errProgrames;
+      caixa.querySelector('a').textContent = L.obreWeb; caixa.querySelector('a').href = p.web;
+    }
+
+    // Títol de l'episodi de La Competència que sona (o del darrer), amb enllaç al web
+    function pintaTitolPodcast(){
+      const t = $('pTitol'); if (!t) return;
+      const llista = Array.isArray(memoria.competencia) ? memoria.competencia : null;
+      let c = null;
+      if (sona && sona.clip && llista && llista.includes(sona.clip)) c = sona.clip;
+      else if (llista) c = llista[llista.length - 1];
+      const txt = t.querySelector('.p-titol-txt'), a = t.querySelector('a');
+      if (!c){ t.hidden = true; return; }
+      t.hidden = false;
+      if (txt.textContent !== c.titol) txt.textContent = c.titol;
+      if (c.web){ a.hidden = false; a.href = c.web; a.setAttribute('aria-label', L.obreWeb); } else a.hidden = true;
+    }
+
+    function pintaProgrames(){
+      [[memoria.competencia, $('pCompetencia'), PROGRAMES.competencia, 'La Competència', true],
+       [memoria.via, $('pVia'), PROGRAMES.via, 'Via lliure', false]].forEach(([llista, caixa, p, nom, curt]) => {
+        if (!llista) return;
+        if (llista === 'error'){ errorProgrames(caixa, p); return; }
+        caixa.innerHTML = '';
+        llista.forEach((c, i) => caixa.appendChild(botoPrograma(c, i === llista.length - 1, nom, curt)));
+      });
+      pintaEstat();
+    }
+
+    function carregaProgrames(força){
+      if (progOcupat) return;
+      if (!força && Date.now() - progCarregats < 10 * 60 * 1000) return;
+      progOcupat = true;
+      const p1 = clips(PROGRAMES.competencia).then(ll => {
+        const l = darrerPerDia(ll, [1, 2, 3, 4, 5], null); if (!l.length) throw new Error('buit'); memoria.competencia = l;
+      }).catch(() => { if (!Array.isArray(memoria.competencia)) memoria.competencia = 'error'; });
+      const p2 = clips(PROGRAMES.via).then(ll => {
+        const l = darrerPerDia(ll, [6, 0], 7); if (!l.length) throw new Error('buit'); memoria.via = l;
+      }).catch(() => { if (!Array.isArray(memoria.via)) memoria.via = 'error'; });
+      Promise.all([p1, p2]).then(() => { progOcupat = false; progCarregats = Date.now(); pintaProgrames(); });
+    }
+
+    // ---------- Notícies ----------
+    // Primer l'agència o el mitjà de referència de cada àrea lingüística; si no
+    // respon, el següent. Els fils RSS es llegeixen a través d'intermediaris que
+    // permeten llegir-los des del navegador, o amb rss2json; Google Notícies fa de reserva.
+    const MAX_N = 10;
+    const INTERMEDIARIS = [
+      u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
+      u => 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(u),
+      u => 'https://corsproxy.io/?url=' + encodeURIComponent(u)
+    ];
+    function itemsRss(xml){
+      const doc = new DOMParser().parseFromString(xml, 'text/xml');
+      return [...doc.querySelectorAll('item')].map(it => ({
+        title: (it.querySelector('title') || {}).textContent || '',
+        link: (it.querySelector('link') || {}).textContent || '',
+        pubDate: (it.querySelector('pubDate') || {}).textContent || ''
+      }));
+    }
+    function rssIntermediari(rss, i){
+      if (i >= INTERMEDIARIS.length) return Promise.reject(new Error('cap'));
+      return ambTemps(fetch(INTERMEDIARIS[i](rss), { cache: 'no-store' }), 9000)
+        .then(r => { if (!r.ok) throw new Error('http'); return r.text(); })
+        .then(x => { const it = itemsRss(x); if (!it.length) throw new Error('buit'); return it; })
+        .catch(() => rssIntermediari(rss, i + 1));
+    }
+    function rss2json(rss){
+      return ambTemps(fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rss)), 9000)
+        .then(r => r.json())
+        .then(j => { const it = (j && j.items) || []; if (!it.length) throw new Error('buit'); return it; });
+    }
+    function fil(rss){
+      return rssIntermediari(rss, 0).catch(() => rss2json(rss)).then(items => items
+        .map(it => ({ titol: neteja(it.title), url: neteja(it.link), d: Date.parse(it.pubDate || '') || 0 }))
+        .filter(it => it.titol && it.url)
+        .sort((x, y) => y.d - x.d)
+        .slice(0, MAX_N));
+    }
+    function google(q, hl, gl, treu){
+      const rss = 'https://news.google.com/rss/search?q=' + encodeURIComponent(q) + `&hl=${hl}&gl=${gl}&ceid=${gl}:${hl.slice(0, 2)}`;
+      return rss2json(rss).catch(() => rssIntermediari(rss, 0)).then(items => items.slice(0, MAX_N).map(it => {
+        let titol = neteja(it.title);
+        titol = treu ? titol.replace(treu, '') : titol.replace(/\s+-\s+([^-]+)$/, ' · $1');
+        return { titol, url: it.link };
+      }));
+    }
+    // ACN: no té RSS; es llegeix la secció «Al minut» de la portada
+    function acn(i = 0){
+      if (i >= INTERMEDIARIS.length) return Promise.reject(new Error('cap'));
+      return ambTemps(fetch(INTERMEDIARIS[i]('https://www.acn.cat/'), { cache: 'no-store' }), 9000)
+        .then(r => { if (!r.ok) throw new Error('http'); return r.text(); })
+        .then(html => {
+          const doc = new DOMParser().parseFromString(html, 'text/html');
+          const enllacos = [...doc.querySelectorAll('a[href*="/new/"]')];
+          const cap = [...doc.querySelectorAll('h1,h2,h3,h4,span,div,p')].find(e => neteja(e.textContent).toLowerCase() === 'al minut');
+          const triats = cap ? enllacos.filter(a => cap.compareDocumentPosition(a) & Node.DOCUMENT_POSITION_FOLLOWING) : enllacos;
+          const vist = {}, ordre = [];
+          triats.forEach(a => {
+            let h = a.getAttribute('href') || '';
+            if (h.indexOf('http') !== 0) h = 'https://www.acn.cat' + (h.charAt(0) === '/' ? '' : '/') + h;
+            const t = neteja(a.textContent);
+            if (t.length < 20) return;
+            if (!vist[h]){ vist[h] = t; ordre.push(h); } else if (t.length > vist[h].length) vist[h] = t;
+          });
+          const r = ordre.slice(0, MAX_N).map(h => ({ titol: vist[h], url: h }));
+          if (!r.length) throw new Error('buit');
+          return r;
+        })
+        .catch(() => acn(i + 1));
+    }
+    const FONTS = {
+      ca: [
+        { peu: 'Agència Catalana de Notícies', web: 'https://www.acn.cat/', load: () => acn() },
+        { peu: 'Agència Catalana de Notícies', web: 'https://www.acn.cat/', load: () => google('site:acn.cat when:1d', 'ca', 'ES', /\s+-\s+(ACN|acn\.cat|Agència Catalana de Notícies)\s*$/i) }
+      ],
+      // AGN (Axencia Galega de Noticias) no publica cap fil obert: Nós Diario (últimas novas),
+      // Europa Press Galicia i, de reserva, Google Noticias en galego
+      gl: [
+        { peu: 'Nós Diario', web: 'https://www.nosdiario.gal/', load: () => fil('https://www.nosdiario.gal/rss') },
+        { peu: 'Europa Press Galicia', web: 'https://www.europapress.es/galicia/', load: () => google('site:europapress.es/galicia when:1d', 'gl', 'ES', /\s+-\s+(Europa Press|europapress\.es).*$/i) },
+        { peu: 'Google Noticias', web: 'https://news.google.com/?hl=gl&gl=ES&ceid=ES:gl', load: () => google('Galicia when:1d', 'gl', 'ES') }
+      ],
+      eu: [
+        { peu: 'Berria', web: 'https://www.berria.eus/', load: () => fil('https://www.berria.eus/uploads/feeds/feed_berria_eu.xml') },
+        { peu: 'Berria', web: 'https://www.berria.eus/', load: () => google('site:berria.eus when:1d', 'eu', 'ES', /\s+-\s+(Berria|berria\.eus)\s*$/i) },
+        { peu: 'naiz:', web: 'https://www.naiz.eus/eu', load: () => google('site:naiz.eus when:1d', 'eu', 'ES') }
+      ],
+      fr: [
+        { peu: 'France 24', web: 'https://www.france24.com/fr/', load: () => fil('https://www.france24.com/fr/rss') },
+        { peu: 'AFP (Google Actualités)', web: 'https://www.afp.com/fr', load: () => google('site:afp.com when:2d', 'fr', 'FR', /\s+-\s+(AFP|afp\.com).*$/i) },
+        { peu: 'Reuters (Google Actualités)', web: 'https://www.reuters.com/', load: () => google('site:reuters.com when:1d', 'fr', 'FR', /\s+-\s+Reuters\s*$/i) }
+      ],
+      en: [
+        { peu: 'Reuters (Google News)', web: 'https://www.reuters.com/world/uk/', load: () => google('site:reuters.com when:1d', 'en-GB', 'GB', /\s+-\s+Reuters\s*$/i) },
+        { peu: 'The Independent', web: 'https://www.independent.co.uk/news/uk', load: () => fil('https://www.independent.co.uk/news/uk/rss') },
+        { peu: 'Evening Standard', web: 'https://www.standard.co.uk/news/uk', load: () => fil('https://www.standard.co.uk/news/uk/rss') }
+      ],
+      de: [
+        { peu: 'dpa (ZEIT ONLINE)', web: 'https://www.zeit.de/news/index', load: () => fil('https://newsfeed.zeit.de/news/index') },
+        { peu: 'stern', web: 'https://www.stern.de/', load: () => fil('https://www.stern.de/feed/standard/all/') },
+        { peu: 'AFP (Google News)', web: 'https://www.afp.com/de', load: () => google('AFP when:1d', 'de', 'DE') }
+      ],
+      it: [
+        { peu: 'ANSA · Ultima ora', web: 'https://www.ansa.it/', load: () => fil('https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml') },
+        { peu: 'Adnkronos', web: 'https://www.adnkronos.com/', load: () => fil('https://www.adnkronos.com/RSS_Ultimora.xml') },
+        { peu: 'ANSA', web: 'https://www.ansa.it/', load: () => fil('https://www.ansa.it/sito/ansait_rss.xml') },
+        { peu: 'AGI', web: 'https://www.agi.it/', load: () => google('site:agi.it when:1d', 'it', 'IT', /\s+-\s+(AGI|Agenzia Italia|agi\.it).*$/i) }
+      ],
+      // Lusa no té RSS obert: RTP Notícias (últimas), i Lusa a través de Google Notícias
+      pt: [
+        { peu: 'RTP Notícias', web: 'https://www.rtp.pt/noticias/', load: () => fil('https://www.rtp.pt/noticias/rss') },
+        { peu: 'Lusa (Google Notícias)', web: 'https://www.lusa.pt/', load: () => google('Lusa when:1d', 'pt-PT', 'PT') },
+        { peu: 'Público', web: 'https://www.publico.pt/', load: () => fil('https://feeds.feedburner.com/PublicoRSS') }
+      ]
+    };
+    function provaFonts(fonts, i = 0){
+      if (i >= fonts.length) return Promise.reject(new Error('cap'));
+      return fonts[i].load()
+        .then(l => { if (!l || !l.length) throw new Error('buit'); return { font: fonts[i], titulars: l }; })
+        .catch(() => provaFonts(fonts, i + 1));
+    }
+
+    // Amaga els titulars que no hi caben sencers (mai no en queda cap a mitges)
+    function encaixaNoticies(){
+      const ll = $('mNoticies'); if (!ll) return;
+      const items = [...ll.querySelectorAll('.n-item')];
+      items.forEach(a => { a.hidden = false; });
+      const alt = ll.clientHeight;
+      items.forEach(a => { if (a.offsetTop + a.offsetHeight > alt + 1) a.hidden = true; });
+    }
+
+    let notCarregades = 0, notLlengua = '', notToken = 0, notOcupat = false, notDarrer = null;
+    function pintaNoticies(){
+      const ll = $('mNoticies');
+      if (!notDarrer || notDarrer.llengua !== LLENGUA) return;
+      ll.innerHTML = '';
+      notDarrer.titulars.forEach((n, i) => {
+        const a = document.createElement('a');
+        a.className = 'n-item'; a.draggable = false; a.href = n.url; a.target = '_blank'; a.rel = 'noopener';
+        a.innerHTML = `<span class="n-num"></span><span class="n-txt"></span><span class="n-ext">${ICON_EXT}</span>`;
+        a.querySelector('.n-num').textContent = i + 1;
+        a.querySelector('.n-txt').textContent = n.titol;
+        ll.appendChild(a);
+      });
+      $('nPeu').textContent = `${notDarrer.font.peu} · ${L.actualitzat(notDarrer.hora)}`;
+      requestAnimationFrame(encaixaNoticies);
+    }
+    function carregaNoticies(força, canviLlengua){
+      if (notOcupat && !canviLlengua) return;
+      if (!força && notLlengua === LLENGUA && Date.now() - notCarregades < 5 * 60 * 1000) return;
+      const token = ++notToken, llengua = LLENGUA, fonts = FONTS[llengua] || FONTS.ca;
+      notOcupat = true;
+      const ll = $('mNoticies');
+      if (notLlengua !== llengua){
+        ll.innerHTML = '<div class="m-estat"></div>'; ll.firstChild.textContent = L.carregant;
+        $('nPeu').textContent = '';
+      }
+      provaFonts(fonts).then(({ font, titulars }) => {
+        if (token !== notToken) return;
+        const ara = new Date();
+        notDarrer = { llengua, font, titulars, hora: `${dosD(ara.getHours())}:${dosD(ara.getMinutes())}` };
+        notCarregades = Date.now(); notLlengua = llengua;
+        pintaNoticies();
+      }).catch(() => {
+        if (token !== notToken || notLlengua === llengua) return;
+        ll.innerHTML = '<div class="m-estat"><span></span> <a target="_blank" rel="noopener"></a></div>';
+        ll.querySelector('span').textContent = L.errNoticies;
+        const a = ll.querySelector('a'); a.textContent = L.obreWeb; a.href = fonts[0].web;
+        $('nPeu').textContent = '';
+      }).then(() => { if (token === notToken) notOcupat = false; });
+    }
+
+    // ---------- Canvi de llengua, mida i actualitzacions ----------
+    window.__mediaLlengua = () => {
+      pintaRadios();
+      pintaProgrames();
+      const c = $('pCompetencia'), v = $('pVia');
+      if (!memoria.competencia){ c.innerHTML = `<div class="m-estat">${L.carregant}</div>`; }
+      if (!memoria.via){ v.innerHTML = ''; }
+      if (sona && sona.tipus === 'radio') sona.sub = L.directe;
+      pintaEstat();
+      carregaNoticies(true, true);
+    };
+    let tRes = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(tRes);
+      tRes = setTimeout(() => {
+        document.querySelectorAll('#mRadios .r-nom, #mRadios .r-sub').forEach(n => encaixa(n, 8));
+        encaixaNoticies();
+      }, 150);
+    });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => {
+      document.querySelectorAll('#mRadios .r-nom, #mRadios .r-sub').forEach(n => encaixa(n, 8));
+      encaixaNoticies();
+    });
+
+    pintaRadios();
+    $('pCompetencia').innerHTML = `<div class="m-estat">${L.carregant}</div>`;
+    setTimeout(() => { carregaProgrames(true); carregaNoticies(true); }, 1200);
+    setInterval(() => { if (document.visibilityState === 'visible') carregaProgrames(true); }, 20 * 60 * 1000);
+    setInterval(() => { if (document.visibilityState === 'visible') carregaNoticies(true); }, 10 * 60 * 1000);
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible'){ carregaNoticies(false); carregaProgrames(false); } });
+  })();
 
   programaTic();
 

@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Rellotge">
+<meta name="apple-mobile-web-app-title" content="República">
 <meta name="theme-color" content="#140e09">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icones/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="icones/favicon-32.png">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Rellotge d'Època</title>
+<title>República</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
@@ -981,7 +981,7 @@
 
     filtreOmbra(defs, 'aOmbraMa', 4, 7, 3, .45);
 
-    // Corona bisellada esglaonada (la mateixa de BLANCPAIN), en coure vell enfosquit
+    // Corona bisellada esglaonada (la mateixa de CAPITAINE), en coure vell enfosquit
     gradient(defs, 'linearGradient', 'aCoure', {x1:'0', y1:'0', x2:'0.35', y2:'1'}, [['0%','#d6a77f'],['30%','#a36a45'],['62%','#6e4127'],['100%','#331a0c']]);
     gradient(defs, 'linearGradient', 'aCoureInv', {x1:'0.35', y1:'1', x2:'0', y2:'0'}, [['0%','#c99772'],['35%','#8a5636'],['70%','#55301b'],['100%','#28140a']]);
     const fCV = el('filter', {id:'aCoureVell', x:'0', y:'0', width:'100%', height:'100%'}, defs);
@@ -1043,14 +1043,14 @@
       el('path', {d:'M 0,-8 L 5,4 L 0,1.5 L -5,4 Z', transform:`translate(${px(254,a)} ${py(254,a)}) rotate(${a})`, stroke:'none', fill:'#1a1209', class:'lume'}, tinta);
     }
     numeralRomans(tinta, 194, 66, {stroke:'none', fill:'#1a1209'}, {sx:0.7, sy:1.22, ls:-2}).classList.add('lume');
-    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de BLANCPAIN
+    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de CAPITAINE
     const marcaA = el('g', {transform:`translate(${C} ${C+82}) scale(0.72 1.18)`}, tinta);
     el('text', {x:0, y:0, 'text-anchor':'middle', 'dominant-baseline':'central', 'font-family':'Cinzel, serif', 'font-weight':700,
       'font-size':38, 'letter-spacing':-1, stroke:'none', fill:'#1a1209'}, marcaA).textContent = 'XM';
     el('line', {x1:C-22, y1:C+108, x2:C+22, y2:C+108, stroke:'#1a1209', 'stroke-width':.9}, tinta);
     el('path', {d:`M ${C},${C+105} L ${C+3},${C+108} L ${C},${C+111} L ${C-3},${C+108} Z`, stroke:'none', fill:'#1a1209'}, tinta);
 
-    // ---- Visor del dia de la setmana (com el de BLANCPAIN, però amb fons de pergamí) ----
+    // ---- Visor del dia de la setmana (com el de CAPITAINE, però amb fons de pergamí) ----
     const AX = C-80, AY = C-114, AW = 160, AH = 34;
     gradient(defs, 'linearGradient', 'aVisorPaper', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#f1dcae'],['55%','#e6c993'],['100%','#d4b072']]);
     gradient(defs, 'linearGradient', 'aOmbraVisor', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2a1604',.42],['24%','#2a1604',0],['80%','#2a1604',0],['100%','#2a1604',.28]]);
@@ -1196,7 +1196,7 @@
     // ---- Nom de la casa, imprès a l'esfera ----
     const nomCasa = el('text', {x:C, y:C-58, 'text-anchor':'middle', 'dominant-baseline':'central',
       'font-family':'Cinzel, serif', 'font-weight':700, 'font-size':17, 'letter-spacing':2.2, fill:'#2c241c'}, svg);
-    nomCasa.textContent = 'BLANCPAIN';
+    nomCasa.textContent = 'CAPITAINE';
     el('line', {x1:C-26, y1:C-45, x2:C+26, y2:C-45, stroke:'#b97752', 'stroke-width':.9}, svg);
     el('path', {d:`M ${C},${C-48} L ${C+3},${C-45} L ${C},${C-42} L ${C-3},${C-45} Z`, fill:'url(#cOrRosa)'}, svg);
 
@@ -1421,7 +1421,7 @@
     const turons = `A ${HR} ${HR} 0 0 0 ${C} ${CUSP} A ${HR} ${HR} 0 0 0 ${px(226,-angE)} ${py(226,-angE)}`;
     el('path', {d:`M ${px(226,-angE)} ${py(226,-angE)} A 226 226 0 0 1 ${px(226,angE)} ${py(226,angE)} ${turons} Z`}, clipCel);
     const cel = el('g', {'clip-path':'url(#dClipCel)'}, svg);
-    // Disc del firmament: gira mitja volta per llunació (com el de BLANCPAIN); la lluna plena passa sota el 12
+    // Disc del firmament: gira mitja volta per llunació (com el de CAPITAINE); la lluna plena passa sota el 12
     const firmament = el('g', {}, cel);
     el('circle', {cx:C, cy:C, r:228, fill:'url(#dCel)'}, firmament);
     gradient(defs, 'radialGradient', 'dViaLactia', {cx:'50%', cy:'50%', r:'50%'}, [['0%','#9fb4ff',.18],['100%','#9fb4ff',0]]);
@@ -1432,7 +1432,7 @@
       if (s > 0.9) el('path', {d:'M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z', transform:`translate(${px(r,a).toFixed(1)} ${py(r,a).toFixed(1)}) scale(${(0.6+s*0.5).toFixed(2)})`, fill:'#fffbe8', class:'estel', style:`animation-delay:${(i*0.37)%2.6}s`}, firmament);
       else el('circle', {cx:px(r,a).toFixed(1), cy:py(r,a).toFixed(1), r:(0.4+s*1.1).toFixed(2), fill:'#ffffff', opacity:(0.35+s*0.6).toFixed(2)}, firmament);
     }
-    // estels grossos amb raigs, com els de BLANCPAIN, repartits pel cel
+    // estels grossos amb raigs, com els de CAPITAINE, repartits pel cel
     [[-150,-40,1.4],[-95,-120,1.1],[30,-150,1.25],[120,-95,1.0],[160,20,1.3],[95,110,1.1],[-20,160,1.2],[-120,95,1.0],[-60,40,.8],[60,-30,.85],[-170,60,.9],[150,-150,.8]].forEach(([x,y,s],i)=>{
       el('path', {d:'M0,-7 L1.4,-1.4 L7,0 L1.4,1.4 L0,7 L-1.4,1.4 L-7,0 L-1.4,-1.4 Z', transform:`translate(${C+x} ${C+y}) scale(${s})`, fill:'#fff6da', class:'estel', style:`animation-delay:${(i*0.53)%2.6}s`}, firmament);
     });
@@ -1568,7 +1568,7 @@
       const d = ara.getDate();
       busDataRot.setAttribute('transform', `rotate(${((d-1)*360/31).toFixed(2)} ${C} ${C})`);
       textosData.forEach((t,i)=> t.setAttribute('fill', (i+1)===d ? '#ff5b4f' : '#e9ebee'));
-      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de BLANCPAIN
+      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de CAPITAINE
       const iAvui = (ara.getDay()+6)%7;
       const fe = festiu(ara);
       textosDia.forEach((t,i)=>{
@@ -2114,7 +2114,7 @@
     if (soActiu){ audio(); tocaQuarts(1, 0.05); }
   });
 
-  // So màgic de celesta durant el gir (a l'estil de la dansa de la fada de sucre)
+  // So de capsa de música durant el gir
   let eco = null;
   function sortidaMagica(ctx){
     if (eco) return eco;
@@ -2140,9 +2140,6 @@
       o.start(quan); o.stop(quan + d + 0.05);
     });
   }
-  // mi menor harmònica: el color misteriós de la celesta
-  const ESCALA = [0, 2, 3, 5, 7, 8, 11];
-  const nota = g => { const oct = Math.floor(g/7), i = ((g%7)+7)%7; return 329.63 * Math.pow(2, oct + ESCALA[i]/12); };
   function cloc(ctx, quan){
     const o = ctx.createOscillator(), g = ctx.createGain();
     o.type='triangle';
@@ -2150,29 +2147,31 @@
     g.gain.setValueAtTime(0.0001, quan); g.gain.linearRampToValueAtTime(.28, quan+0.008); g.gain.exponentialRampToValueAtTime(0.0008, quan+0.25);
     o.connect(g); g.connect(ctx.destination); o.start(quan); o.stop(quan+0.3);
   }
+  const HZ = { Fs2:92.50, A2:110.00, B2:123.47, D3:146.83, B4:493.88, Cs5:554.37, D5:587.33, E5:659.26, Fs5:739.99, A5:880.00 };
+  // Durant el gir: les primeres notes d'Els Segadors, com una capsa de música, en si menor.
+  // Ritme pres de l'enregistrament instrumental (3/4, anacrusi d'un temps): [nota, durada en temps]
+  const SEGADORS = [
+    ['B4',.75],['Cs5',.25],                                    // Ca- ta-
+    ['D5',1.5],['E5',.5],['Cs5',.5],['D5',.5],                 // | lu-  nya tri- om-
+    ['B4',2],['D5',.75],['E5',.25],                            // | fant,  tor- na-
+    ['Fs5',1],['Fs5',.5],['Fs5',.5],['A5',.5],['Fs5',.5],      // | rà  a  ser  ri- ca i
+    ['E5',1],['D5',2]                                          // | ple- na!
+  ];
+  const BAIXOS = [[0,'Fs2'],[1,'B2'],[4,'B2'],[6,'A2'],[7,'D3'],[10,'A2'],[11,'D3']]; // [temps, nota]: als temps forts
   function soMagic(durada){
     if (!soActiu) return;
     const ctx = audio(); if (!ctx) return;
     const desti = sortidaMagica(ctx);
-    const t0 = ctx.currentTime + 0.03;
-    let t = 0, grau = 7, dir = 1, pas = 0;
-    while (t < durada - 0.7){
-      // la densitat de notes segueix la velocitat del gir: lent, ràpid, lent
-      const v = Math.sin(Math.PI * Math.min(1, t/durada));
-      const interval = 0.30 - 0.21*v;
-      const vol = 0.10 + 0.07*v;
-      celesta(ctx, desti, nota(grau), t0 + t, vol);
-      // espurnes agudes que piulen per sobre
-      if (Math.random() < 0.18 + 0.2*v) celesta(ctx, desti, nota(grau + 7 + (Math.random()<.5?2:4)), t0 + t + interval*0.5, vol*0.55);
-      // arpegis que pugen i baixen, amb algun salt capriciós
-      pas++;
-      grau += dir * (Math.random() < 0.7 ? 1 : 2);
-      if (grau > 17 || (pas % 9 === 0 && Math.random() < .5)) dir = -1;
-      if (grau < 5) dir = 1;
-      t += interval;
-    }
-    // cadència final que s'atura just abans del cloc
-    [[11, 0], [9, .16], [7, .34]].forEach(([g, dt])=> celesta(ctx, desti, nota(g), t0 + durada - 0.62 + dt, 0.13));
+    const total = SEGADORS.reduce((s, n) => s + n[1], 0);
+    const temps = (durada - 0.9) / total;          // la melodia omple el gir i acaba just abans del cloc
+    const t0 = ctx.currentTime + 0.05;
+    let t = 0;
+    SEGADORS.forEach(([n, d], i) => {
+      const fort = i === 0 || (t >= 1 && (t - 1) % 3 === 0);   // primer temps de cada compàs
+      celesta(ctx, desti, HZ[n], t0 + t*temps, fort ? 0.17 : 0.13);
+      t += d;
+    });
+    BAIXOS.forEach(([b, n]) => celesta(ctx, desti, HZ[n], t0 + b*temps, 0.09));
     cloc(ctx, t0 + durada - 0.08);
   }
 
@@ -3127,7 +3126,7 @@
           navigator.mediaSession.metadata = new MediaMetadata({
             title: item.titol + (item.sub ? ' · ' + item.sub : ''),
             artist: item.tipus === 'radio' ? L.directe : 'RAC1',
-            album: "Rellotge d'Època",
+            album: "República",
             artwork: [{ src: 'icones/icona-512.png', sizes: '512x512', type: 'image/png' }]
           });
         } catch(e){}

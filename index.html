@@ -90,13 +90,13 @@
     transform-style: preserve-3d;
     -webkit-transform-style: preserve-3d;
     transition: transform 8s cubic-bezier(.42,.0,.18,1);
+    transform: rotateY(0deg); will-change: transform;   /* capa 3D preparada des de l'inici */
   }
   .cilindre{
     position:absolute; inset:0;
     transform-style: preserve-3d; -webkit-transform-style: preserve-3d;
-    pointer-events:none; opacity:0; transition: opacity .25s;
+    pointer-events:none;   /* sempre pintat: queda tapat per les cares, i així el primer gir no l'ha de crear de nou */
   }
-  .rellotge.girant .cilindre{ opacity:1; }
   .capa-volum{
     position:absolute; inset:0.4%; border-radius:50%;
     background-image: var(--textura-patina);
@@ -981,7 +981,7 @@
 
     filtreOmbra(defs, 'aOmbraMa', 4, 7, 3, .45);
 
-    // Corona bisellada esglaonada (la mateixa de BLANCPAIN), en coure vell enfosquit
+    // Corona bisellada esglaonada (la mateixa de CAPITAINE), en coure vell enfosquit
     gradient(defs, 'linearGradient', 'aCoure', {x1:'0', y1:'0', x2:'0.35', y2:'1'}, [['0%','#d6a77f'],['30%','#a36a45'],['62%','#6e4127'],['100%','#331a0c']]);
     gradient(defs, 'linearGradient', 'aCoureInv', {x1:'0.35', y1:'1', x2:'0', y2:'0'}, [['0%','#c99772'],['35%','#8a5636'],['70%','#55301b'],['100%','#28140a']]);
     const fCV = el('filter', {id:'aCoureVell', x:'0', y:'0', width:'100%', height:'100%'}, defs);
@@ -1043,14 +1043,14 @@
       el('path', {d:'M 0,-8 L 5,4 L 0,1.5 L -5,4 Z', transform:`translate(${px(254,a)} ${py(254,a)}) rotate(${a})`, stroke:'none', fill:'#1a1209', class:'lume'}, tinta);
     }
     numeralRomans(tinta, 194, 66, {stroke:'none', fill:'#1a1209'}, {sx:0.7, sy:1.22, ls:-2}).classList.add('lume');
-    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de BLANCPAIN
+    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de CAPITAINE
     const marcaA = el('g', {transform:`translate(${C} ${C+82}) scale(0.72 1.18)`}, tinta);
     el('text', {x:0, y:0, 'text-anchor':'middle', 'dominant-baseline':'central', 'font-family':'Cinzel, serif', 'font-weight':700,
       'font-size':38, 'letter-spacing':-1, stroke:'none', fill:'#1a1209'}, marcaA).textContent = 'XM';
     el('line', {x1:C-22, y1:C+108, x2:C+22, y2:C+108, stroke:'#1a1209', 'stroke-width':.9}, tinta);
     el('path', {d:`M ${C},${C+105} L ${C+3},${C+108} L ${C},${C+111} L ${C-3},${C+108} Z`, stroke:'none', fill:'#1a1209'}, tinta);
 
-    // ---- Visor del dia de la setmana (com el de BLANCPAIN, però amb fons de pergamí) ----
+    // ---- Visor del dia de la setmana (com el de CAPITAINE, però amb fons de pergamí) ----
     const AX = C-80, AY = C-114, AW = 160, AH = 34;
     gradient(defs, 'linearGradient', 'aVisorPaper', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#f1dcae'],['55%','#e6c993'],['100%','#d4b072']]);
     gradient(defs, 'linearGradient', 'aOmbraVisor', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2a1604',.42],['24%','#2a1604',0],['80%','#2a1604',0],['100%','#2a1604',.28]]);
@@ -1196,7 +1196,7 @@
     // ---- Nom de la casa, imprès a l'esfera ----
     const nomCasa = el('text', {x:C, y:C-58, 'text-anchor':'middle', 'dominant-baseline':'central',
       'font-family':'Cinzel, serif', 'font-weight':700, 'font-size':17, 'letter-spacing':2.2, fill:'#2c241c'}, svg);
-    nomCasa.textContent = 'BLANCPAIN';
+    nomCasa.textContent = 'CAPITAINE';
     el('line', {x1:C-26, y1:C-45, x2:C+26, y2:C-45, stroke:'#b97752', 'stroke-width':.9}, svg);
     el('path', {d:`M ${C},${C-48} L ${C+3},${C-45} L ${C},${C-42} L ${C-3},${C-45} Z`, fill:'url(#cOrRosa)'}, svg);
 
@@ -1334,46 +1334,39 @@
     return {h:hB.rot, m:mB.rot, s:sB.rot};
   })();
 
-  // ========================= TERCERA ESFERA: calendari anual amb lluna (fibra de carboni) =========================
+  // ========================= TERCERA ESFERA: calendari anual amb lluna (or rosa i marfil guillotxat) =========================
   const busquesC = (function(){
     const svg = document.getElementById('esferaC');
     const defs = el('defs', {}, svg);
-    gradient(defs, 'radialGradient', 'dBisell', {cx:'40%', cy:'30%', r:'75%'}, [['0%','#5b6068'],['55%','#2b2e33'],['100%','#121315']]);
-    gradient(defs, 'linearGradient', 'dAcer', {x1:'0', y1:'0', x2:'0.3', y2:'1'}, [['0%','#f4f6f8'],['35%','#b8bec6'],['65%','#7c838c'],['100%','#3d4248']]);
-    gradient(defs, 'linearGradient', 'dAcerInv', {x1:'0.3', y1:'1', x2:'0', y2:'0'}, [['0%','#e8ebee'],['40%','#8d949c'],['100%','#2e3237']]);
-    gradient(defs, 'linearGradient', 'dMaClar', {x1:'0', y1:'0', x2:'1', y2:'0'}, [['0%','#ffffff'],['100%','#c3c9d0']]);
-    gradient(defs, 'linearGradient', 'dMaFosc', {x1:'0', y1:'0', x2:'1', y2:'0'}, [['0%','#9aa1a9'],['100%','#5c636b']]);
+    gradient(defs, 'radialGradient', 'dBisell', {cx:'300', cy:'280', r:'300', gradientUnits:'userSpaceOnUse'}, [['0%','#fbf6ea'],['80%','#f1e7d0'],['100%','#e2d3b2']]);
+    gradient(defs, 'linearGradient', 'dAcer', {x1:'0', y1:'0', x2:'0.3', y2:'1'}, [['0%','#fbe1c6'],['30%','#e3a983'],['62%','#b9784f'],['100%','#6f3f22']]);
+    gradient(defs, 'linearGradient', 'dAcerInv', {x1:'0.3', y1:'1', x2:'0', y2:'0'}, [['0%','#fbe1c6'],['35%','#d39570'],['70%','#93583a'],['100%','#5a301a']]);
+    gradient(defs, 'linearGradient', 'dMaClar', {x1:'0', y1:'0', x2:'1', y2:'0'}, [['0%','#fde7cf'],['100%','#e1a47c']]);
+    gradient(defs, 'linearGradient', 'dMaFosc', {x1:'0', y1:'0', x2:'1', y2:'0'}, [['0%','#b97752'],['100%','#7a4529']]);
     gradient(defs, 'radialGradient', 'dCel', {cx:'50%', cy:'60%', r:'70%'}, [['0%','#1f3d8a'],['55%','#11265e'],['100%','#060f2c']]);
     gradient(defs, 'radialGradient', 'dLluna', {cx:'40%', cy:'35%', r:'70%'}, [['0%','#fbfbf7'],['55%','#d9dad6'],['100%','#9c9fa3']]);
     gradient(defs, 'radialGradient', 'dCrater', {cx:'45%', cy:'40%', r:'60%'}, [['0%','#8e9195',.55],['70%','#a9acaf',.35],['100%','#ffffff',.25]]);
-    gradient(defs, 'radialGradient', 'dOmbraInt', {cx:'50%', cy:'50%', r:'50%'}, [['80%','#000',0],['96%','#000',.35],['100%','#000',.7]]);
-    // Teixit de fibra de carboni
-    // Sarja de carboni 2x2: feixos que alternen direcció, cadascun amb el seu reflex, i junta fosca
-    const T = 6;  // mida d'un feix
-    const pat = el('pattern', {id:'dCarboni', width:T*4, height:T*4, patternUnits:'userSpaceOnUse', patternTransform:'rotate(45)'}, defs);
-    el('rect', {width:T*4, height:T*4, fill:'#0c0d0f'}, pat);
-    gradient(defs, 'linearGradient', 'dFeixH', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#15171a'],['30%','#3b4047'],['50%','#4a5058'],['70%','#2d3137'],['100%','#121416']]);
-    gradient(defs, 'linearGradient', 'dFeixV', {x1:'0', y1:'0', x2:'1', y2:'0'}, [['0%','#101214'],['35%','#24282d'],['50%','#2c3036'],['65%','#1f2226'],['100%','#0e1012']]);
-    // patró de sarja: cada fila desplaçada una cel·la
-    for (let f=0; f<4; f++) for (let c=0; c<4; c++){
-      const horit = ((c + f) % 4) < 2;
-      el('rect', {x:c*T+0.35, y:f*T+0.35, width:T-0.7, height:T-0.7, rx:0.8, fill: horit ? 'url(#dFeixH)' : 'url(#dFeixV)'}, pat);
-    }
-    gradient(defs, 'radialGradient', 'dLlumCarboni', {cx:'32%', cy:'28%', r:'80%'}, [['0%','#ffffff',.10],['45%','#ffffff',.03],['100%','#000000',.35]]);
-    filtreOmbra(defs, 'dOmbraMa', 4, 7, 3, .6);
+    gradient(defs, 'radialGradient', 'dOmbraInt', {cx:'50%', cy:'50%', r:'50%'}, [['84%','#3a2a14',0],['96%','#3a2a14',.22],['100%','#2a1a08',.5]]);
+    // Esfera de marfil amb guillotxat en espiga (com un gravat a torn)
+    gradient(defs, 'radialGradient', 'dMarfil', {cx:'290', cy:'270', r:'300', gradientUnits:'userSpaceOnUse'}, [['0%','#fbf6ea'],['55%','#efe6d1'],['88%','#e2d5b8'],['100%','#cdbd98']]);
+    const pat = el('pattern', {id:'dGuillotxat', width:12, height:7, patternUnits:'userSpaceOnUse', patternTransform:'rotate(90)'}, defs);
+    el('path', {d:'M0,5.5 L6,1.5 L12,5.5', fill:'none', stroke:'#8a6a44', 'stroke-width':.55, opacity:.32}, pat);
+    el('path', {d:'M0,6.6 L6,2.6 L12,6.6', fill:'none', stroke:'#ffffff', 'stroke-width':.5, opacity:.55}, pat);
+    gradient(defs, 'radialGradient', 'dLlumCarboni', {cx:'32%', cy:'28%', r:'80%'}, [['0%','#ffffff',.25],['45%','#ffffff',.05],['100%','#5a3a1c',.12]]);
+    filtreOmbra(defs, 'dOmbraMa', 4, 7, 3, .4);
     filtreOmbra(defs, 'dOmbraPeca', 1.5, 2.5, 1.5, .55);
     filtreRelleu(defs, 'dRelleu', .8);
-    const sans = "'Helvetica Neue', 'Arial Narrow', Arial, sans-serif";
+    const sans = 'Cinzel, serif';
 
     // ---- Caixa d'acer i bisell dels mesos ----
-    el('circle', {cx:C, cy:C, r:299, fill:'#0b0c0d'}, svg);
+    el('circle', {cx:C, cy:C, r:299, fill:'#3a1f10'}, svg);
     el('circle', {cx:C, cy:C, r:296, fill:'url(#dAcer)'}, svg);
     el('circle', {cx:C, cy:C, r:290, fill:'url(#dBisell)'}, svg);
-    el('circle', {cx:C, cy:C, r:290, fill:'none', stroke:'#000', 'stroke-width':1.5, opacity:.7}, svg);
+    el('circle', {cx:C, cy:C, r:290, fill:'none', stroke:'#7a4529', 'stroke-width':1.2, opacity:.8}, svg);
     const mesosG = el('g', {}, svg);   // el bisell sencer gira perquè el mes actual quedi al costat de la data
     for (let i=0;i<12;i++){
       const a = i*30;
-      el('line', {x1:px(290,a+15), y1:py(290,a+15), x2:px(262,a+15), y2:py(262,a+15), stroke:'#6c7178', 'stroke-width':1.2}, mesosG);
+      el('line', {x1:px(290,a+15), y1:py(290,a+15), x2:px(262,a+15), y2:py(262,a+15), stroke:'#b97752', 'stroke-width':1.2}, mesosG);
     }
     // camins corbats per al text dels mesos (els de baix, girats perquè es llegeixin drets)
     const textosMes = [];
@@ -1381,7 +1374,7 @@
       const a = i*30, r = 270.5, a1 = a - 14.5, a2 = a + 14.5;
       const d = `M ${px(r,a1)} ${py(r,a1)} A ${r} ${r} 0 0 1 ${px(r,a2)} ${py(r,a2)}`;
       el('path', {id:`dMes${i}`, d, fill:'none'}, defs);
-      const t = el('text', {'font-family':sans, 'font-size':14.5, 'font-weight':700, 'letter-spacing':1.4, fill:'#f4f6f8'}, mesosG);
+      const t = el('text', {'font-family':sans, 'font-size':14.5, 'font-weight':700, 'letter-spacing':1.2, fill:'#2c241c'}, mesosG);
       const tp = el('textPath', {href:`#dMes${i}`, startOffset:'50%', 'text-anchor':'middle'}, t);
       tp.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `#dMes${i}`);
       textosMes.push({t, tp});
@@ -1389,24 +1382,25 @@
     el('circle', {cx:C, cy:C, r:262, fill:'none', stroke:'url(#dAcerInv)', 'stroke-width':2.5}, svg);
 
     // ---- Anell de dates 1–31 ----
-    el('circle', {cx:C, cy:C, r:260.5, fill:'#0f1012'}, svg);
+    el('circle', {cx:C, cy:C, r:260.5, fill:'url(#dBisell)'}, svg);
     const datesG = el('g', {}, svg);
     const textosData = [];
     for (let d=1; d<=31; d++){
       const a = (d-1)*360/31, baix = a > 100 && a < 260;
       const x = px(244,a), y = py(244,a);
       const t = el('text', {x, y, 'text-anchor':'middle', 'dominant-baseline':'central', transform:`rotate(${baix ? a+180 : a} ${x} ${y})`,
-        'font-family':sans, 'font-size':16, 'font-weight':700, fill:'#e9ebee'}, datesG);
+        'font-family':sans, 'font-size':15, 'font-weight':700, fill:'#2c241c'}, datesG);
       t.textContent = d < 10 ? '0'+d : d; textosData.push(t);
     }
     for (let d=0; d<31; d++){
       const a = (d+0.5)*360/31;
-      el('line', {x1:px(233,a), y1:py(233,a), x2:px(256,a), y2:py(256,a), stroke:'#e9ebee', 'stroke-width':1.1, opacity:.85}, datesG);
+      el('line', {x1:px(233,a), y1:py(233,a), x2:px(256,a), y2:py(256,a), stroke:'#b97752', 'stroke-width':1.1, opacity:.9}, datesG);
     }
-    el('circle', {cx:C, cy:C, r:228, fill:'none', stroke:'#50555c', 'stroke-width':1}, svg);
+    el('circle', {cx:C, cy:C, r:228, fill:'none', stroke:'url(#dAcerInv)', 'stroke-width':2}, svg);
 
-    // ---- Esfera de carboni ----
-    el('circle', {cx:C, cy:C, r:227, fill:'url(#dCarboni)'}, svg);
+    // ---- Esfera de marfil guillotxat ----
+    el('circle', {cx:C, cy:C, r:227, fill:'url(#dMarfil)'}, svg);
+    el('circle', {cx:C, cy:C, r:227, fill:'url(#dGuillotxat)'}, svg);
     el('circle', {cx:C, cy:C, r:227, fill:'url(#dLlumCarboni)'}, svg);
     el('circle', {cx:C, cy:C, r:227, fill:'url(#dOmbraInt)'}, svg);
     // obertura del cel amb la lluna (part de dalt)
@@ -1421,7 +1415,7 @@
     const turons = `A ${HR} ${HR} 0 0 0 ${C} ${CUSP} A ${HR} ${HR} 0 0 0 ${px(226,-angE)} ${py(226,-angE)}`;
     el('path', {d:`M ${px(226,-angE)} ${py(226,-angE)} A 226 226 0 0 1 ${px(226,angE)} ${py(226,angE)} ${turons} Z`}, clipCel);
     const cel = el('g', {'clip-path':'url(#dClipCel)'}, svg);
-    // Disc del firmament: gira mitja volta per llunació (com el de BLANCPAIN); la lluna plena passa sota el 12
+    // Disc del firmament: gira mitja volta per llunació (com el de CAPITAINE); la lluna plena passa sota el 12
     const firmament = el('g', {}, cel);
     el('circle', {cx:C, cy:C, r:228, fill:'url(#dCel)'}, firmament);
     gradient(defs, 'radialGradient', 'dViaLactia', {cx:'50%', cy:'50%', r:'50%'}, [['0%','#9fb4ff',.18],['100%','#9fb4ff',0]]);
@@ -1432,7 +1426,7 @@
       if (s > 0.9) el('path', {d:'M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z', transform:`translate(${px(r,a).toFixed(1)} ${py(r,a).toFixed(1)}) scale(${(0.6+s*0.5).toFixed(2)})`, fill:'#fffbe8', class:'estel', style:`animation-delay:${(i*0.37)%2.6}s`}, firmament);
       else el('circle', {cx:px(r,a).toFixed(1), cy:py(r,a).toFixed(1), r:(0.4+s*1.1).toFixed(2), fill:'#ffffff', opacity:(0.35+s*0.6).toFixed(2)}, firmament);
     }
-    // estels grossos amb raigs, com els de BLANCPAIN, repartits pel cel
+    // estels grossos amb raigs, com els de CAPITAINE, repartits pel cel
     [[-150,-40,1.4],[-95,-120,1.1],[30,-150,1.25],[120,-95,1.0],[160,20,1.3],[95,110,1.1],[-20,160,1.2],[-120,95,1.0],[-60,40,.8],[60,-30,.85],[-170,60,.9],[150,-150,.8]].forEach(([x,y,s],i)=>{
       el('path', {d:'M0,-7 L1.4,-1.4 L7,0 L1.4,1.4 L0,7 L-1.4,1.4 L-7,0 L-1.4,-1.4 Z', transform:`translate(${C+x} ${C+y}) scale(${s})`, fill:'#fff6da', class:'estel', style:`animation-delay:${(i*0.53)%2.6}s`}, firmament);
     });
@@ -1458,47 +1452,47 @@
     el('path', {d:`M ${px(226,angE)} ${py(226,angE)} ${turons}`, fill:'none', stroke:'url(#dAcer)', 'stroke-width':2.4, 'stroke-linejoin':'miter', filter:'url(#dOmbraPeca)'}, svg);
 
     // ---- Índexs horaris ----
-    el('circle', {cx:C, cy:C, r:215.5, fill:'none', stroke:'#07080a', 'stroke-width':23}, svg);
-    el('circle', {cx:C, cy:C, r:204, fill:'none', stroke:'#3a3f45', 'stroke-width':.8}, svg);
+    el('circle', {cx:C, cy:C, r:215.5, fill:'none', stroke:'#f3ead6', 'stroke-width':23}, svg);
+    el('circle', {cx:C, cy:C, r:204, fill:'none', stroke:'#b97752', 'stroke-width':1}, svg);
     const idx = el('g', {class:'lume'}, svg);
     for (let i=0;i<60;i++){
       const a = i*6, h = i%5===0;
-      el('line', {x1:px(226,a), y1:py(226,a), x2:px(h ? 207 : 219,a), y2:py(h ? 207 : 219,a), stroke:'#ffffff', 'stroke-width': h ? 4.5 : 1.4, 'stroke-linecap':'butt'}, idx);
+      el('line', {x1:px(226,a), y1:py(226,a), x2:px(h ? 207 : 219,a), y2:py(h ? 207 : 219,a), stroke: h ? '#9a5e3c' : '#5c4632', 'stroke-width': h ? 4.5 : 1.2, 'stroke-linecap':'butt'}, idx);
     }
 
     // ---- Temperatura (esquerra) i sol (dreta) ----
     const icT = el('g', {class:'nit-ic', transform:`translate(${C-150} ${C-58}) scale(${44/64})`}, svg);
-    const txtT = el('text', {class:'nit-txt', x:C-128, y:C+24, 'text-anchor':'middle', 'font-family':sans, 'font-size':24, 'font-weight':700, fill:'#f2f4f6'}, svg);
+    const txtT = el('text', {class:'nit-txt', x:C-128, y:C+24, 'text-anchor':'middle', 'font-family':sans, 'font-size':24, 'font-weight':700, fill:'#2c241c'}, svg);
     txtT.textContent = '--°';
-    const icS = el('g', {class:'nit-ic', transform:`translate(${C+128} ${C-18})`, fill:'none', stroke:'#ffffff', 'stroke-width':2.2, 'stroke-linecap':'round'}, svg);
+    const icS = el('g', {class:'nit-ic', transform:`translate(${C+128} ${C-18})`, fill:'none', stroke:'#3a2a1c', 'stroke-width':2.2, 'stroke-linecap':'round'}, svg);
     el('path', {d:'M -14,6 A 14 14 0 0 1 14,6'}, icS);
     el('line', {x1:-20, y1:6, x2:20, y2:6}, icS);
     [-60,-30,0,30,60].forEach(a=> el('line', {x1:19*Math.sin(rad(a)), y1:6-19*Math.cos(rad(a)), x2:24*Math.sin(rad(a)), y2:6-24*Math.cos(rad(a))}, icS));
-    const fletxaS = el('path', {d:'M 0,-6 L 0,-16 M -4,-12 L 0,-16 L 4,-12', stroke:'#f2f4f6'}, icS);
-    const txtS = el('text', {class:'nit-txt', x:C+128, y:C+24, 'text-anchor':'middle', 'font-family':sans, 'font-size':24, 'font-weight':700, fill:'#f2f4f6'}, svg);
+    const fletxaS = el('path', {d:'M 0,-6 L 0,-16 M -4,-12 L 0,-16 L 4,-12', stroke:'#b3261e'}, icS);
+    const txtS = el('text', {class:'nit-txt', x:C+128, y:C+24, 'text-anchor':'middle', 'font-family':sans, 'font-size':24, 'font-weight':700, fill:'#2c241c'}, svg);
     txtS.textContent = '--:--';
 
     // ---- Subesfera dels dies de la setmana (a baix) ----
     const SX = C, SY = C+112, SR = 70;
     el('circle', {cx:SX, cy:SY, r:SR+5, fill:'url(#dAcerInv)', filter:'url(#dOmbraPeca)'}, svg);
-    el('circle', {cx:SX, cy:SY, r:SR, fill:'#0e0f11'}, svg);
-    el('circle', {cx:SX, cy:SY, r:SR-24, fill:'none', stroke:'#3d4248', 'stroke-width':1}, svg);
+    el('circle', {cx:SX, cy:SY, r:SR, fill:'url(#dBisell)'}, svg);
+    el('circle', {cx:SX, cy:SY, r:SR-24, fill:'none', stroke:'#c99a78', 'stroke-width':1}, svg);
     const textosDia = [], fonsDia = [];
     for (let i=0;i<7;i++){
       const a = i*360/7, x = SX + (SR-12)*Math.sin(rad(a)), y = SY - (SR-12)*Math.cos(rad(a));
-      const fons = el('rect', {x:x-17, y:y-9, width:34, height:18, rx:4, fill:'none', transform:`rotate(${a} ${x} ${y})`}, svg);
-      const t = el('text', {class:'nit-txt', x, y, 'text-anchor':'middle', 'dominant-baseline':'central', transform:`rotate(${a} ${x} ${y})`, 'font-family':sans, 'font-size':12.5, 'font-weight':700, fill:'#c7ccd2', 'letter-spacing':.5}, svg);
+      const fons = el('rect', {x:x-17, y:y-9, width:34, height:18, rx:4, fill:'none', 'stroke-width':1, transform:`rotate(${a} ${x} ${y})`}, svg);
+      const t = el('text', {class:'nit-txt', x, y, 'text-anchor':'middle', 'dominant-baseline':'central', transform:`rotate(${a} ${x} ${y})`, 'font-family':sans, 'font-size':12, 'font-weight':700, fill:'#2c241c', 'letter-spacing':.5}, svg);
       textosDia.push(t); fonsDia.push(fons);
     }
     const busDia = el('g', {class:'lume'}, svg);
-    el('path', {d:`M ${SX-1.6},${SY+10} L ${SX-1},${SY-SR+26} L ${SX},${SY-SR+20} L ${SX+1},${SY-SR+26} L ${SX+1.6},${SY+10} Z`, fill:'url(#dMaClar)'}, busDia);
+    el('path', {d:`M ${SX-1.6},${SY+10} L ${SX-1},${SY-SR+26} L ${SX},${SY-SR+20} L ${SX+1},${SY-SR+26} L ${SX+1.6},${SY+10} Z`, fill:'url(#dMaFosc)'}, busDia);
     el('circle', {cx:SX, cy:SY, r:4, fill:'url(#dAcer)'}, svg);
 
     // ---- Busca vermella de la data ----
     const busData = el('g', {filter:'url(#dOmbraMa)', class:'lume'}, svg);
     const busDataRot = el('g', {}, busData);
-    el('path', {d:`M ${C-1.2},${C+40} L ${C-0.8},${C-232} L ${C},${C-240} L ${C+0.8},${C-232} L ${C+1.2},${C+40} Z`, fill:'#d6332b'}, busDataRot);
-    el('circle', {cx:C, cy:C+34, r:5, fill:'none', stroke:'#d6332b', 'stroke-width':2}, busDataRot);
+    el('path', {d:`M ${C-1.2},${C+40} L ${C-0.8},${C-232} L ${C},${C-240} L ${C+0.8},${C-232} L ${C+1.2},${C+40} Z`, fill:'#b3261e'}, busDataRot);
+    el('circle', {cx:C, cy:C+34, r:5, fill:'none', stroke:'#b3261e', 'stroke-width':2}, busDataRot);
 
     // ---- Busques d'acer amb lumínic ----
     function busqueta(org, llarg, ample){
@@ -1509,10 +1503,10 @@
     const hC = busca(svg, 'dOmbraMa'); busqueta(hC.org, 140, 9);
     const mC = busca(svg, 'dOmbraMa'); busqueta(mC.org, 214, 7);
     const sC = busca(svg, 'dOmbraMa');
-    el('path', {d:'M -1,52 L -0.7,-224 L 0.7,-224 L 1,52 Z', fill:'#eef1f4'}, sC.org);
+    el('path', {d:'M -1,52 L -0.7,-224 L 0.7,-224 L 1,52 Z', fill:'#8a5536'}, sC.org);
     el('circle', {cx:0, cy:0, r:6, fill:'url(#dAcer)'}, sC.org);
     el('circle', {cx:C, cy:C, r:12, fill:'url(#dAcer)', filter:'url(#dOmbraPeca)'}, svg);
-    el('circle', {cx:C, cy:C, r:4, fill:'#2b2e33'}, svg);
+    el('circle', {cx:C, cy:C, r:4, fill:'#5a301a'}, svg);
 
     vidre(svg, defs, 'd', 228);
 
@@ -1557,7 +1551,7 @@
     setInterval(()=>posaFirmament(new Date(), false), 10*60*1000);
     window.__animaLlunaC = () => posaFirmament(new Date(), true);
     window.__esferaCalC = function(ara){
-      // mesos al bisell, en la llengua en curs; el mes actual en blanc i marcat en vermell
+      // mesos al bisell, en la llengua en curs
       textosMes.forEach(({t, tp}, i)=>{
         tp.textContent = MESOS[i].toUpperCase();
         t.setAttribute('font-size', MESOS[i].length > 9 ? 12.5 : 14.5);
@@ -1567,28 +1561,29 @@
       // data: busca vermella i xifra d'avui destacada
       const d = ara.getDate();
       busDataRot.setAttribute('transform', `rotate(${((d-1)*360/31).toFixed(2)} ${C} ${C})`);
-      textosData.forEach((t,i)=> t.setAttribute('fill', (i+1)===d ? '#ff5b4f' : '#e9ebee'));
-      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de BLANCPAIN
+      textosData.forEach((t,i)=> t.setAttribute('fill', (i+1)===d ? '#b3261e' : '#2c241c'));
+      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de CAPITAINE
       const iAvui = (ara.getDay()+6)%7;
       const fe = festiu(ara);
       textosDia.forEach((t,i)=>{
         t.textContent = L.curts[i].toUpperCase();
         const esAvui = i === iAvui;
-        let fons = 'none', color = i===5 ? '#5fc79d' : i===6 ? '#ef6a5e' : '#c7ccd2';
+        let fons = 'none', color = i===5 ? '#1f6b4a' : i===6 ? '#a3261e' : '#2c241c';
         if (esAvui){
-          fons = (i===6 || fe) ? 'url(#cBurdeus)' : (i===5 ? 'url(#cMaragda)' : '#eef1f4');
-          color = fons === '#eef1f4' ? '#16181b' : '#f6ecd4';
+          fons = (i===6 || fe) ? 'url(#cBurdeus)' : (i===5 ? 'url(#cMaragda)' : '#fffdf6');
+          color = fons === '#fffdf6' ? '#2c241c' : '#f6ecd4';
         }
         fonsDia[i].setAttribute('fill', fons);
+        fonsDia[i].setAttribute('stroke', esAvui ? '#b97752' : 'none');
         t.setAttribute('fill', color);
       });
       busDia.setAttribute('transform', `rotate(${(iAvui*360/7).toFixed(2)} ${SX} ${SY})`);
       posaFirmament(ara, false);
     };
     // temperatura i propera sortida o posta del sol (des de la previsió)
-    // Icones del cel en línia blanca (sense colors), a joc amb l'esfera
+    // Icones del cel en línia de tinta (sense colors), a joc amb l'esfera
     function iconaBlanca(codi, dia){
-      const S = 'fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"';
+      const S = 'fill="none" stroke="#3a2a1c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"';
       const sol = (x=32,y=30,r=9) => `<circle cx="${x}" cy="${y}" r="${r}"/>` + [...Array(8)].map((_,i)=>{const a=i*45*Math.PI/180;return `<line x1="${x+(r+4)*Math.cos(a)}" y1="${y+(r+4)*Math.sin(a)}" x2="${x+(r+9)*Math.cos(a)}" y2="${y+(r+9)*Math.sin(a)}"/>`}).join('');
       const lluna = (x=0,y=0) => `<path transform="translate(${x} ${y})" d="M38 12a19 19 0 1 0 14 30A15 15 0 0 1 38 12z"/>`;
       const nuvol = (dx=0,dy=0) => `<path transform="translate(${dx} ${dy})" d="M18 48h28a10 10 0 0 0 0-20 14 14 0 0 0-27-3A11 11 0 0 0 18 48z"/>`;
@@ -2193,13 +2188,21 @@
   }
   const animaLluna = () => { if (esferaActual === 0 && window.__animaLlunaB) window.__animaLlunaB(); else if (esferaActual === 2 && window.__animaLlunaC) window.__animaLlunaC(); };
   if (esferaActual === 2) setTimeout(animaLluna, 400);
+  // La cara amagada ja té preparada l'esfera següent molt abans de girar: així el navegador
+  // (sobretot Safari a l'iPhone) l'ha pogut pintar amb calma i el gir no s'entrebanca.
+  function preparaAmagada(){
+    const visible = (Math.round(angle / 180) % 2 === 0) ? 0 : 1;   // 0: davant, 1: darrere
+    const seguent = ESFERES[(esferaActual + 1) % ESFERES.length];
+    const amagada = cares[1 - visible];
+    if (amagada.firstElementChild !== seguent) amagada.replaceChildren(seguent);
+    ESFERES.forEach(s => { if (!s.isConnected) magatzem.appendChild(s); });
+  }
+  preparaAmagada();
   function giraEsfera(){
     if (girant) return;
     girant = true;
-    const visible = (Math.round(angle / 180) % 2 === 0) ? 0 : 1;   // 0: davant, 1: darrere
-    const amagada = cares[1 - visible];
+    preparaAmagada();
     esferaActual = (esferaActual + 1) % ESFERES.length;
-    amagada.replaceChildren(ESFERES[esferaActual]);
     pista.classList.remove('visible');
     rellotge.classList.add('girant');
     angle += 900; // dues voltes i mitja: acaba mostrant l'altra esfera
@@ -2211,6 +2214,7 @@
     girant = false;
     animaLluna();
     rellotge.classList.remove('girant');
+    setTimeout(preparaAmagada, 300);
   });
   rellotge.addEventListener('click', giraEsfera);
   rellotge.addEventListener('keydown', e=>{ if (e.key==='Enter' || e.key===' '){ e.preventDefault(); giraEsfera(); } });

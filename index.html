@@ -112,6 +112,17 @@
   }
   .cara svg{ width:100%; height:100%; display:block; overflow:visible; }
   .cara.davant{ transform: translateZ(14px); }
+  /* Lupa: amb dos dits (o la roda del ratolí) s'amplia l'esfera dins el seu propi cercle, sense perdre nitidesa */
+  .rellotge.ampliada{ touch-action:none; cursor:grab; }
+  .rellotge.ampliada .cara{ overflow:hidden; }
+  .rellotge.ampliada .cara svg{ overflow:hidden; }
+  .boto-lupa{ position:absolute; z-index:5; right:2%; top:2%; width:40px; height:40px; border-radius:50%; border:none; padding:0; cursor:pointer;
+    display:grid; place-items:center; background: radial-gradient(circle at 35% 30%, #fbe7a8, #c1913c 55%, #6b4712);
+    box-shadow: 0 3px 6px rgba(0,0,0,.55), inset 0 -1px 2px rgba(0,0,0,.35); }
+  .boto-lupa[hidden]{ display:none; }
+  .boto-lupa svg{ width:22px; height:22px; stroke:#3a2208; fill:none; stroke-width:1.9; stroke-linecap:round; }
+  html.nit .boto-lupa{ background:#000 !important; box-shadow: inset 0 0 0 1.5px var(--nit) !important; }
+  html.nit .boto-lupa svg{ stroke:var(--nit) !important; }
   .cara.darrere{ transform: rotateY(180deg) translateZ(14px); }
   .pista-toc{
     position:absolute; left:0; right:0; bottom:-1.2em; text-align:center;
@@ -372,14 +383,14 @@
   .cal-mes{ flex: 0 0 100%; height:100%; padding: 2px 8px 2px; }
   .cal-graella{ display:grid; height:100%; grid-template-columns: repeat(7, 1fr); grid-template-rows: auto repeat(6, minmax(0,1fr)); gap: 2px 3px; }
   .cap-dia{
-    text-align:center; font-family:'Cinzel', serif; font-weight:700; font-size:11px; letter-spacing:1px;
+    text-align:center; font-family:'Cinzel', serif; font-weight:700; font-size:13px; letter-spacing:1px;
     padding: 3px 0 3px; color:#4a3010; border-bottom: 1px solid rgba(90,55,15,.35);
   }
   .cap-dia.cs{ color: var(--vermell); background: rgba(122,26,22,.10); border-radius: 6px 6px 0 0; }
   .dia{
     position:relative; container-type: size;
     display:grid; place-items:center; min-height:0;
-    font-family:'Cormorant Garamond', serif; font-weight:700; font-size: clamp(13px, min(4.6vw, 2.7svh), 21px);
+    font-family:'Cormorant Garamond', serif; font-weight:700; font-size: clamp(15px, min(5.5vw, 3.2svh), 25px);
     color:#2a1a07; border-radius: 7px;
   }
   .dia.buit{ visibility:hidden; }
@@ -526,8 +537,8 @@
     .calendari{ flex:0 0 auto; }
     .cal-finestra{ flex:0 0 auto; height: calc(var(--fila) * 6 + 24px); }
     .cal-graella{ grid-template-rows: auto repeat(6, var(--fila)); gap: 1px 3px; }
-    .cap-dia{ padding: 2px 0; font-size:10px; }
-    .dia{ font-size: clamp(13px, calc(var(--fila) * .62), 20px); }
+    .cap-dia{ padding: 2px 0; font-size:12.5px; }
+    .dia{ font-size: clamp(15px, calc(var(--fila) * .76), 25px); }
     .cal-cap{ padding: 4px 8px 0; }
     .cal-titol{ font-size: clamp(17px, 2.5svh, 22px); }
     .cal-titol small{ display:inline; margin-left:8px; font-size:clamp(14px, 2.2svh, 18px); vertical-align: 1px; }
@@ -714,6 +725,9 @@
       </div>
       <div id="magatzem" style="display:none"><svg id="esferaC" viewBox="0 0 600 600"></svg></div>
       <div class="pista-toc" id="pistaToc" data-i18n="tocaEsfera">Toca l'esfera</div>
+      <button type="button" class="boto-lupa" id="botoLupa" data-i18n-aria="midaNormal" aria-label="Mida normal" hidden>
+        <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M7.5 10.5h6"/></svg>
+      </button>
     </div>
   </div>
 
@@ -989,7 +1003,7 @@
 
     filtreOmbra(defs, 'aOmbraMa', 4, 7, 3, .45);
 
-    // Corona bisellada esglaonada (la mateixa de BLANCPAIN), en coure vell enfosquit
+    // Corona bisellada esglaonada (la mateixa de CAPITAINE), en coure vell enfosquit
     gradient(defs, 'linearGradient', 'aCoure', {x1:'0', y1:'0', x2:'0.35', y2:'1'}, [['0%','#d6a77f'],['30%','#a36a45'],['62%','#6e4127'],['100%','#331a0c']]);
     gradient(defs, 'linearGradient', 'aCoureInv', {x1:'0.35', y1:'1', x2:'0', y2:'0'}, [['0%','#c99772'],['35%','#8a5636'],['70%','#55301b'],['100%','#28140a']]);
     const fCV = el('filter', {id:'aCoureVell', x:'0', y:'0', width:'100%', height:'100%'}, defs);
@@ -1051,14 +1065,14 @@
       el('path', {d:'M 0,-8 L 5,4 L 0,1.5 L -5,4 Z', transform:`translate(${px(254,a)} ${py(254,a)}) rotate(${a})`, stroke:'none', fill:'#1a1209', class:'lume'}, tinta);
     }
     numeralRomans(tinta, 194, 66, {stroke:'none', fill:'#1a1209'}, {sx:0.7, sy:1.22, ls:-2}).classList.add('lume');
-    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de BLANCPAIN
+    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de CAPITAINE
     const marcaA = el('g', {transform:`translate(${C} ${C+82}) scale(0.72 1.18)`}, tinta);
     el('text', {x:0, y:0, 'text-anchor':'middle', 'dominant-baseline':'central', 'font-family':'Cinzel, serif', 'font-weight':700,
       'font-size':38, 'letter-spacing':-1, stroke:'none', fill:'#1a1209'}, marcaA).textContent = 'XM';
     el('line', {x1:C-22, y1:C+108, x2:C+22, y2:C+108, stroke:'#1a1209', 'stroke-width':.9}, tinta);
     el('path', {d:`M ${C},${C+105} L ${C+3},${C+108} L ${C},${C+111} L ${C-3},${C+108} Z`, stroke:'none', fill:'#1a1209'}, tinta);
 
-    // ---- Visor del dia de la setmana (com el de BLANCPAIN, però amb fons de pergamí) ----
+    // ---- Visor del dia de la setmana (com el de CAPITAINE, però amb fons de pergamí) ----
     const AX = C-80, AY = C-114, AW = 160, AH = 34;
     gradient(defs, 'linearGradient', 'aVisorPaper', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#f1dcae'],['55%','#e6c993'],['100%','#d4b072']]);
     gradient(defs, 'linearGradient', 'aOmbraVisor', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2a1604',.42],['24%','#2a1604',0],['80%','#2a1604',0],['100%','#2a1604',.28]]);
@@ -1204,7 +1218,7 @@
     // ---- Nom de la casa, imprès a l'esfera ----
     const nomCasa = el('text', {x:C, y:C-58, 'text-anchor':'middle', 'dominant-baseline':'central',
       'font-family':'Cinzel, serif', 'font-weight':700, 'font-size':17, 'letter-spacing':2.2, fill:'#2c241c'}, svg);
-    nomCasa.textContent = 'BLANCPAIN';
+    nomCasa.textContent = 'CAPITAINE';
     el('line', {x1:C-26, y1:C-45, x2:C+26, y2:C-45, stroke:'#b97752', 'stroke-width':.9}, svg);
     el('path', {d:`M ${C},${C-48} L ${C+3},${C-45} L ${C},${C-42} L ${C-3},${C-45} Z`, fill:'url(#cOrRosa)'}, svg);
 
@@ -1355,7 +1369,7 @@
     gradient(defs, 'radialGradient', 'dLluna', {cx:'40%', cy:'35%', r:'70%'}, [['0%','#fbfbf7'],['55%','#d9dad6'],['100%','#9c9fa3']]);
     gradient(defs, 'radialGradient', 'dCrater', {cx:'45%', cy:'40%', r:'60%'}, [['0%','#8e9195',.55],['70%','#a9acaf',.35],['100%','#ffffff',.25]]);
     gradient(defs, 'radialGradient', 'dOmbraInt', {cx:'50%', cy:'50%', r:'50%'}, [['84%','#3a2a14',0],['96%','#3a2a14',.22],['100%','#2a1a08',.5]]);
-    // Verd maragda: el mateix dels dissabtes a la finestra de BLANCPAIN
+    // Verd maragda: el mateix dels dissabtes a la finestra de CAPITAINE
     gradient(defs, 'radialGradient', 'dVerd', {cx:'300', cy:'240', r:'320', gradientUnits:'userSpaceOnUse'}, [['0%','#1f8a64'],['60%','#0f6b4c'],['100%','#094a35']]);
     // Esfera de marfil amb guillotxat en espiga (com un gravat a torn)
     gradient(defs, 'radialGradient', 'dMarfil', {cx:'290', cy:'270', r:'300', gradientUnits:'userSpaceOnUse'}, [['0%','#fbf6ea'],['55%','#efe6d1'],['88%','#e2d5b8'],['100%','#cdbd98']]);
@@ -1425,7 +1439,7 @@
     const turons = `A ${HR} ${HR} 0 0 0 ${C} ${CUSP} A ${HR} ${HR} 0 0 0 ${px(226,-angE)} ${py(226,-angE)}`;
     el('path', {d:`M ${px(226,-angE)} ${py(226,-angE)} A 226 226 0 0 1 ${px(226,angE)} ${py(226,angE)} ${turons} Z`}, clipCel);
     const cel = el('g', {'clip-path':'url(#dClipCel)'}, svg);
-    // Disc del firmament: gira mitja volta per llunació (com el de BLANCPAIN); la lluna plena passa sota el 12
+    // Disc del firmament: gira mitja volta per llunació (com el de CAPITAINE); la lluna plena passa sota el 12
     const firmament = el('g', {}, cel);
     el('circle', {cx:C, cy:C, r:228, fill:'url(#dCel)'}, firmament);
     gradient(defs, 'radialGradient', 'dViaLactia', {cx:'50%', cy:'50%', r:'50%'}, [['0%','#9fb4ff',.18],['100%','#9fb4ff',0]]);
@@ -1436,7 +1450,7 @@
       if (s > 0.9) el('path', {d:'M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z', transform:`translate(${px(r,a).toFixed(1)} ${py(r,a).toFixed(1)}) scale(${(0.6+s*0.5).toFixed(2)})`, fill:'#fffbe8', class:'estel', style:`animation-delay:${(i*0.37)%2.6}s`}, firmament);
       else el('circle', {cx:px(r,a).toFixed(1), cy:py(r,a).toFixed(1), r:(0.4+s*1.1).toFixed(2), fill:'#ffffff', opacity:(0.35+s*0.6).toFixed(2)}, firmament);
     }
-    // estels grossos amb raigs, com els de BLANCPAIN, repartits pel cel
+    // estels grossos amb raigs, com els de CAPITAINE, repartits pel cel
     [[-150,-40,1.4],[-95,-120,1.1],[30,-150,1.25],[120,-95,1.0],[160,20,1.3],[95,110,1.1],[-20,160,1.2],[-120,95,1.0],[-60,40,.8],[60,-30,.85],[-170,60,.9],[150,-150,.8]].forEach(([x,y,s],i)=>{
       el('path', {d:'M0,-7 L1.4,-1.4 L7,0 L1.4,1.4 L0,7 L-1.4,1.4 L-7,0 L-1.4,-1.4 Z', transform:`translate(${C+x} ${C+y}) scale(${s})`, fill:'#fff6da', class:'estel', style:`animation-delay:${(i*0.53)%2.6}s`}, firmament);
     });
@@ -1573,7 +1587,7 @@
       const d = ara.getDate();
       busDataRot.setAttribute('transform', `rotate(${((d-1)*360/31).toFixed(2)} ${C} ${C})`);
       textosData.forEach((t,i)=> t.setAttribute('fill', (i+1)===d ? '#b3261e' : '#2c241c'));
-      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de BLANCPAIN
+      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de CAPITAINE
       const iAvui = (ara.getDay()+6)%7;
       const fe = festiu(ara);
       textosDia.forEach((t,i)=>{
@@ -1643,7 +1657,7 @@
   const CODIS_CEL = [0,1,2,3,45,48,51,53,55,56,57,61,63,65,66,67,71,73,75,77,80,81,82,85,86,95,96,99];
   const I18N = {
     ca: {
-      modeDia:'Mode diürn', modeNit:'Mode nocturn', modeNitFix:'Mode nocturn · pantalla sempre encesa', modeEtq:'Mode', tanca:'Tanca',
+      modeDia:'Mode diürn', modeNit:'Mode nocturn', modeNitFix:'Mode nocturn · pantalla sempre encesa', modeEtq:'Mode', tanca:'Tanca', midaNormal:'Mida normal',
       mesAnt:'Mes anterior', mesSeg:'Mes següent', campanades:'Campanades de les hores i els quarts', girar:"Rellotge: prem per girar l'esfera", condicions:'Condicions actuals', calInfo:'Calendari i informació', dobleToc:'Doble toc: tornar al mes actual',
       radio:'Ràdio', podcasts:'Podcasts', noticies:'Notícies', araSona:'Ara sona', directe:'en directe', carregant:'Carregant…',
       errNoticies:"No s'han pogut carregar les notícies.", errProgrames:"No s'han pogut carregar els programes.", obreWeb:'Obre el web',
@@ -1697,7 +1711,7 @@
       }
     },
     gl: {
-      modeDia:'Modo diúrno', modeNit:'Modo nocturno', modeNitFix:'Modo nocturno · pantalla sempre acesa', modeEtq:'Modo', tanca:'Pechar',
+      modeDia:'Modo diúrno', modeNit:'Modo nocturno', modeNitFix:'Modo nocturno · pantalla sempre acesa', modeEtq:'Modo', tanca:'Pechar', midaNormal:'Tamaño normal',
       mesAnt:'Mes anterior', mesSeg:'Mes seguinte', campanades:'Badaladas das horas e dos cuartos', girar:'Reloxo: preme para xirar a esfera', condicions:'Condicións actuais', calInfo:'Calendario e información', dobleToc:'Dobre toque: volver ao mes actual',
       radio:'Radio', podcasts:'Podcasts', noticies:'Novas', araSona:'Agora soa', directe:'en directo', carregant:'Cargando…',
       errNoticies:'Non se puideron cargar as novas.', errProgrames:'Non se puideron cargar os programas.', obreWeb:'Abrir a web',
@@ -1734,7 +1748,7 @@
       }
     },
     eu: {
-      modeDia:'Egun modua', modeNit:'Gau modua', modeNitFix:'Gau modua · pantaila beti piztuta', modeEtq:'Modua', tanca:'Itxi',
+      modeDia:'Egun modua', modeNit:'Gau modua', modeNitFix:'Gau modua · pantaila beti piztuta', modeEtq:'Modua', tanca:'Itxi', midaNormal:'Tamaina normala',
       mesAnt:'Aurreko hilabetea', mesSeg:'Hurrengo hilabetea', campanades:'Orduen eta laurdenen kanpai-hotsak', girar:'Erlojua: sakatu esfera biratzeko', condicions:'Uneko baldintzak', calInfo:'Egutegia eta informazioa', dobleToc:'Ukitu bikoitza: uneko hilabetera itzuli',
       radio:'Irratia', podcasts:'Podcastak', noticies:'Albisteak', araSona:'Orain entzuten', directe:'zuzenean', carregant:'Kargatzen…',
       errNoticies:'Ezin izan dira albisteak kargatu.', errProgrames:'Ezin izan dira saioak kargatu.', obreWeb:'Ireki webgunea',
@@ -1772,7 +1786,7 @@
       }
     },
     fr: {
-      modeDia:'Mode jour', modeNit:'Mode nuit', modeNitFix:'Mode nuit · écran toujours allumé', modeEtq:'Mode', tanca:'Fermer',
+      modeDia:'Mode jour', modeNit:'Mode nuit', modeNitFix:'Mode nuit · écran toujours allumé', modeEtq:'Mode', tanca:'Fermer', midaNormal:'Taille normale',
       mesAnt:'Mois précédent', mesSeg:'Mois suivant', campanades:'Carillon des heures et des quarts', girar:'Horloge : touchez pour tourner le cadran', condicions:'Conditions actuelles', calInfo:'Calendrier et informations', dobleToc:'Double touche : revenir au mois en cours',
       radio:'Radio', podcasts:'Podcasts', noticies:'Actualités', araSona:'En écoute', directe:'en direct', carregant:'Chargement…',
       errNoticies:'Impossible de charger les actualités.', errProgrames:'Impossible de charger les émissions.', obreWeb:'Ouvrir le site',
@@ -1805,7 +1819,7 @@
       }
     },
     en: {
-      modeDia:'Day mode', modeNit:'Night mode', modeNitFix:'Night mode · screen always on', modeEtq:'Mode', tanca:'Close',
+      modeDia:'Day mode', modeNit:'Night mode', modeNitFix:'Night mode · screen always on', modeEtq:'Mode', tanca:'Close', midaNormal:'Normal size',
       mesAnt:'Previous month', mesSeg:'Next month', campanades:'Hour and quarter chimes', girar:'Clock: tap to turn the dial', condicions:'Current conditions', calInfo:'Calendar and information', dobleToc:'Double tap: back to the current month',
       radio:'Radio', podcasts:'Podcasts', noticies:'News', araSona:'Now playing', directe:'live', carregant:'Loading…',
       errNoticies:"Couldn't load the news.", errProgrames:"Couldn't load the shows.", obreWeb:'Open website',
@@ -1838,7 +1852,7 @@
       }
     },
     de: {
-      modeDia:'Tagmodus', modeNit:'Nachtmodus', modeNitFix:'Nachtmodus · Bildschirm bleibt an', modeEtq:'Modus', tanca:'Schließen',
+      modeDia:'Tagmodus', modeNit:'Nachtmodus', modeNitFix:'Nachtmodus · Bildschirm bleibt an', modeEtq:'Modus', tanca:'Schließen', midaNormal:'Normalgröße',
       mesAnt:'Vorheriger Monat', mesSeg:'Nächster Monat', campanades:'Stunden- und Viertelstundenschlag', girar:'Uhr: tippen, um das Zifferblatt zu drehen', condicions:'Aktuelle Bedingungen', calInfo:'Kalender und Informationen', dobleToc:'Doppeltippen: zurück zum aktuellen Monat',
       radio:'Radio', podcasts:'Podcasts', noticies:'Nachrichten', araSona:'Jetzt läuft', directe:'live', carregant:'Wird geladen…',
       errNoticies:'Die Nachrichten konnten nicht geladen werden.', errProgrames:'Die Sendungen konnten nicht geladen werden.', obreWeb:'Website öffnen',
@@ -1866,7 +1880,7 @@
       hora:(h,m) => m===0 ? `Es ist ${h} Uhr` : `Es ist ${h} Uhr ${m}`
     },
     it: {
-      modeDia:'Modalità giorno', modeNit:'Modalità notte', modeNitFix:'Modalità notte · schermo sempre acceso', modeEtq:'Modalità', tanca:'Chiudi',
+      modeDia:'Modalità giorno', modeNit:'Modalità notte', modeNitFix:'Modalità notte · schermo sempre acceso', modeEtq:'Modalità', tanca:'Chiudi', midaNormal:'Dimensione normale',
       mesAnt:'Mese precedente', mesSeg:'Mese successivo', campanades:'Rintocchi delle ore e dei quarti', girar:'Orologio: tocca per girare il quadrante', condicions:'Condizioni attuali', calInfo:'Calendario e informazioni', dobleToc:'Doppio tocco: torna al mese corrente',
       radio:'Radio', podcasts:'Podcast', noticies:'Notizie', araSona:'In ascolto', directe:'in diretta', carregant:'Caricamento…',
       errNoticies:'Impossibile caricare le notizie.', errProgrames:'Impossibile caricare i programmi.', obreWeb:'Apri il sito',
@@ -1899,7 +1913,7 @@
       }
     },
     pt: {
-      modeDia:'Modo diurno', modeNit:'Modo noturno', modeNitFix:'Modo noturno · ecrã sempre ligado', modeEtq:'Modo', tanca:'Fechar',
+      modeDia:'Modo diurno', modeNit:'Modo noturno', modeNitFix:'Modo noturno · ecrã sempre ligado', modeEtq:'Modo', tanca:'Fechar', midaNormal:'Tamanho normal',
       mesAnt:'Mês anterior', mesSeg:'Mês seguinte', campanades:'Badaladas das horas e dos quartos', girar:'Relógio: toque para rodar o mostrador', condicions:'Condições atuais', calInfo:'Calendário e informação', dobleToc:'Toque duplo: voltar ao mês atual',
       radio:'Rádio', podcasts:'Podcasts', noticies:'Notícias', araSona:'A tocar', directe:'em direto', carregant:'A carregar…',
       errNoticies:'Não foi possível carregar as notícias.', errProgrames:'Não foi possível carregar os programas.', obreWeb:'Abrir o site',
@@ -2213,6 +2227,7 @@
   try { const img = new Image(); img.src = getComputedStyle(document.documentElement).getPropertyValue('--textura-patina').trim().replace(/^url\(["']?|["']?\)$/g, ''); if (img.decode) img.decode().catch(()=>{}); } catch(e){}
   function giraEsfera(){
     if (girant) return;
+    if (zoom.z > 1) treuZoom();
     girant = true;
     preparaAmagada();
     esferaActual = (esferaActual + 1) % ESFERES.length;
@@ -2229,6 +2244,80 @@
     rellotge.classList.remove('girant');
     setTimeout(preparaAmagada, 300);
   });
+  // ---- Lupa: zoom controlat (×1 a ×4) canviant el viewBox de l'esfera visible: es redibuixa nítida ----
+  const botoLupa = document.getElementById('botoLupa');
+  let zoom = { z:1, x:0, y:0 };   // finestra visible en unitats de l'esfera (0–600)
+  let gestLupa = 0;               // moment del darrer gest de lupa (per no girar l'esfera en acabar)
+  const svgVisible = () => ESFERES[esferaActual];
+  function aplicaZoom(){
+    const w = 600 / zoom.z;
+    zoom.x = Math.max(0, Math.min(600 - w, zoom.x)); zoom.y = Math.max(0, Math.min(600 - w, zoom.y));
+    const ampliada = zoom.z > 1.01;
+    if (!ampliada){ zoom = { z:1, x:0, y:0 }; }
+    svgVisible().setAttribute('viewBox', ampliada ? `${zoom.x.toFixed(2)} ${zoom.y.toFixed(2)} ${w.toFixed(2)} ${w.toFixed(2)}` : '0 0 600 600');
+    rellotge.classList.toggle('ampliada', ampliada);
+    botoLupa.hidden = !ampliada;
+  }
+  // amplia al voltant d'un punt de la pantalla, mantenint-lo quiet sota el dit
+  function ampliaA(nouZ, clientX, clientY){
+    const r = svgVisible().getBoundingClientRect(); if (!r.width) return;
+    const fx = (clientX - r.left) / r.width, fy = (clientY - r.top) / r.height;
+    const w0 = 600 / zoom.z, px0 = zoom.x + fx * w0, py0 = zoom.y + fy * w0;
+    zoom.z = Math.max(1, Math.min(4, nouZ));
+    const w1 = 600 / zoom.z; zoom.x = px0 - fx * w1; zoom.y = py0 - fy * w1;
+    aplicaZoom();
+  }
+  function treuZoom(){ zoom = { z:1, x:0, y:0 }; ESFERES.forEach(s => s.setAttribute('viewBox', '0 0 600 600')); aplicaZoom(); }
+  botoLupa.addEventListener('click', e => { e.stopPropagation(); treuZoom(); gestLupa = performance.now(); });
+  // dos dits: pinçar; un dit amb l'esfera ampliada: desplaçar
+  let pinca = null, arrossega = null;
+  const dist = (a, b) => Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+  rellotge.addEventListener('touchstart', e => {
+    if (girant) return;
+    if (e.touches.length === 2){
+      const [a, b] = e.touches;
+      pinca = { d0: dist(a, b), z0: zoom.z }; arrossega = null; e.preventDefault();
+    } else if (e.touches.length === 1 && zoom.z > 1){
+      arrossega = { x: e.touches[0].clientX, y: e.touches[0].clientY, zx: zoom.x, zy: zoom.y, mou: false };
+    }
+  }, {passive:false});
+  rellotge.addEventListener('touchmove', e => {
+    if (pinca && e.touches.length === 2){
+      e.preventDefault();
+      const [a, b] = e.touches;
+      ampliaA(pinca.z0 * dist(a, b) / pinca.d0, (a.clientX + b.clientX) / 2, (a.clientY + b.clientY) / 2);
+      gestLupa = performance.now();
+    } else if (arrossega && e.touches.length === 1){
+      e.preventDefault();
+      const r = svgVisible().getBoundingClientRect(), k = (600 / zoom.z) / r.width;
+      const dx = e.touches[0].clientX - arrossega.x, dy = e.touches[0].clientY - arrossega.y;
+      if (Math.abs(dx) + Math.abs(dy) > 4) arrossega.mou = true;
+      zoom.x = arrossega.zx - dx * k; zoom.y = arrossega.zy - dy * k; aplicaZoom();
+      gestLupa = performance.now();
+    }
+  }, {passive:false});
+  rellotge.addEventListener('touchend', e => { if (e.touches.length < 2) pinca = null; if (!e.touches.length) arrossega = null; });
+  // ratolí: roda per ampliar i arrossegar per desplaçar
+  rellotge.addEventListener('wheel', e => {
+    if (girant) return;
+    e.preventDefault();
+    ampliaA(zoom.z * Math.exp(-e.deltaY * 0.0022), e.clientX, e.clientY);
+    gestLupa = performance.now();
+  }, {passive:false});
+  let ratoli = null;
+  rellotge.addEventListener('mousedown', e => { if (zoom.z > 1) ratoli = { x:e.clientX, y:e.clientY, zx:zoom.x, zy:zoom.y }; });
+  window.addEventListener('mousemove', e => {
+    if (!ratoli) return;
+    const r = svgVisible().getBoundingClientRect(), k = (600 / zoom.z) / r.width;
+    zoom.x = ratoli.zx - (e.clientX - ratoli.x) * k; zoom.y = ratoli.zy - (e.clientY - ratoli.y) * k; aplicaZoom();
+    if (Math.abs(e.clientX - ratoli.x) + Math.abs(e.clientY - ratoli.y) > 4) gestLupa = performance.now();
+  });
+  window.addEventListener('mouseup', () => { ratoli = null; });
+  // amb l'esfera ampliada, tocar no la fa girar (cal tornar a la mida normal)
+  rellotge.addEventListener('click', e => {
+    if (e.target.closest && e.target.closest('#botoLupa')) return;
+    if (zoom.z > 1 || performance.now() - gestLupa < 400){ e.stopImmediatePropagation(); return; }
+  }, true);
   rellotge.addEventListener('click', giraEsfera);
   rellotge.addEventListener('keydown', e=>{ if (e.key==='Enter' || e.key===' '){ e.preventDefault(); giraEsfera(); } });
   setTimeout(()=>{ if (angle===0) pista.classList.add('visible'); }, 1500);

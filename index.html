@@ -328,6 +328,49 @@
   .placa .sona-tanca svg{ width:14px; height:14px; stroke:#3a2608; stroke-width:2.4; filter:none; }
   .placa.sona::after{ display:none; }
   html.nit .sona-tanca{ background:transparent !important; box-shadow: inset 0 0 0 1.5px var(--nit) !important; }
+
+  /* ---- Alarmes ---- */
+  .al-cara .m-peu{ white-space:normal; text-overflow:clip; line-height:1.35; text-align:center; }
+  .al-llista{ width:100%; flex:1 1 auto; min-height:0; display:flex; flex-direction:column; justify-content:space-evenly; gap: 1.6cqh; }
+  .al-fila{ display:grid; grid-template-columns: auto 1fr auto; align-items:center; gap: 3cqw; padding: 1.2cqh 3cqw; border-radius:8px;
+    background: linear-gradient(180deg, rgba(255,253,246,.75) 0%, rgba(239,228,205,.55) 100%);
+    box-shadow: inset 0 0 0 1px rgba(185,119,82,.55), inset 0 1px 0 rgba(255,255,255,.9), 0 1px 2px rgba(60,35,10,.18); }
+  .al-fila.apagada .al-hora, .al-fila.apagada .al-rep{ opacity:.45; }
+  .al-int{ appearance:none; -webkit-appearance:none; border:0; padding:0; cursor:pointer; position:relative; flex:0 0 auto;
+    width: 46px; height: 26px; border-radius:13px; background: linear-gradient(180deg, #cdbd98, #e8dcc0); box-shadow: inset 0 1px 3px rgba(60,35,10,.45); transition: background .25s; }
+  .al-int::after{ content:""; position:absolute; top:3px; left:3px; width:20px; height:20px; border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #fbe7a8, #c1913c 55%, #6b4712); box-shadow: 0 1px 2px rgba(0,0,0,.45); transition: transform .25s; }
+  .al-int[aria-checked="true"]{ background: linear-gradient(180deg, #1f8a64, #0f6b4c); }
+  .al-int[aria-checked="true"]::after{ transform: translateX(20px); }
+  .al-hora{ appearance:none; -webkit-appearance:none; border:0; background:transparent; min-width:0; width:100%; text-align:center; color:#2c241c;
+    font-family:'Cormorant Garamond', serif; font-weight:700; font-size: min(15cqh, 9cqw); line-height:1; padding:0; cursor:pointer; }
+  .al-hora::-webkit-calendar-picker-indicator{ display:none; }
+  .al-hora::-webkit-date-and-time-value{ text-align:center; }
+  .al-rep{ appearance:none; -webkit-appearance:none; border:0; cursor:pointer; padding: 5px 10px; border-radius:12px; white-space:nowrap;
+    font-family:'IM Fell English', serif; font-style:italic; font-size: min(5.6cqh, 3.6cqw); color:#5c4632;
+    background: rgba(185,119,82,.12); box-shadow: inset 0 0 0 1px rgba(185,119,82,.5); }
+  .al-sona{ position:fixed; inset:0; z-index:60; display:grid; place-items:center; background: rgba(10,6,3,.72); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+  .al-sona[hidden]{ display:none; }
+  .al-sona-cara{ width: min(86vw, 360px); padding: 22px 18px 18px; border-radius:16px; text-align:center; color:#2c241c;
+    background: radial-gradient(ellipse at 40% 30%, #fcf8ee 0%, #efe6d1 55%, #dccfb0 100%);
+    box-shadow: 0 0 0 7px #d39a72, 0 0 0 8px #6f3f22, 0 20px 40px rgba(0,0,0,.6); }
+  .al-sona-ic{ width:44px; height:44px; fill:none; stroke:#8a5536; stroke-width:1.6; stroke-linejoin:round; animation: alBalanceja 1s ease-in-out infinite; transform-origin: 50% 10%; }
+  @keyframes alBalanceja{ 0%,100%{ transform: rotate(-14deg); } 50%{ transform: rotate(14deg); } }
+  .al-sona-etq{ font-family:'IM Fell English SC', serif; letter-spacing:.3em; color:#8a5536; margin-top:4px; }
+  .al-sona-hora{ font-family:'Cormorant Garamond', serif; font-weight:700; font-size:64px; line-height:1.05; }
+  .al-sona-botons{ display:flex; gap:10px; margin-top:12px; }
+  .al-b{ flex:1; border:0; cursor:pointer; padding:12px 8px; border-radius:10px; font-family:'Cinzel', serif; font-weight:700; font-size:14px; letter-spacing:.06em; }
+  .al-posposa{ background: rgba(185,119,82,.15); color:#5c4632; box-shadow: inset 0 0 0 1px rgba(185,119,82,.6); }
+  .al-atura{ color:#f6ecd4; background: linear-gradient(180deg, #9a2a24 0%, #7a1a16 50%, #55100e 100%); box-shadow: 0 2px 4px rgba(0,0,0,.35); }
+  html.nit .al-fila{ background:transparent !important; box-shadow: inset 0 0 0 1px rgba(255,90,31,.55) !important; }
+  html.nit .al-hora{ color:var(--nit) !important; }
+  html.nit .al-int{ background:#000 !important; box-shadow: inset 0 0 0 1.5px rgba(255,90,31,.6) !important; }
+  html.nit .al-int[aria-checked="true"]{ background: rgba(255,90,31,.35) !important; }
+  html.nit .al-int::after{ background: var(--nit) !important; }
+  html.nit .al-rep{ background:transparent !important; box-shadow: inset 0 0 0 1px rgba(255,90,31,.5) !important; }
+  html.nit .al-sona-cara{ background:#000 !important; color:var(--nit) !important; box-shadow: 0 0 0 2px var(--nit) !important; }
+  html.nit .al-sona-cara *{ color:var(--nit) !important; stroke:var(--nit); }
+  html.nit .al-b{ background:transparent !important; box-shadow: inset 0 0 0 1.5px var(--nit) !important; }
   /* Punts indicadors (vertical) */
   .pager-punts{ position:absolute; right:-1px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:6px; z-index:5; pointer-events:none; }
   .pager-punts span{ width:5px; height:5px; border-radius:50%; background: rgba(60,35,10,.45); box-shadow: 0 0 0 1px rgba(255,235,200,.35); transition: all .3s; }
@@ -697,6 +740,17 @@
   </svg>
 </button>
 <div class="avis-mode" id="avisMode" role="status"></div>
+<div class="al-sona" id="alSona" role="alertdialog" aria-modal="true" hidden>
+  <div class="al-sona-cara">
+    <svg viewBox="0 0 24 24" class="al-sona-ic"><path d="M12 22a2.2 2.2 0 0 0 2.2-2.2h-4.4A2.2 2.2 0 0 0 12 22z"/><path d="M18 16V11a6 6 0 0 0-5-5.9V4a1 1 0 0 0-2 0v1.1A6 6 0 0 0 6 11v5l-2 2h16z"/></svg>
+    <div class="al-sona-etq" data-i18n="alarma">Alarma</div>
+    <div class="al-sona-hora" id="alSonaHora">07:00</div>
+    <div class="al-sona-botons">
+      <button type="button" class="al-b al-posposa" id="alPosposa" data-i18n="posposa">5 min més</button>
+      <button type="button" class="al-b al-atura" id="alAtura" data-i18n="aturaAl">Atura</button>
+    </div>
+  </div>
+</div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <filter id="filtreLume" color-interpolation-filters="sRGB">
     <feColorMatrix type="matrix" values="0.05 0.1 0.02 0 0   0.33 0.62 0.12 0 0.08   0.12 0.22 0.04 0 0.02   0 0 0 1 0"/>
@@ -854,7 +908,7 @@
             </div></div>
           </div>
 
-          <div class="full">
+          <div class="full" id="fullPodcasts">
             <div class="full-marc"><div class="full-cara m-cara p-cara">
               <div class="full-titol" data-i18n="podcasts">Podcasts</div>
               <div class="p-seccio">
@@ -874,6 +928,14 @@
               <div class="full-titol" data-i18n="noticies">Notícies</div>
               <div class="n-llista" id="mNoticies"></div>
               <div class="m-peu" id="nPeu"></div>
+            </div></div>
+          </div>
+
+          <div class="full">
+            <div class="full-marc"><div class="full-cara m-cara al-cara">
+              <div class="full-titol" data-i18n="alarmes">Alarmes</div>
+              <div class="al-llista" id="alLlista"></div>
+              <div class="m-peu" id="alPeu"></div>
             </div></div>
           </div>
         </div>
@@ -1003,7 +1065,7 @@
 
     filtreOmbra(defs, 'aOmbraMa', 4, 7, 3, .45);
 
-    // Corona bisellada esglaonada (la mateixa de BLANCPAIN), en coure vell enfosquit
+    // Corona bisellada esglaonada (la mateixa de CAPITAINE), en coure vell enfosquit
     gradient(defs, 'linearGradient', 'aCoure', {x1:'0', y1:'0', x2:'0.35', y2:'1'}, [['0%','#d6a77f'],['30%','#a36a45'],['62%','#6e4127'],['100%','#331a0c']]);
     gradient(defs, 'linearGradient', 'aCoureInv', {x1:'0.35', y1:'1', x2:'0', y2:'0'}, [['0%','#c99772'],['35%','#8a5636'],['70%','#55301b'],['100%','#28140a']]);
     const fCV = el('filter', {id:'aCoureVell', x:'0', y:'0', width:'100%', height:'100%'}, defs);
@@ -1065,14 +1127,14 @@
       el('path', {d:'M 0,-8 L 5,4 L 0,1.5 L -5,4 Z', transform:`translate(${px(254,a)} ${py(254,a)}) rotate(${a})`, stroke:'none', fill:'#1a1209', class:'lume'}, tinta);
     }
     numeralRomans(tinta, 194, 66, {stroke:'none', fill:'#1a1209'}, {sx:0.7, sy:1.22, ls:-2}).classList.add('lume');
-    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de BLANCPAIN
+    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de CAPITAINE
     const marcaA = el('g', {transform:`translate(${C} ${C+82}) scale(0.72 1.18)`}, tinta);
     el('text', {x:0, y:0, 'text-anchor':'middle', 'dominant-baseline':'central', 'font-family':'Cinzel, serif', 'font-weight':700,
       'font-size':38, 'letter-spacing':-1, stroke:'none', fill:'#1a1209'}, marcaA).textContent = 'XM';
     el('line', {x1:C-22, y1:C+108, x2:C+22, y2:C+108, stroke:'#1a1209', 'stroke-width':.9}, tinta);
     el('path', {d:`M ${C},${C+105} L ${C+3},${C+108} L ${C},${C+111} L ${C-3},${C+108} Z`, stroke:'none', fill:'#1a1209'}, tinta);
 
-    // ---- Visor del dia de la setmana (com el de BLANCPAIN, però amb fons de pergamí) ----
+    // ---- Visor del dia de la setmana (com el de CAPITAINE, però amb fons de pergamí) ----
     const AX = C-80, AY = C-114, AW = 160, AH = 34;
     gradient(defs, 'linearGradient', 'aVisorPaper', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#f1dcae'],['55%','#e6c993'],['100%','#d4b072']]);
     gradient(defs, 'linearGradient', 'aOmbraVisor', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2a1604',.42],['24%','#2a1604',0],['80%','#2a1604',0],['100%','#2a1604',.28]]);
@@ -1218,7 +1280,7 @@
     // ---- Nom de la casa, imprès a l'esfera ----
     const nomCasa = el('text', {x:C, y:C-58, 'text-anchor':'middle', 'dominant-baseline':'central',
       'font-family':'Cinzel, serif', 'font-weight':700, 'font-size':17, 'letter-spacing':2.2, fill:'#2c241c'}, svg);
-    nomCasa.textContent = 'BLANCPAIN';
+    nomCasa.textContent = 'CAPITAINE';
     el('line', {x1:C-26, y1:C-45, x2:C+26, y2:C-45, stroke:'#b97752', 'stroke-width':.9}, svg);
     el('path', {d:`M ${C},${C-48} L ${C+3},${C-45} L ${C},${C-42} L ${C-3},${C-45} Z`, fill:'url(#cOrRosa)'}, svg);
 
@@ -1369,7 +1431,7 @@
     gradient(defs, 'radialGradient', 'dLluna', {cx:'40%', cy:'35%', r:'70%'}, [['0%','#fbfbf7'],['55%','#d9dad6'],['100%','#9c9fa3']]);
     gradient(defs, 'radialGradient', 'dCrater', {cx:'45%', cy:'40%', r:'60%'}, [['0%','#8e9195',.55],['70%','#a9acaf',.35],['100%','#ffffff',.25]]);
     gradient(defs, 'radialGradient', 'dOmbraInt', {cx:'50%', cy:'50%', r:'50%'}, [['84%','#3a2a14',0],['96%','#3a2a14',.22],['100%','#2a1a08',.5]]);
-    // Verd maragda: el mateix dels dissabtes a la finestra de BLANCPAIN
+    // Verd maragda: el mateix dels dissabtes a la finestra de CAPITAINE
     gradient(defs, 'radialGradient', 'dVerd', {cx:'300', cy:'240', r:'320', gradientUnits:'userSpaceOnUse'}, [['0%','#1f8a64'],['60%','#0f6b4c'],['100%','#094a35']]);
     // Esfera de marfil amb guillotxat en espiga (com un gravat a torn)
     gradient(defs, 'radialGradient', 'dMarfil', {cx:'290', cy:'270', r:'300', gradientUnits:'userSpaceOnUse'}, [['0%','#fbf6ea'],['55%','#efe6d1'],['88%','#e2d5b8'],['100%','#cdbd98']]);
@@ -1439,7 +1501,7 @@
     const turons = `A ${HR} ${HR} 0 0 0 ${C} ${CUSP} A ${HR} ${HR} 0 0 0 ${px(226,-angE)} ${py(226,-angE)}`;
     el('path', {d:`M ${px(226,-angE)} ${py(226,-angE)} A 226 226 0 0 1 ${px(226,angE)} ${py(226,angE)} ${turons} Z`}, clipCel);
     const cel = el('g', {'clip-path':'url(#dClipCel)'}, svg);
-    // Disc del firmament: gira mitja volta per llunació (com el de BLANCPAIN); la lluna plena passa sota el 12
+    // Disc del firmament: gira mitja volta per llunació (com el de CAPITAINE); la lluna plena passa sota el 12
     const firmament = el('g', {}, cel);
     el('circle', {cx:C, cy:C, r:228, fill:'url(#dCel)'}, firmament);
     gradient(defs, 'radialGradient', 'dViaLactia', {cx:'50%', cy:'50%', r:'50%'}, [['0%','#9fb4ff',.18],['100%','#9fb4ff',0]]);
@@ -1450,7 +1512,7 @@
       if (s > 0.9) el('path', {d:'M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z', transform:`translate(${px(r,a).toFixed(1)} ${py(r,a).toFixed(1)}) scale(${(0.6+s*0.5).toFixed(2)})`, fill:'#fffbe8', class:'estel', style:`animation-delay:${(i*0.37)%2.6}s`}, firmament);
       else el('circle', {cx:px(r,a).toFixed(1), cy:py(r,a).toFixed(1), r:(0.4+s*1.1).toFixed(2), fill:'#ffffff', opacity:(0.35+s*0.6).toFixed(2)}, firmament);
     }
-    // estels grossos amb raigs, com els de BLANCPAIN, repartits pel cel
+    // estels grossos amb raigs, com els de CAPITAINE, repartits pel cel
     [[-150,-40,1.4],[-95,-120,1.1],[30,-150,1.25],[120,-95,1.0],[160,20,1.3],[95,110,1.1],[-20,160,1.2],[-120,95,1.0],[-60,40,.8],[60,-30,.85],[-170,60,.9],[150,-150,.8]].forEach(([x,y,s],i)=>{
       el('path', {d:'M0,-7 L1.4,-1.4 L7,0 L1.4,1.4 L0,7 L-1.4,1.4 L-7,0 L-1.4,-1.4 Z', transform:`translate(${C+x} ${C+y}) scale(${s})`, fill:'#fff6da', class:'estel', style:`animation-delay:${(i*0.53)%2.6}s`}, firmament);
     });
@@ -1587,7 +1649,7 @@
       const d = ara.getDate();
       busDataRot.setAttribute('transform', `rotate(${((d-1)*360/31).toFixed(2)} ${C} ${C})`);
       textosData.forEach((t,i)=> t.setAttribute('fill', (i+1)===d ? '#b3261e' : '#2c241c'));
-      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de BLANCPAIN
+      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de CAPITAINE
       const iAvui = (ara.getDay()+6)%7;
       const fe = festiu(ara);
       textosDia.forEach((t,i)=>{
@@ -1658,6 +1720,7 @@
   const I18N = {
     ca: {
       modeDia:'Mode diürn', modeNit:'Mode nocturn', modeNitFix:'Mode nocturn · pantalla sempre encesa', modeEtq:'Mode', tanca:'Tanca', midaNormal:'Mida normal',
+      alarmes:'Alarmes', alarma:'Alarma', aturaAl:'Atura', posposa:'5 min més', repet:['Cada dia','Feiners','Cap de setmana','Un cop'], alPeu:"Sonen amb l'app oberta", alPropera:(d,h)=>`Propera: ${d} a les ${h}`, alCap:'Cap alarma activa', alActiva:'Activa',
       mesAnt:'Mes anterior', mesSeg:'Mes següent', campanades:'Campanades de les hores i els quarts', girar:"Rellotge: prem per girar l'esfera", condicions:'Condicions actuals', calInfo:'Calendari i informació', dobleToc:'Doble toc: tornar al mes actual',
       radio:'Ràdio', podcasts:'Podcasts', noticies:'Notícies', araSona:'Ara sona', directe:'en directe', carregant:'Carregant…',
       errNoticies:"No s'han pogut carregar les notícies.", errProgrames:"No s'han pogut carregar els programes.", obreWeb:'Obre el web',
@@ -1710,8 +1773,47 @@
         return `Falten ${minuts(falten)} per a ${QUARTS[qn]} ${deN(seg)} ${franja(seg)}`;
       }
     },
+    oc: {
+      modeDia:'Mòde de dia', modeNit:'Mòde de nuet', modeNitFix:'Mòde de nuet · pantalha tostemp alugada', modeEtq:'Mòde', tanca:'Barra', midaNormal:'Mida normau',
+      alarmes:'Alarmes', alarma:'Alarma', aturaAl:'Arrèsta', posposa:'5 min mès', repet:['Cada dia','Dies de trabalh','Fin de setmana','Un còp'], alPeu:'Sonen damb era aplicacion dubèrta', alPropera:(d,h)=>`Seguenta: ${d} a ${h}`, alCap:"Cap d'alarma activa", alActiva:'Activa',
+      mesAnt:'Mes anterior', mesSeg:'Mes seguent', campanades:'Campanades des ores e des quarts', girar:'Relòtge: tòca entà virar era esfèra', condicions:'Condicions actuaus', calInfo:'Calendari e informacion', dobleToc:'Dobla tòca: tornar ath mes actuau',
+      radio:'Ràdio', podcasts:'Podcasts', noticies:'Actualitat', araSona:'Ara sone', directe:'en dirècte', carregant:'Cargant…',
+      errNoticies:"Non s'an podut cargar es notícies.", errProgrames:"Non s'an podut cargar es programes.", obreWeb:'Dubrir eth web',
+      actualitzat:h=>`actualizat a ${h}`, toastRadio:n=>`${n} non respon ara. Tòca-la un aute còp entà dubrir eth sòn web.`, toastPodcast:'Aguest programa non se pòt escotar ara.',
+      nom:'Occitan (aranés)', veu:'oc-ES', reserva:['ca','fr','es'], nums:'ca-ES', geo:'ca',
+      mesos:['gèr','hereuèr','març','abriu','mai','junh','julhet','agost','seteme','octòbre','noveme','deseme'],
+      dies:['dimenge','deluns','dimars','dimèrcles','dijaus','diuendres','dissabte'],
+      curts:['Dl','Dm','Dc','Dj','Dv','Ds','Dg'],
+      deMes: m => (/^[aeiouàèòáéíóú]/.test(m) ? "d'" : 'de ') + m,
+      data: (ds, d, mes, a) => `${ds}, ${d} ${/^[aeiouàèòáéíóú]/.test(mes) ? "d'" : 'de '}${mes} de ${a}`,
+      poblacio:'Pòble', avis:'Avís', temperatura:'Temperatura', humitat:'Umiditat', sensacio:'Sensacion', pluja6:'Ploja · 6 h', altitud:'Altitud',
+      capSetmana:'Fin de setmana', festiu:'Hèsta', avui:'Uei',
+      elTemps:'Eth temps', titolAvui:'Uei', onSom:'A on èm', avisos:'Avisi', max:'Màx', min:'Mín', coordenades:'Coordenades',
+      esperantDades:'Demorant donades…', esperantPrev:'Demorant era prevision…', capAvis:"Cap d'avís entàs ores que vien", avisosPeu:'Segontes era prevision entàs ores que vien',
+      tocaEsfera:'Tòca era esfèra', republica:'Dia dera Republica',
+      diaAny:(n,s) => `Dia ${n} der an · Setmana ${s}`, sol:(a,p) => `Gessuda deth solei ${a} · Pòsta ${p}`,
+      fases:['Lua nava','Lua creishenta','Quart creishent','Gibosa creishenta','Lua plea','Gibosa minvanta','Quart minvant','Lua minvanta'],
+      cel:['Cèu seren','Quasi seren','Parciaument ennivolat','Cèu cubèrt','Bromassa','Bromassa gelada','Plovina leugèra','Plovina','Plovina fòrta','Plovina gelada','Plovina gelada','Ploja leugèra','Ploja','Ploja fòrta','Ploja gelada','Ploja gelada','Nhèu leugèra','Nhèu','Nhèu fòrta','Nhèu granulada','Plojades leugères','Plojades','Plojades fòrtes','Plojades de nhèu','Plojades de nhèu','Tempèsta','Tempèsta damb pedregada','Tempèsta damb pedregada'],
+      a:{ tempesta:'Risc de tempèsta enes ores que vien', pluja:p=>`Ploja probabla (${p}%) en 6 ores: prèn eth paraploja`, ventFort:v=>`Vent fòrt: rufades enquia ${v} km/h`, ratxes:v=>`Rufades de vent enquia ${v} km/h`,
+          calorInt:t=>`Calor intensa: maximau de ${t}`, calor:t=>`Hè calor: maximau de ${t}`, glacada:t=>`Gelada: minimau de ${t}`, fred:t=>`Hred: minimau de ${t}`,
+          uvMolt:u=>`Indici UV fòrça naut (${u}): protegís-te deth solei`, uv:u=>`Indici UV naut (${u}): proteccion solara`, boira:'Bromassa: visibilitat redusida',
+          avuiFestiu:n=>`Uei ei hèsta: ${n}`, demaFestiu:n=>`Deman ei hèsta: ${n}` },
+      x:{ tempesta:'Tempèsta', pluja:'Ploja fòrta', vent:v=>`Vent ${v} km/h`, neu:'Nhèu', glac:'Glaç' },
+      parla:'Di-me era ora', idioma:'Lengua',
+      // «Son es dètz e quart», «Ei era ua e mieja», «Son es onze mens quart»
+      hora:(h,m) => {
+        const NOMS = ['dotze','ua','dues','tres','quate','cinc','sies','sèt','ueit','nau','dètz','onze'];
+        const franja = x => { x = (x+24)%24; return x<6 ? 'dera nuet' : x<12 ? 'deth maitin' : x<15 ? 'de meddia' : x<20 ? 'dera tarde' : 'dera nuet'; };
+        const es = x => (((x%12)+12)%12)===1 ? 'Ei era ua' : `Son es ${NOMS[((x%12)+12)%12]}`;
+        if (m===0) return `${es(h)} en punt ${franja(h)}`;
+        if (m<=30){ const r = m===15 ? 'quart' : m===30 ? 'mieja' : m; return `${es(h)} e ${r} ${franja(h)}`; }
+        const f = 60-m, r = f===15 ? 'quart' : f;
+        return `${es(h+1)} mens ${r} ${franja(h+1)}`;
+      }
+    },
     gl: {
       modeDia:'Modo diúrno', modeNit:'Modo nocturno', modeNitFix:'Modo nocturno · pantalla sempre acesa', modeEtq:'Modo', tanca:'Pechar', midaNormal:'Tamaño normal',
+      alarmes:'Alarmas', alarma:'Alarma', aturaAl:'Parar', posposa:'5 min máis', repet:['Todos os días','Laborables','Fin de semana','Unha vez'], alPeu:'Soan coa app aberta', alPropera:(d,h)=>`Seguinte: ${d} ás ${h}`, alCap:'Ningunha alarma activa', alActiva:'Activa',
       mesAnt:'Mes anterior', mesSeg:'Mes seguinte', campanades:'Badaladas das horas e dos cuartos', girar:'Reloxo: preme para xirar a esfera', condicions:'Condicións actuais', calInfo:'Calendario e información', dobleToc:'Dobre toque: volver ao mes actual',
       radio:'Radio', podcasts:'Podcasts', noticies:'Novas', araSona:'Agora soa', directe:'en directo', carregant:'Cargando…',
       errNoticies:'Non se puideron cargar as novas.', errProgrames:'Non se puideron cargar os programas.', obreWeb:'Abrir a web',
@@ -1749,6 +1851,7 @@
     },
     eu: {
       modeDia:'Egun modua', modeNit:'Gau modua', modeNitFix:'Gau modua · pantaila beti piztuta', modeEtq:'Modua', tanca:'Itxi', midaNormal:'Tamaina normala',
+      alarmes:'Alarmak', alarma:'Alarma', aturaAl:'Gelditu', posposa:'5 min gehiago', repet:['Egunero','Lanegunetan','Asteburuan','Behin'], alPeu:'Aplikazioa irekita dagoenean jotzen dute', alPropera:(d,h)=>`Hurrengoa: ${d}, ${h}`, alCap:'Ez dago alarmarik aktibo', alActiva:'Aktibo',
       mesAnt:'Aurreko hilabetea', mesSeg:'Hurrengo hilabetea', campanades:'Orduen eta laurdenen kanpai-hotsak', girar:'Erlojua: sakatu esfera biratzeko', condicions:'Uneko baldintzak', calInfo:'Egutegia eta informazioa', dobleToc:'Ukitu bikoitza: uneko hilabetera itzuli',
       radio:'Irratia', podcasts:'Podcastak', noticies:'Albisteak', araSona:'Orain entzuten', directe:'zuzenean', carregant:'Kargatzen…',
       errNoticies:'Ezin izan dira albisteak kargatu.', errProgrames:'Ezin izan dira saioak kargatu.', obreWeb:'Ireki webgunea',
@@ -1787,6 +1890,7 @@
     },
     fr: {
       modeDia:'Mode jour', modeNit:'Mode nuit', modeNitFix:'Mode nuit · écran toujours allumé', modeEtq:'Mode', tanca:'Fermer', midaNormal:'Taille normale',
+      alarmes:'Alarmes', alarma:'Alarme', aturaAl:'Arrêter', posposa:'5 min de plus', repet:['Tous les jours','En semaine','Le week-end','Une fois'], alPeu:"Elles sonnent quand l'app est ouverte", alPropera:(d,h)=>`Prochaine : ${d} à ${h}`, alCap:'Aucune alarme active', alActiva:'Active',
       mesAnt:'Mois précédent', mesSeg:'Mois suivant', campanades:'Carillon des heures et des quarts', girar:'Horloge : touchez pour tourner le cadran', condicions:'Conditions actuelles', calInfo:'Calendrier et informations', dobleToc:'Double touche : revenir au mois en cours',
       radio:'Radio', podcasts:'Podcasts', noticies:'Actualités', araSona:'En écoute', directe:'en direct', carregant:'Chargement…',
       errNoticies:'Impossible de charger les actualités.', errProgrames:'Impossible de charger les émissions.', obreWeb:'Ouvrir le site',
@@ -1820,6 +1924,7 @@
     },
     en: {
       modeDia:'Day mode', modeNit:'Night mode', modeNitFix:'Night mode · screen always on', modeEtq:'Mode', tanca:'Close', midaNormal:'Normal size',
+      alarmes:'Alarms', alarma:'Alarm', aturaAl:'Stop', posposa:'5 more min', repet:['Every day','Weekdays','Weekends','Once'], alPeu:'They ring while the app is open', alPropera:(d,h)=>`Next: ${d} at ${h}`, alCap:'No alarm set', alActiva:'On',
       mesAnt:'Previous month', mesSeg:'Next month', campanades:'Hour and quarter chimes', girar:'Clock: tap to turn the dial', condicions:'Current conditions', calInfo:'Calendar and information', dobleToc:'Double tap: back to the current month',
       radio:'Radio', podcasts:'Podcasts', noticies:'News', araSona:'Now playing', directe:'live', carregant:'Loading…',
       errNoticies:"Couldn't load the news.", errProgrames:"Couldn't load the shows.", obreWeb:'Open website',
@@ -1853,6 +1958,7 @@
     },
     de: {
       modeDia:'Tagmodus', modeNit:'Nachtmodus', modeNitFix:'Nachtmodus · Bildschirm bleibt an', modeEtq:'Modus', tanca:'Schließen', midaNormal:'Normalgröße',
+      alarmes:'Wecker', alarma:'Wecker', aturaAl:'Stopp', posposa:'5 Min. später', repet:['Täglich','Werktags','Wochenende','Einmal'], alPeu:'Klingeln, solange die App geöffnet ist', alPropera:(d,h)=>`Nächster: ${d}, ${h}`, alCap:'Kein Wecker aktiv', alActiva:'Aktiv',
       mesAnt:'Vorheriger Monat', mesSeg:'Nächster Monat', campanades:'Stunden- und Viertelstundenschlag', girar:'Uhr: tippen, um das Zifferblatt zu drehen', condicions:'Aktuelle Bedingungen', calInfo:'Kalender und Informationen', dobleToc:'Doppeltippen: zurück zum aktuellen Monat',
       radio:'Radio', podcasts:'Podcasts', noticies:'Nachrichten', araSona:'Jetzt läuft', directe:'live', carregant:'Wird geladen…',
       errNoticies:'Die Nachrichten konnten nicht geladen werden.', errProgrames:'Die Sendungen konnten nicht geladen werden.', obreWeb:'Website öffnen',
@@ -1881,6 +1987,7 @@
     },
     it: {
       modeDia:'Modalità giorno', modeNit:'Modalità notte', modeNitFix:'Modalità notte · schermo sempre acceso', modeEtq:'Modalità', tanca:'Chiudi', midaNormal:'Dimensione normale',
+      alarmes:'Sveglie', alarma:'Sveglia', aturaAl:'Ferma', posposa:'5 min ancora', repet:['Ogni giorno','Feriali','Fine settimana','Una volta'], alPeu:"Suonano con l'app aperta", alPropera:(d,h)=>`Prossima: ${d} alle ${h}`, alCap:'Nessuna sveglia attiva', alActiva:'Attiva',
       mesAnt:'Mese precedente', mesSeg:'Mese successivo', campanades:'Rintocchi delle ore e dei quarti', girar:'Orologio: tocca per girare il quadrante', condicions:'Condizioni attuali', calInfo:'Calendario e informazioni', dobleToc:'Doppio tocco: torna al mese corrente',
       radio:'Radio', podcasts:'Podcast', noticies:'Notizie', araSona:'In ascolto', directe:'in diretta', carregant:'Caricamento…',
       errNoticies:'Impossibile caricare le notizie.', errProgrames:'Impossibile caricare i programmi.', obreWeb:'Apri il sito',
@@ -1914,6 +2021,7 @@
     },
     pt: {
       modeDia:'Modo diurno', modeNit:'Modo noturno', modeNitFix:'Modo noturno · ecrã sempre ligado', modeEtq:'Modo', tanca:'Fechar', midaNormal:'Tamanho normal',
+      alarmes:'Alarmes', alarma:'Alarme', aturaAl:'Parar', posposa:'Mais 5 min', repet:['Todos os dias','Dias úteis','Fim de semana','Uma vez'], alPeu:'Tocam com a app aberta', alPropera:(d,h)=>`Próximo: ${d} às ${h}`, alCap:'Nenhum alarme ativo', alActiva:'Ativo',
       mesAnt:'Mês anterior', mesSeg:'Mês seguinte', campanades:'Badaladas das horas e dos quartos', girar:'Relógio: toque para rodar o mostrador', condicions:'Condições atuais', calInfo:'Calendário e informação', dobleToc:'Toque duplo: voltar ao mês atual',
       radio:'Rádio', podcasts:'Podcasts', noticies:'Notícias', araSona:'A tocar', directe:'em direto', carregant:'A carregar…',
       errNoticies:'Não foi possível carregar as notícias.', errProgrames:'Não foi possível carregar os programas.', obreWeb:'Abrir o site',
@@ -1949,29 +2057,29 @@
   };
   // Noms dels festius (la llista base és en català i fa de clau)
   const FESTES = {
-    "Cap d'Any":{gl:'Aninovo',eu:'Urteberri eguna',fr:"Jour de l'An",en:"New Year's Day",de:'Neujahr',it:'Capodanno',pt:'Ano Novo'},
-    'Reis':{gl:'Reis',eu:'Errege eguna',fr:'Épiphanie',en:'Epiphany',de:'Heilige Drei Könige',it:'Epifania',pt:'Dia de Reis'},
-    'Divendres Sant':{gl:'Venres Santo',eu:'Ostiral Santua',fr:'Vendredi saint',en:'Good Friday',de:'Karfreitag',it:'Venerdì santo',pt:'Sexta-feira Santa'},
-    'Dilluns de Pasqua Florida':{gl:'Luns de Pascua',eu:'Pazko astelehena',fr:'Lundi de Pâques',en:'Easter Monday',de:'Ostermontag',it:'Lunedì dell\'Angelo',pt:'Segunda-feira de Páscoa'},
-    'Festa del Treball':{gl:'Día do Traballo',eu:'Langileen eguna',fr:'Fête du Travail',en:'Labour Day',de:'Tag der Arbeit',it:'Festa dei lavoratori',pt:'Dia do Trabalhador'},
-    'Dilluns de Pasqua Granada':{gl:'Luns de Pentecoste',eu:'Mendekoste astelehena',fr:'Lundi de Pentecôte',en:'Whit Monday',de:'Pfingstmontag',it:'Lunedì di Pentecoste',pt:'Segunda-feira de Pentecostes'},
-    'Sant Joan':{gl:'San Xoán',eu:'San Joan',fr:'Saint-Jean',en:'Saint John\'s Day',de:'Johannistag',it:'San Giovanni',pt:'São João'},
-    "L'Assumpció":{gl:'A Asunción',eu:'Andre Mariaren jasokundea',fr:'Assomption',en:'Assumption Day',de:'Mariä Himmelfahrt',it:'Ferragosto',pt:'Assunção de Nossa Senhora'},
-    'Diada Nacional de Catalunya':{gl:'Día Nacional de Cataluña',eu:'Kataluniako Egun Nazionala',fr:'Fête nationale de la Catalogne',en:'National Day of Catalonia',de:'Nationalfeiertag Kataloniens',it:'Festa nazionale della Catalogna',pt:'Dia Nacional da Catalunha'},
-    'La Mercè':{gl:'La Mercè',eu:'La Mercè',fr:'La Mercè',en:'La Mercè',de:'La Mercè',it:'La Mercè',pt:'La Mercè'},
-    'Dia de la República':{gl:'Día da República',eu:'Errepublikaren Eguna',fr:'Jour de la République',en:'Republic Day',de:'Tag der Republik',it:'Giorno della Repubblica',pt:'Dia da República'},
-    "Festa Nacional d'Espanya":{gl:'Festa Nacional de España',eu:'Espainiako Jai Nazionala',fr:"Fête nationale de l'Espagne",en:'National Day of Spain',de:'Nationalfeiertag von Spanien',it:'Festa nazionale della Spagna',pt:'Dia Nacional de Espanha'},
-    'Tots Sants':{gl:'Día de Todos os Santos',eu:'Santu Guztien eguna',fr:'Toussaint',en:"All Saints' Day",de:'Allerheiligen',it:'Ognissanti',pt:'Dia de Todos os Santos'},
-    'Dia de la Constitució':{gl:'Día da Constitución',eu:'Konstituzioaren eguna',fr:'Jour de la Constitution',en:'Constitution Day',de:'Tag der Verfassung',it:'Giorno della Costituzione',pt:'Dia da Constituição'},
-    'La Immaculada':{gl:'A Inmaculada',eu:'Sortzez Garbiaren eguna',fr:'Immaculée Conception',en:'Immaculate Conception',de:'Mariä Empfängnis',it:'Immacolata Concezione',pt:'Imaculada Conceição'},
-    'Nadal':{gl:'Nadal',eu:'Eguberri eguna',fr:'Noël',en:'Christmas Day',de:'Weihnachten',it:'Natale',pt:'Natal'},
-    'Sant Esteve':{gl:'Santo Estevo',eu:'San Esteban eguna',fr:'Saint-Étienne',en:"Saint Stephen's Day",de:'Stephanstag',it:'Santo Stefano',pt:'Santo Estêvão'}
+    "Cap d'Any":{oc:"Cap d'An",gl:'Aninovo',eu:'Urteberri eguna',fr:"Jour de l'An",en:"New Year's Day",de:'Neujahr',it:'Capodanno',pt:'Ano Novo'},
+    'Reis':{oc:'Reis',gl:'Reis',eu:'Errege eguna',fr:'Épiphanie',en:'Epiphany',de:'Heilige Drei Könige',it:'Epifania',pt:'Dia de Reis'},
+    'Divendres Sant':{oc:'Diuendres Sant',gl:'Venres Santo',eu:'Ostiral Santua',fr:'Vendredi saint',en:'Good Friday',de:'Karfreitag',it:'Venerdì santo',pt:'Sexta-feira Santa'},
+    'Dilluns de Pasqua Florida':{oc:'Deluns de Pasco',gl:'Luns de Pascua',eu:'Pazko astelehena',fr:'Lundi de Pâques',en:'Easter Monday',de:'Ostermontag',it:'Lunedì dell\'Angelo',pt:'Segunda-feira de Páscoa'},
+    'Festa del Treball':{oc:'Hèsta deth Trabalh',gl:'Día do Traballo',eu:'Langileen eguna',fr:'Fête du Travail',en:'Labour Day',de:'Tag der Arbeit',it:'Festa dei lavoratori',pt:'Dia do Trabalhador'},
+    'Dilluns de Pasqua Granada':{oc:'Deluns de Pentacosta',gl:'Luns de Pentecoste',eu:'Mendekoste astelehena',fr:'Lundi de Pentecôte',en:'Whit Monday',de:'Pfingstmontag',it:'Lunedì di Pentecoste',pt:'Segunda-feira de Pentecostes'},
+    'Sant Joan':{oc:'Sant Joan',gl:'San Xoán',eu:'San Joan',fr:'Saint-Jean',en:'Saint John\'s Day',de:'Johannistag',it:'San Giovanni',pt:'São João'},
+    "L'Assumpció":{oc:'Era Assumpcion',gl:'A Asunción',eu:'Andre Mariaren jasokundea',fr:'Assomption',en:'Assumption Day',de:'Mariä Himmelfahrt',it:'Ferragosto',pt:'Assunção de Nossa Senhora'},
+    'Diada Nacional de Catalunya':{oc:'Dia Nacionau de Catalonha',gl:'Día Nacional de Cataluña',eu:'Kataluniako Egun Nazionala',fr:'Fête nationale de la Catalogne',en:'National Day of Catalonia',de:'Nationalfeiertag Kataloniens',it:'Festa nazionale della Catalogna',pt:'Dia Nacional da Catalunha'},
+    'La Mercè':{oc:'La Mercè',gl:'La Mercè',eu:'La Mercè',fr:'La Mercè',en:'La Mercè',de:'La Mercè',it:'La Mercè',pt:'La Mercè'},
+    'Dia de la República':{oc:'Dia dera Republica',gl:'Día da República',eu:'Errepublikaren Eguna',fr:'Jour de la République',en:'Republic Day',de:'Tag der Republik',it:'Giorno della Repubblica',pt:'Dia da República'},
+    "Festa Nacional d'Espanya":{oc:"Hèsta Nacionau d'Espanha",gl:'Festa Nacional de España',eu:'Espainiako Jai Nazionala',fr:"Fête nationale de l'Espagne",en:'National Day of Spain',de:'Nationalfeiertag von Spanien',it:'Festa nazionale della Spagna',pt:'Dia Nacional de Espanha'},
+    'Tots Sants':{oc:'Totsants',gl:'Día de Todos os Santos',eu:'Santu Guztien eguna',fr:'Toussaint',en:"All Saints' Day",de:'Allerheiligen',it:'Ognissanti',pt:'Dia de Todos os Santos'},
+    'Dia de la Constitució':{oc:'Dia dera Constitucion',gl:'Día da Constitución',eu:'Konstituzioaren eguna',fr:'Jour de la Constitution',en:'Constitution Day',de:'Tag der Verfassung',it:'Giorno della Costituzione',pt:'Dia da Constituição'},
+    'La Immaculada':{oc:'Era Immaculada',gl:'A Inmaculada',eu:'Sortzez Garbiaren eguna',fr:'Immaculée Conception',en:'Immaculate Conception',de:'Mariä Empfängnis',it:'Immacolata Concezione',pt:'Imaculada Conceição'},
+    'Nadal':{oc:'Nadau',gl:'Nadal',eu:'Eguberri eguna',fr:'Noël',en:'Christmas Day',de:'Weihnachten',it:'Natale',pt:'Natal'},
+    'Sant Esteve':{oc:'Sant Estève',gl:'Santo Estevo',eu:'San Esteban eguna',fr:'Saint-Étienne',en:"Saint Stephen's Day",de:'Stephanstag',it:'Santo Stefano',pt:'Santo Estêvão'}
   };
   const AMBITS = {
-    'Estatal':{gl:'Estatal',eu:'Estatukoa',fr:'National',en:'National',de:'Landesweit',it:'Nazionale',pt:'Nacional'},
-    'Catalunya':{gl:'Cataluña',eu:'Katalunia',fr:'Catalogne',en:'Catalonia',de:'Katalonien',it:'Catalogna',pt:'Catalunha'},
-    'Festa local de Barcelona':{gl:'Festa local de Barcelona',eu:'Bartzelonako tokiko jaia',fr:'Fête locale de Barcelone',en:'Barcelona local holiday',de:'Lokaler Feiertag in Barcelona',it:'Festa locale di Barcellona',pt:'Feriado local de Barcelona'},
-    "Commemoració · 1 d'octubre de 2017":{gl:'Conmemoración · 1 de outubro de 2017',eu:'Oroimena · 2017ko urriaren 1a',fr:'Commémoration · 1er octobre 2017',en:'Commemoration · 1 October 2017',de:'Gedenktag · 1. Oktober 2017',it:'Commemorazione · 1 ottobre 2017',pt:'Comemoração · 1 de outubro de 2017'}
+    'Estatal':{oc:'Estatau',gl:'Estatal',eu:'Estatukoa',fr:'National',en:'National',de:'Landesweit',it:'Nazionale',pt:'Nacional'},
+    'Catalunya':{oc:'Catalonha',gl:'Cataluña',eu:'Katalunia',fr:'Catalogne',en:'Catalonia',de:'Katalonien',it:'Catalogna',pt:'Catalunha'},
+    'Festa local de Barcelona':{oc:'Hèsta locau de Barcelona',gl:'Festa local de Barcelona',eu:'Bartzelonako tokiko jaia',fr:'Fête locale de Barcelone',en:'Barcelona local holiday',de:'Lokaler Feiertag in Barcelona',it:'Festa locale di Barcellona',pt:'Feriado local de Barcelona'},
+    "Commemoració · 1 d'octubre de 2017":{oc:"Commemoracion · 1 d'octòbre de 2017",gl:'Conmemoración · 1 de outubro de 2017',eu:'Oroimena · 2017ko urriaren 1a',fr:'Commémoration · 1er octobre 2017',en:'Commemoration · 1 October 2017',de:'Gedenktag · 1. Oktober 2017',it:'Commemorazione · 1 ottobre 2017',pt:'Comemoração · 1 de outubro de 2017'}
   };
   let LLENGUA = 'ca';
   try { const g = localStorage.getItem('rellotge-llengua'); if (g && I18N[g]) LLENGUA = g; } catch(e){}
@@ -1982,7 +2090,7 @@
   const diesEsfera = () => L.esfera || DIES.map(n => n.toUpperCase());
   // Allà on surti Espanya (en qualsevol llengua), Ñórdor: «d'Espanya» → «de Ñórdor»
   const NORDOR = [
-    [/\b([dD])['’](Espanya|Espagne)\b/g, '$1e Ñórdor'],
+    [/\b([dD])['’](Espanya|Espagne|Espanha)\b/g, '$1e Ñórdor'],
     [/\b([dD])['’](ESPANYA|ESPAGNE)\b/g, (m, d) => (d === 'D' ? 'DE' : 'de') + ' ÑÓRDOR'],
     [/\b([dD]e) l['’]Espagne\b/g, '$1 Ñórdor'],
     [/\b([lL])['’]Espagne\b/g, (m, l) => (l === 'L' ? 'Le' : 'le') + ' Ñórdor'],
@@ -2022,6 +2130,7 @@
       if (canviDeDia && window.__calendariRefresca) window.__calendariRefresca();
     }
     comprovaCampanades(ara);
+    if (window.__comprovaAlarmes) window.__comprovaAlarmes(ara);
   }
   // Busques amb moviment continu (escapament de corda): es redibuixen a cada fotograma
   function mouBusques(){
@@ -2178,8 +2287,8 @@
     ['E5',1],['D5',2]                                          // | ple- na!
   ];
   const BAIXOS = [[0,'Fs2'],[1,'B2'],[4,'B2'],[6,'A2'],[7,'D3'],[10,'A2'],[11,'D3']]; // [temps, nota]: als temps forts
-  function soMagic(durada){
-    if (!soActiu) return;
+  function soMagic(durada, forca){
+    if (!soActiu && !forca) return;
     const ctx = audio(); if (!ctx) return;
     const desti = sortidaMagica(ctx);
     const total = SEGADORS.reduce((s, n) => s + n[1], 0);
@@ -2367,7 +2476,7 @@
   }
 
   // ========================= METEO I LLOC =========================
-  const fmt = v => v.toLocaleString(L.veu, {minimumFractionDigits:1, maximumFractionDigits:1});
+  const fmt = v => v.toLocaleString(L.nums || L.veu, {minimumFractionDigits:1, maximumFractionDigits:1});
   let darrerActual = null;
   function pintaCinta(){
     const c = darrerActual; if (!c) return;
@@ -2405,7 +2514,7 @@
   let darrerLloc = null;
   function geocodifica(lat, lon){
     darrerLloc = [lat, lon];
-    fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat.toFixed(4)}&longitude=${lon.toFixed(4)}&localityLanguage=${LLENGUA}`)
+    fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat.toFixed(4)}&longitude=${lon.toFixed(4)}&localityLanguage=${L.geo || LLENGUA}`)
       .then(r=>r.json()).then(d=>{
         if (!d) return;
         d._ll = [lat, lon];
@@ -2771,7 +2880,7 @@
       if (codi >= 51) return DEFS + (codi >= 80 ? `<g transform="translate(-8 -10) scale(.8)">${astre}</g>` : '') + NUVOL(0, -8, 1) + GOTES(codi === 65 || codi === 82 ? 4 : 3);
       return DEFS + astre;
     }
-    const graus = v => v == null ? '--°' : (Math.round(v*10)/10).toLocaleString(L.veu) + '°';
+    const graus = v => v == null ? '--°' : (Math.round(v*10)/10).toLocaleString(L.nums || L.veu) + '°';
     const hora = s => s ? s.slice(11, 16) : '--:--';
     let darrerMeteo = null, darrerMax6 = 0;
 
@@ -2895,12 +3004,21 @@
     const punts = document.getElementById('pagerPunts');
     const SEP = 48;
     let pag = 0, ini = null, vertical = false;
-    const N = pista.children.length;   // calendari, temps, avui, on som, avisos, ràdio, podcasts, notícies
-    for (let i=0;i<N;i++) punts.appendChild(document.createElement('span'));
+    let fulls = [], N = 0;   // calendari, temps, avui, on som, avisos, ràdio, podcasts (segons la llengua), notícies, alarmes
     // Fulls en cercle: cada full se situa segons la distància (−2…+2) respecte del full actual,
     // de manera que després de l'últim (Notícies) torna el calendari, i abans del calendari hi ha Notícies.
-    const fulls = [...pista.children];
-    const previ = [];
+    let previ = [];
+    // Recompte dels fulls visibles (els podcasts només surten en algunes llengües)
+    function recompte(){
+      const actual = fulls[pag];
+      [...pista.children].forEach(f => { if (f.classList.contains('ocult')){ f.style.visibility = 'hidden'; f.inert = true; } });
+      fulls = [...pista.children].filter(f => !f.classList.contains('ocult'));
+      N = fulls.length; previ = [];
+      punts.replaceChildren(...fulls.map(() => document.createElement('span')));
+      const i = fulls.indexOf(actual); pag = i >= 0 ? i : 0;
+    }
+    recompte();
+    window.__pagerRefresca = () => { recompte(); posa(0, false); };
     const rel = i => { let o = ((i - pag) % N + N) % N; if (o > N/2) o -= N; return o; };
     function posa(dy, anim){
       fulls.forEach((f, i)=>{
@@ -2989,6 +3107,7 @@
     if (window.__calendariRefresca) window.__calendariRefresca(true);
     if (window.__fullsRepinta) window.__fullsRepinta();
     if (window.__mediaLlengua) window.__mediaLlengua();
+    if (window.__alarmesLlengua) window.__alarmesLlengua();
     pintaCinta();
     if (darrerLloc) geocodifica(...darrerLloc);
     if (darrerMeteoExtrem) mostraAvisExtrem(darrerMeteoExtrem);
@@ -3081,6 +3200,89 @@
   });
   window.__aplicaMode = () => aplicaMode(false);
   aplicaMode(false);
+
+
+  // ========================= ALARMES (tres, amb l'app oberta) =========================
+  (function(){
+    const $ = id => document.getElementById(id);
+    const CLAU = 'republica-alarmes';
+    const REP = ['cada', 'feiners', 'cap', 'un'];
+    let alarmes = [{ on:false, h:'07:00', rep:'feiners' }, { on:false, h:'08:30', rep:'cap' }, { on:false, h:'13:00', rep:'un' }];
+    try { const g = JSON.parse(localStorage.getItem(CLAU) || 'null'); if (Array.isArray(g) && g.length === 3) alarmes = g; } catch(e){}
+    const desa = () => { try { localStorage.setItem(CLAU, JSON.stringify(alarmes)); } catch(e){} };
+    const dosD = n => String(n).padStart(2, '0');
+    const tocaAvui = (a, dow) => a.rep === 'cada' || a.rep === 'un' || (a.rep === 'feiners' ? dow >= 1 && dow <= 5 : dow === 0 || dow === 6);
+    // propera vegada que sonarà una alarma (dins els 8 dies vinents)
+    function propera(a, des){
+      const [hh, mm] = a.h.split(':').map(Number);
+      for (let i=0;i<8;i++){
+        const d = new Date(des.getFullYear(), des.getMonth(), des.getDate()+i, hh, mm, 0);
+        if (d > des && tocaAvui(a, d.getDay())) return d;
+      }
+      return null;
+    }
+    function pintaPeu(){
+      const ara = new Date();
+      const vin = alarmes.filter(a => a.on).map(a => propera(a, ara)).filter(Boolean).sort((x, y) => x - y)[0];
+      $('alPeu').innerHTML = '';
+      const l1 = document.createElement('div'); l1.textContent = vin ? L.alPropera(L.dies[vin.getDay()], `${dosD(vin.getHours())}:${dosD(vin.getMinutes())}`) : L.alCap;
+      const l2 = document.createElement('div'); l2.textContent = L.alPeu;
+      $('alPeu').append(l1, l2);
+    }
+    function pinta(){
+      const box = $('alLlista'); box.innerHTML = '';
+      alarmes.forEach((a, i) => {
+        const fila = document.createElement('div'); fila.className = 'al-fila' + (a.on ? '' : ' apagada');
+        const int = document.createElement('button'); int.type = 'button'; int.className = 'al-int';
+        int.setAttribute('role', 'switch'); int.setAttribute('aria-checked', a.on ? 'true' : 'false'); int.setAttribute('aria-label', `${L.alarma} ${i+1}`);
+        const hora = document.createElement('input'); hora.type = 'time'; hora.className = 'al-hora'; hora.value = a.h; hora.setAttribute('aria-label', `${L.alarma} ${i+1}`);
+        const rep = document.createElement('button'); rep.type = 'button'; rep.className = 'al-rep'; rep.textContent = L.repet[REP.indexOf(a.rep)];
+        int.addEventListener('click', () => { a.on = !a.on; desa(); pinta(); });
+        hora.addEventListener('change', () => { if (hora.value){ a.h = hora.value; a.on = true; desa(); pinta(); } });
+        rep.addEventListener('click', () => { a.rep = REP[(REP.indexOf(a.rep) + 1) % REP.length]; desa(); pinta(); });
+        fila.append(int, hora, rep); box.appendChild(fila);
+      });
+      pintaPeu();
+    }
+    // Sona: la melodia d'Els Segadors repetida, i l'hora dita en veu alta; s'atura sola als 3 minuts
+    let sonant = null, posposada = null;
+    function sona(etiqueta){
+      if (sonant) return;
+      $('alSonaHora').textContent = etiqueta;
+      $('alSona').hidden = false;
+      const toc = () => {
+        soMagic(8, true);
+        try { if ('speechSynthesis' in window){ const ara = new Date(); const u = new SpeechSynthesisUtterance(L.hora(ara.getHours(), ara.getMinutes())); u.lang = L.veu; setTimeout(() => speechSynthesis.speak(u), 8500); } } catch(e){}
+      };
+      toc();
+      sonant = { int: setInterval(toc, 12000), fi: setTimeout(atura, 3*60*1000) };
+      try { if (navigator.vibrate) navigator.vibrate([400, 200, 400]); } catch(e){}
+    }
+    function atura(){
+      if (!sonant) return;
+      clearInterval(sonant.int); clearTimeout(sonant.fi); sonant = null;
+      try { speechSynthesis.cancel(); } catch(e){}
+      $('alSona').hidden = true;
+    }
+    $('alAtura').addEventListener('click', e => { e.stopPropagation(); atura(); posposada = null; });
+    $('alPosposa').addEventListener('click', e => { e.stopPropagation(); atura(); posposada = Date.now() + 5*60*1000; });
+    let darrera = '';
+    window.__comprovaAlarmes = function(ara){
+      if (posposada && Date.now() >= posposada){ posposada = null; sona(`${dosD(ara.getHours())}:${dosD(ara.getMinutes())}`); }
+      const clau = `${ara.toDateString()} ${dosD(ara.getHours())}:${dosD(ara.getMinutes())}`;
+      if (clau === darrera) return;
+      const hm = `${dosD(ara.getHours())}:${dosD(ara.getMinutes())}`;
+      let cal = false;
+      alarmes.forEach(a => {
+        if (a.on && a.h === hm && tocaAvui(a, ara.getDay())){ cal = true; if (a.rep === 'un') a.on = false; }
+      });
+      darrera = clau;
+      if (cal){ desa(); pinta(); sona(hm); }
+      else if (ara.getSeconds() === 0) pintaPeu();
+    };
+    window.__alarmesLlengua = pinta;
+    pinta();
+  })();
 
   // ========================= RÀDIO, PODCASTS I NOTÍCIES =========================
   // Un sol reproductor per a les ràdios en directe i els podcasts. Les emissores
@@ -3303,6 +3505,16 @@
         { id: 'ca-icat', nom: 'iCat', sub: 'Cultura · 3Cat', audio: 'https://shoutcast.ccma.cat/ccma/icatHD.mp3', web: 'https://www.3cat.cat/3cat/directes/icat/', rb: { name: 'iCat', cc: 'ES' } },
         { id: 'ca-clasica', nom: 'Radio Clásica', sub: 'Clàssica · RNE', audio: 'https://rtvelivestream.rtve.es/rtvesec/rne/rne_r2_main.m3u8', web: 'https://www.rtve.es/radio/radioclasica/', rb: { name: 'Radio Clásica', cc: 'ES' } },
         { id: 'ca-bbc', nom: 'BBC World Service', sub: 'Món · anglès', audio: 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service', web: 'https://www.bbc.com/audio', rb: { name: 'BBC World Service', cc: 'GB' } }
+      ],
+      oc: [
+        { id: 'oc-rlo', nom: "Ràdio Lenga d'Òc", sub: 'Montpelhièr', audio: 'https://stream-ssl.radios-arra.fr:8443/rlo', web: 'http://radiolengadoc.com/', rb: { name: "Radio lenga d'Oc", cc: 'FR' } },
+        { id: 'oc-pais', nom: 'Ràdio País', sub: 'Pau · Biarn', audio: 'https://stunnel2.cyber-streaming.com:9272/stream', web: 'https://www.radiopais.fr/', rb: { name: 'Radio Pais', cc: 'FR' } },
+        { id: 'oc-occitania', nom: 'Ràdio Occitania', sub: 'Tolosa', audio: null, web: 'https://www.radio-occitania.com/', rb: { name: 'Radio Occitania', cc: 'FR' } },
+        { id: 'oc-nissa', nom: 'Ràdio Nissa Pantai', sub: 'Niça', audio: 'https://listen.radioking.com/radio/79270/stream/117373', web: 'http://www.nissapantai.com/', rb: { name: 'Ràdio Nissa Pantai', cc: 'FR' } },
+        { id: 'oc-catradio', nom: 'Catalunya Ràdio', sub: '3Cat', audio: 'https://shoutcast.ccma.cat/ccma/catalunyaradioHD.mp3', web: 'https://www.3cat.cat/3cat/directes/catalunya-radio/', rb: { name: 'Catalunya Ràdio', cc: 'ES' } },
+        { id: 'oc-catinfo', nom: 'Catalunya Informació', sub: 'Notícies · 3Cat', audio: 'https://shoutcast.ccma.cat/ccma/catalunyainformacioHD.mp3', web: 'https://www.3cat.cat/3cat/directes/catalunya-informacio/', rb: { name: 'Catalunya Informació', cc: 'ES' } },
+        { id: 'oc-rac1', nom: 'RAC1', sub: 'Generalista', audio: 'https://playerservices.streamtheworld.com/api/livestream-redirect/RAC_1.mp3', web: 'https://www.rac1.cat/', rb: { name: 'RAC1', cc: 'ES' } },
+        { id: 'oc-ici', nom: 'ici Occitanie', sub: 'Tolosa · Radio France', audio: 'https://icecast.radiofrance.fr/fbtoulouse-midfi.mp3?id=radiofrance', web: 'https://www.francebleu.fr/occitanie', rb: { name: 'ici Occitanie', cc: 'FR' } }
       ],
       gl: [
         { id: 'gl-rg', nom: 'Radio Galega', sub: 'Xeneralista · CRTVG', audio: 'https://crtvg-radiogalega-hls.flumotion.cloud/playlist.m3u8', web: 'https://www.agalegaaudio.gal/', rb: { name: 'Radio Galega', cc: 'ES' } },
@@ -3583,6 +3795,11 @@
       ],
       // AGN (Axencia Galega de Noticias) no publica cap fil obert: Nós Diario (últimas novas),
       // Europa Press Galicia i, de reserva, Google Noticias en galego
+      // Occità: Jornalet (gaseta occitana, sense fil obert: a través de Google) i, de reserva, l'ACN
+      oc: [
+        { peu: 'Jornalet', web: 'https://www.jornalet.com/', load: () => google('site:jornalet.com', 'fr', 'FR', /\s+-\s+(Jornalet|jornalet\.com)\s*$/i) },
+        { peu: 'Agència Catalana de Notícies', web: 'https://www.acn.cat/', load: () => acn() }
+      ],
       gl: [
         { peu: 'Nós Diario', web: 'https://www.nosdiario.gal/', load: () => fil('https://www.nosdiario.gal/rss') },
         { peu: 'Europa Press Galicia', web: 'https://www.europapress.es/galicia/', load: () => google('site:europapress.es/galicia when:1d', 'gl', 'ES', /\s+-\s+(Europa Press|europapress\.es).*$/i) },
@@ -3680,7 +3897,15 @@
     }
 
     // ---------- Canvi de llengua, mida i actualitzacions ----------
+    const LLENGUES_PODCAST = ['ca', 'oc', 'gl', 'eu'];
+    function mostraPodcasts(){
+      const vol = LLENGUES_PODCAST.includes(LLENGUA);
+      $('fullPodcasts').classList.toggle('ocult', !vol);
+      if (window.__pagerRefresca) window.__pagerRefresca();
+    }
+    mostraPodcasts();
     window.__mediaLlengua = () => {
+      mostraPodcasts();
       pintaRadios();
       pintaProgrames();
       const c = $('pCompetencia'), v = $('pVia');

@@ -94,9 +94,10 @@
   .cilindre{
     position:absolute; inset:0;
     transform-style: preserve-3d; -webkit-transform-style: preserve-3d;
-    pointer-events:none; opacity:0; transition: opacity .25s;
+    pointer-events:none; visibility:hidden;
+    /* visibilitat i no opacitat: a Safari, una opacitat per sota d'1 aplana les capes 3D i el cilindre es veu com dos discos */
   }
-  .rellotge.girant .cilindre{ opacity:1; }
+  .rellotge.girant .cilindre{ visibility:visible; }
   .capa-volum{
     position:absolute; inset:0.4%; border-radius:50%;
     background-image: var(--textura-patina);
@@ -2412,6 +2413,7 @@
     esferaActual = (esferaActual + 1) % ESFERES.length;
     pista.classList.remove('visible');
     rellotge.classList.add('girant');
+    void gir.offsetWidth;   // que el cilindre ja sigui a lloc abans de començar a girar
     angle += 900; // dues voltes i mitja: acaba mostrant l'altra esfera
     gir.style.transform = `rotateY(${angle}deg)`;
     soMagic(DURADA_GIR);

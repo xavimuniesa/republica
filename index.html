@@ -239,7 +239,7 @@
   .d-detall{ font-family:'Cinzel', serif; font-size: min(5.6cqh, 3.4cqw); letter-spacing:.12em; color:#7a6646; margin-top:2.5cqh; text-transform:uppercase; }
   .d-detall + .d-detall{ margin-top:1cqh; }
   /* Rètol "Avui": ocupa tota l'alçada, amb el número sense tocar les línies de sota */
-  .full-cara.d-cara{ justify-content:space-evenly; gap:0; padding-top:6px; padding-bottom:10px; }
+  .d-cara{ justify-content:space-evenly !important; gap:0; padding-top:6px !important; padding-bottom:16px !important; }
   .d-cara .full-titol{ margin-bottom:0; }
   .d-cara .d-num{ font-size: min(44cqh, 28cqw); line-height:1; padding-bottom:1cqh; }
   .d-cara .d-peu{ display:flex; flex-direction:column; align-items:center; gap:1.4cqh; }
@@ -385,6 +385,63 @@
   html.nit .al-sona-cara{ background:#000 !important; color:var(--nit) !important; box-shadow: 0 0 0 2px var(--nit) !important; }
   html.nit .al-sona-cara *{ color:var(--nit) !important; stroke:var(--nit); }
   html.nit .al-b{ background:transparent !important; box-shadow: inset 0 0 0 1.5px var(--nit) !important; }
+
+  /* ---- Fulls amb panells laterals (El temps, Avui) ---- */
+  .full-cara.amb-ll{ padding:0; }
+  .full-cara > .lliscador{ position:absolute; inset:0; overflow:hidden; touch-action:none; }
+  .ll-pista{ display:flex; height:100%; will-change:transform; }
+  .ll-pane{ flex:0 0 100%; min-width:0; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding: 6px 12px 18px; position:relative; }
+  .ll-punts{ position:absolute; left:0; right:0; bottom:6px; display:flex; justify-content:center; gap:7px; z-index:3; }
+  .ll-punts span{ width:7px; height:7px; border-radius:50%; background: rgba(154,94,60,.3); box-shadow: inset 0 0 0 1px rgba(154,94,60,.5); cursor:pointer; }
+  .ll-punts span.actiu{ background:#9a5e3c; }
+  html.nit .ll-punts span{ background: rgba(255,90,31,.3) !important; box-shadow:none !important; }
+  html.nit .ll-punts span.actiu{ background: var(--nit) !important; }
+  /* 12 hores */
+  .h12{ width:100%; flex:1 1 auto; min-height:0; display:grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: 1fr 1fr; gap: 1.4cqh 1cqw; margin-top: 1cqh; }
+  .h12 > div{ display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1.05; border-radius:6px; background: rgba(185,119,82,.07); }
+  .h12 .hh{ font-family:'Cinzel', serif; font-weight:700; font-size: min(5.4cqh, 3.5cqw); color:#8a5536; }
+  .h12 svg{ width: min(14cqh, 10cqw); height: min(14cqh, 10cqw); }
+  .h12 .tt{ font-family:'Cormorant Garamond', serif; font-weight:700; font-size: min(8cqh, 5cqw); color:#2c241c; }
+  .h12 .pp{ font-family:'Cinzel', serif; font-size: min(4.2cqh, 2.7cqw); color:#2b4486; min-height:1em; }
+  /* 5 dies */
+  .d5{ width:100%; flex:1 1 auto; min-height:0; display:flex; flex-direction:column; justify-content:space-evenly; margin-top:1cqh; }
+  .d5 > div{ display:grid; grid-template-columns: 2.6em min(12cqh, 9cqw) 2.6em 1fr 2.6em; align-items:center; gap: 2.4cqw; }
+  .d5 .dd{ font-family:'IM Fell English SC', 'IM Fell English', serif; font-size: min(7cqh, 4.4cqw); text-align:left; color:#2c241c; }
+  .d5 svg{ width: min(12cqh, 9cqw); height: min(12cqh, 9cqw); }
+  .d5 .mn, .d5 .mx{ font-family:'Cormorant Garamond', serif; font-weight:700; font-size: min(7.4cqh, 4.6cqw); }
+  .d5 .mn{ color:#5c6f8a; text-align:right; } .d5 .mx{ color:#8a2a1a; text-align:left; }
+  .d5 .barra{ position:relative; height:7px; border-radius:4px; background: rgba(154,94,60,.15); }
+  .d5 .barra i{ position:absolute; top:0; bottom:0; border-radius:4px; background: linear-gradient(90deg, #6d86a8, #d9a45a, #b3261e); }
+  html.nit .d5 .barra i{ background: var(--nit) !important; }
+  html.nit .h12 > div{ background: transparent !important; box-shadow: inset 0 0 0 1px rgba(255,90,31,.3); }
+  /* Sant i efemèride */
+  .ef-bloc{ width:100%; margin-top: 2cqh; }
+  .ef-etq{ font-family:'Cinzel', serif; font-weight:700; font-size: min(4.8cqh, 3.1cqw); letter-spacing:.16em; text-transform:uppercase; color:#8a5536; }
+  .ef-sant{ font-family:'IM Fell English', serif; font-style:italic; font-size: min(8cqh, 5.2cqw); color:#2c241c; line-height:1.15; margin-top:.6cqh;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .ef-text{ font-family:'Cormorant Garamond', serif; font-weight:600; font-size: min(7cqh, 4.4cqw); color:#2c241c; line-height:1.18; margin-top:.6cqh;
+    display:-webkit-box; -webkit-line-clamp:5; -webkit-box-orient:vertical; overflow:hidden; }
+  .ef-text b{ font-family:'Cinzel', serif; color:#8a5536; }
+  /* Sol i lluna */
+  .sl-graella{ width:100%; flex:1 1 auto; min-height:0; display:grid; grid-template-columns: 1fr 1fr; gap: 4cqw; align-items:center; }
+  .sl-col{ display:flex; flex-direction:column; align-items:center; gap: .8cqh; }
+  .sl-ic{ width: min(17cqh, 12cqw); height: min(17cqh, 12cqw); }
+  .sl-nom{ font-family:'IM Fell English SC', 'IM Fell English', serif; font-size: min(7cqh, 4.6cqw); letter-spacing:.1em; color:#8a5536; }
+  .sl-fila{ display:flex; gap: 2cqw; align-items:baseline; font-family:'Cinzel', serif; font-size: min(4.6cqh, 3cqw); color:#7a6646; text-transform:uppercase; }
+  .sl-fila b{ font-family:'Cormorant Garamond', serif; font-size: min(8cqh, 5.2cqw); color:#2c241c; text-transform:none; }
+  .sl-nota{ font-family:'IM Fell English', serif; font-style:italic; font-size: min(5.4cqh, 3.5cqw); color:#5c4632; line-height:1.15; }
+  /* Properes festes */
+  .fe-llista{ width:100%; flex:1 1 auto; min-height:0; overflow:hidden; display:flex; flex-direction:column; gap: 1.2cqh; }
+  .fe-fila{ display:grid; grid-template-columns: 1fr auto; align-items:center; gap: 3cqw; padding: .9cqh 3cqw; border-radius:7px; text-align:left;
+    background: linear-gradient(180deg, rgba(255,253,246,.7), rgba(239,228,205,.5)); box-shadow: inset 0 0 0 1px rgba(185,119,82,.45); }
+  .fe-fila[hidden]{ display:none; }
+  .fe-nom{ font-family:'Cormorant Garamond', serif; font-weight:700; font-size: min(7cqh, 4.4cqw); color:#2c241c; line-height:1.1; }
+  .fe-data{ font-family:'IM Fell English', serif; font-style:italic; font-size: min(5cqh, 3.3cqw); color:#7a6646; }
+  .fe-dies{ text-align:center; line-height:1; min-width: 3.2em; }
+  .fe-dies b{ display:block; font-family:'Cormorant Garamond', serif; font-weight:700; font-size: min(10cqh, 6.4cqw); color:#7a1a16; }
+  .fe-dies span{ font-family:'Cinzel', serif; font-size: min(4cqh, 2.6cqw); letter-spacing:.1em; text-transform:uppercase; color:#8a5536; }
+  .fe-fila.festa .fe-dies b{ font-size: min(7cqh, 4.6cqw); }
+  html.nit .fe-fila{ background:transparent !important; box-shadow: inset 0 0 0 1px rgba(255,90,31,.45) !important; }
   /* Punts indicadors (vertical) */
   .pager-punts{ position:absolute; right:-1px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:6px; z-index:5; pointer-events:none; }
   .pager-punts span{ width:5px; height:5px; border-radius:50%; background: rgba(60,35,10,.45); box-shadow: 0 0 0 1px rgba(255,235,200,.35); transition: all .3s; }
@@ -875,7 +932,9 @@
           </div>
 
           <div class="full">
-            <div class="full-marc"><div class="full-cara">
+            <div class="full-marc"><div class="full-cara amb-ll">
+             <div class="lliscador" id="llTemps"><div class="ll-pista">
+             <div class="ll-pane">
               <div class="full-titol" data-i18n="elTemps">El temps</div>
               <div class="t-fila">
                 <svg class="icona-cel" id="fIcona" viewBox="0 0 64 64" aria-hidden="true"></svg>
@@ -886,11 +945,23 @@
                 <span><span data-i18n="max">Màx</span><b id="fMax">--°</b></span><span><span data-i18n="min">Mín</span><b id="fMin">--°</b></span>
                 <span><span data-i18n="sensacio">Sensació</span><b id="fSens">--°</b></span><span><span data-i18n="humitat">Humitat</span><b id="fHum">--%</b></span>
               </div>
+             </div>
+             <div class="ll-pane">
+              <div class="full-titol" data-i18n="t12">Properes 12 hores</div>
+              <div class="h12" id="fH12"></div>
+             </div>
+             <div class="ll-pane">
+              <div class="full-titol" data-i18n="t5">Propers 5 dies</div>
+              <div class="d5" id="fD5"></div>
+             </div>
+             </div><div class="ll-punts"></div></div>
             </div></div>
           </div>
 
           <div class="full">
-            <div class="full-marc"><div class="full-cara d-cara">
+            <div class="full-marc"><div class="full-cara amb-ll">
+             <div class="lliscador" id="llAvui"><div class="ll-pista">
+             <div class="ll-pane d-cara">
               <div class="full-titol" data-i18n="titolAvui">Avui</div>
               <div class="d-fila">
                 <div class="d-num" id="fDiaNum">–</div>
@@ -905,6 +976,41 @@
                 <div class="d-detall" id="fFase">—</div>
                 <div class="d-detall" id="fSol">—</div>
               </div>
+             </div>
+             <div class="ll-pane">
+              <div class="full-titol" data-i18n="tdc">Tal dia com avui</div>
+              <div class="ef-bloc" id="fSantBloc"><div class="ef-etq" data-i18n="sant">Sant del dia</div><div class="ef-sant" id="fSant">—</div></div>
+              <div class="ef-bloc"><div class="ef-etq" id="fEfemEtq" data-i18n="efem">Efemèride</div><div class="ef-text" id="fEfem" data-i18n="carregant">Carregant…</div></div>
+             </div>
+             <div class="ll-pane">
+              <div class="full-titol" data-i18n="tsl">Sol i lluna</div>
+              <div class="sl-graella">
+                <div class="sl-col">
+                  <svg class="sl-ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="9" fill="url(#gSolSL)" stroke="#8a5536" stroke-width="1.4"/><g stroke="#b97752" stroke-width="2.4" stroke-linecap="round"><path d="M24 4v6M24 38v6M4 24h6M38 24h6M9.9 9.9l4.2 4.2M33.9 33.9l4.2 4.2M9.9 38.1l4.2-4.2M33.9 14.1l4.2-4.2"/></g><defs><radialGradient id="gSolSL" cx="35%" cy="30%" r="70%"><stop offset="0%" stop-color="#fff0de"/><stop offset="50%" stop-color="#e3a983"/><stop offset="100%" stop-color="#9a5e3c"/></radialGradient></defs></svg>
+                  <div class="sl-nom" data-i18n="solT">Sol</div>
+                  <div class="sl-fila"><span data-i18n="surt">Surt</span><b id="slSolS">--:--</b></div>
+                  <div class="sl-fila"><span data-i18n="pon">Es pon</span><b id="slSolP">--:--</b></div>
+                  <div class="sl-nota" id="slLlum">—</div>
+                  <div class="sl-nota" id="slDif">—</div>
+                </div>
+                <div class="sl-col">
+                  <svg class="sl-ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="15" fill="#5c4c32" opacity=".35"/><path id="slFase" d="" fill="#f8f0de" stroke="#8a5536" stroke-width="1"/><circle cx="24" cy="24" r="15" fill="none" stroke="#8a5536" stroke-width="1.2"/></svg>
+                  <div class="sl-nom" data-i18n="llunaT">Lluna</div>
+                  <div class="sl-fila"><span data-i18n="surt">Surt</span><b id="slLlS">--:--</b></div>
+                  <div class="sl-fila"><span data-i18n="pon">Es pon</span><b id="slLlP">--:--</b></div>
+                  <div class="sl-nota" id="slIl">—</div>
+                  <div class="sl-nota" id="slProp">—</div>
+                </div>
+              </div>
+             </div>
+             </div><div class="ll-punts"></div></div>
+            </div></div>
+          </div>
+
+          <div class="full">
+            <div class="full-marc"><div class="full-cara m-cara">
+              <div class="full-titol" data-i18n="tfe">Properes festes</div>
+              <div class="fe-llista" id="fFestes"></div>
             </div></div>
           </div>
 
@@ -1781,6 +1887,11 @@
   const I18N = {
     ca: {
       modeDia:'Mode diürn', modeNit:'Mode nocturn', modeNitFix:'Mode nocturn · pantalla sempre encesa', modeEtq:'Mode', tanca:'Tanca', midaNormal:'Mida normal',
+      t12:'Properes 12 hores', t5:'Propers 5 dies', tdc:'Tal dia com avui', tsl:'Sol i lluna', tfe:'Properes festes', sant:'Sant del dia', efem:'Efemèride', curio:'Curiositat', solT:'Sol', llunaT:'Lluna', surt:'Surt', pon:'Es pon',
+      llum:(h,m)=>`${h} h ${m} min de llum`, dif:m=> m===0?'Igual que ahir': m>0?`${m} min més que ahir`:`${-m} min menys que ahir`,
+      plena:n=> n===0?'Lluna plena avui': n===1?'Plena demà':`Plena d'aquí a ${n} dies`, nova:n=> n===0?'Lluna nova avui': n===1?'Nova demà':`Nova d'aquí a ${n} dies`,
+      il:p=>`${p}% il·luminada`, falten:n=> n===0?'Avui': n===1?'Demà':`${n}`, diesEtq:'dies', senseDades:'Sense dades ara mateix',
+      curios:["A Barcelona, el rellotge va gairebé una hora per davant del sol a l'hivern, i gairebé dues a l'estiu.","La Lluna sempre ens mostra la mateixa cara: tarda el mateix a girar sobre si mateixa que a fer la volta a la Terra.","Per culpa de les marees, el dia terrestre s'allarga uns dos mil·lisegons cada segle.","El calendari gregorià va començar el 1582: aquell any, després del 4 d'octubre va venir directament el 15.","Molts rellotges antics escriuen el 4 com a IIII i no com a IV.","La Terra és més a prop del Sol al gener que al juliol: les estacions depenen de la inclinació de l'eix, no de la distància.","La llum de la Lluna tarda poc més d'un segon a arribar-nos; la del Sol, uns vuit minuts i vint segons.","Una «lluna blava» és la segona lluna plena d'un mateix mes; passa, de mitjana, cada dos anys i mig.","De tant en tant s'afegeix un segon al temps oficial perquè els rellotges no s'avancin a la rotació de la Terra.","Les 24 hores del dia vénen de l'antic Egipte, que dividia el dia i la nit en dotze parts cadascun."],
       alMobil:"Posa-la al rellotge del mòbil", drTitol:"Alarmes al rellotge de l'iPhone", drPassos:["Obre l'app Dreceres i crea una drecera nova (+).", "Afegeix-hi l'acció «Crear alarma» i, a «Hora», tria «Entrada de la drecera».", "Posa-li el nom exacte «Alarma República» i desa-la."], drObre:"Obre Dreceres", drFeta:"Ja la tinc: crea l'alarma", drNota:"Només cal fer-ho un cop. La repetició (feiners, cap de setmana…) es tria al rellotge del mòbil.",
       alarmes:'Alarmes', alarma:'Alarma', aturaAl:'Atura', posposa:'5 min més', repet:['Cada dia','Feiners','Cap de setmana','Un cop'], alPeu:"Sonen amb l'app oberta", alPropera:(d,h)=>`Propera: ${d} a les ${h}`, alCap:'Cap alarma activa', alActiva:'Activa',
       mesAnt:'Mes anterior', mesSeg:'Mes següent', campanades:'Campanades de les hores i els quarts', girar:"Rellotge: prem per girar l'esfera", condicions:'Condicions actuals', calInfo:'Calendari i informació', dobleToc:'Doble toc: tornar al mes actual',
@@ -1837,6 +1948,11 @@
     },
     oc: {
       modeDia:'Mòde de dia', modeNit:'Mòde de nuet', modeNitFix:'Mòde de nuet · pantalha tostemp alugada', modeEtq:'Mòde', tanca:'Barra', midaNormal:'Mida normau',
+      t12:'Es 12 ores que vien', t5:'Es 5 dies que vien', tdc:'Un dia com uei', tsl:'Solei e lua', tfe:'Hèstes que vien', sant:'Sant deth dia', efem:'Efemèride', curio:'Curiositat', solT:'Solei', llunaT:'Lua', surt:'Gess', pon:'Se pon',
+      llum:(h,m)=>`${h} h ${m} min de lum`, dif:m=> m===0?"Parièr qu'ager": m>0?`${m} min mès qu'ager`:`${-m} min mens qu'ager`,
+      plena:n=> n===0?'Lua plea uei': n===1?'Plea deman':`Plea d'aciu a ${n} dies`, nova:n=> n===0?'Lua nava uei': n===1?'Nava deman':`Nava d'aciu a ${n} dies`,
+      il:p=>`${p}% iluminada`, falten:n=> n===0?'Uei': n===1?'Deman':`${n}`, diesEtq:'dies', senseDades:'Sense donades ara',
+      curios:["A Barcelona, eth relòtge va quasi ua ora per dauant deth solei er iuèrn, e quasi dues er estiu.","Era Lua mos mòstre tostemp era madeisha cara: tarde eth madeish temps a virar sus era que a hèr eth torn dera Tèrra.","Per mor des marèes, eth dia terrèstre s'alonge un parelh de milisegons cada sègle.","Eth calendari gregorian comencèc en 1582: aqueth an, dempús deth 4 d'octòbre vengue dirèctament eth 15.","Fòrça relòtges antics escriuen eth 4 coma IIII e non coma IV.","Era Tèrra ei mès a prèp deth Solei en gèr qu'en julhet: es sasons depenen dera inclinacion der aishèu, non dera distància.","Era lum dera Lua tarde pòc mès d'un segon a arribar-mos; era deth Solei, uns ueit minuts e vint segons.","Ua «lua blava» ei era dusau lua plea d'un madeish mes; arribe, de mejana, cada dus ans e mieg.","De quan en quan s'ajuste un segon ath temps oficiau entà qu'es relòtges non s'avancen ara rotacion dera Tèrra.","Es 24 ores deth dia vien der Egipte antic, que dividie eth dia e era nuet en dotze parts cada un."],
       alMobil:"Botar-la en relòtge deth mobil", drTitol:"Alarmes en relòtge der iPhone", drPassos:["Daurís era aplicacion Dreceres e cree ua drecera naua (+).", "Ajusta-i era accion «Crear alarma» e, en «Ora», tria «Entrada dera drecera».", "Botar-li eth nòm exacte «Alarma República» e guarda-la."], drObre:"Daurís Dreceres", drFeta:"Ja la è: crea era alarma", drNota:"Sonque cau hèr-ho un còp. Era repeticion se tria en relòtge deth mobil.",
       alarmes:'Alarmes', alarma:'Alarma', aturaAl:'Arrèsta', posposa:'5 min mès', repet:['Cada dia','Dies de trabalh','Fin de setmana','Un còp'], alPeu:'Sonen damb era aplicacion dubèrta', alPropera:(d,h)=>`Seguenta: ${d} a ${h}`, alCap:"Cap d'alarma activa", alActiva:'Activa',
       mesAnt:'Mes anterior', mesSeg:'Mes seguent', campanades:'Campanades des ores e des quarts', girar:'Relòtge: tòca entà virar era esfèra', condicions:'Condicions actuaus', calInfo:'Calendari e informacion', dobleToc:'Dobla tòca: tornar ath mes actuau',
@@ -1876,6 +1992,11 @@
     },
     gl: {
       modeDia:'Modo diúrno', modeNit:'Modo nocturno', modeNitFix:'Modo nocturno · pantalla sempre acesa', modeEtq:'Modo', tanca:'Pechar', midaNormal:'Tamaño normal',
+      t12:'Próximas 12 horas', t5:'Próximos 5 días', tdc:'Tal día coma hoxe', tsl:'Sol e lúa', tfe:'Próximas festas', sant:'Santo do día', efem:'Efeméride', curio:'Curiosidade', solT:'Sol', llunaT:'Lúa', surt:'Sae', pon:'Ponse',
+      llum:(h,m)=>`${h} h ${m} min de luz`, dif:m=> m===0?'Igual ca onte': m>0?`${m} min máis ca onte`:`${-m} min menos ca onte`,
+      plena:n=> n===0?'Lúa chea hoxe': n===1?'Chea mañá':`Chea en ${n} días`, nova:n=> n===0?'Lúa nova hoxe': n===1?'Nova mañá':`Nova en ${n} días`,
+      il:p=>`${p}% iluminada`, falten:n=> n===0?'Hoxe': n===1?'Mañá':`${n}`, diesEtq:'días', senseDades:'Sen datos agora',
+      curios:["En Galicia, o reloxo vai hora e media por diante do sol no inverno, e dúas horas e media no verán.","A Lúa sempre nos amosa a mesma cara: tarda o mesmo en xirar sobre si que en dar a volta á Terra.","Por culpa das mareas, o día terrestre alóngase uns dous milisegundos cada século.","O calendario gregoriano comezou en 1582: aquel ano, despois do 4 de outubro veu directamente o 15.","Moitos reloxos antigos escriben o 4 como IIII e non como IV.","A Terra está máis preto do Sol en xaneiro ca en xullo: as estacións dependen da inclinación do eixe, non da distancia.","A luz da Lúa tarda pouco máis dun segundo en chegarnos; a do Sol, uns oito minutos e vinte segundos.","Unha «lúa azul» é a segunda lúa chea dun mesmo mes; pasa, de media, cada dous anos e medio.","De cando en vez engádese un segundo á hora oficial para que os reloxos non se adianten á rotación da Terra.","As 24 horas do día veñen do antigo Exipto, que dividía o día e a noite en doce partes cada un."],
       alMobil:"Pola no reloxo do móbil", drTitol:"Alarmas no reloxo do iPhone", drPassos:["Abre a app Atallos e crea un atallo novo (+).", "Engade a acción «Crear alarma» e, en «Hora», escolle «Entrada do atallo».", "Ponlle o nome exacto «Alarma República» e gárdao."], drObre:"Abrir Atallos", drFeta:"Xa o teño: crear a alarma", drNota:"Só cómpre facelo unha vez. A repetición escóllese no reloxo do móbil.",
       alarmes:'Alarmas', alarma:'Alarma', aturaAl:'Parar', posposa:'5 min máis', repet:['Todos os días','Laborables','Fin de semana','Unha vez'], alPeu:'Soan coa app aberta', alPropera:(d,h)=>`Seguinte: ${d} ás ${h}`, alCap:'Ningunha alarma activa', alActiva:'Activa',
       mesAnt:'Mes anterior', mesSeg:'Mes seguinte', campanades:'Badaladas das horas e dos cuartos', girar:'Reloxo: preme para xirar a esfera', condicions:'Condicións actuais', calInfo:'Calendario e información', dobleToc:'Dobre toque: volver ao mes actual',
@@ -1915,6 +2036,11 @@
     },
     eu: {
       modeDia:'Egun modua', modeNit:'Gau modua', modeNitFix:'Gau modua · pantaila beti piztuta', modeEtq:'Modua', tanca:'Itxi', midaNormal:'Tamaina normala',
+      t12:'Hurrengo 12 orduak', t5:'Hurrengo 5 egunak', tdc:'Gaur bezalako egun batez', tsl:'Eguzkia eta ilargia', tfe:'Hurrengo jaiak', sant:'Eguneko santua', efem:'Efemeridea', curio:'Bitxikeria', solT:'Eguzkia', llunaT:'Ilargia', surt:'Irteera', pon:'Sartzea',
+      llum:(h,m)=>`${h} h ${m} min argi`, dif:m=> m===0?'Atzo bezala': m>0?`Atzo baino ${m} min gehiago`:`Atzo baino ${-m} min gutxiago`,
+      plena:n=> n===0?'Ilargi betea gaur': n===1?'Betea bihar':`Betea ${n} egun barru`, nova:n=> n===0?'Ilargi berria gaur': n===1?'Berria bihar':`Berria ${n} egun barru`,
+      il:p=>`%${p} argiztatuta`, falten:n=> n===0?'Gaur': n===1?'Bihar':`${n}`, diesEtq:'egun', senseDades:'Daturik ez orain',
+      curios:["Euskal Herrian, erlojua eguzkiaren aurretik doa ordubete baino gehiago neguan, eta bi ordu baino gehiago udan.","Ilargiak beti aurpegi bera erakusten digu: bere buruaren inguruan biratzen eta Lurraren inguruan biratzen denbora bera behar du.","Itsasaldiak direla eta, Lurreko eguna bi milisegundo inguru luzatzen da mende bakoitzeko.","Egutegi gregoriarra 1582an hasi zen: urte hartan, urriaren 4aren ondoren zuzenean 15a etorri zen.","Erloju zahar askok 4a IIII idazten dute, ez IV.","Lurra urtarrilean dago Eguzkitik hurbilen, ez uztailean: urtaroak ardatzaren makurdurak eragiten ditu, ez distantziak.","Ilargiaren argiak segundo bat pasatxo behar du guregana iristeko; Eguzkiarenak, zortzi minutu eta hogei segundo inguru.","«Ilargi urdina» hilabete bereko bigarren ilargi betea da; batez beste bi urte eta erdian behin gertatzen da.","Noizean behin segundo bat gehitzen zaio ordu ofizialari, erlojuak Lurraren biraketari aurrea har ez diezaioten.","Eguneko 24 orduak antzinako Egiptotik datoz: eguna eta gaua hamabi zatitan banatzen zituzten."],
       alMobil:"Jarri mugikorreko erlojuan", drTitol:"Alarmak iPhonearen erlojuan", drPassos:["Ireki Lasterbideak aplikazioa eta sortu lasterbide berri bat (+).", "Gehitu «Sortu alarma» ekintza eta, «Ordua» atalean, aukeratu «Lasterbidearen sarrera».", "Jarri izen hau zehazki: «Alarma República», eta gorde."], drObre:"Ireki Lasterbideak", drFeta:"Badut: sortu alarma", drNota:"Behin bakarrik egin behar da. Errepikapena mugikorreko erlojuan aukeratzen da.",
       alarmes:'Alarmak', alarma:'Alarma', aturaAl:'Gelditu', posposa:'5 min gehiago', repet:['Egunero','Lanegunetan','Asteburuan','Behin'], alPeu:'Aplikazioa irekita dagoenean jotzen dute', alPropera:(d,h)=>`Hurrengoa: ${d}, ${h}`, alCap:'Ez dago alarmarik aktibo', alActiva:'Aktibo',
       mesAnt:'Aurreko hilabetea', mesSeg:'Hurrengo hilabetea', campanades:'Orduen eta laurdenen kanpai-hotsak', girar:'Erlojua: sakatu esfera biratzeko', condicions:'Uneko baldintzak', calInfo:'Egutegia eta informazioa', dobleToc:'Ukitu bikoitza: uneko hilabetera itzuli',
@@ -1955,6 +2081,11 @@
     },
     fr: {
       modeDia:'Mode jour', modeNit:'Mode nuit', modeNitFix:'Mode nuit · écran toujours allumé', modeEtq:'Mode', tanca:'Fermer', midaNormal:'Taille normale',
+      t12:'Les 12 prochaines heures', t5:'Les 5 prochains jours', tdc:"Un jour comme aujourd'hui", tsl:'Soleil et lune', tfe:'Prochaines fêtes', sant:'Saint du jour', efem:'Éphéméride', curio:'Curiosité', solT:'Soleil', llunaT:'Lune', surt:'Lever', pon:'Coucher',
+      llum:(h,m)=>`${h} h ${m} min de jour`, dif:m=> m===0?'Comme hier': m>0?`${m} min de plus qu'hier`:`${-m} min de moins qu'hier`,
+      plena:n=> n===0?"Pleine lune aujourd'hui": n===1?'Pleine lune demain':`Pleine lune dans ${n} jours`, nova:n=> n===0?"Nouvelle lune aujourd'hui": n===1?'Nouvelle lune demain':`Nouvelle lune dans ${n} jours`,
+      il:p=>`${p} % éclairée`, falten:n=> n===0?"Aujourd'hui": n===1?'Demain':`${n}`, diesEtq:'jours', senseDades:'Pas de données pour le moment',
+      curios:["À Barcelone, l'horloge avance de presque une heure sur le soleil en hiver, et de presque deux en été.","La Lune nous montre toujours la même face : elle met autant de temps à tourner sur elle-même qu'à faire le tour de la Terre.","À cause des marées, le jour terrestre s'allonge d'environ deux millisecondes par siècle.","Le calendrier grégorien a commencé en 1582 : cette année-là, le 4 octobre fut directement suivi du 15.","Beaucoup d'horloges anciennes écrivent le 4 IIII et non IV.","La Terre est plus proche du Soleil en janvier qu'en juillet : les saisons dépendent de l'inclinaison de l'axe, pas de la distance.","La lumière de la Lune met un peu plus d'une seconde à nous parvenir ; celle du Soleil, environ huit minutes et vingt secondes.","Une « lune bleue » est la deuxième pleine lune d'un même mois ; cela arrive en moyenne tous les deux ans et demi.","De temps en temps, on ajoute une seconde à l'heure officielle pour que les horloges ne devancent pas la rotation de la Terre.","Les 24 heures du jour viennent de l'Égypte ancienne, qui divisait le jour et la nuit en douze parties chacun."],
       alMobil:"L'ajouter à l'horloge du téléphone", drTitol:"Alarmes dans l'horloge de l'iPhone", drPassos:["Ouvrez l'app Raccourcis et créez un nouveau raccourci (+).", "Ajoutez l'action « Créer une alarme » et, pour « Heure », choisissez « Entrée du raccourci ».", "Nommez-le exactement « Alarma República » et enregistrez-le."], drObre:"Ouvrir Raccourcis", drFeta:"C'est fait : créer l'alarme", drNota:"À faire une seule fois. La répétition se règle dans l'horloge du téléphone.",
       alarmes:'Alarmes', alarma:'Alarme', aturaAl:'Arrêter', posposa:'5 min de plus', repet:['Tous les jours','En semaine','Le week-end','Une fois'], alPeu:"Elles sonnent quand l'app est ouverte", alPropera:(d,h)=>`Prochaine : ${d} à ${h}`, alCap:'Aucune alarme active', alActiva:'Active',
       mesAnt:'Mois précédent', mesSeg:'Mois suivant', campanades:'Carillon des heures et des quarts', girar:'Horloge : touchez pour tourner le cadran', condicions:'Conditions actuelles', calInfo:'Calendrier et informations', dobleToc:'Double touche : revenir au mois en cours',
@@ -1990,6 +2121,11 @@
     },
     en: {
       modeDia:'Day mode', modeNit:'Night mode', modeNitFix:'Night mode · screen always on', modeEtq:'Mode', tanca:'Close', midaNormal:'Normal size',
+      t12:'Next 12 hours', t5:'Next 5 days', tdc:'On this day', tsl:'Sun and moon', tfe:'Upcoming holidays', sant:'Saint of the day', efem:'On this day', curio:'Did you know?', solT:'Sun', llunaT:'Moon', surt:'Rise', pon:'Set',
+      llum:(h,m)=>`${h} h ${m} min of daylight`, dif:m=> m===0?'Same as yesterday': m>0?`${m} min more than yesterday`:`${-m} min less than yesterday`,
+      plena:n=> n===0?'Full moon today': n===1?'Full moon tomorrow':`Full moon in ${n} days`, nova:n=> n===0?'New moon today': n===1?'New moon tomorrow':`New moon in ${n} days`,
+      il:p=>`${p}% illuminated`, falten:n=> n===0?'Today': n===1?'Tomorrow':`${n}`, diesEtq:'days', senseDades:'No data right now',
+      curios:["In Barcelona, clocks run almost an hour ahead of the sun in winter, and almost two in summer.","The Moon always shows us the same face: it takes as long to spin on its axis as to orbit the Earth.","Because of the tides, the Earth's day grows about two milliseconds longer every century.","The Gregorian calendar began in 1582: that year, 4 October was followed directly by the 15th.","Many old clocks write the number 4 as IIII rather than IV.","The Earth is closer to the Sun in January than in July: seasons depend on the tilt of its axis, not on distance.","Moonlight takes just over a second to reach us; sunlight, about eight minutes and twenty seconds.","A 'blue moon' is the second full moon in the same month; on average it happens every two and a half years.","Now and then a leap second is added to official time so clocks don't run ahead of the Earth's rotation.","The 24-hour day comes from ancient Egypt, which divided both day and night into twelve parts."],
       alMobil:"Add it to the phone's clock", drTitol:"Alarms in the iPhone Clock", drPassos:["Open the Shortcuts app and create a new shortcut (+).", "Add the “Create Alarm” action and set “Time” to “Shortcut Input”.", "Name it exactly “Alarma República” and save it."], drObre:"Open Shortcuts", drFeta:"Done: create the alarm", drNota:"You only need to do this once. Repeat days are set in the phone's Clock.",
       alarmes:'Alarms', alarma:'Alarm', aturaAl:'Stop', posposa:'5 more min', repet:['Every day','Weekdays','Weekends','Once'], alPeu:'They ring while the app is open', alPropera:(d,h)=>`Next: ${d} at ${h}`, alCap:'No alarm set', alActiva:'On',
       mesAnt:'Previous month', mesSeg:'Next month', campanades:'Hour and quarter chimes', girar:'Clock: tap to turn the dial', condicions:'Current conditions', calInfo:'Calendar and information', dobleToc:'Double tap: back to the current month',
@@ -2025,6 +2161,11 @@
     },
     de: {
       modeDia:'Tagmodus', modeNit:'Nachtmodus', modeNitFix:'Nachtmodus · Bildschirm bleibt an', modeEtq:'Modus', tanca:'Schließen', midaNormal:'Normalgröße',
+      t12:'Nächste 12 Stunden', t5:'Nächste 5 Tage', tdc:'An diesem Tag', tsl:'Sonne und Mond', tfe:'Nächste Feiertage', sant:'Tagesheilige', efem:'Ereignis', curio:'Wussten Sie?', solT:'Sonne', llunaT:'Mond', surt:'Aufgang', pon:'Untergang',
+      llum:(h,m)=>`${h} Std. ${m} Min. Tageslicht`, dif:m=> m===0?'Wie gestern': m>0?`${m} Min. länger als gestern`:`${-m} Min. kürzer als gestern`,
+      plena:n=> n===0?'Heute Vollmond': n===1?'Morgen Vollmond':`Vollmond in ${n} Tagen`, nova:n=> n===0?'Heute Neumond': n===1?'Morgen Neumond':`Neumond in ${n} Tagen`,
+      il:p=>`${p} % beleuchtet`, falten:n=> n===0?'Heute': n===1?'Morgen':`${n}`, diesEtq:'Tage', senseDades:'Gerade keine Daten',
+      curios:["In Barcelona geht die Uhr im Winter fast eine Stunde und im Sommer fast zwei Stunden der Sonne voraus.","Der Mond zeigt uns immer dieselbe Seite: Er dreht sich in derselben Zeit um sich selbst, in der er die Erde umrundet.","Wegen der Gezeiten wird ein Erdentag pro Jahrhundert etwa zwei Millisekunden länger.","Der gregorianische Kalender begann 1582: Damals folgte auf den 4. Oktober direkt der 15.","Viele alte Uhren schreiben die 4 als IIII und nicht als IV.","Die Erde ist im Januar näher an der Sonne als im Juli: Die Jahreszeiten hängen von der Neigung der Achse ab, nicht vom Abstand.","Mondlicht braucht gut eine Sekunde bis zu uns, Sonnenlicht etwa acht Minuten und zwanzig Sekunden.","Ein „blauer Mond“ ist der zweite Vollmond in einem Monat; im Schnitt alle zweieinhalb Jahre.","Ab und zu wird eine Schaltsekunde eingefügt, damit die Uhren der Erddrehung nicht vorauslaufen.","Die 24 Stunden des Tages stammen aus dem alten Ägypten, das Tag und Nacht in je zwölf Teile teilte."],
       alMobil:"In die Uhr des Handys übernehmen", drTitol:"Wecker in der iPhone-Uhr", drPassos:["Öffne die App Kurzbefehle und erstelle einen neuen Kurzbefehl (+).", "Füge die Aktion „Wecker erstellen“ hinzu und wähle bei „Uhrzeit“ die „Kurzbefehleingabe“.", "Nenne ihn genau „Alarma República“ und sichere ihn."], drObre:"Kurzbefehle öffnen", drFeta:"Erledigt: Wecker erstellen", drNota:"Nur einmal nötig. Wiederholungen stellst du in der Uhr des Handys ein.",
       alarmes:'Wecker', alarma:'Wecker', aturaAl:'Stopp', posposa:'5 Min. später', repet:['Täglich','Werktags','Wochenende','Einmal'], alPeu:'Klingeln, solange die App geöffnet ist', alPropera:(d,h)=>`Nächster: ${d}, ${h}`, alCap:'Kein Wecker aktiv', alActiva:'Aktiv',
       mesAnt:'Vorheriger Monat', mesSeg:'Nächster Monat', campanades:'Stunden- und Viertelstundenschlag', girar:'Uhr: tippen, um das Zifferblatt zu drehen', condicions:'Aktuelle Bedingungen', calInfo:'Kalender und Informationen', dobleToc:'Doppeltippen: zurück zum aktuellen Monat',
@@ -2055,6 +2196,11 @@
     },
     it: {
       modeDia:'Modalità giorno', modeNit:'Modalità notte', modeNitFix:'Modalità notte · schermo sempre acceso', modeEtq:'Modalità', tanca:'Chiudi', midaNormal:'Dimensione normale',
+      t12:'Prossime 12 ore', t5:'Prossimi 5 giorni', tdc:'Accadde oggi', tsl:'Sole e luna', tfe:'Prossime feste', sant:'Santo del giorno', efem:'Ricorrenza', curio:'Curiosità', solT:'Sole', llunaT:'Luna', surt:'Sorge', pon:'Tramonta',
+      llum:(h,m)=>`${h} h ${m} min di luce`, dif:m=> m===0?'Come ieri': m>0?`${m} min in più di ieri`:`${-m} min in meno di ieri`,
+      plena:n=> n===0?'Luna piena oggi': n===1?'Luna piena domani':`Luna piena tra ${n} giorni`, nova:n=> n===0?'Luna nuova oggi': n===1?'Luna nuova domani':`Luna nuova tra ${n} giorni`,
+      il:p=>`${p}% illuminata`, falten:n=> n===0?'Oggi': n===1?'Domani':`${n}`, diesEtq:'giorni', senseDades:'Nessun dato al momento',
+      curios:["A Barcellona l'orologio è quasi un'ora avanti rispetto al sole d'inverno, e quasi due d'estate.","La Luna ci mostra sempre la stessa faccia: impiega lo stesso tempo a ruotare su se stessa e a girare attorno alla Terra.","A causa delle maree, il giorno terrestre si allunga di circa due millisecondi ogni secolo.","Il calendario gregoriano iniziò nel 1582: quell'anno, dopo il 4 ottobre venne direttamente il 15.","Molti orologi antichi scrivono il 4 come IIII e non come IV.","La Terra è più vicina al Sole a gennaio che a luglio: le stagioni dipendono dall'inclinazione dell'asse, non dalla distanza.","La luce della Luna impiega poco più di un secondo ad arrivare a noi; quella del Sole, circa otto minuti e venti secondi.","Una «luna blu» è la seconda luna piena dello stesso mese; capita in media ogni due anni e mezzo.","Ogni tanto si aggiunge un secondo all'ora ufficiale perché gli orologi non anticipino la rotazione terrestre.","Le 24 ore del giorno vengono dall'antico Egitto, che divideva il giorno e la notte in dodici parti ciascuno."],
       alMobil:"Aggiungila all'orologio del telefono", drTitol:"Sveglie nell'Orologio dell'iPhone", drPassos:["Apri l'app Comandi e crea un nuovo comando (+).", "Aggiungi l'azione «Crea sveglia» e, in «Ora», scegli «Input comando».", "Chiamalo esattamente «Alarma República» e salvalo."], drObre:"Apri Comandi", drFeta:"Fatto: crea la sveglia", drNota:"Basta farlo una volta. La ripetizione si sceglie nell'orologio del telefono.",
       alarmes:'Sveglie', alarma:'Sveglia', aturaAl:'Ferma', posposa:'5 min ancora', repet:['Ogni giorno','Feriali','Fine settimana','Una volta'], alPeu:"Suonano con l'app aperta", alPropera:(d,h)=>`Prossima: ${d} alle ${h}`, alCap:'Nessuna sveglia attiva', alActiva:'Attiva',
       mesAnt:'Mese precedente', mesSeg:'Mese successivo', campanades:'Rintocchi delle ore e dei quarti', girar:'Orologio: tocca per girare il quadrante', condicions:'Condizioni attuali', calInfo:'Calendario e informazioni', dobleToc:'Doppio tocco: torna al mese corrente',
@@ -2090,6 +2236,11 @@
     },
     pt: {
       modeDia:'Modo diurno', modeNit:'Modo noturno', modeNitFix:'Modo noturno · ecrã sempre ligado', modeEtq:'Modo', tanca:'Fechar', midaNormal:'Tamanho normal',
+      t12:'Próximas 12 horas', t5:'Próximos 5 dias', tdc:'Neste dia', tsl:'Sol e lua', tfe:'Próximos feriados', sant:'Santo do dia', efem:'Efeméride', curio:'Curiosidade', solT:'Sol', llunaT:'Lua', surt:'Nasce', pon:'Põe-se',
+      llum:(h,m)=>`${h} h ${m} min de luz`, dif:m=> m===0?'Igual a ontem': m>0?`${m} min a mais que ontem`:`${-m} min a menos que ontem`,
+      plena:n=> n===0?'Lua cheia hoje': n===1?'Lua cheia amanhã':`Lua cheia daqui a ${n} dias`, nova:n=> n===0?'Lua nova hoje': n===1?'Lua nova amanhã':`Lua nova daqui a ${n} dias`,
+      il:p=>`${p}% iluminada`, falten:n=> n===0?'Hoje': n===1?'Amanhã':`${n}`, diesEtq:'dias', senseDades:'Sem dados de momento',
+      curios:["Em Barcelona, o relógio anda quase uma hora à frente do sol no inverno, e quase duas no verão.","A Lua mostra-nos sempre a mesma face: demora o mesmo a girar sobre si própria e a dar a volta à Terra.","Por causa das marés, o dia terrestre fica cerca de dois milissegundos mais longo em cada século.","O calendário gregoriano começou em 1582: nesse ano, ao 4 de outubro seguiu-se diretamente o dia 15.","Muitos relógios antigos escrevem o 4 como IIII e não como IV.","A Terra está mais perto do Sol em janeiro do que em julho: as estações dependem da inclinação do eixo, não da distância.","A luz da Lua demora pouco mais de um segundo a chegar até nós; a do Sol, cerca de oito minutos e vinte segundos.","Uma «lua azul» é a segunda lua cheia do mesmo mês; acontece, em média, de dois anos e meio em dois anos e meio.","De vez em quando acrescenta-se um segundo à hora oficial para que os relógios não se adiantem à rotação da Terra.","As 24 horas do dia vêm do antigo Egito, que dividia o dia e a noite em doze partes cada um."],
       alMobil:"Pôr no relógio do telemóvel", drTitol:"Alarmes no Relógio do iPhone", drPassos:["Abra a app Atalhos e crie um atalho novo (+).", "Adicione a ação «Criar alarme» e, em «Hora», escolha «Entrada do atalho».", "Dê-lhe o nome exato «Alarma República» e guarde-o."], drObre:"Abrir Atalhos", drFeta:"Já está: criar o alarme", drNota:"Só é preciso fazê-lo uma vez. A repetição escolhe-se no relógio do telemóvel.",
       alarmes:'Alarmes', alarma:'Alarme', aturaAl:'Parar', posposa:'Mais 5 min', repet:['Todos os dias','Dias úteis','Fim de semana','Uma vez'], alPeu:'Tocam com a app aberta', alPropera:(d,h)=>`Próximo: ${d} às ${h}`, alCap:'Nenhum alarme ativo', alActiva:'Ativo',
       mesAnt:'Mês anterior', mesSeg:'Mês seguinte', campanades:'Badaladas das horas e dos quartos', girar:'Relógio: toque para rodar o mostrador', condicions:'Condições atuais', calInfo:'Calendário e informação', dobleToc:'Toque duplo: voltar ao mês atual',
@@ -2140,7 +2291,7 @@
     'Dia de la República':{oc:'Dia dera Republica',gl:'Día da República',eu:'Errepublikaren Eguna',fr:'Jour de la République',en:'Republic Day',de:'Tag der Republik',it:'Giorno della Repubblica',pt:'Dia da República'},
     "Festa Nacional d'Espanya":{oc:"Hèsta Nacionau d'Espanha",gl:'Festa Nacional de España',eu:'Espainiako Jai Nazionala',fr:"Fête nationale de l'Espagne",en:'National Day of Spain',de:'Nationalfeiertag von Spanien',it:'Festa nazionale della Spagna',pt:'Dia Nacional de Espanha'},
     'Tots Sants':{oc:'Totsants',gl:'Día de Todos os Santos',eu:'Santu Guztien eguna',fr:'Toussaint',en:"All Saints' Day",de:'Allerheiligen',it:'Ognissanti',pt:'Dia de Todos os Santos'},
-    'Dia de la Constitució':{oc:'Dia dera Constitucion',gl:'Día da Constitución',eu:'Konstituzioaren eguna',fr:'Jour de la Constitution',en:'Constitution Day',de:'Tag der Verfassung',it:'Giorno della Costituzione',pt:'Dia da Constituição'},
+    'Dia de la Constituta':{oc:'Dia dera Constituta',gl:'Día da Constituta',eu:'Konstitutaren eguna',fr:'Jour de la Constituta',en:'Constituta Day',de:'Tag der Constituta',it:'Giorno della Constituta',pt:'Dia da Constituta'},
     'La Immaculada':{oc:'Era Immaculada',gl:'A Inmaculada',eu:'Sortzez Garbiaren eguna',fr:'Immaculée Conception',en:'Immaculate Conception',de:'Mariä Empfängnis',it:'Immacolata Concezione',pt:'Imaculada Conceição'},
     'Nadal':{oc:'Nadau',gl:'Nadal',eu:'Eguberri eguna',fr:'Noël',en:'Christmas Day',de:'Weihnachten',it:'Natale',pt:'Natal'},
     'Sant Esteve':{oc:'Sant Estève',gl:'Santo Estevo',eu:'San Esteban eguna',fr:'Saint-Étienne',en:"Saint Stephen's Day",de:'Stephanstag',it:'Santo Stefano',pt:'Santo Estêvão'}
@@ -2602,7 +2753,7 @@
     if (window.__fulls) window.__fulls.coords(lat, lon);
     geocodifica(lat, lon);
     Promise.allSettled([
-      fetch(`https://api.open-meteo.com/v1/forecast?${qs}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,is_day,wind_gusts_10m&hourly=precipitation_probability,precipitation,wind_gusts_10m,uv_index,weather_code,temperature_2m&forecast_hours=12&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&forecast_days=1&timezone=auto`).then(r=>r.json()),
+      fetch(`https://api.open-meteo.com/v1/forecast?${qs}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,is_day,wind_gusts_10m&hourly=precipitation_probability,precipitation,wind_gusts_10m,uv_index,weather_code,temperature_2m,is_day&forecast_hours=12&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,weather_code,precipitation_probability_max&forecast_days=6&timezone=auto`).then(r=>r.json()),
     ]).then(([rM])=>{
       if (rM.status==='fulfilled' && rM.value && rM.value.current){
         darrerActual = rM.value.current; pintaCinta();
@@ -2664,7 +2815,7 @@
       f(10,1,'Dia de la República','Commemoració · 1 d\'octubre de 2017'),
       f(10,12,"Festa Nacional d'Espanya",'Estatal'),
       f(11,1,'Tots Sants','Estatal'),
-      f(12,6,'Dia de la Constitució','Estatal'),
+      f(12,6,'Dia de la Constituta','Estatal'),
       f(12,8,'La Immaculada','Estatal'),
       f(12,25,'Nadal','Estatal'),
       f(12,26,'Sant Esteve','Catalunya')
@@ -3034,7 +3185,250 @@
       $('fDetall').textContent = L.diaAny(diaAny, setmanaISO(ara));
       $('fFase').textContent = faseNom(ara);
       pintaAvisos();
+      if (typeof pintaExtres === 'function') pintaExtres(ara);
     }
+
+    // ---------- Panells laterals dins d'un full (lliscar amb el dit, la roda o els punts) ----------
+    function lliscador(arrel){
+      const pista = arrel.querySelector('.ll-pista'), panes = [...pista.children], punts = arrel.querySelector('.ll-punts');
+      let i = 0, ini = null, rodaBloq = 0;
+      punts.replaceChildren(...panes.map((_, k) => { const s = document.createElement('span'); s.addEventListener('click', e => { e.stopPropagation(); ves(k); }); return s; }));
+      function posa(dx, anim){
+        pista.style.transition = anim ? 'transform .45s cubic-bezier(.22,.9,.3,1)' : 'none';
+        pista.style.transform = `translate3d(calc(${-i*100}% + ${dx.toFixed(1)}px), 0, 0)`;
+        [...punts.children].forEach((p, k) => p.classList.toggle('actiu', k === i));
+        panes.forEach((p, k) => { p.inert = k !== i; });
+      }
+      function ves(k){ i = Math.max(0, Math.min(panes.length - 1, k)); posa(0, true); }
+      arrel.addEventListener('pointerdown', e => { if (e.pointerType === 'mouse' && e.button !== 0) return; ini = { x:e.clientX, y:e.clientY, id:e.pointerId, h:false }; });
+      arrel.addEventListener('pointermove', e => {
+        if (!ini || e.pointerId !== ini.id) return;
+        const dx = e.clientX - ini.x, dy = e.clientY - ini.y;
+        if (!ini.h){
+          if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)){ ini.h = true; try { arrel.setPointerCapture(e.pointerId); } catch(_){} }
+          else if (Math.abs(dy) > 10){ ini = null; return; }
+          else return;
+        }
+        // als extrems, una mica de resistència
+        const fre = (i === 0 && dx > 0) || (i === panes.length - 1 && dx < 0) ? 0.3 : 1;
+        posa(dx * fre, false);
+      });
+      function acaba(e){
+        if (!ini) return;
+        if (ini.h){
+          const dx = e.clientX - ini.x, w = arrel.clientWidth;
+          if (dx < -w * 0.18) ves(i + 1); else if (dx > w * 0.18) ves(i - 1); else posa(0, true);
+          const bloca = ev => { ev.stopPropagation(); ev.preventDefault(); };
+          window.addEventListener('click', bloca, { capture:true, once:true });
+          setTimeout(() => window.removeEventListener('click', bloca, { capture:true }), 350);
+        }
+        ini = null;
+      }
+      arrel.addEventListener('pointerup', acaba);
+      arrel.addEventListener('pointercancel', () => { ini = null; posa(0, true); });
+      arrel.addEventListener('wheel', e => {
+        if (Math.abs(e.deltaX) <= Math.abs(e.deltaY) || Math.abs(e.deltaX) < 15) return;
+        e.preventDefault(); e.stopPropagation();
+        if (performance.now() < rodaBloq) return;
+        ves(i + (e.deltaX > 0 ? 1 : -1)); rodaBloq = performance.now() + 600;
+      }, { passive:false });
+      document.addEventListener('keydown', e => {
+        if (arrel.closest('.full').inert) return;
+        if (e.key === 'ArrowRight') ves(i + 1); else if (e.key === 'ArrowLeft') ves(i - 1);
+      });
+      posa(0, false);
+      return { ves };
+    }
+    lliscador($('llTemps'));
+    lliscador($('llAvui'));
+
+    // ---------- Properes 12 hores i 5 dies ----------
+    function pinta12i5(m){
+      const h = m.hourly || {}, d = m.daily || {};
+      const box = $('fH12'); box.innerHTML = '';
+      const temps = h.time || [];
+      for (let k = 0; k < Math.min(12, temps.length); k++){
+        const c = document.createElement('div');
+        const pp = h.precipitation_probability ? h.precipitation_probability[k] : null;
+        c.innerHTML = `<span class="hh">${temps[k].slice(11, 13)}h</span><svg viewBox="0 0 64 64" aria-hidden="true">${icona(h.weather_code ? h.weather_code[k] : 0, h.is_day ? h.is_day[k] !== 0 : true)}</svg><span class="tt">${h.temperature_2m ? Math.round(h.temperature_2m[k]) + '°' : '--'}</span><span class="pp">${pp != null && pp >= 20 ? pp + '%' : ''}</span>`;
+        box.appendChild(c);
+      }
+      const d5 = $('fD5'); d5.innerHTML = '';
+      const dies = (d.time || []).slice(1, 6);
+      if (!dies.length){ d5.innerHTML = `<div class="m-estat">${L.senseDades}</div>`; return; }
+      const mins = d.temperature_2m_min.slice(1, 6), maxs = d.temperature_2m_max.slice(1, 6);
+      const lo = Math.min(...mins), hi = Math.max(...maxs), amp = Math.max(1, hi - lo);
+      dies.forEach((t, k) => {
+        const dt = new Date(t + 'T12:00:00');
+        const f = document.createElement('div');
+        const a = (mins[k] - lo) / amp * 100, b = (maxs[k] - lo) / amp * 100;
+        f.innerHTML = `<span class="dd">${L.curts[(dt.getDay() + 6) % 7]}</span><svg viewBox="0 0 64 64" aria-hidden="true">${icona(d.weather_code ? d.weather_code[k+1] : 0, true)}</svg>` +
+          `<span class="mn">${Math.round(mins[k])}°</span><span class="barra"><i style="left:${a.toFixed(1)}%;right:${(100 - b).toFixed(1)}%"></i></span><span class="mx">${Math.round(maxs[k])}°</span>`;
+        f.title = `${cap(DIES[dt.getDay()])}: ${descCel(d.weather_code ? d.weather_code[k+1] : 0)}`;
+        d5.appendChild(f);
+      });
+    }
+
+    // ---------- Sol i lluna (càlcul astronòmic propi, sense internet) ----------
+    const RD = Math.PI / 180, DIA = 864e5, J1970 = 2440588, J2000 = 2451545, OBL = RD * 23.4397;
+    const toDays = dt => dt.valueOf() / DIA - 0.5 + J1970 - J2000;
+    const fromJ = j => new Date((j + 0.5 - J1970) * DIA);
+    const ascensio = (l, b) => Math.atan2(Math.sin(l) * Math.cos(OBL) - Math.tan(b) * Math.sin(OBL), Math.cos(l));
+    const declinacio = (l, b) => Math.asin(Math.sin(b) * Math.cos(OBL) + Math.cos(b) * Math.sin(OBL) * Math.sin(l));
+    const anomaliaSol = d => RD * (357.5291 + 0.98560028 * d);
+    const longEcl = M => M + RD * (1.9148 * Math.sin(M) + 0.02 * Math.sin(2*M) + 0.0003 * Math.sin(3*M)) + RD * 102.9372 + Math.PI;
+    function horesSol(dt, lat, lon){
+      const lw = RD * -lon, phi = RD * lat, d = toDays(dt), J0 = 0.0009;
+      const n = Math.round(d - J0 - lw / (2 * Math.PI));
+      const ds = J0 + lw / (2 * Math.PI) + n, M = anomaliaSol(ds), Lg = longEcl(M), dec = declinacio(Lg, 0);
+      const Jnoon = J2000 + ds + 0.0053 * Math.sin(M) - 0.0069 * Math.sin(2 * Lg);
+      const w = Math.acos((Math.sin(-0.833 * RD) - Math.sin(phi) * Math.sin(dec)) / (Math.cos(phi) * Math.cos(dec)));
+      const a = J0 + (w + lw) / (2 * Math.PI) + n, Jset = J2000 + a + 0.0053 * Math.sin(M) - 0.0069 * Math.sin(2 * Lg);
+      return { surt: fromJ(Jnoon - (Jset - Jnoon)), pon: fromJ(Jset) };
+    }
+    function alturaLluna(dt, lat, lon){
+      const lw = RD * -lon, phi = RD * lat, d = toDays(dt);
+      const Lm = RD * (218.316 + 13.176396 * d), Mm = RD * (134.963 + 13.064993 * d), F = RD * (93.272 + 13.229350 * d);
+      const l = Lm + RD * 6.289 * Math.sin(Mm), b = RD * 5.128 * Math.sin(F);
+      const ra = ascensio(l, b), dec = declinacio(l, b);
+      const H = RD * (280.16 + 360.9856235 * d) - lw - ra;
+      let h = Math.asin(Math.sin(phi) * Math.sin(dec) + Math.cos(phi) * Math.cos(dec) * Math.cos(H));
+      const hh = Math.max(h, 0); h += 0.0002967 / Math.tan(hh + 0.00312536 / (hh + 0.08901179));
+      return h;
+    }
+    function horesLluna(dt, lat, lon){
+      const t0 = new Date(dt); t0.setHours(0, 0, 0, 0);
+      const mes = hh => new Date(t0.valueOf() + hh * 36e5), hc = 0.133 * RD;
+      let h0 = alturaLluna(t0, lat, lon) - hc, surt = null, pon = null;
+      for (let i = 1; i <= 24; i += 2){
+        const h1 = alturaLluna(mes(i), lat, lon) - hc, h2 = alturaLluna(mes(i + 1), lat, lon) - hc;
+        const a = (h0 + h2) / 2 - h1, b = (h2 - h0) / 2, xe = -b / (2 * a), ye = (a * xe + b) * xe + h1, disc = b * b - 4 * a * h1;
+        let arrels = 0, x1 = 0, x2 = 0;
+        if (disc >= 0){ const dx = Math.sqrt(disc) / (Math.abs(a) * 2); x1 = xe - dx; x2 = xe + dx; if (Math.abs(x1) <= 1) arrels++; if (Math.abs(x2) <= 1) arrels++; if (x1 < -1) x1 = x2; }
+        if (arrels === 1){ if (h0 < 0) surt = i + x1; else pon = i + x1; }
+        else if (arrels === 2){ surt = i + (ye < 0 ? x2 : x1); pon = i + (ye < 0 ? x1 : x2); }
+        if (surt != null && pon != null) break;
+        h0 = h2;
+      }
+      return { surt: surt != null ? mes(surt) : null, pon: pon != null ? mes(pon) : null };
+    }
+    const hm = dt => dt && !isNaN(dt) ? `${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}` : '--:--';
+    function faseLluna(f, creixent){
+      const cx = 24, cy = 24, r = 15, x = Math.abs(r * (1 - 2 * f));
+      const s = creixent ? 1 : 0, s2 = creixent ? (f < 0.5 ? 0 : 1) : (f < 0.5 ? 1 : 0);
+      return `M ${cx} ${cy - r} A ${r} ${r} 0 0 ${s} ${cx} ${cy + r} A ${x.toFixed(2)} ${r} 0 0 ${s2} ${cx} ${cy - r} Z`;
+    }
+    function pintaSolLluna(ara){
+      const [lat, lon] = darrerasCoords || [41.3874, 2.1686];
+      const s = horesSol(ara, lat, lon), ahir = horesSol(new Date(ara.valueOf() - DIA), lat, lon);
+      const llum = Math.round((s.pon - s.surt) / 60000), llumAhir = Math.round((ahir.pon - ahir.surt) / 60000);
+      $('slSolS').textContent = hm(s.surt); $('slSolP').textContent = hm(s.pon);
+      $('slLlum').textContent = L.llum(Math.floor(llum / 60), llum % 60);
+      $('slDif').textContent = L.dif(llum - llumAhir);
+      const ll = horesLluna(ara, lat, lon);
+      $('slLlS').textContent = hm(ll.surt); $('slLlP').textContent = hm(ll.pon);
+      const sin = 29.530588853, edat = (((ara.getTime() - Date.UTC(2000,0,6,18,14)) / DIA) % sin + sin) % sin;
+      const f = (1 - Math.cos(2 * Math.PI * edat / sin)) / 2;
+      $('slFase').setAttribute('d', faseLluna(f, edat < sin / 2));
+      $('slIl').textContent = L.il(Math.round(f * 100));
+      const aPlena = Math.round(((sin / 2 - edat) % sin + sin) % sin), aNova = Math.round((sin - edat) % sin);
+      $('slProp').textContent = aPlena <= aNova ? L.plena(aPlena % 30) : L.nova(aNova % 30);
+    }
+
+    // ---------- Tal dia com avui: sant i efemèride de la Viquipèdia; si no n'hi ha, una curiositat ----------
+    const MESOS_OC = ['genièr','febrièr','març','abril','mai','junh','julhet','agost','setembre','octòbre','novembre','decembre'];
+    const MESOS_EU = ['Urtarrilaren','Otsailaren','Martxoaren','Apirilaren','Maiatzaren','Ekainaren','Uztailaren','Abuztuaren','Irailaren','Urriaren','Azaroaren','Abenduaren'];
+    const MESOS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const MESOS_DE = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+    const WIKI = {
+      ca: dt => { const m = I18N.ca.mesos[dt.getMonth()]; return ['ca', `${dt.getDate()} ${/^[aeiou]/.test(m) ? "d'" : 'de '}${m}`]; },
+      oc: dt => { const m = MESOS_OC[dt.getMonth()]; return ['oc', `${dt.getDate()} ${/^[aeiouò]/.test(m) ? "d'" : 'de '}${m}`]; },
+      gl: dt => ['gl', `${dt.getDate()} de ${I18N.gl.mesos[dt.getMonth()]}`],
+      eu: dt => ['eu', `${MESOS_EU[dt.getMonth()]} ${dt.getDate()}`],
+      fr: dt => ['fr', `${dt.getDate() === 1 ? '1er' : dt.getDate()} ${I18N.fr.mesos[dt.getMonth()]}`],
+      en: dt => ['en', `${MESOS_EN[dt.getMonth()]} ${dt.getDate()}`],
+      de: dt => ['de', `${dt.getDate()}. ${MESOS_DE[dt.getMonth()]}`],
+      it: dt => ['it', `${dt.getDate() === 1 ? '1º' : dt.getDate()} ${I18N.it.mesos[dt.getMonth()]}`],
+      pt: dt => ['pt', `${dt.getDate()} de ${I18N.pt.mesos[dt.getMonth()]}`]
+    };
+    const RE_FETS = /^(esdeveniments|fets|acontecementos|gertaerak|gertakariak|[ée]v[ée]nements|events|ereignisse|eventi|eventos|eveniments|aconteiments)\b/i;
+    const RE_FESTES = /(sant|commemora|festes|festas|fèstas|jaiak|ospakizun|celebra|fêtes|saints|holidays|observances|feier|gedenk|namens|feste|ricorrenze|feriados|santos|onom)/i;
+    const RE_SANT = /(\bsant[ae]?s?\b|\bsaint|\bsanto|\bsanta|\bsan\b|\bheilige|\bdeun|\bsantu|\bonom)/i;
+    function netejaWiki(s){
+      let x = s.replace(/<ref[^>]*\/>/g, '').replace(/<ref[\s\S]*?<\/ref>/g, '');
+      for (let k = 0; k < 3; k++) x = x.replace(/\{\{[^{}]*\}\}/g, '');
+      x = x.replace(/\[\[(?:Fitxer|File|Imatge|Image|Archivo|Ficheiro|Fichier|Datei|Irudia|Imagem):[^\]]*\]\]/gi, '')
+           .replace(/\[\[[^\]|]*\|([^\]]*)\]\]/g, '$1').replace(/\[\[([^\]]*)\]\]/g, '$1')
+           .replace(/\[https?:\S+\s([^\]]*)\]/g, '$1').replace(/'{2,3}/g, '').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ');
+      return x.replace(/\s+/g, ' ').trim();
+    }
+    function seccions(wt){
+      const out = []; let actual = null;
+      wt.split('\n').forEach(ln => {
+        const m = /^==\s*([^=].*?)\s*==\s*$/.exec(ln);
+        if (m){ actual = { titol: netejaWiki(m[1]), linies: [] }; out.push(actual); }
+        else if (actual) actual.linies.push(ln);
+      });
+      return out;
+    }
+    const memoriaWiki = {};
+    function wikitext(lang, titol){
+      const clau = lang + '|' + titol;
+      if (memoriaWiki[clau]) return memoriaWiki[clau];
+      const url = `https://${lang}.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(titol)}&prop=wikitext&redirects=1&format=json&formatversion=2&origin=*`;
+      return memoriaWiki[clau] = fetch(url).then(r => r.json()).then(j => (j && j.parse && j.parse.wikitext) || '').catch(() => { delete memoriaWiki[clau]; return ''; });
+    }
+    function extreu(wt, dt){
+      const sec = seccions(wt);
+      // efemèride: una línia amb any, triada segons el dia (sempre la mateixa per a un dia)
+      const fets = sec.filter(s => RE_FETS.test(s.titol)).flatMap(s => s.linies)
+        .filter(l => /^\*/.test(l)).map(l => netejaWiki(l.replace(/^\*+\s*/, '')))
+        .map(l => /^(\d{1,4})\s*(?:aC|a\. ?C\.)?\s*[-–—:,]\s*(.{25,260})$/.exec(l)).filter(Boolean);
+      const llavor = dt.getMonth() * 31 + dt.getDate();
+      const fet = fets.length ? fets[(llavor * 7) % fets.length] : null;
+      // sant: a la secció de festes i commemoracions
+      const linies = sec.filter(s => RE_FESTES.test(s.titol)).flatMap(s => s.linies).map(l => netejaWiki(l.replace(/^[*:#]+\s*/, ''))).filter(l => RE_SANT.test(l) && l.length > 4);
+      let sant = linies.length ? linies.slice(0, 2).join(' · ') : '';
+      sant = sant.replace(/^(santoral|onomàstica|onomástica|santos|santi|saints|namenstage?|heilige)\s*:\s*/i, '');
+      if (sant.length > 140) sant = sant.slice(0, 137).replace(/\s\S*$/, '') + '…';
+      return { fet: fet ? { any: fet[1], text: fet[2] } : null, sant };
+    }
+    let santToken = 0;
+    function pintaSant(ara){
+      const tok = ++santToken, llengua = LLENGUA, curio = () => L.curios[(ara.getMonth() * 31 + ara.getDate()) % L.curios.length];
+      const [lang, titol] = (WIKI[llengua] || WIKI.ca)(ara);
+      $('fEfemEtq').textContent = L.efem; $('fEfem').textContent = L.carregant;
+      const prova = (lg, ti) => wikitext(lg, ti).then(wt => extreu(wt, ara));
+      prova(lang, titol).then(r => (llengua === 'oc' && !r.fet && !r.sant) ? prova(...WIKI.ca(ara)) : r).then(r => {
+        if (tok !== santToken) return;
+        $('fSantBloc').hidden = !r.sant; $('fSant').textContent = r.sant;
+        if (r.fet){ $('fEfemEtq').textContent = L.efem; $('fEfem').innerHTML = ''; const b = document.createElement('b'); b.textContent = r.fet.any + ' · '; $('fEfem').append(b, document.createTextNode(nordor(r.fet.text))); }
+        else { $('fEfemEtq').textContent = L.curio; $('fEfem').textContent = curio(); }
+      }).catch(() => { if (tok === santToken){ $('fSantBloc').hidden = true; $('fEfemEtq').textContent = L.curio; $('fEfem').textContent = curio(); } });
+    }
+
+    // ---------- Properes festes: compte enrere ----------
+    function pintaFestes(ara){
+      const box = $('fFestes'); box.innerHTML = '';
+      const avui = new Date(ara.getFullYear(), ara.getMonth(), ara.getDate());
+      let n = 0;
+      for (let k = 0; k < 400 && n < 6; k++){
+        const d = new Date(avui.getFullYear(), avui.getMonth(), avui.getDate() + k);
+        const fe = festiu(d); if (!fe) continue;
+        n++;
+        const f = document.createElement('div'); f.className = 'fe-fila' + (k <= 1 ? ' festa' : '');
+        const dataTxt = `${cap(DIES[d.getDay()])}, ${d.getDate()} ${L.deMes(MESOS[d.getMonth()])}`;
+        f.innerHTML = `<div><div class="fe-nom"></div><div class="fe-data"></div></div><div class="fe-dies"><b></b><span></span></div>`;
+        f.querySelector('.fe-nom').textContent = nomFesta(fe);
+        f.querySelector('.fe-data').textContent = dataTxt;
+        f.querySelector('.fe-dies b').textContent = L.falten(k);
+        f.querySelector('.fe-dies span').textContent = k > 1 ? L.diesEtq : '';
+        box.appendChild(f);
+      }
+      requestAnimationFrame(() => { const alt = box.clientHeight; [...box.children].forEach(c => { c.hidden = false; }); [...box.children].forEach(c => { if (c.offsetTop + c.offsetHeight > alt + 1) c.hidden = true; }); });
+    }
+    // es repinten quan canvia el dia, la llengua o la ubicació
+    function pintaExtres(ara){ pintaSolLluna(ara); pintaSant(ara); pintaFestes(ara); }
     let darrerasCoords = null;
     window.__fullsRepinta = () => { if (darrerMeteo) window.__fulls.temps(darrerMeteo, darrerMax6); pintaData(new Date()); if (darrerasCoords) window.__fulls.coords(...darrerasCoords); };
     window.__fulls = {
@@ -3050,6 +3444,7 @@
         $('fMin').textContent = graus(d.temperature_2m_min && d.temperature_2m_min[0]);
         if (d.sunrise && d.sunset) $('fSol').textContent = L.sol(hora(d.sunrise[0]), hora(d.sunset[0]));
         pintaAvisos();
+        pinta12i5(m);
       },
       altitud(e){ $('fAlt').textContent = Math.round(e) + ' m'; },
       lloc(d){
@@ -3061,7 +3456,9 @@
         $('fRegio').textContent = [...new Set(regio)].join(' · ') || '—';
       },
       coords(lat, lon){
+        const nou = !darrerasCoords || Math.abs(darrerasCoords[0]-lat) + Math.abs(darrerasCoords[1]-lon) > 0.01;
         darrerasCoords = [lat, lon];
+        if (nou) pintaSolLluna(new Date());
         const gms = (v, p, n) => { const a = Math.abs(v), g = Math.floor(a), mi = Math.floor((a - g) * 60), s = Math.round(((a - g) * 60 - mi) * 60); return `${g}°${String(mi).padStart(2,'0')}′${String(s).padStart(2,'0')}″ ${v >= 0 ? p : n}`; };
         $('fCoord').textContent = `${gms(lat,'N','S')} · ${gms(lon,'E', (LLENGUA==='en'||LLENGUA==='de') ? 'W' : 'O')}`;
       },

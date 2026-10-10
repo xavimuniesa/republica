@@ -332,7 +332,7 @@
   /* ---- Alarmes ---- */
   .al-cara .m-peu{ white-space:normal; text-overflow:clip; line-height:1.35; text-align:center; }
   .al-llista{ width:100%; flex:1 1 auto; min-height:0; display:flex; flex-direction:column; justify-content:space-evenly; gap: 1.6cqh; }
-  .al-fila{ display:grid; grid-template-columns: auto 1fr auto; align-items:center; gap: 3cqw; padding: 1.2cqh 3cqw; border-radius:8px;
+  .al-fila{ display:grid; grid-template-columns: auto 1fr auto auto; align-items:center; gap: 3cqw; padding: 1.2cqh 3cqw; border-radius:8px;
     background: linear-gradient(180deg, rgba(255,253,246,.75) 0%, rgba(239,228,205,.55) 100%);
     box-shadow: inset 0 0 0 1px rgba(185,119,82,.55), inset 0 1px 0 rgba(255,255,255,.9), 0 1px 2px rgba(60,35,10,.18); }
   .al-fila.apagada .al-hora, .al-fila.apagada .al-rep{ opacity:.45; }
@@ -343,12 +343,25 @@
   .al-int[aria-checked="true"]{ background: linear-gradient(180deg, #1f8a64, #0f6b4c); }
   .al-int[aria-checked="true"]::after{ transform: translateX(20px); }
   .al-hora{ appearance:none; -webkit-appearance:none; border:0; background:transparent; min-width:0; width:100%; text-align:center; color:#2c241c;
-    font-family:'Cormorant Garamond', serif; font-weight:700; font-size: min(15cqh, 9cqw); line-height:1; padding:0; cursor:pointer; }
+    font-family:'Cormorant Garamond', serif; font-weight:700; font-size: min(14cqh, 7.6cqw); line-height:1; padding:0; cursor:pointer; }
   .al-hora::-webkit-calendar-picker-indicator{ display:none; }
   .al-hora::-webkit-date-and-time-value{ text-align:center; }
   .al-rep{ appearance:none; -webkit-appearance:none; border:0; cursor:pointer; padding: 5px 10px; border-radius:12px; white-space:nowrap;
-    font-family:'IM Fell English', serif; font-style:italic; font-size: min(5.6cqh, 3.6cqw); color:#5c4632;
+    font-family:'IM Fell English', serif; font-style:italic; font-size: min(5.4cqh, 3.3cqw); color:#5c4632;
     background: rgba(185,119,82,.12); box-shadow: inset 0 0 0 1px rgba(185,119,82,.5); }
+  .al-mobil{ appearance:none; -webkit-appearance:none; border:0; padding:0; cursor:pointer; width:30px; height:30px; border-radius:50%; display:grid; place-items:center;
+    background: radial-gradient(circle at 35% 30%, #fbe7a8, #c1913c 55%, #6b4712); box-shadow: 0 1px 3px rgba(0,0,0,.45), inset 0 -1px 2px rgba(0,0,0,.3); }
+  .al-mobil svg{ width:17px; height:17px; fill:none; stroke:#3a2208; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .al-mobil[hidden]{ display:none; }
+  .al-drecera .al-sona-cara{ position:relative; text-align:left; }
+  .al-drecera .al-sona-etq{ text-align:center; letter-spacing:.12em; margin: 0 26px 10px; }
+  .dr-passos{ margin:0; padding-left: 1.4em; font-family:'Cormorant Garamond', serif; font-weight:600; font-size:17px; line-height:1.3; }
+  .dr-passos li{ margin: 0 0 8px; }
+  .dr-nota{ font-family:'IM Fell English', serif; font-style:italic; font-size:14px; color:#5c4632; margin-top:4px; }
+  .dr-tanca{ position:absolute; top:10px; right:10px; border:0; background:none; padding:4px; cursor:pointer; }
+  .dr-tanca svg{ width:20px; height:20px; stroke:#8a5536; stroke-width:2.2; }
+  html.nit .al-mobil{ background:#000 !important; box-shadow: inset 0 0 0 1.5px var(--nit) !important; }
+  html.nit .al-mobil svg{ stroke:var(--nit) !important; }
   .al-sona{ position:fixed; inset:0; z-index:60; display:grid; place-items:center; background: rgba(10,6,3,.72); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
   .al-sona[hidden]{ display:none; }
   .al-sona-cara{ width: min(86vw, 360px); padding: 22px 18px 18px; border-radius:16px; text-align:center; color:#2c241c;
@@ -740,6 +753,18 @@
   </svg>
 </button>
 <div class="avis-mode" id="avisMode" role="status"></div>
+<div class="al-sona al-drecera" id="alDrecera" role="dialog" aria-modal="true" hidden>
+  <div class="al-sona-cara">
+    <div class="al-sona-etq" id="drTitol">Alarmes</div>
+    <ol class="dr-passos" id="drPassos"></ol>
+    <div class="dr-nota" id="drNota"></div>
+    <div class="al-sona-botons">
+      <button type="button" class="al-b al-posposa" id="drObre">Dreceres</button>
+      <button type="button" class="al-b al-atura" id="drFeta">OK</button>
+    </div>
+    <button type="button" class="dr-tanca" id="drTanca" data-i18n-aria="tanca" aria-label="Tanca"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg></button>
+  </div>
+</div>
 <div class="al-sona" id="alSona" role="alertdialog" aria-modal="true" hidden>
   <div class="al-sona-cara">
     <svg viewBox="0 0 24 24" class="al-sona-ic"><path d="M12 22a2.2 2.2 0 0 0 2.2-2.2h-4.4A2.2 2.2 0 0 0 12 22z"/><path d="M18 16V11a6 6 0 0 0-5-5.9V4a1 1 0 0 0-2 0v1.1A6 6 0 0 0 6 11v5l-2 2h16z"/></svg>
@@ -1150,8 +1175,11 @@
       'font-family':"'IM Fell English SC', 'IM Fell English', serif", 'font-size':24, 'letter-spacing':2.6, fill:'#1a1209'}, tamborA);
     el('rect', {x:AX, y:AY, width:AW, height:AH, fill:'url(#aOmbraVisor)'}, finA);
     let mostratA = '';
+    gradient(defs, 'linearGradient', 'aMaragdaV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#1f8a64'],['50%','#0f6b4c'],['100%','#094a35']]);
+    gradient(defs, 'linearGradient', 'aBurdeusV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#9a2a24'],['50%','#7a1a16'],['100%','#55100e']]);
     window.__esferaCalA = function(nom, fons, color){
       const festa = fons !== '#f7efdc';
+      if (festa) fons = fons.replace('#cMaragda', '#aMaragdaV').replace('#cBurdeus', '#aBurdeusV');
       fonsA.setAttribute('fill', festa ? fons : 'url(#aVisorPaper)');
       fonsA.setAttribute('filter', festa ? '' : 'url(#aTaques)');
       textA.setAttribute('fill', festa ? color : '#1a1209');
@@ -1432,6 +1460,8 @@
     gradient(defs, 'radialGradient', 'dCrater', {cx:'45%', cy:'40%', r:'60%'}, [['0%','#8e9195',.55],['70%','#a9acaf',.35],['100%','#ffffff',.25]]);
     gradient(defs, 'radialGradient', 'dOmbraInt', {cx:'50%', cy:'50%', r:'50%'}, [['84%','#3a2a14',0],['96%','#3a2a14',.22],['100%','#2a1a08',.5]]);
     // Verd maragda: el mateix dels dissabtes a la finestra de CAPITAINE
+    gradient(defs, 'linearGradient', 'dMaragdaV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#1f8a64'],['50%','#0f6b4c'],['100%','#094a35']]);
+    gradient(defs, 'linearGradient', 'dBurdeusV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#9a2a24'],['50%','#7a1a16'],['100%','#55100e']]);
     gradient(defs, 'radialGradient', 'dVerd', {cx:'300', cy:'240', r:'320', gradientUnits:'userSpaceOnUse'}, [['0%','#1f8a64'],['60%','#0f6b4c'],['100%','#094a35']]);
     // Esfera de marfil amb guillotxat en espiga (com un gravat a torn)
     gradient(defs, 'radialGradient', 'dMarfil', {cx:'290', cy:'270', r:'300', gradientUnits:'userSpaceOnUse'}, [['0%','#fbf6ea'],['55%','#efe6d1'],['88%','#e2d5b8'],['100%','#cdbd98']]);
@@ -1457,10 +1487,12 @@
     // camins corbats per al text dels mesos (els de baix, girats perquè es llegeixin drets)
     const textosMes = [];
     for (let i=0;i<12;i++){
-      const a = i*30, r = 270.5, a1 = a - 14.5, a2 = a + 14.5;
+      const a = i*30, r = 270, rR = 283.5, a1 = a - 14.5, a2 = a + 14.5;
       const d = `M ${px(r,a1)} ${py(r,a1)} A ${r} ${r} 0 0 1 ${px(r,a2)} ${py(r,a2)}`;
       el('path', {id:`dMes${i}`, d, fill:'none'}, defs);
-      const t = el('text', {'font-family':sans, 'font-size':14.5, 'font-weight':700, 'letter-spacing':1.2, fill:'#f3e6c4'}, mesosG);
+      // camí invers (per a la meitat de baix): el text es llegeix dret, amb la base cap a fora
+      el('path', {id:`dMesR${i}`, d:`M ${px(rR,a2)} ${py(rR,a2)} A ${rR} ${rR} 0 0 0 ${px(rR,a1)} ${py(rR,a1)}`, fill:'none'}, defs);
+      const t = el('text', {'font-family':sans, 'font-size':17, 'font-weight':700, 'letter-spacing':1, fill:'#f3e6c4'}, mesosG);
       const tp = el('textPath', {href:`#dMes${i}`, startOffset:'50%', 'text-anchor':'middle'}, t);
       tp.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `#dMes${i}`);
       textosMes.push({t, tp});
@@ -1547,10 +1579,11 @@
     }
 
     // ---- Temperatura (esquerra) i sol (dreta) ----
-    const icT = el('g', {class:'nit-ic', transform:`translate(${C-150} ${C-58}) scale(${44/64})`}, svg);
+    // les dues icones (temps i sol) amb la mateixa alçada, el mateix gruix de traç i la mateixa distància a la xifra
+    const icT = el('g', {class:'nit-ic', transform:`translate(${C-150} ${C-48}) scale(${44/64})`}, svg);
     const txtT = el('text', {class:'nit-txt', x:C-128, y:C+24, 'text-anchor':'middle', 'font-family':sans, 'font-size':24, 'font-weight':700, fill:'#2c241c'}, svg);
     txtT.textContent = '--°';
-    const icS = el('g', {class:'nit-ic', transform:`translate(${C+128} ${C-18})`, fill:'none', stroke:'#3a2a1c', 'stroke-width':2.2, 'stroke-linecap':'round'}, svg);
+    const icS = el('g', {class:'nit-ic', transform:`translate(${C+128} ${C-15.5}) scale(1.25)`, fill:'none', stroke:'#3a2a1c', 'stroke-width':1.45, 'stroke-linecap':'round'}, svg);
     el('path', {d:'M -14,6 A 14 14 0 0 1 14,6'}, icS);
     el('line', {x1:-20, y1:6, x2:20, y2:6}, icS);
     [-60,-30,0,30,60].forEach(a=> el('line', {x1:19*Math.sin(rad(a)), y1:6-19*Math.cos(rad(a)), x2:24*Math.sin(rad(a)), y2:6-24*Math.cos(rad(a))}, icS));
@@ -1574,6 +1607,15 @@
     const busDia = el('g', {class:'lume'}, svg);
     el('path', {d:`M ${SX-1.6},${SY+10} L ${SX-1},${SY-SR+26} L ${SX},${SY-SR+20} L ${SX+1},${SY-SR+26} L ${SX+1.6},${SY+10} Z`, fill:'url(#dMaFosc)'}, busDia);
     el('circle', {cx:SX, cy:SY, r:4, fill:'url(#dAcer)'}, svg);
+
+    // ---- Marc del dia i del mes d'avui: una finestra d'or sobre l'anell de dates i el dels mesos ----
+    const sector = (r1, r2, mig) => `M ${px(r2,-mig)} ${py(r2,-mig)} A ${r2} ${r2} 0 0 1 ${px(r2,mig)} ${py(r2,mig)} L ${px(r1,mig)} ${py(r1,mig)} A ${r1} ${r1} 0 0 0 ${px(r1,-mig)} ${py(r1,-mig)} Z`;
+    const marcAvui = el('g', {}, svg);
+    // ombra suau i dos marcs: el del dia (estret) i el del mes (ample), units
+    el('path', {d: sector(231, 261.5, 6.2), fill:'#ffe9a8', opacity:.22}, marcAvui);
+    el('path', {d: sector(231, 261.5, 6.2), fill:'none', stroke:'#b3261e', 'stroke-width':2.2, 'stroke-linejoin':'round'}, marcAvui);
+    el('path', {d: sector(263, 290, 15.4), fill:'none', stroke:'#ffe08a', 'stroke-width':3, 'stroke-linejoin':'round'}, marcAvui);
+    el('path', {d: sector(264.6, 288.4, 15.0), fill:'none', stroke:'#b3261e', 'stroke-width':1, 'stroke-linejoin':'round', opacity:.9}, marcAvui);
 
     // ---- Busca vermella de la data ----
     const busData = el('g', {filter:'url(#dOmbraMa)', class:'lume'}, svg);
@@ -1639,12 +1681,20 @@
     window.__animaLlunaC = () => posaFirmament(new Date(), true);
     window.__esferaCalC = function(ara){
       // mesos al bisell, en la llengua en curs
+      const angleData = (ara.getDate()-1)*360/31, girMesos = angleData - ara.getMonth()*30;
       textosMes.forEach(({t, tp}, i)=>{
-        tp.textContent = MESOS[i].toUpperCase();
-        t.setAttribute('font-size', MESOS[i].length > 9 ? 12.5 : 14.5);
+        const nom = MESOS[i].toUpperCase(), n = nom.length;
+        tp.textContent = nom;
+        t.setAttribute('font-size', n <= 6 ? 18 : n <= 8 ? 16.5 : n <= 9 ? 15 : 13.5);
+        // mes d'avui: daurat; la resta, marfil
+        t.setAttribute('fill', i === ara.getMonth() ? '#ffe08a' : '#f3e6c4');
+        // a la meitat de baix de l'esfera, el text va pel camí invers perquè es llegeixi dret
+        const ang = (((i*30 + girMesos) % 360) + 360) % 360, baix = ang > 90 && ang < 270;
+        const href = `#${baix ? 'dMesR' : 'dMes'}${i}`;
+        tp.setAttribute('href', href); tp.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', href);
       });
-      const angleData = (ara.getDate()-1)*360/31;
-      mesosG.setAttribute('transform', `rotate(${(angleData - ara.getMonth()*30).toFixed(2)} ${C} ${C})`);
+      mesosG.setAttribute('transform', `rotate(${girMesos.toFixed(2)} ${C} ${C})`);
+      marcAvui.setAttribute('transform', `rotate(${angleData.toFixed(2)} ${C} ${C})`);
       // data: busca vermella i xifra d'avui destacada
       const d = ara.getDate();
       busDataRot.setAttribute('transform', `rotate(${((d-1)*360/31).toFixed(2)} ${C} ${C})`);
@@ -1657,7 +1707,7 @@
         const esAvui = i === iAvui;
         let fons = 'none', color = i===5 ? '#1f6b4a' : i===6 ? '#a3261e' : '#2c241c';
         if (esAvui){
-          fons = (i===6 || fe) ? 'url(#cBurdeus)' : (i===5 ? 'url(#cMaragda)' : '#fffdf6');
+          fons = (i===6 || fe) ? 'url(#dBurdeusV)' : (i===5 ? 'url(#dMaragdaV)' : '#fffdf6');
           color = fons === '#fffdf6' ? '#2c241c' : '#f6ecd4';
         }
         fonsDia[i].setAttribute('fill', fons);
@@ -1686,10 +1736,20 @@
       else cos = nuvol(0,-8) + gotes(codi === 65 || codi === 82 ? 4 : 3);
       return `<g ${S}>${cos}</g>`;
     }
+    // La icona del temps es col·loca segons el seu dibuix real: centrada sobre la xifra i amb la base
+    // a la mateixa alçada que la del sol (així totes dues queden a la mateixa distància de la dada)
+    function ajustaIcT(){
+      try {
+        const s = 44/64, b = icT.getBBox(); if (!b.width) return;
+        icT.setAttribute('transform', `translate(${(C-128 - (b.x + b.width/2)*s).toFixed(2)} ${(C-8 - (b.y + b.height)*s).toFixed(2)}) scale(${s})`);
+      } catch(e){}
+    }
+    window.__ajustaIcT = ajustaIcT;
     window.__esferaCMeteo = function(m){
       const c = m.current || {}, dd = m.daily || {};
       if (c.temperature_2m != null) txtT.textContent = Math.round(c.temperature_2m) + '°';
       icT.innerHTML = iconaBlanca(c.weather_code ?? 0, c.is_day !== 0);
+      ajustaIcT();
       if (dd.sunrise && dd.sunset){
         const ara = new Date(), surt = new Date(dd.sunrise[0]), posta = new Date(dd.sunset[0]);
         const sortida = ara < surt || ara > posta;
@@ -1720,6 +1780,7 @@
   const I18N = {
     ca: {
       modeDia:'Mode diürn', modeNit:'Mode nocturn', modeNitFix:'Mode nocturn · pantalla sempre encesa', modeEtq:'Mode', tanca:'Tanca', midaNormal:'Mida normal',
+      alMobil:"Posa-la al rellotge del mòbil", drTitol:"Alarmes al rellotge de l'iPhone", drPassos:["Obre l'app Dreceres i crea una drecera nova (+).", "Afegeix-hi l'acció «Crear alarma» i, a «Hora», tria «Entrada de la drecera».", "Posa-li el nom exacte «Alarma República» i desa-la."], drObre:"Obre Dreceres", drFeta:"Ja la tinc: crea l'alarma", drNota:"Només cal fer-ho un cop. La repetició (feiners, cap de setmana…) es tria al rellotge del mòbil.",
       alarmes:'Alarmes', alarma:'Alarma', aturaAl:'Atura', posposa:'5 min més', repet:['Cada dia','Feiners','Cap de setmana','Un cop'], alPeu:"Sonen amb l'app oberta", alPropera:(d,h)=>`Propera: ${d} a les ${h}`, alCap:'Cap alarma activa', alActiva:'Activa',
       mesAnt:'Mes anterior', mesSeg:'Mes següent', campanades:'Campanades de les hores i els quarts', girar:"Rellotge: prem per girar l'esfera", condicions:'Condicions actuals', calInfo:'Calendari i informació', dobleToc:'Doble toc: tornar al mes actual',
       radio:'Ràdio', podcasts:'Podcasts', noticies:'Notícies', araSona:'Ara sona', directe:'en directe', carregant:'Carregant…',
@@ -1775,12 +1836,13 @@
     },
     oc: {
       modeDia:'Mòde de dia', modeNit:'Mòde de nuet', modeNitFix:'Mòde de nuet · pantalha tostemp alugada', modeEtq:'Mòde', tanca:'Barra', midaNormal:'Mida normau',
+      alMobil:"Botar-la en relòtge deth mobil", drTitol:"Alarmes en relòtge der iPhone", drPassos:["Daurís era aplicacion Dreceres e cree ua drecera naua (+).", "Ajusta-i era accion «Crear alarma» e, en «Ora», tria «Entrada dera drecera».", "Botar-li eth nòm exacte «Alarma República» e guarda-la."], drObre:"Daurís Dreceres", drFeta:"Ja la è: crea era alarma", drNota:"Sonque cau hèr-ho un còp. Era repeticion se tria en relòtge deth mobil.",
       alarmes:'Alarmes', alarma:'Alarma', aturaAl:'Arrèsta', posposa:'5 min mès', repet:['Cada dia','Dies de trabalh','Fin de setmana','Un còp'], alPeu:'Sonen damb era aplicacion dubèrta', alPropera:(d,h)=>`Seguenta: ${d} a ${h}`, alCap:"Cap d'alarma activa", alActiva:'Activa',
       mesAnt:'Mes anterior', mesSeg:'Mes seguent', campanades:'Campanades des ores e des quarts', girar:'Relòtge: tòca entà virar era esfèra', condicions:'Condicions actuaus', calInfo:'Calendari e informacion', dobleToc:'Dobla tòca: tornar ath mes actuau',
       radio:'Ràdio', podcasts:'Podcasts', noticies:'Actualitat', araSona:'Ara sone', directe:'en dirècte', carregant:'Cargant…',
       errNoticies:"Non s'an podut cargar es notícies.", errProgrames:"Non s'an podut cargar es programes.", obreWeb:'Dubrir eth web',
       actualitzat:h=>`actualizat a ${h}`, toastRadio:n=>`${n} non respon ara. Tòca-la un aute còp entà dubrir eth sòn web.`, toastPodcast:'Aguest programa non se pòt escotar ara.',
-      nom:'Occitan (aranés)', veu:'oc-ES', reserva:['ca','fr','es'], nums:'ca-ES', geo:'ca',
+      nom:'Aranés', veu:'oc-ES', reserva:['ca','fr','es'], nums:'ca-ES', geo:'ca',
       mesos:['gèr','hereuèr','març','abriu','mai','junh','julhet','agost','seteme','octòbre','noveme','deseme'],
       dies:['dimenge','deluns','dimars','dimèrcles','dijaus','diuendres','dissabte'],
       curts:['Dl','Dm','Dc','Dj','Dv','Ds','Dg'],
@@ -1813,6 +1875,7 @@
     },
     gl: {
       modeDia:'Modo diúrno', modeNit:'Modo nocturno', modeNitFix:'Modo nocturno · pantalla sempre acesa', modeEtq:'Modo', tanca:'Pechar', midaNormal:'Tamaño normal',
+      alMobil:"Pola no reloxo do móbil", drTitol:"Alarmas no reloxo do iPhone", drPassos:["Abre a app Atallos e crea un atallo novo (+).", "Engade a acción «Crear alarma» e, en «Hora», escolle «Entrada do atallo».", "Ponlle o nome exacto «Alarma República» e gárdao."], drObre:"Abrir Atallos", drFeta:"Xa o teño: crear a alarma", drNota:"Só cómpre facelo unha vez. A repetición escóllese no reloxo do móbil.",
       alarmes:'Alarmas', alarma:'Alarma', aturaAl:'Parar', posposa:'5 min máis', repet:['Todos os días','Laborables','Fin de semana','Unha vez'], alPeu:'Soan coa app aberta', alPropera:(d,h)=>`Seguinte: ${d} ás ${h}`, alCap:'Ningunha alarma activa', alActiva:'Activa',
       mesAnt:'Mes anterior', mesSeg:'Mes seguinte', campanades:'Badaladas das horas e dos cuartos', girar:'Reloxo: preme para xirar a esfera', condicions:'Condicións actuais', calInfo:'Calendario e información', dobleToc:'Dobre toque: volver ao mes actual',
       radio:'Radio', podcasts:'Podcasts', noticies:'Novas', araSona:'Agora soa', directe:'en directo', carregant:'Cargando…',
@@ -1851,6 +1914,7 @@
     },
     eu: {
       modeDia:'Egun modua', modeNit:'Gau modua', modeNitFix:'Gau modua · pantaila beti piztuta', modeEtq:'Modua', tanca:'Itxi', midaNormal:'Tamaina normala',
+      alMobil:"Jarri mugikorreko erlojuan", drTitol:"Alarmak iPhonearen erlojuan", drPassos:["Ireki Lasterbideak aplikazioa eta sortu lasterbide berri bat (+).", "Gehitu «Sortu alarma» ekintza eta, «Ordua» atalean, aukeratu «Lasterbidearen sarrera».", "Jarri izen hau zehazki: «Alarma República», eta gorde."], drObre:"Ireki Lasterbideak", drFeta:"Badut: sortu alarma", drNota:"Behin bakarrik egin behar da. Errepikapena mugikorreko erlojuan aukeratzen da.",
       alarmes:'Alarmak', alarma:'Alarma', aturaAl:'Gelditu', posposa:'5 min gehiago', repet:['Egunero','Lanegunetan','Asteburuan','Behin'], alPeu:'Aplikazioa irekita dagoenean jotzen dute', alPropera:(d,h)=>`Hurrengoa: ${d}, ${h}`, alCap:'Ez dago alarmarik aktibo', alActiva:'Aktibo',
       mesAnt:'Aurreko hilabetea', mesSeg:'Hurrengo hilabetea', campanades:'Orduen eta laurdenen kanpai-hotsak', girar:'Erlojua: sakatu esfera biratzeko', condicions:'Uneko baldintzak', calInfo:'Egutegia eta informazioa', dobleToc:'Ukitu bikoitza: uneko hilabetera itzuli',
       radio:'Irratia', podcasts:'Podcastak', noticies:'Albisteak', araSona:'Orain entzuten', directe:'zuzenean', carregant:'Kargatzen…',
@@ -1890,6 +1954,7 @@
     },
     fr: {
       modeDia:'Mode jour', modeNit:'Mode nuit', modeNitFix:'Mode nuit · écran toujours allumé', modeEtq:'Mode', tanca:'Fermer', midaNormal:'Taille normale',
+      alMobil:"L'ajouter à l'horloge du téléphone", drTitol:"Alarmes dans l'horloge de l'iPhone", drPassos:["Ouvrez l'app Raccourcis et créez un nouveau raccourci (+).", "Ajoutez l'action « Créer une alarme » et, pour « Heure », choisissez « Entrée du raccourci ».", "Nommez-le exactement « Alarma República » et enregistrez-le."], drObre:"Ouvrir Raccourcis", drFeta:"C'est fait : créer l'alarme", drNota:"À faire une seule fois. La répétition se règle dans l'horloge du téléphone.",
       alarmes:'Alarmes', alarma:'Alarme', aturaAl:'Arrêter', posposa:'5 min de plus', repet:['Tous les jours','En semaine','Le week-end','Une fois'], alPeu:"Elles sonnent quand l'app est ouverte", alPropera:(d,h)=>`Prochaine : ${d} à ${h}`, alCap:'Aucune alarme active', alActiva:'Active',
       mesAnt:'Mois précédent', mesSeg:'Mois suivant', campanades:'Carillon des heures et des quarts', girar:'Horloge : touchez pour tourner le cadran', condicions:'Conditions actuelles', calInfo:'Calendrier et informations', dobleToc:'Double touche : revenir au mois en cours',
       radio:'Radio', podcasts:'Podcasts', noticies:'Actualités', araSona:'En écoute', directe:'en direct', carregant:'Chargement…',
@@ -1924,6 +1989,7 @@
     },
     en: {
       modeDia:'Day mode', modeNit:'Night mode', modeNitFix:'Night mode · screen always on', modeEtq:'Mode', tanca:'Close', midaNormal:'Normal size',
+      alMobil:"Add it to the phone's clock", drTitol:"Alarms in the iPhone Clock", drPassos:["Open the Shortcuts app and create a new shortcut (+).", "Add the “Create Alarm” action and set “Time” to “Shortcut Input”.", "Name it exactly “Alarma República” and save it."], drObre:"Open Shortcuts", drFeta:"Done: create the alarm", drNota:"You only need to do this once. Repeat days are set in the phone's Clock.",
       alarmes:'Alarms', alarma:'Alarm', aturaAl:'Stop', posposa:'5 more min', repet:['Every day','Weekdays','Weekends','Once'], alPeu:'They ring while the app is open', alPropera:(d,h)=>`Next: ${d} at ${h}`, alCap:'No alarm set', alActiva:'On',
       mesAnt:'Previous month', mesSeg:'Next month', campanades:'Hour and quarter chimes', girar:'Clock: tap to turn the dial', condicions:'Current conditions', calInfo:'Calendar and information', dobleToc:'Double tap: back to the current month',
       radio:'Radio', podcasts:'Podcasts', noticies:'News', araSona:'Now playing', directe:'live', carregant:'Loading…',
@@ -1958,6 +2024,7 @@
     },
     de: {
       modeDia:'Tagmodus', modeNit:'Nachtmodus', modeNitFix:'Nachtmodus · Bildschirm bleibt an', modeEtq:'Modus', tanca:'Schließen', midaNormal:'Normalgröße',
+      alMobil:"In die Uhr des Handys übernehmen", drTitol:"Wecker in der iPhone-Uhr", drPassos:["Öffne die App Kurzbefehle und erstelle einen neuen Kurzbefehl (+).", "Füge die Aktion „Wecker erstellen“ hinzu und wähle bei „Uhrzeit“ die „Kurzbefehleingabe“.", "Nenne ihn genau „Alarma República“ und sichere ihn."], drObre:"Kurzbefehle öffnen", drFeta:"Erledigt: Wecker erstellen", drNota:"Nur einmal nötig. Wiederholungen stellst du in der Uhr des Handys ein.",
       alarmes:'Wecker', alarma:'Wecker', aturaAl:'Stopp', posposa:'5 Min. später', repet:['Täglich','Werktags','Wochenende','Einmal'], alPeu:'Klingeln, solange die App geöffnet ist', alPropera:(d,h)=>`Nächster: ${d}, ${h}`, alCap:'Kein Wecker aktiv', alActiva:'Aktiv',
       mesAnt:'Vorheriger Monat', mesSeg:'Nächster Monat', campanades:'Stunden- und Viertelstundenschlag', girar:'Uhr: tippen, um das Zifferblatt zu drehen', condicions:'Aktuelle Bedingungen', calInfo:'Kalender und Informationen', dobleToc:'Doppeltippen: zurück zum aktuellen Monat',
       radio:'Radio', podcasts:'Podcasts', noticies:'Nachrichten', araSona:'Jetzt läuft', directe:'live', carregant:'Wird geladen…',
@@ -1987,6 +2054,7 @@
     },
     it: {
       modeDia:'Modalità giorno', modeNit:'Modalità notte', modeNitFix:'Modalità notte · schermo sempre acceso', modeEtq:'Modalità', tanca:'Chiudi', midaNormal:'Dimensione normale',
+      alMobil:"Aggiungila all'orologio del telefono", drTitol:"Sveglie nell'Orologio dell'iPhone", drPassos:["Apri l'app Comandi e crea un nuovo comando (+).", "Aggiungi l'azione «Crea sveglia» e, in «Ora», scegli «Input comando».", "Chiamalo esattamente «Alarma República» e salvalo."], drObre:"Apri Comandi", drFeta:"Fatto: crea la sveglia", drNota:"Basta farlo una volta. La ripetizione si sceglie nell'orologio del telefono.",
       alarmes:'Sveglie', alarma:'Sveglia', aturaAl:'Ferma', posposa:'5 min ancora', repet:['Ogni giorno','Feriali','Fine settimana','Una volta'], alPeu:"Suonano con l'app aperta", alPropera:(d,h)=>`Prossima: ${d} alle ${h}`, alCap:'Nessuna sveglia attiva', alActiva:'Attiva',
       mesAnt:'Mese precedente', mesSeg:'Mese successivo', campanades:'Rintocchi delle ore e dei quarti', girar:'Orologio: tocca per girare il quadrante', condicions:'Condizioni attuali', calInfo:'Calendario e informazioni', dobleToc:'Doppio tocco: torna al mese corrente',
       radio:'Radio', podcasts:'Podcast', noticies:'Notizie', araSona:'In ascolto', directe:'in diretta', carregant:'Caricamento…',
@@ -2021,6 +2089,7 @@
     },
     pt: {
       modeDia:'Modo diurno', modeNit:'Modo noturno', modeNitFix:'Modo noturno · ecrã sempre ligado', modeEtq:'Modo', tanca:'Fechar', midaNormal:'Tamanho normal',
+      alMobil:"Pôr no relógio do telemóvel", drTitol:"Alarmes no Relógio do iPhone", drPassos:["Abra a app Atalhos e crie um atalho novo (+).", "Adicione a ação «Criar alarme» e, em «Hora», escolha «Entrada do atalho».", "Dê-lhe o nome exato «Alarma República» e guarde-o."], drObre:"Abrir Atalhos", drFeta:"Já está: criar o alarme", drNota:"Só é preciso fazê-lo uma vez. A repetição escolhe-se no relógio do telemóvel.",
       alarmes:'Alarmes', alarma:'Alarme', aturaAl:'Parar', posposa:'Mais 5 min', repet:['Todos os dias','Dias úteis','Fim de semana','Uma vez'], alPeu:'Tocam com a app aberta', alPropera:(d,h)=>`Próximo: ${d} às ${h}`, alCap:'Nenhum alarme ativo', alActiva:'Ativo',
       mesAnt:'Mês anterior', mesSeg:'Mês seguinte', campanades:'Badaladas das horas e dos quartos', girar:'Relógio: toque para rodar o mostrador', condicions:'Condições atuais', calInfo:'Calendário e informação', dobleToc:'Toque duplo: voltar ao mês atual',
       radio:'Rádio', podcasts:'Podcasts', noticies:'Notícias', araSona:'A tocar', directe:'em direto', carregant:'A carregar…',
@@ -2329,6 +2398,7 @@
     const seguent = ESFERES[(esferaActual + 1) % ESFERES.length];
     const amagada = cares[1 - visible];
     if (amagada.firstElementChild !== seguent) amagada.replaceChildren(seguent);
+    if (window.__ajustaIcT) requestAnimationFrame(window.__ajustaIcT);
     ESFERES.forEach(s => { if (!s.isConnected) magatzem.appendChild(s); });
   }
   preparaAmagada();
@@ -3240,10 +3310,43 @@
         int.addEventListener('click', () => { a.on = !a.on; desa(); pinta(); });
         hora.addEventListener('change', () => { if (hora.value){ a.h = hora.value; a.on = true; desa(); pinta(); } });
         rep.addEventListener('click', () => { a.rep = REP[(REP.indexOf(a.rep) + 1) % REP.length]; desa(); pinta(); });
-        fila.append(int, hora, rep); box.appendChild(fila);
+        const mob = document.createElement('button'); mob.type = 'button'; mob.className = 'al-mobil';
+        mob.setAttribute('aria-label', L.alMobil); mob.title = L.alMobil; mob.hidden = !(esIOS || esAndroid);
+        mob.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><circle cx="12" cy="12" r="3.6"/><path d="M12 10.2V12l1.2 1"/></svg>';
+        mob.addEventListener('click', () => alMobil(a));
+        fila.append(int, hora, rep, mob); box.appendChild(fila);
       });
       pintaPeu();
     }
+    // ---- Passar l'alarma al rellotge del mòbil (sona amb el mòbil bloquejat i l'app tancada) ----
+    const esIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const esAndroid = /Android/i.test(navigator.userAgent);
+    const DRECERA = 'Alarma República';
+    const CLAU_DR = 'republica-drecera';
+    let pendent = null;
+    const obre = url => { window.location.href = url; };
+    function creaIOS(a){ obre(`shortcuts://run-shortcut?name=${encodeURIComponent(DRECERA)}&input=text&text=${encodeURIComponent(a.h)}`); }
+    function alMobil(a){
+      if (esAndroid){
+        // Android: l'app Rellotge s'obre amb l'hora i el nom ja posats
+        const [hh, mm] = a.h.split(':').map(Number);
+        obre(`intent:#Intent;action=android.intent.action.SET_ALARM;i.android.intent.extra.alarm.HOUR=${hh};i.android.intent.extra.alarm.MINUTES=${mm};S.android.intent.extra.alarm.MESSAGE=${encodeURIComponent('República')};end`);
+        return;
+      }
+      if (!esIOS) return;
+      let feta = false; try { feta = localStorage.getItem(CLAU_DR) === '1'; } catch(e){}
+      if (feta){ creaIOS(a); return; }
+      // primer cop: com crear la drecera
+      pendent = a;
+      $('drTitol').textContent = L.drTitol;
+      $('drPassos').innerHTML = ''; L.drPassos.forEach(p => { const li = document.createElement('li'); li.textContent = p; $('drPassos').appendChild(li); });
+      $('drNota').textContent = L.drNota; $('drObre').textContent = L.drObre; $('drFeta').textContent = L.drFeta;
+      $('alDrecera').hidden = false;
+    }
+    $('drObre').addEventListener('click', () => obre('shortcuts://create-shortcut'));
+    $('drFeta').addEventListener('click', () => { try { localStorage.setItem(CLAU_DR, '1'); } catch(e){} $('alDrecera').hidden = true; if (pendent) creaIOS(pendent); pendent = null; });
+    $('drTanca').addEventListener('click', () => { $('alDrecera').hidden = true; pendent = null; });
+
     // Sona: la melodia d'Els Segadors repetida, i l'hora dita en veu alta; s'atura sola als 3 minuts
     let sonant = null, posposada = null;
     function sona(etiqueta){

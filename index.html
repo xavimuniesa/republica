@@ -442,6 +442,19 @@
   .fe-dies span{ font-family:'Cinzel', serif; font-size: min(4cqh, 2.6cqw); letter-spacing:.1em; text-transform:uppercase; color:#8a5536; }
   .fe-fila.festa .fe-dies b{ font-size: min(7cqh, 4.6cqw); }
   html.nit .fe-fila{ background:transparent !important; box-shadow: inset 0 0 0 1px rgba(255,90,31,.45) !important; }
+  /* ---- Lletra més gran a les finestres de baix ---- */
+  .h12 .hh{ font-size: min(6.2cqh, 4cqw); } .h12 .tt{ font-size: min(9.6cqh, 6cqw); } .h12 .pp{ font-size: min(5cqh, 3.2cqw); }
+  .d5 .dd{ font-size: min(8cqh, 5cqw); } .d5 .mn, .d5 .mx{ font-size: min(8.8cqh, 5.5cqw); }
+  .ef-etq{ font-size: min(5.4cqh, 3.5cqw); } .ef-sant{ font-size: min(9cqh, 5.8cqw); } .ef-text{ font-size: min(8.2cqh, 5.1cqw); -webkit-line-clamp:4; }
+  .sl-nom{ font-size: min(8cqh, 5.2cqw); } .sl-fila{ font-size: min(5.2cqh, 3.4cqw); } .sl-fila b{ font-size: min(9.6cqh, 6.2cqw); } .sl-nota{ font-size: min(6.2cqh, 4cqw); }
+  .fe-nom{ font-size: min(8.2cqh, 5.1cqw); } .fe-data{ font-size: min(5.8cqh, 3.8cqw); } .fe-dies b{ font-size: min(11cqh, 7cqw); } .fe-dies span{ font-size: min(4.6cqh, 3cqw); }
+  .n-txt{ font-size: min(8.2cqh, 5cqw); } .n-num{ font-size: min(6.8cqh, 4.2cqw); }
+  .r-nom{ font-size: min(8.4cqh, 5.2cqw); } .r-sub{ font-size: min(5.8cqh, 3.7cqw); }
+  .p-dia{ font-size: min(7.6cqh, 4.8cqw); } .p-data{ font-size: min(5.2cqh, 3.3cqw); } .p-titol-txt{ font-size: min(6.6cqh, 4.2cqw); }
+  .avisos li{ font-size: min(8.4cqh, 5.1cqw); } .avisos-peu, .m-peu{ font-size: min(5cqh, 3.2cqw); }
+  .d-cara .d-detall{ font-size: min(6.8cqh, 4cqw); } .t-desc{ font-size: min(11cqh, 7cqw); } .t-detall{ font-size: min(6cqh, 3.7cqw); } .t-detall b, .l-fila b{ font-size: min(11cqh, 6.6cqw); }
+  .l-regio{ font-size: min(10cqh, 6.4cqw); } .l-fila{ font-size: min(6cqh, 3.7cqw); }
+  .al-rep{ font-size: min(6cqh, 3.6cqw); }
   /* Punts indicadors (vertical) */
   .pager-punts{ position:absolute; right:-1px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:6px; z-index:5; pointer-events:none; }
   .pager-punts span{ width:5px; height:5px; border-radius:50%; background: rgba(60,35,10,.45); box-shadow: 0 0 0 1px rgba(255,235,200,.35); transition: all .3s; }
@@ -1197,7 +1210,7 @@
 
     filtreOmbra(defs, 'aOmbraMa', 4, 7, 3, .45);
 
-    // Corona bisellada esglaonada (la mateixa de BLANCPAIN), en coure vell enfosquit
+    // Corona bisellada esglaonada (la mateixa de CAPITAINE), en coure vell enfosquit
     gradient(defs, 'linearGradient', 'aCoure', {x1:'0', y1:'0', x2:'0.35', y2:'1'}, [['0%','#d6a77f'],['30%','#a36a45'],['62%','#6e4127'],['100%','#331a0c']]);
     gradient(defs, 'linearGradient', 'aCoureInv', {x1:'0.35', y1:'1', x2:'0', y2:'0'}, [['0%','#c99772'],['35%','#8a5636'],['70%','#55301b'],['100%','#28140a']]);
     const fCV = el('filter', {id:'aCoureVell', x:'0', y:'0', width:'100%', height:'100%'}, defs);
@@ -1259,14 +1272,14 @@
       el('path', {d:'M 0,-8 L 5,4 L 0,1.5 L -5,4 Z', transform:`translate(${px(254,a)} ${py(254,a)}) rotate(${a})`, stroke:'none', fill:'#1a1209', class:'lume'}, tinta);
     }
     numeralRomans(tinta, 194, 66, {stroke:'none', fill:'#1a1209'}, {sx:0.7, sy:1.22, ls:-2}).classList.add('lume');
-    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de BLANCPAIN
+    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de CAPITAINE
     const marcaA = el('g', {transform:`translate(${C} ${C+82}) scale(0.72 1.18)`}, tinta);
     el('text', {x:0, y:0, 'text-anchor':'middle', 'dominant-baseline':'central', 'font-family':'Cinzel, serif', 'font-weight':700,
       'font-size':38, 'letter-spacing':-1, stroke:'none', fill:'#1a1209'}, marcaA).textContent = 'XM';
     el('line', {x1:C-22, y1:C+108, x2:C+22, y2:C+108, stroke:'#1a1209', 'stroke-width':.9}, tinta);
     el('path', {d:`M ${C},${C+105} L ${C+3},${C+108} L ${C},${C+111} L ${C-3},${C+108} Z`, stroke:'none', fill:'#1a1209'}, tinta);
 
-    // ---- Visor del dia de la setmana (com el de BLANCPAIN, però amb fons de pergamí) ----
+    // ---- Visor del dia de la setmana (com el de CAPITAINE, però amb fons de pergamí) ----
     const AX = C-80, AY = C-114, AW = 160, AH = 34;
     gradient(defs, 'linearGradient', 'aVisorPaper', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#f1dcae'],['55%','#e6c993'],['100%','#d4b072']]);
     gradient(defs, 'linearGradient', 'aOmbraVisor', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2a1604',.42],['24%','#2a1604',0],['80%','#2a1604',0],['100%','#2a1604',.28]]);
@@ -1412,10 +1425,23 @@
     el('rect', {x:FX, y:FY, width:FW, height:FH, fill:'url(#cOmbraFin)'}, finestraDia);
     gradient(defs, 'linearGradient', 'cOmbraFin', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2a1a08',.38],['22%','#2a1a08',0],['80%','#2a1a08',0],['100%','#2a1a08',.25]]);
 
+    // ---- Lupa (cíclope) sobre la data, sota les XII: el número d'avui ampliat sota un vidre amb bisell d'or rosa ----
+    const LX = C, LY = C - 178, LR = 21;
+    gradient(defs, 'radialGradient', 'cVidreLupa', {cx:'35%', cy:'28%', r:'75%'}, [['0%','#ffffff',.75],['35%','#ffffff',.18],['70%','#ffffff',0],['100%','#7a5a3a',.18]]);
+    gradient(defs, 'radialGradient', 'cFonsLupa', {cx:'50%', cy:'45%', r:'60%'}, [['0%','#fffdf6'],['80%','#f3ead6'],['100%','#d9c9a8']]);
+    const lupa = el('g', {filter:'url(#cOmbraMa)'}, svg);
+    el('circle', {cx:LX, cy:LY, r:LR+3.5, fill:'url(#cOrRosa)'}, lupa);
+    el('circle', {cx:LX, cy:LY, r:LR+1.2, fill:'url(#cOrRosaInv)'}, lupa);
+    const lupaInt = el('g', {}, svg);
+    el('circle', {cx:LX, cy:LY, r:LR, fill:'url(#cFonsLupa)'}, lupaInt);
+    const lupaNum = el('text', {class:'nit-txt', x:LX, y:LY+1.5, 'text-anchor':'middle', 'dominant-baseline':'central',
+      'font-family':'Cormorant Garamond, serif', 'font-weight':700, 'font-size':31, fill:'#7a1a16'}, lupaInt);
+    el('circle', {cx:LX, cy:LY, r:LR, fill:'url(#cVidreLupa)'}, lupaInt);
+    el('path', {d:`M ${LX-13} ${LY-9} A 16 16 0 0 1 ${LX+2} ${LY-17}`, fill:'none', stroke:'#ffffff', 'stroke-width':2.2, 'stroke-linecap':'round', opacity:.8}, lupaInt);
     // ---- Nom de la casa, imprès a l'esfera ----
     const nomCasa = el('text', {x:C, y:C-58, 'text-anchor':'middle', 'dominant-baseline':'central',
       'font-family':'Cinzel, serif', 'font-weight':700, 'font-size':17, 'letter-spacing':2.2, fill:'#2c241c'}, svg);
-    nomCasa.textContent = 'BLANCPAIN';
+    nomCasa.textContent = 'CAPITAINE';
     el('line', {x1:C-26, y1:C-45, x2:C+26, y2:C-45, stroke:'#b97752', 'stroke-width':.9}, svg);
     el('path', {d:`M ${C},${C-48} L ${C+3},${C-45} L ${C},${C-42} L ${C-3},${C-45} Z`, fill:'url(#cOrRosa)'}, svg);
 
@@ -1512,6 +1538,7 @@
       };
       if (angleDataActual === null || anim) animaAngle(objectiu + 3*360/31, objectiu, 2600, aplicaData); else if (angleDataActual !== objectiu) animaAngle(angleDataActual, objectiu, 1200, aplicaData);
       angleDataActual = objectiu;
+      lupaNum.textContent = d;
       textosData.forEach((t,i)=>{ const avui = (i+1)===d; t.setAttribute('fill', avui ? '#7a1a16' : '#2c241c'); t.setAttribute('font-size', avui ? 20 : 17); });
       // dia de la setmana, amb color segons sigui dissabte, diumenge o festiu
       const nom = diesEsfera()[ara.getDay()];
@@ -1566,7 +1593,7 @@
     gradient(defs, 'radialGradient', 'dLluna', {cx:'40%', cy:'35%', r:'70%'}, [['0%','#fbfbf7'],['55%','#d9dad6'],['100%','#9c9fa3']]);
     gradient(defs, 'radialGradient', 'dCrater', {cx:'45%', cy:'40%', r:'60%'}, [['0%','#8e9195',.55],['70%','#a9acaf',.35],['100%','#ffffff',.25]]);
     gradient(defs, 'radialGradient', 'dOmbraInt', {cx:'50%', cy:'50%', r:'50%'}, [['84%','#3a2a14',0],['96%','#3a2a14',.22],['100%','#2a1a08',.5]]);
-    // Verd maragda: el mateix dels dissabtes a la finestra de BLANCPAIN
+    // Verd maragda: el mateix dels dissabtes a la finestra de CAPITAINE
     gradient(defs, 'linearGradient', 'dMaragdaV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#1f8a64'],['50%','#0f6b4c'],['100%','#094a35']]);
     gradient(defs, 'linearGradient', 'dBurdeusV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#9a2a24'],['50%','#7a1a16'],['100%','#55100e']]);
     gradient(defs, 'radialGradient', 'dVerd', {cx:'300', cy:'240', r:'320', gradientUnits:'userSpaceOnUse'}, [['0%','#1f8a64'],['60%','#0f6b4c'],['100%','#094a35']]);
@@ -1640,7 +1667,7 @@
     const turons = `A ${HR} ${HR} 0 0 0 ${C} ${CUSP} A ${HR} ${HR} 0 0 0 ${px(226,-angE)} ${py(226,-angE)}`;
     el('path', {d:`M ${px(226,-angE)} ${py(226,-angE)} A 226 226 0 0 1 ${px(226,angE)} ${py(226,angE)} ${turons} Z`}, clipCel);
     const cel = el('g', {'clip-path':'url(#dClipCel)'}, svg);
-    // Disc del firmament: gira mitja volta per llunació (com el de BLANCPAIN); la lluna plena passa sota el 12
+    // Disc del firmament: gira mitja volta per llunació (com el de CAPITAINE); la lluna plena passa sota el 12
     const firmament = el('g', {}, cel);
     el('circle', {cx:C, cy:C, r:228, fill:'url(#dCel)'}, firmament);
     gradient(defs, 'radialGradient', 'dViaLactia', {cx:'50%', cy:'50%', r:'50%'}, [['0%','#9fb4ff',.18],['100%','#9fb4ff',0]]);
@@ -1651,7 +1678,7 @@
       if (s > 0.9) el('path', {d:'M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z', transform:`translate(${px(r,a).toFixed(1)} ${py(r,a).toFixed(1)}) scale(${(0.6+s*0.5).toFixed(2)})`, fill:'#fffbe8', class:'estel', style:`animation-delay:${(i*0.37)%2.6}s`}, firmament);
       else el('circle', {cx:px(r,a).toFixed(1), cy:py(r,a).toFixed(1), r:(0.4+s*1.1).toFixed(2), fill:'#ffffff', opacity:(0.35+s*0.6).toFixed(2)}, firmament);
     }
-    // estels grossos amb raigs, com els de BLANCPAIN, repartits pel cel
+    // estels grossos amb raigs, com els de CAPITAINE, repartits pel cel
     [[-150,-40,1.4],[-95,-120,1.1],[30,-150,1.25],[120,-95,1.0],[160,20,1.3],[95,110,1.1],[-20,160,1.2],[-120,95,1.0],[-60,40,.8],[60,-30,.85],[-170,60,.9],[150,-150,.8]].forEach(([x,y,s],i)=>{
       el('path', {d:'M0,-7 L1.4,-1.4 L7,0 L1.4,1.4 L0,7 L-1.4,1.4 L-7,0 L-1.4,-1.4 Z', transform:`translate(${C+x} ${C+y}) scale(${s})`, fill:'#fff6da', class:'estel', style:`animation-delay:${(i*0.53)%2.6}s`}, firmament);
     });
@@ -1806,7 +1833,7 @@
       const d = ara.getDate();
       busDataRot.setAttribute('transform', `rotate(${((d-1)*360/31).toFixed(2)} ${C} ${C})`);
       textosData.forEach((t,i)=> t.setAttribute('fill', (i+1)===d ? '#b3261e' : '#2c241c'));
-      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de BLANCPAIN
+      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de CAPITAINE
       const iAvui = (ara.getDay()+6)%7;
       const fe = festiu(ara);
       textosDia.forEach((t,i)=>{
@@ -3391,6 +3418,7 @@
       let sant = linies.length ? linies.slice(0, 2).join(' · ') : '';
       sant = sant.replace(/^(santoral|onomàstica|onomástica|santos|santi|saints|namenstage?|heilige)\s*:\s*/i, '');
       if (sant.length > 140) sant = sant.slice(0, 137).replace(/\s\S*$/, '') + '…';
+      if (sant) sant = sant.charAt(0).toUpperCase() + sant.slice(1);
       return { fet: fet ? { any: fet[1], text: fet[2] } : null, sant };
     }
     let santToken = 0;

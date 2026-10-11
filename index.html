@@ -454,6 +454,24 @@
   .avisos li{ font-size: min(8.4cqh, 5.1cqw); } .avisos-peu, .m-peu{ font-size: min(5cqh, 3.2cqw); }
   .d-cara .d-detall{ font-size: min(6.8cqh, 4cqw); } .t-desc{ font-size: min(11cqh, 7cqw); } .t-detall{ font-size: min(6cqh, 3.7cqw); } .t-detall b, .l-fila b{ font-size: min(11cqh, 6.6cqw); }
   .l-regio{ font-size: min(10cqh, 6.4cqw); } .l-fila{ font-size: min(6cqh, 3.7cqw); }
+  /* ---- v43: data en xifres d'època, sense títols als panells, lletra més gran ---- */
+  .d-num, .d-any{ font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; }
+  .d-cara .d-num{ font-size: min(54cqh, 32cqw); line-height:.95; padding-bottom:0; }
+  .d-fila{ gap: 6cqw; }
+  .d-setmana{ font-size: min(15cqh, 9.4cqw); }
+  .d-mes{ font-size: min(12.5cqh, 7.8cqw); }
+  .d-any{ font-family:'Cormorant Garamond', serif; font-weight:700; font-size: min(15cqh, 9cqw); letter-spacing:.04em; line-height:1; color:#8a5536; margin-top:1.2cqh;
+          text-shadow: 0 1px 0 #fff, 1px 2px 0 rgba(185,119,82,.3); }
+  .d-cara .d-detall{ font-size: min(7.4cqh, 4.4cqw); }
+  .ef-bloc{ margin-top: 3cqh; } .ef-bloc:first-child{ margin-top:0; }
+  .ef-etq{ font-size: min(6cqh, 3.9cqw); } .ef-sant{ font-size: min(10.5cqh, 6.6cqw); } .ef-text{ font-size: min(9.2cqh, 5.7cqw); -webkit-line-clamp:5; }
+  .sl-ic{ width: min(21cqh, 14cqw); height: min(21cqh, 14cqw); }
+  .sl-nom{ font-size: min(9.4cqh, 6cqw); } .sl-fila{ font-size: min(6cqh, 3.9cqw); } .sl-fila b{ font-size: min(11cqh, 7cqw); } .sl-nota{ font-size: min(7cqh, 4.5cqw); }
+  .fe-nom{ font-size: min(9cqh, 5.6cqw); } .fe-data{ font-size: min(6.4cqh, 4.1cqw); } .fe-dies b{ font-size: min(12cqh, 7.6cqw); } .fe-dies span{ font-size: min(5cqh, 3.3cqw); }
+  .n-txt{ font-size: min(9cqh, 5.5cqw); } .n-num{ font-size: min(7.4cqh, 4.6cqw); }
+  .ll-pane.n-pane{ justify-content:flex-start; padding: 6px 10px 20px; }
+  .n-pane .full-titol{ margin-bottom: 2cqh; flex:0 0 auto; }
+  .n-pane .m-peu{ margin-top: 1cqh; letter-spacing:.03em; font-size: min(4.6cqh, 2.9cqw); white-space:normal; text-overflow:clip; text-align:center; line-height:1.3; }
   .al-rep{ font-size: min(6cqh, 3.6cqw); }
   /* Punts indicadors (vertical) */
   .pager-punts{ position:absolute; right:-1px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:6px; z-index:5; pointer-events:none; }
@@ -987,16 +1005,13 @@
               <div class="d-peu">
                 <div class="d-detall" id="fDetall">—</div>
                 <div class="d-detall" id="fFase">—</div>
-                <div class="d-detall" id="fSol">—</div>
               </div>
              </div>
              <div class="ll-pane">
-              <div class="full-titol" data-i18n="tdc">Tal dia com avui</div>
               <div class="ef-bloc" id="fSantBloc"><div class="ef-etq" data-i18n="sant">Sant del dia</div><div class="ef-sant" id="fSant">—</div></div>
               <div class="ef-bloc"><div class="ef-etq" id="fEfemEtq" data-i18n="efem">Efemèride</div><div class="ef-text" id="fEfem" data-i18n="carregant">Carregant…</div></div>
              </div>
              <div class="ll-pane">
-              <div class="full-titol" data-i18n="tsl">Sol i lluna</div>
               <div class="sl-graella">
                 <div class="sl-col">
                   <svg class="sl-ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="9" fill="url(#gSolSL)" stroke="#8a5536" stroke-width="1.4"/><g stroke="#b97752" stroke-width="2.4" stroke-linecap="round"><path d="M24 4v6M24 38v6M4 24h6M38 24h6M9.9 9.9l4.2 4.2M33.9 33.9l4.2 4.2M9.9 38.1l4.2-4.2M33.9 14.1l4.2-4.2"/></g><defs><radialGradient id="gSolSL" cx="35%" cy="30%" r="70%"><stop offset="0%" stop-color="#fff0de"/><stop offset="50%" stop-color="#e3a983"/><stop offset="100%" stop-color="#9a5e3c"/></radialGradient></defs></svg>
@@ -1022,7 +1037,7 @@
 
           <div class="full">
             <div class="full-marc"><div class="full-cara m-cara">
-              <div class="full-titol" data-i18n="tfe">Properes festes</div>
+              <div class="full-titol" data-i18n="tfe">Properament</div>
               <div class="fe-llista" id="fFestes"></div>
             </div></div>
           </div>
@@ -1069,10 +1084,18 @@
           </div>
 
           <div class="full">
-            <div class="full-marc"><div class="full-cara m-cara">
+            <div class="full-marc"><div class="full-cara amb-ll">
+             <div class="lliscador" id="llNot"><div class="ll-pista">
+             <div class="ll-pane n-pane">
               <div class="full-titol" data-i18n="noticies">Notícies</div>
               <div class="n-llista" id="mNoticies"></div>
               <div class="m-peu" id="nPeu"></div>
+             </div>
+             <div class="ll-pane n-pane">
+              <div class="n-llista" id="mNoticies2"></div>
+              <div class="m-peu" id="nPeu2"></div>
+             </div>
+             </div><div class="ll-punts"></div></div>
             </div></div>
           </div>
 
@@ -1210,7 +1233,7 @@
 
     filtreOmbra(defs, 'aOmbraMa', 4, 7, 3, .45);
 
-    // Corona bisellada esglaonada (la mateixa de BLANCPAIN), en coure vell enfosquit
+    // Corona bisellada esglaonada (la mateixa de CAPITAINE), en coure vell enfosquit
     gradient(defs, 'linearGradient', 'aCoure', {x1:'0', y1:'0', x2:'0.35', y2:'1'}, [['0%','#d6a77f'],['30%','#a36a45'],['62%','#6e4127'],['100%','#331a0c']]);
     gradient(defs, 'linearGradient', 'aCoureInv', {x1:'0.35', y1:'1', x2:'0', y2:'0'}, [['0%','#c99772'],['35%','#8a5636'],['70%','#55301b'],['100%','#28140a']]);
     const fCV = el('filter', {id:'aCoureVell', x:'0', y:'0', width:'100%', height:'100%'}, defs);
@@ -1272,14 +1295,14 @@
       el('path', {d:'M 0,-8 L 5,4 L 0,1.5 L -5,4 Z', transform:`translate(${px(254,a)} ${py(254,a)}) rotate(${a})`, stroke:'none', fill:'#1a1209', class:'lume'}, tinta);
     }
     numeralRomans(tinta, 194, 66, {stroke:'none', fill:'#1a1209'}, {sx:0.7, sy:1.22, ls:-2}).classList.add('lume');
-    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de BLANCPAIN
+    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de CAPITAINE
     const marcaA = el('g', {transform:`translate(${C} ${C+82}) scale(0.72 1.18)`}, tinta);
     el('text', {x:0, y:0, 'text-anchor':'middle', 'dominant-baseline':'central', 'font-family':'Cinzel, serif', 'font-weight':700,
       'font-size':38, 'letter-spacing':-1, stroke:'none', fill:'#1a1209'}, marcaA).textContent = 'XM';
     el('line', {x1:C-22, y1:C+108, x2:C+22, y2:C+108, stroke:'#1a1209', 'stroke-width':.9}, tinta);
     el('path', {d:`M ${C},${C+105} L ${C+3},${C+108} L ${C},${C+111} L ${C-3},${C+108} Z`, stroke:'none', fill:'#1a1209'}, tinta);
 
-    // ---- Visor del dia de la setmana (com el de BLANCPAIN, però amb fons de pergamí) ----
+    // ---- Visor del dia de la setmana (com el de CAPITAINE, però amb fons de pergamí) ----
     const AX = C-80, AY = C-114, AW = 160, AH = 34;
     gradient(defs, 'linearGradient', 'aVisorPaper', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#f1dcae'],['55%','#e6c993'],['100%','#d4b072']]);
     gradient(defs, 'linearGradient', 'aOmbraVisor', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2a1604',.42],['24%','#2a1604',0],['80%','#2a1604',0],['100%','#2a1604',.28]]);
@@ -1441,7 +1464,7 @@
     // ---- Nom de la casa, imprès a l'esfera ----
     const nomCasa = el('text', {x:C, y:C-58, 'text-anchor':'middle', 'dominant-baseline':'central',
       'font-family':'Cinzel, serif', 'font-weight':700, 'font-size':17, 'letter-spacing':2.2, fill:'#2c241c'}, svg);
-    nomCasa.textContent = 'BLANCPAIN';
+    nomCasa.textContent = 'CAPITAINE';
     el('line', {x1:C-26, y1:C-45, x2:C+26, y2:C-45, stroke:'#b97752', 'stroke-width':.9}, svg);
     el('path', {d:`M ${C},${C-48} L ${C+3},${C-45} L ${C},${C-42} L ${C-3},${C-45} Z`, fill:'url(#cOrRosa)'}, svg);
 
@@ -1593,7 +1616,7 @@
     gradient(defs, 'radialGradient', 'dLluna', {cx:'40%', cy:'35%', r:'70%'}, [['0%','#fbfbf7'],['55%','#d9dad6'],['100%','#9c9fa3']]);
     gradient(defs, 'radialGradient', 'dCrater', {cx:'45%', cy:'40%', r:'60%'}, [['0%','#8e9195',.55],['70%','#a9acaf',.35],['100%','#ffffff',.25]]);
     gradient(defs, 'radialGradient', 'dOmbraInt', {cx:'50%', cy:'50%', r:'50%'}, [['84%','#3a2a14',0],['96%','#3a2a14',.22],['100%','#2a1a08',.5]]);
-    // Verd maragda: el mateix dels dissabtes a la finestra de BLANCPAIN
+    // Verd maragda: el mateix dels dissabtes a la finestra de CAPITAINE
     gradient(defs, 'linearGradient', 'dMaragdaV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#1f8a64'],['50%','#0f6b4c'],['100%','#094a35']]);
     gradient(defs, 'linearGradient', 'dBurdeusV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#9a2a24'],['50%','#7a1a16'],['100%','#55100e']]);
     gradient(defs, 'radialGradient', 'dVerd', {cx:'300', cy:'240', r:'320', gradientUnits:'userSpaceOnUse'}, [['0%','#1f8a64'],['60%','#0f6b4c'],['100%','#094a35']]);
@@ -1670,7 +1693,7 @@
     const turons = `A ${HR} ${HR} 0 0 0 ${C} ${CUSP} A ${HR} ${HR} 0 0 0 ${px(226,-angE)} ${py(226,-angE)}`;
     el('path', {d:`M ${px(226,-angE)} ${py(226,-angE)} A 226 226 0 0 1 ${px(226,angE)} ${py(226,angE)} ${turons} Z`}, clipCel);
     const cel = el('g', {'clip-path':'url(#dClipCel)'}, svg);
-    // Disc del firmament: gira mitja volta per llunació (com el de BLANCPAIN); la lluna plena passa sota el 12
+    // Disc del firmament: gira mitja volta per llunació (com el de CAPITAINE); la lluna plena passa sota el 12
     const firmament = el('g', {}, cel);
     el('circle', {cx:C, cy:C, r:228, fill:'url(#dCel)'}, firmament);
     gradient(defs, 'radialGradient', 'dViaLactia', {cx:'50%', cy:'50%', r:'50%'}, [['0%','#9fb4ff',.18],['100%','#9fb4ff',0]]);
@@ -1681,7 +1704,7 @@
       if (s > 0.9) el('path', {d:'M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z', transform:`translate(${px(r,a).toFixed(1)} ${py(r,a).toFixed(1)}) scale(${(0.6+s*0.5).toFixed(2)})`, fill:'#fffbe8', class:'estel', style:`animation-delay:${(i*0.37)%2.6}s`}, firmament);
       else el('circle', {cx:px(r,a).toFixed(1), cy:py(r,a).toFixed(1), r:(0.4+s*1.1).toFixed(2), fill:'#ffffff', opacity:(0.35+s*0.6).toFixed(2)}, firmament);
     }
-    // estels grossos amb raigs, com els de BLANCPAIN, repartits pel cel
+    // estels grossos amb raigs, com els de CAPITAINE, repartits pel cel
     [[-150,-40,1.4],[-95,-120,1.1],[30,-150,1.25],[120,-95,1.0],[160,20,1.3],[95,110,1.1],[-20,160,1.2],[-120,95,1.0],[-60,40,.8],[60,-30,.85],[-170,60,.9],[150,-150,.8]].forEach(([x,y,s],i)=>{
       el('path', {d:'M0,-7 L1.4,-1.4 L7,0 L1.4,1.4 L0,7 L-1.4,1.4 L-7,0 L-1.4,-1.4 Z', transform:`translate(${C+x} ${C+y}) scale(${s})`, fill:'#fff6da', class:'estel', style:`animation-delay:${(i*0.53)%2.6}s`}, firmament);
     });
@@ -1845,7 +1868,7 @@
       const d = ara.getDate();
       busDataRot.setAttribute('transform', `rotate(${((d-1)*360/31).toFixed(2)} ${C} ${C})`);
       textosData.forEach((t,i)=> t.setAttribute('fill', (i+1)===d ? '#b3261e' : '#2c241c'));
-      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de BLANCPAIN
+      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de CAPITAINE
       const iAvui = (ara.getDay()+6)%7;
       const fe = festiu(ara);
       textosDia.forEach((t,i)=>{
@@ -1926,7 +1949,7 @@
   const I18N = {
     ca: {
       modeDia:'Mode diürn', modeNit:'Mode nocturn', modeNitFix:'Mode nocturn · pantalla sempre encesa', modeEtq:'Mode', tanca:'Tanca', midaNormal:'Mida normal',
-      t12:'Properes 12 hores', t5:'Propers 5 dies', tdc:'Tal dia com avui', tsl:'Sol i lluna', tfe:'Properes festes', sant:'Sant del dia', efem:'Efemèride', curio:'Curiositat', solT:'Sol', llunaT:'Lluna', surt:'Surt', pon:'Es pon',
+      t12:'Properes 12 hores', t5:'Propers 5 dies', tdc:'Tal dia com avui', tsl:'Sol i lluna', tfe:'Properament', sant:'Sant del dia', efem:'Efemèride', curio:'Curiositat', solT:'Sol', llunaT:'Lluna', surt:'Surt', pon:'Es pon',
       llum:(h,m)=>`${h} h ${m} min de llum`, dif:m=> m===0?'Igual que ahir': m>0?`${m} min més que ahir`:`${-m} min menys que ahir`,
       plena:n=> n===0?'Lluna plena avui': n===1?'Plena demà':`Plena d'aquí a ${n} dies`, nova:n=> n===0?'Lluna nova avui': n===1?'Nova demà':`Nova d'aquí a ${n} dies`,
       il:p=>`${p}% il·luminada`, falten:n=> n===0?'Avui': n===1?'Demà':`${n}`, diesEtq:'dies', senseDades:'Sense dades ara mateix',
@@ -1987,7 +2010,7 @@
     },
     oc: {
       modeDia:'Mòde de dia', modeNit:'Mòde de nuet', modeNitFix:'Mòde de nuet · pantalha tostemp alugada', modeEtq:'Mòde', tanca:'Barra', midaNormal:'Mida normau',
-      t12:'Es 12 ores que vien', t5:'Es 5 dies que vien', tdc:'Un dia com uei', tsl:'Solei e lua', tfe:'Hèstes que vien', sant:'Sant deth dia', efem:'Efemèride', curio:'Curiositat', solT:'Solei', llunaT:'Lua', surt:'Gess', pon:'Se pon',
+      t12:'Es 12 ores que vien', t5:'Es 5 dies que vien', tdc:'Un dia com uei', tsl:'Solei e lua', tfe:'Lèu', sant:'Sant deth dia', efem:'Efemèride', curio:'Curiositat', solT:'Solei', llunaT:'Lua', surt:'Gess', pon:'Se pon',
       llum:(h,m)=>`${h} h ${m} min de lum`, dif:m=> m===0?"Parièr qu'ager": m>0?`${m} min mès qu'ager`:`${-m} min mens qu'ager`,
       plena:n=> n===0?'Lua plea uei': n===1?'Plea deman':`Plea d'aciu a ${n} dies`, nova:n=> n===0?'Lua nava uei': n===1?'Nava deman':`Nava d'aciu a ${n} dies`,
       il:p=>`${p}% iluminada`, falten:n=> n===0?'Uei': n===1?'Deman':`${n}`, diesEtq:'dies', senseDades:'Sense donades ara',
@@ -2031,7 +2054,7 @@
     },
     gl: {
       modeDia:'Modo diúrno', modeNit:'Modo nocturno', modeNitFix:'Modo nocturno · pantalla sempre acesa', modeEtq:'Modo', tanca:'Pechar', midaNormal:'Tamaño normal',
-      t12:'Próximas 12 horas', t5:'Próximos 5 días', tdc:'Tal día coma hoxe', tsl:'Sol e lúa', tfe:'Próximas festas', sant:'Santo do día', efem:'Efeméride', curio:'Curiosidade', solT:'Sol', llunaT:'Lúa', surt:'Sae', pon:'Ponse',
+      t12:'Próximas 12 horas', t5:'Próximos 5 días', tdc:'Tal día coma hoxe', tsl:'Sol e lúa', tfe:'Proximamente', sant:'Santo do día', efem:'Efeméride', curio:'Curiosidade', solT:'Sol', llunaT:'Lúa', surt:'Sae', pon:'Ponse',
       llum:(h,m)=>`${h} h ${m} min de luz`, dif:m=> m===0?'Igual ca onte': m>0?`${m} min máis ca onte`:`${-m} min menos ca onte`,
       plena:n=> n===0?'Lúa chea hoxe': n===1?'Chea mañá':`Chea en ${n} días`, nova:n=> n===0?'Lúa nova hoxe': n===1?'Nova mañá':`Nova en ${n} días`,
       il:p=>`${p}% iluminada`, falten:n=> n===0?'Hoxe': n===1?'Mañá':`${n}`, diesEtq:'días', senseDades:'Sen datos agora',
@@ -2075,7 +2098,7 @@
     },
     eu: {
       modeDia:'Egun modua', modeNit:'Gau modua', modeNitFix:'Gau modua · pantaila beti piztuta', modeEtq:'Modua', tanca:'Itxi', midaNormal:'Tamaina normala',
-      t12:'Hurrengo 12 orduak', t5:'Hurrengo 5 egunak', tdc:'Gaur bezalako egun batez', tsl:'Eguzkia eta ilargia', tfe:'Hurrengo jaiak', sant:'Eguneko santua', efem:'Efemeridea', curio:'Bitxikeria', solT:'Eguzkia', llunaT:'Ilargia', surt:'Irteera', pon:'Sartzea',
+      t12:'Hurrengo 12 orduak', t5:'Hurrengo 5 egunak', tdc:'Gaur bezalako egun batez', tsl:'Eguzkia eta ilargia', tfe:'Laster', sant:'Eguneko santua', efem:'Efemeridea', curio:'Bitxikeria', solT:'Eguzkia', llunaT:'Ilargia', surt:'Irteera', pon:'Sartzea',
       llum:(h,m)=>`${h} h ${m} min argi`, dif:m=> m===0?'Atzo bezala': m>0?`Atzo baino ${m} min gehiago`:`Atzo baino ${-m} min gutxiago`,
       plena:n=> n===0?'Ilargi betea gaur': n===1?'Betea bihar':`Betea ${n} egun barru`, nova:n=> n===0?'Ilargi berria gaur': n===1?'Berria bihar':`Berria ${n} egun barru`,
       il:p=>`%${p} argiztatuta`, falten:n=> n===0?'Gaur': n===1?'Bihar':`${n}`, diesEtq:'egun', senseDades:'Daturik ez orain',
@@ -2120,7 +2143,7 @@
     },
     fr: {
       modeDia:'Mode jour', modeNit:'Mode nuit', modeNitFix:'Mode nuit · écran toujours allumé', modeEtq:'Mode', tanca:'Fermer', midaNormal:'Taille normale',
-      t12:'Les 12 prochaines heures', t5:'Les 5 prochains jours', tdc:"Un jour comme aujourd'hui", tsl:'Soleil et lune', tfe:'Prochaines fêtes', sant:'Saint du jour', efem:'Éphéméride', curio:'Curiosité', solT:'Soleil', llunaT:'Lune', surt:'Lever', pon:'Coucher',
+      t12:'Les 12 prochaines heures', t5:'Les 5 prochains jours', tdc:"Un jour comme aujourd'hui", tsl:'Soleil et lune', tfe:'Prochainement', sant:'Saint du jour', efem:'Éphéméride', curio:'Curiosité', solT:'Soleil', llunaT:'Lune', surt:'Lever', pon:'Coucher',
       llum:(h,m)=>`${h} h ${m} min de jour`, dif:m=> m===0?'Comme hier': m>0?`${m} min de plus qu'hier`:`${-m} min de moins qu'hier`,
       plena:n=> n===0?"Pleine lune aujourd'hui": n===1?'Pleine lune demain':`Pleine lune dans ${n} jours`, nova:n=> n===0?"Nouvelle lune aujourd'hui": n===1?'Nouvelle lune demain':`Nouvelle lune dans ${n} jours`,
       il:p=>`${p} % éclairée`, falten:n=> n===0?"Aujourd'hui": n===1?'Demain':`${n}`, diesEtq:'jours', senseDades:'Pas de données pour le moment',
@@ -2160,7 +2183,7 @@
     },
     en: {
       modeDia:'Day mode', modeNit:'Night mode', modeNitFix:'Night mode · screen always on', modeEtq:'Mode', tanca:'Close', midaNormal:'Normal size',
-      t12:'Next 12 hours', t5:'Next 5 days', tdc:'On this day', tsl:'Sun and moon', tfe:'Upcoming holidays', sant:'Saint of the day', efem:'On this day', curio:'Did you know?', solT:'Sun', llunaT:'Moon', surt:'Rise', pon:'Set',
+      t12:'Next 12 hours', t5:'Next 5 days', tdc:'On this day', tsl:'Sun and moon', tfe:'Coming up', sant:'Saint of the day', efem:'On this day', curio:'Did you know?', solT:'Sun', llunaT:'Moon', surt:'Rise', pon:'Set',
       llum:(h,m)=>`${h} h ${m} min of daylight`, dif:m=> m===0?'Same as yesterday': m>0?`${m} min more than yesterday`:`${-m} min less than yesterday`,
       plena:n=> n===0?'Full moon today': n===1?'Full moon tomorrow':`Full moon in ${n} days`, nova:n=> n===0?'New moon today': n===1?'New moon tomorrow':`New moon in ${n} days`,
       il:p=>`${p}% illuminated`, falten:n=> n===0?'Today': n===1?'Tomorrow':`${n}`, diesEtq:'days', senseDades:'No data right now',
@@ -2200,7 +2223,7 @@
     },
     de: {
       modeDia:'Tagmodus', modeNit:'Nachtmodus', modeNitFix:'Nachtmodus · Bildschirm bleibt an', modeEtq:'Modus', tanca:'Schließen', midaNormal:'Normalgröße',
-      t12:'Nächste 12 Stunden', t5:'Nächste 5 Tage', tdc:'An diesem Tag', tsl:'Sonne und Mond', tfe:'Nächste Feiertage', sant:'Tagesheilige', efem:'Ereignis', curio:'Wussten Sie?', solT:'Sonne', llunaT:'Mond', surt:'Aufgang', pon:'Untergang',
+      t12:'Nächste 12 Stunden', t5:'Nächste 5 Tage', tdc:'An diesem Tag', tsl:'Sonne und Mond', tfe:'Demnächst', sant:'Tagesheilige', efem:'Ereignis', curio:'Wussten Sie?', solT:'Sonne', llunaT:'Mond', surt:'Aufgang', pon:'Untergang',
       llum:(h,m)=>`${h} Std. ${m} Min. Tageslicht`, dif:m=> m===0?'Wie gestern': m>0?`${m} Min. länger als gestern`:`${-m} Min. kürzer als gestern`,
       plena:n=> n===0?'Heute Vollmond': n===1?'Morgen Vollmond':`Vollmond in ${n} Tagen`, nova:n=> n===0?'Heute Neumond': n===1?'Morgen Neumond':`Neumond in ${n} Tagen`,
       il:p=>`${p} % beleuchtet`, falten:n=> n===0?'Heute': n===1?'Morgen':`${n}`, diesEtq:'Tage', senseDades:'Gerade keine Daten',
@@ -2235,7 +2258,7 @@
     },
     it: {
       modeDia:'Modalità giorno', modeNit:'Modalità notte', modeNitFix:'Modalità notte · schermo sempre acceso', modeEtq:'Modalità', tanca:'Chiudi', midaNormal:'Dimensione normale',
-      t12:'Prossime 12 ore', t5:'Prossimi 5 giorni', tdc:'Accadde oggi', tsl:'Sole e luna', tfe:'Prossime feste', sant:'Santo del giorno', efem:'Ricorrenza', curio:'Curiosità', solT:'Sole', llunaT:'Luna', surt:'Sorge', pon:'Tramonta',
+      t12:'Prossime 12 ore', t5:'Prossimi 5 giorni', tdc:'Accadde oggi', tsl:'Sole e luna', tfe:'Prossimamente', sant:'Santo del giorno', efem:'Ricorrenza', curio:'Curiosità', solT:'Sole', llunaT:'Luna', surt:'Sorge', pon:'Tramonta',
       llum:(h,m)=>`${h} h ${m} min di luce`, dif:m=> m===0?'Come ieri': m>0?`${m} min in più di ieri`:`${-m} min in meno di ieri`,
       plena:n=> n===0?'Luna piena oggi': n===1?'Luna piena domani':`Luna piena tra ${n} giorni`, nova:n=> n===0?'Luna nuova oggi': n===1?'Luna nuova domani':`Luna nuova tra ${n} giorni`,
       il:p=>`${p}% illuminata`, falten:n=> n===0?'Oggi': n===1?'Domani':`${n}`, diesEtq:'giorni', senseDades:'Nessun dato al momento',
@@ -2275,7 +2298,7 @@
     },
     pt: {
       modeDia:'Modo diurno', modeNit:'Modo noturno', modeNitFix:'Modo noturno · ecrã sempre ligado', modeEtq:'Modo', tanca:'Fechar', midaNormal:'Tamanho normal',
-      t12:'Próximas 12 horas', t5:'Próximos 5 dias', tdc:'Neste dia', tsl:'Sol e lua', tfe:'Próximos feriados', sant:'Santo do dia', efem:'Efeméride', curio:'Curiosidade', solT:'Sol', llunaT:'Lua', surt:'Nasce', pon:'Põe-se',
+      t12:'Próximas 12 horas', t5:'Próximos 5 dias', tdc:'Neste dia', tsl:'Sol e lua', tfe:'Brevemente', sant:'Santo do dia', efem:'Efeméride', curio:'Curiosidade', solT:'Sol', llunaT:'Lua', surt:'Nasce', pon:'Põe-se',
       llum:(h,m)=>`${h} h ${m} min de luz`, dif:m=> m===0?'Igual a ontem': m>0?`${m} min a mais que ontem`:`${-m} min a menos que ontem`,
       plena:n=> n===0?'Lua cheia hoje': n===1?'Lua cheia amanhã':`Lua cheia daqui a ${n} dias`, nova:n=> n===0?'Lua nova hoje': n===1?'Lua nova amanhã':`Lua nova daqui a ${n} dias`,
       il:p=>`${p}% iluminada`, falten:n=> n===0?'Hoje': n===1?'Amanhã':`${n}`, diesEtq:'dias', senseDades:'Sem dados de momento',
@@ -3218,7 +3241,7 @@
       $('fDiaNum').textContent = ara.getDate();
       $('fDiaSet').textContent = cap(DIES[ara.getDay()]);
       $('fMes').textContent = deMes(ara.getMonth());
-      $('fAny').textContent = roma(any);
+      $('fAny').textContent = any;
       const fe = festiu(ara);
       $('fDiaNum').style.color = (ara.getDay()===0 || fe) ? '#7a1a16' : (ara.getDay()===6 ? '#0f6b4c' : '#2c241c');
       $('fDetall').textContent = L.diaAny(diaAny, setmanaISO(ara));
@@ -3280,6 +3303,7 @@
     }
     lliscador($('llTemps'));
     lliscador($('llAvui'));
+    lliscador($('llNot'));
 
     // ---------- Properes 12 hores i 5 dies ----------
     function pinta12i5(m){
@@ -3482,7 +3506,6 @@
         $('fHum').textContent = c.relative_humidity_2m != null ? Math.round(c.relative_humidity_2m)+'%' : '--%';
         $('fMax').textContent = graus(d.temperature_2m_max && d.temperature_2m_max[0]);
         $('fMin').textContent = graus(d.temperature_2m_min && d.temperature_2m_min[0]);
-        if (d.sunrise && d.sunset) $('fSol').textContent = L.sol(hora(d.sunrise[0]), hora(d.sunset[0]));
         pintaAvisos();
         pinta12i5(m);
       },
@@ -4390,20 +4413,26 @@
     }
 
     // Amaga els titulars que no hi caben sencers (mai no en queda cap a mitges)
+    // Primer es omple la pantalla 1; el que no hi cap passa a la pantalla 2 (lliscant al costat)
     function encaixaNoticies(){
-      const ll = $('mNoticies'); if (!ll) return;
-      const items = [...ll.querySelectorAll('.n-item')];
-      items.forEach(a => { a.hidden = false; });
-      const alt = ll.clientHeight;
-      items.forEach(a => { if (a.offsetTop + a.offsetHeight > alt + 1) a.hidden = true; });
-      const vis = items.filter(a => !a.hidden); items.forEach(a => a.classList.toggle('ultim', a === vis[vis.length - 1]));
+      const ll = $('mNoticies'), ll2 = $('mNoticies2'); if (!ll || !ll2) return;
+      const items = [...ll.querySelectorAll('.n-item'), ...ll2.querySelectorAll('.n-item')];
+      if (!items.length) return;
+      items.forEach(a => { a.hidden = false; a.classList.remove('ultim'); ll.appendChild(a); });
+      if (!ll.clientHeight) return;
+      const baix = l => l.getBoundingClientRect().bottom + 1;
+      const fi = baix(ll);
+      items.forEach(a => { if (a.parentNode === ll && a.getBoundingClientRect().bottom > fi) ll2.appendChild(a); });
+      const fi2 = baix(ll2);
+      [...ll2.children].forEach(a => { if (a.getBoundingClientRect().bottom > fi2) a.hidden = true; });
+      [ll, ll2].forEach(l => { const vis = [...l.children].filter(a => !a.hidden); if (vis.length) vis[vis.length - 1].classList.add('ultim'); });
     }
 
     let notCarregades = 0, notLlengua = '', notToken = 0, notOcupat = false, notDarrer = null;
     function pintaNoticies(){
       const ll = $('mNoticies');
       if (!notDarrer || notDarrer.llengua !== LLENGUA) return;
-      ll.innerHTML = '';
+      ll.innerHTML = ''; $('mNoticies2').innerHTML = '';
       notDarrer.titulars.forEach((n, i) => {
         const a = document.createElement('a');
         a.className = 'n-item'; a.draggable = false; a.href = n.url; a.target = '_blank'; a.rel = 'noopener';
@@ -4412,7 +4441,7 @@
         a.querySelector('.n-txt').textContent = n.titol;   // les notícies es mostren tal com arriben
         ll.appendChild(a);
       });
-      $('nPeu').textContent = `${notDarrer.font.peu} · ${L.actualitzat(notDarrer.hora)}`;
+      $('nPeu').textContent = $('nPeu2').textContent = `${notDarrer.font.peu} · ${L.actualitzat(notDarrer.hora)}`;
       requestAnimationFrame(encaixaNoticies);
     }
     function carregaNoticies(força, canviLlengua){
@@ -4423,7 +4452,7 @@
       const ll = $('mNoticies');
       if (notLlengua !== llengua){
         ll.innerHTML = '<div class="m-estat"></div>'; ll.firstChild.textContent = L.carregant;
-        $('nPeu').textContent = '';
+        $('mNoticies2').innerHTML = ''; $('nPeu').textContent = $('nPeu2').textContent = '';
       }
       provaFonts(fonts).then(({ font, titulars }) => {
         if (token !== notToken) return;
@@ -4436,7 +4465,7 @@
         ll.innerHTML = '<div class="m-estat"><span></span> <a target="_blank" rel="noopener"></a></div>';
         ll.querySelector('span').textContent = L.errNoticies;
         const a = ll.querySelector('a'); a.textContent = L.obreWeb; a.href = fonts[0].web;
-        $('nPeu').textContent = '';
+        $('mNoticies2').innerHTML = ''; $('nPeu').textContent = $('nPeu2').textContent = '';
       }).then(() => { if (token === notToken) notOcupat = false; });
     }
 

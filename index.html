@@ -1364,9 +1364,9 @@ window.__aniv = (function(){
 
     filtreOmbra(defs, 'aOmbraMa', 4, 7, 3, .45);
     ombresBusques(defs, 'a');
-    gradient(defs, 'linearGradient', 'aBlavat', {x1:'0', y1:'0', x2:'1', y2:'0'}, [['0%','#0a1328'],['42%','#2c4a88'],['52%','#6488c8'],['100%','#0e1a35']]);
+    gradient(defs, 'linearGradient', 'aNegre', {x1:'0', y1:'0', x2:'1', y2:'0'}, [['0%','#030201'],['42%','#1d1710'],['52%','#5a4e40'],['100%','#060403']]);
 
-    // Corona bisellada esglaonada (la mateixa de BLANCPAIN), en coure vell enfosquit
+    // Corona bisellada esglaonada (la mateixa de CAPITAINE), en coure vell enfosquit
     gradient(defs, 'linearGradient', 'aCoure', {x1:'0', y1:'0', x2:'0.35', y2:'1'}, [['0%','#d6a77f'],['30%','#a36a45'],['62%','#6e4127'],['100%','#331a0c']]);
     gradient(defs, 'linearGradient', 'aCoureInv', {x1:'0.35', y1:'1', x2:'0', y2:'0'}, [['0%','#c99772'],['35%','#8a5636'],['70%','#55301b'],['100%','#28140a']]);
     const fCV = el('filter', {id:'aCoureVell', x:'0', y:'0', width:'100%', height:'100%'}, defs);
@@ -1428,14 +1428,14 @@ window.__aniv = (function(){
       el('path', {d:'M 0,-8 L 5,4 L 0,1.5 L -5,4 Z', transform:`translate(${px(254,a)} ${py(254,a)}) rotate(${a})`, stroke:'none', fill:'#1a1209', class:'lume'}, tinta);
     }
     numeralRomans(tinta, 194, 66, {stroke:'none', fill:'#1a1209'}, {sx:0.7, sy:1.22, ls:-2}).classList.add('lume');
-    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de BLANCPAIN
+    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de CAPITAINE
     const marcaA = el('g', {transform:`translate(${C} ${C+82}) scale(0.72 1.18)`}, tinta);
     el('text', {x:0, y:0, 'text-anchor':'middle', 'dominant-baseline':'central', 'font-family':'Cinzel, serif', 'font-weight':700,
       'font-size':38, 'letter-spacing':-1, stroke:'none', fill:'#1a1209'}, marcaA).textContent = 'XM';
     el('line', {x1:C-22, y1:C+108, x2:C+22, y2:C+108, stroke:'#1a1209', 'stroke-width':.9}, tinta);
     el('path', {d:`M ${C},${C+105} L ${C+3},${C+108} L ${C},${C+111} L ${C-3},${C+108} Z`, stroke:'none', fill:'#1a1209'}, tinta);
 
-    // ---- Visor del dia de la setmana (com el de BLANCPAIN, però amb fons de pergamí) ----
+    // ---- Visor del dia de la setmana (com el de CAPITAINE, però amb fons de pergamí) ----
     const AX = C-80, AY = C-114, AW = 160, AH = 34;
     gradient(defs, 'linearGradient', 'aVisorPaper', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#f1dcae'],['55%','#e6c993'],['100%','#d4b072']]);
     gradient(defs, 'linearGradient', 'aOmbraVisor', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2a1604',.42],['24%','#2a1604',0],['80%','#2a1604',0],['100%','#2a1604',.28]]);
@@ -1479,11 +1479,11 @@ window.__aniv = (function(){
     el('path', {d:'M 0,-80 C -7,-84 -9,-94 -4,-100 L 0,-106 L 4,-100 C 9,-94 7,-84 0,-80 Z', fill:'#3a2c1c', opacity:.55}, hA.org);
     const mA = busca(svg, 'aOmbraM');
     el('path', {d:'M -3.2,28 L -2.6,-152 C -11,-157 -14,-170 -6.5,-179 C -3.5,-183 -1.6,-192 0,-214 C 1.6,-192 3.5,-183 6.5,-179 C 14,-170 11,-157 2.6,-152 L 3.2,28 Z', fill:'#0e0a06'}, mA.org);
-    // segonera d'acer blavat amb contrapès i anella (com la del rellotge de pèndol)
+    // segonera negra amb contrapès i anella (com la del rellotge de pèndol)
     const sA = busca(svg, 'aOmbraS');
-    el('path', {d:'M -1.9,50 L -1.15,-199 L 0,-232 L 1.15,-199 L 1.9,50 Z', fill:'url(#aBlavat)'}, sA.org);
-    el('circle', {cx:0, cy:46, r:10.4, fill:'url(#aBlavat)'}, sA.org);
-    el('path', {d:'M 7,-170 A 7,7 0 1 1 -7,-170 A 7,7 0 1 1 7,-170 Z M 4.1,-170 A 4.1,4.1 0 1 0 -4.1,-170 A 4.1,4.1 0 1 0 4.1,-170 Z', fill:'url(#aBlavat)', 'fill-rule':'evenodd'}, sA.org);
+    el('path', {d:'M -1.9,50 L -1.15,-199 L 0,-232 L 1.15,-199 L 1.9,50 Z', fill:'url(#aNegre)'}, sA.org);
+    el('circle', {cx:0, cy:46, r:10.4, fill:'url(#aNegre)'}, sA.org);
+    el('path', {d:'M 7,-170 A 7,7 0 1 1 -7,-170 A 7,7 0 1 1 7,-170 Z M 4.1,-170 A 4.1,4.1 0 1 0 -4.1,-170 A 4.1,4.1 0 1 0 4.1,-170 Z', fill:'url(#aNegre)', 'fill-rule':'evenodd'}, sA.org);
     el('circle', {cx:C, cy:C, r:13, fill:'#0c0805'}, svg);
     el('circle', {cx:C, cy:C, r:7, fill:'url(#aLlauto)'}, svg);
     el('circle', {cx:C-2, cy:C-2, r:2, fill:'#fff6d8', opacity:.8}, svg);
@@ -1603,7 +1603,7 @@ window.__aniv = (function(){
     // ---- Nom de la casa, imprès a l'esfera ----
     const nomCasa = el('text', {x:C, y:C-58, 'text-anchor':'middle', 'dominant-baseline':'central',
       'font-family':'Cinzel, serif', 'font-weight':700, 'font-size':17, 'letter-spacing':2.2, fill:'#2c241c'}, svg);
-    nomCasa.textContent = 'BLANCPAIN';
+    nomCasa.textContent = 'CAPITAINE';
     el('line', {x1:C-26, y1:C-45, x2:C+26, y2:C-45, stroke:'#b97752', 'stroke-width':.9}, svg);
     el('path', {d:`M ${C},${C-48} L ${C+3},${C-45} L ${C},${C-42} L ${C-3},${C-45} Z`, fill:'url(#cOrRosa)'}, svg);
 
@@ -1758,7 +1758,7 @@ window.__aniv = (function(){
     gradient(defs, 'radialGradient', 'dLluna', {cx:'40%', cy:'35%', r:'70%'}, [['0%','#fbfbf7'],['55%','#d9dad6'],['100%','#9c9fa3']]);
     gradient(defs, 'radialGradient', 'dCrater', {cx:'45%', cy:'40%', r:'60%'}, [['0%','#8e9195',.55],['70%','#a9acaf',.35],['100%','#ffffff',.25]]);
     gradient(defs, 'radialGradient', 'dOmbraInt', {cx:'50%', cy:'50%', r:'50%'}, [['84%','#3a2a14',0],['96%','#3a2a14',.22],['100%','#2a1a08',.5]]);
-    // Verd maragda: el mateix dels dissabtes a la finestra de BLANCPAIN
+    // Verd maragda: el mateix dels dissabtes a la finestra de CAPITAINE
     gradient(defs, 'linearGradient', 'dMaragdaV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#1f8a64'],['50%','#0f6b4c'],['100%','#094a35']]);
     gradient(defs, 'linearGradient', 'dBurdeusV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#9a2a24'],['50%','#7a1a16'],['100%','#55100e']]);
     gradient(defs, 'linearGradient', 'dCobaltV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2f62c4'],['50%','#0047ab'],['100%','#002e73']]);
@@ -1838,7 +1838,7 @@ window.__aniv = (function(){
     const turons = `A ${HR} ${HR} 0 0 0 ${C} ${CUSP} A ${HR} ${HR} 0 0 0 ${px(226,-angE)} ${py(226,-angE)}`;
     el('path', {d:`M ${px(226,-angE)} ${py(226,-angE)} A 226 226 0 0 1 ${px(226,angE)} ${py(226,angE)} ${turons} Z`}, clipCel);
     const cel = el('g', {'clip-path':'url(#dClipCel)'}, svg);
-    // Disc del firmament: gira mitja volta per llunació (com el de BLANCPAIN); la lluna plena passa sota el 12
+    // Disc del firmament: gira mitja volta per llunació (com el de CAPITAINE); la lluna plena passa sota el 12
     const firmament = el('g', {}, cel);
     el('circle', {cx:C, cy:C, r:228, fill:'url(#dCel)'}, firmament);
     gradient(defs, 'radialGradient', 'dViaLactia', {cx:'50%', cy:'50%', r:'50%'}, [['0%','#9fb4ff',.18],['100%','#9fb4ff',0]]);
@@ -1849,7 +1849,7 @@ window.__aniv = (function(){
       if (s > 0.9) el('path', {d:'M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z', transform:`translate(${px(r,a).toFixed(1)} ${py(r,a).toFixed(1)}) scale(${(0.6+s*0.5).toFixed(2)})`, fill:'#fffbe8', class:'estel', style:`animation-delay:${(i*0.37)%2.6}s`}, firmament);
       else el('circle', {cx:px(r,a).toFixed(1), cy:py(r,a).toFixed(1), r:(0.4+s*1.1).toFixed(2), fill:'#ffffff', opacity:(0.35+s*0.6).toFixed(2)}, firmament);
     }
-    // estels grossos amb raigs, com els de BLANCPAIN, repartits pel cel
+    // estels grossos amb raigs, com els de CAPITAINE, repartits pel cel
     [[-150,-40,1.4],[-95,-120,1.1],[30,-150,1.25],[120,-95,1.0],[160,20,1.3],[95,110,1.1],[-20,160,1.2],[-120,95,1.0],[-60,40,.8],[60,-30,.85],[-170,60,.9],[150,-150,.8]].forEach(([x,y,s],i)=>{
       el('path', {d:'M0,-7 L1.4,-1.4 L7,0 L1.4,1.4 L0,7 L-1.4,1.4 L-7,0 L-1.4,-1.4 Z', transform:`translate(${C+x} ${C+y}) scale(${s})`, fill:'#fff6da', class:'estel', style:`animation-delay:${(i*0.53)%2.6}s`}, firmament);
     });
@@ -2016,7 +2016,7 @@ window.__aniv = (function(){
       const d = ara.getDate();
       busDataRot.setAttribute('transform', `rotate(${((d-1)*360/31).toFixed(2)} ${C} ${C})`);
       textosData.forEach((t,i)=> t.setAttribute('fill', (i+1)===d ? '#b3261e' : '#2c241c'));
-      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de BLANCPAIN
+      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de CAPITAINE
       const iAvui = (ara.getDay()+6)%7;
       const fe = festiu(ara);
       textosDia.forEach((t,i)=>{
@@ -2796,6 +2796,56 @@ window.__aniv = (function(){
   ['pointerdown','touchend','click','keydown'].forEach(ev=>
     document.addEventListener(ev, ()=>audio(), {passive:true}));
   document.addEventListener('visibilitychange', ()=>{ if (document.visibilityState==='visible' && ctxAudio) audio(); });
+
+  // ========================= TIC-TAC DEL PÈNDOL (esfera sense marca i ANTAVIANA) =========================
+  // Síntesi modal com al rellotge de pèndol ANTAVIANA: la dent de l'escapament contra la paleta
+  // (modes metàl·lics), la caixa de fusta que ressona i el petit rebot del bloqueig. Tic i tac alternats.
+  let ticBufs = null, ticSortida = null, ticDarrer = 0;
+  function rndLlavor(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+  function fesTic(ctx, tac, llavor){
+    const sr = ctx.sampleRate, len = Math.floor(sr*.32), buf = ctx.createBuffer(1, len, sr), d = buf.getChannelData(0), rnd = rndLlavor(llavor);
+    const jit = () => 1 + (rnd()-.5)*.03;
+    const metall = tac ? [[1180,.34,.022],[1790,.24,.014],[2640,.14,.009],[3900,.06,.006],[760,.2,.03]]
+                       : [[1380,.32,.02],[2060,.22,.013],[3010,.13,.008],[4300,.05,.005],[880,.17,.026]];
+    const fusta = [[112,.46,.050],[198,.54,.040],[296,.42,.030],[430,.28,.022],[615,.15,.015],[870,.07,.010]];
+    const guanyFusta = tac ? 1.3 : 1.05;
+    function cop(t0, amp, kM, kF){
+      const i0 = Math.floor(t0*sr);
+      for (const [f0,a,tau] of metall){ const f = f0*jit(), ph = rnd()*6.283, w = 6.2832*f/sr, k = Math.exp(-1/(tau*.4*sr*jit())); let e = a*amp*kM*.6;
+        for (let i = i0; i < len && e > 1e-5; i++){ d[i] += e*Math.sin(w*(i-i0)+ph); e *= k; } }
+      for (const [f0,a,tau] of fusta){ const f = f0*jit(), w = 6.2832*f/sr, k = Math.exp(-1/(tau*sr)); let e = a*amp*kF*guanyFusta;
+        for (let i = i0; i < len && e > 1e-5; i++){ const n = i-i0, att = n < sr*.0015 ? n/(sr*.0015) : 1; d[i] += e*att*Math.sin(w*n); e *= k; } }
+      let e = .14*amp, ant = 0; const k = Math.exp(-1/(.0012*sr));
+      for (let i = i0; i < len && e > 1e-5; i++){ const x = rnd()*2-1; d[i] += e*(x-ant); ant = x; e *= k; }
+    }
+    cop(0, 1, 1, 1);
+    cop(tac ? .011 : .009, .22, .6, .25);
+    let pk = 0; for (let i = 0; i < len; i++) pk = Math.max(pk, Math.abs(d[i]));
+    const g = (tac ? .92 : .78) / pk; for (let i = 0; i < len; i++) d[i] *= g;
+    return buf;
+  }
+  function ticTac(ctx, quan, tac){
+    if (!ticBufs) ticBufs = { tic:[1,2,3].map(n => fesTic(ctx, false, 100+n)), tac:[1,2,3].map(n => fesTic(ctx, true, 200+n)) };
+    if (!ticSortida){
+      ticSortida = ctx.createGain(); ticSortida.gain.value = .4;
+      const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2200; lp.Q.value = .5;
+      const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -12; comp.ratio.value = 3;
+      ticSortida.connect(lp); lp.connect(comp); comp.connect(ctx.destination);
+    }
+    const arr = tac ? ticBufs.tac : ticBufs.tic, src = ctx.createBufferSource();
+    src.buffer = arr[Math.floor(Math.random()*arr.length)]; src.playbackRate.value = 1 + (Math.random()-.5)*.006;
+    const g = ctx.createGain(); g.gain.value = .94 + Math.random()*.08; src.connect(g); g.connect(ticSortida); src.start(quan);
+  }
+  // cada segon, just quan salta la segonera (només amb l'esfera sense marca o ANTAVIANA a la vista)
+  setInterval(() => {
+    if (!soActiu || !ctxAudio || ctxAudio.state !== 'running' || document.hidden) return;
+    if (girant || (esferaActual !== 1 && esferaActual !== 3)) return;
+    const ara = Date.now(), seg = Math.ceil(ara/1000)*1000, falta = seg - ara;
+    if (seg === ticDarrer || falta > 150) return;
+    ticDarrer = seg;
+    const quan = Math.max(ctxAudio.currentTime, ctxAudio.currentTime + falta/1000 - (ctxAudio.outputLatency || 0));
+    ticTac(ctxAudio, quan, (seg/1000) % 2 === 1);
+  }, 20);
 
   // Campana: parcials inharmònics típics d'una campana de bronze
   const PARCIALS = [[0.5,.35,1.8],[1,.55,1],[1.183,.28,.8],[1.506,.2,.6],[2,.14,.45],[2.514,.08,.3],[3.011,.05,.22]];

@@ -784,6 +784,7 @@
   html.nit, html.nit body{ background:#000 !important; }
   html.nit body::before, html.nit .ombra-terra, html.nit .cilindre{ display:none !important; }
   html.nit .cara{ filter:none; }
+  html.nit .rellotge{ touch-action:none; }
   /* a les esferes només queden les peces marcades */
   html.nit .cara svg *{ visibility:hidden; }
   html.nit .cara svg defs, html.nit .cara svg defs *{ visibility:visible; }  /* els retalls (clipPath) han de continuar funcionant */
@@ -1385,7 +1386,7 @@ window.__aniv = (function(){
     ombresBusques(defs, 'a');
     gradient(defs, 'linearGradient', 'aNegre', {x1:'0', y1:'0', x2:'1', y2:'0'}, [['0%','#030201'],['42%','#1d1710'],['52%','#5a4e40'],['100%','#060403']]);
 
-    // Corona bisellada esglaonada (la mateixa de BLANCPAIN), en coure vell enfosquit
+    // Corona bisellada esglaonada (la mateixa de CAPITAINE), en coure vell enfosquit
     gradient(defs, 'linearGradient', 'aCoure', {x1:'0', y1:'0', x2:'0.35', y2:'1'}, [['0%','#d6a77f'],['30%','#a36a45'],['62%','#6e4127'],['100%','#331a0c']]);
     gradient(defs, 'linearGradient', 'aCoureInv', {x1:'0.35', y1:'1', x2:'0', y2:'0'}, [['0%','#c99772'],['35%','#8a5636'],['70%','#55301b'],['100%','#28140a']]);
     const fCV = el('filter', {id:'aCoureVell', x:'0', y:'0', width:'100%', height:'100%'}, defs);
@@ -1447,14 +1448,14 @@ window.__aniv = (function(){
       el('path', {d:'M 0,-8 L 5,4 L 0,1.5 L -5,4 Z', transform:`translate(${px(254,a)} ${py(254,a)}) rotate(${a})`, stroke:'none', fill:'#1a1209', class:'lume'}, tinta);
     }
     numeralRomans(tinta, 194, 66, {stroke:'none', fill:'#1a1209'}, {sx:0.7, sy:1.22, ls:-2}).classList.add('lume');
-    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de BLANCPAIN
+    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de CAPITAINE
     const marcaA = el('g', {transform:`translate(${C} ${C+82}) scale(0.72 1.18)`}, tinta);
     el('text', {x:0, y:0, 'text-anchor':'middle', 'dominant-baseline':'central', 'font-family':'Cinzel, serif', 'font-weight':700,
       'font-size':38, 'letter-spacing':-1, stroke:'none', fill:'#1a1209'}, marcaA).textContent = 'XM';
     el('line', {x1:C-22, y1:C+108, x2:C+22, y2:C+108, stroke:'#1a1209', 'stroke-width':.9}, tinta);
     el('path', {d:`M ${C},${C+105} L ${C+3},${C+108} L ${C},${C+111} L ${C-3},${C+108} Z`, stroke:'none', fill:'#1a1209'}, tinta);
 
-    // ---- Visor del dia de la setmana (com el de BLANCPAIN, però amb fons de pergamí) ----
+    // ---- Visor del dia de la setmana (com el de CAPITAINE, però amb fons de pergamí) ----
     const AX = C-80, AY = C-114, AW = 160, AH = 34;
     gradient(defs, 'linearGradient', 'aVisorPaper', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#f1dcae'],['55%','#e6c993'],['100%','#d4b072']]);
     gradient(defs, 'linearGradient', 'aOmbraVisor', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2a1604',.42],['24%','#2a1604',0],['80%','#2a1604',0],['100%','#2a1604',.28]]);
@@ -1622,7 +1623,7 @@ window.__aniv = (function(){
     // ---- Nom de la casa, imprès a l'esfera ----
     const nomCasa = el('text', {x:C, y:C-58, 'text-anchor':'middle', 'dominant-baseline':'central',
       'font-family':'Cinzel, serif', 'font-weight':700, 'font-size':17, 'letter-spacing':2.2, fill:'#2c241c'}, svg);
-    nomCasa.textContent = 'BLANCPAIN';
+    nomCasa.textContent = 'CAPITAINE';
     el('line', {x1:C-26, y1:C-45, x2:C+26, y2:C-45, stroke:'#b97752', 'stroke-width':.9}, svg);
     el('path', {d:`M ${C},${C-48} L ${C+3},${C-45} L ${C},${C-42} L ${C-3},${C-45} Z`, fill:'url(#cOrRosa)'}, svg);
 
@@ -1782,7 +1783,7 @@ window.__aniv = (function(){
     gradient(defs, 'radialGradient', 'dLluna', {cx:'40%', cy:'35%', r:'70%'}, [['0%','#fbfbf7'],['55%','#d9dad6'],['100%','#9c9fa3']]);
     gradient(defs, 'radialGradient', 'dCrater', {cx:'45%', cy:'40%', r:'60%'}, [['0%','#8e9195',.55],['70%','#a9acaf',.35],['100%','#ffffff',.25]]);
     gradient(defs, 'radialGradient', 'dOmbraInt', {cx:'50%', cy:'50%', r:'50%'}, [['84%','#3a2a14',0],['96%','#3a2a14',.22],['100%','#2a1a08',.5]]);
-    // Verd maragda: el mateix dels dissabtes a la finestra de BLANCPAIN
+    // Verd maragda: el mateix dels dissabtes a la finestra de CAPITAINE
     gradient(defs, 'linearGradient', 'dMaragdaV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#1f8a64'],['50%','#0f6b4c'],['100%','#094a35']]);
     gradient(defs, 'linearGradient', 'dBurdeusV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#9a2a24'],['50%','#7a1a16'],['100%','#55100e']]);
     gradient(defs, 'linearGradient', 'dCobaltV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2f62c4'],['50%','#0047ab'],['100%','#002e73']]);
@@ -1862,7 +1863,7 @@ window.__aniv = (function(){
     const turons = `A ${HR} ${HR} 0 0 0 ${C} ${CUSP} A ${HR} ${HR} 0 0 0 ${px(226,-angE)} ${py(226,-angE)}`;
     el('path', {d:`M ${px(226,-angE)} ${py(226,-angE)} A 226 226 0 0 1 ${px(226,angE)} ${py(226,angE)} ${turons} Z`}, clipCel);
     const cel = el('g', {'clip-path':'url(#dClipCel)'}, svg);
-    // Disc del firmament: gira mitja volta per llunació (com el de BLANCPAIN); la lluna plena passa sota el 12
+    // Disc del firmament: gira mitja volta per llunació (com el de CAPITAINE); la lluna plena passa sota el 12
     const firmament = el('g', {}, cel);
     el('circle', {cx:C, cy:C, r:228, fill:'url(#dCel)'}, firmament);
     gradient(defs, 'radialGradient', 'dViaLactia', {cx:'50%', cy:'50%', r:'50%'}, [['0%','#9fb4ff',.18],['100%','#9fb4ff',0]]);
@@ -1873,7 +1874,7 @@ window.__aniv = (function(){
       if (s > 0.9) el('path', {d:'M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z', transform:`translate(${px(r,a).toFixed(1)} ${py(r,a).toFixed(1)}) scale(${(0.6+s*0.5).toFixed(2)})`, fill:'#fffbe8', class:'estel', style:`animation-delay:${(i*0.37)%2.6}s`}, firmament);
       else el('circle', {cx:px(r,a).toFixed(1), cy:py(r,a).toFixed(1), r:(0.4+s*1.1).toFixed(2), fill:'#ffffff', opacity:(0.35+s*0.6).toFixed(2)}, firmament);
     }
-    // estels grossos amb raigs, com els de BLANCPAIN, repartits pel cel
+    // estels grossos amb raigs, com els de CAPITAINE, repartits pel cel
     [[-150,-40,1.4],[-95,-120,1.1],[30,-150,1.25],[120,-95,1.0],[160,20,1.3],[95,110,1.1],[-20,160,1.2],[-120,95,1.0],[-60,40,.8],[60,-30,.85],[-170,60,.9],[150,-150,.8]].forEach(([x,y,s],i)=>{
       el('path', {d:'M0,-7 L1.4,-1.4 L7,0 L1.4,1.4 L0,7 L-1.4,1.4 L-7,0 L-1.4,-1.4 Z', transform:`translate(${C+x} ${C+y}) scale(${s})`, fill:'#fff6da', class:'estel', style:`animation-delay:${(i*0.53)%2.6}s`}, firmament);
     });
@@ -2040,7 +2041,7 @@ window.__aniv = (function(){
       const d = ara.getDate();
       busDataRot.setAttribute('transform', `rotate(${((d-1)*360/31).toFixed(2)} ${C} ${C})`);
       textosData.forEach((t,i)=> t.setAttribute('fill', (i+1)===d ? '#b3261e' : '#2c241c'));
-      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de BLANCPAIN
+      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de CAPITAINE
       const iAvui = (ara.getDay()+6)%7;
       const fe = festiu(ara);
       textosDia.forEach((t,i)=>{
@@ -2312,6 +2313,7 @@ window.__aniv = (function(){
   const I18N = {
     ca: {
       modeDia:'Mode diürn', modeNit:'Mode nocturn', modeNitFix:'Mode nocturn · pantalla sempre encesa', modeEtq:'Mode', tanca:'Tanca', midaNormal:'Mida normal',
+      temesNit:['Clàssic','Invertit','Ambre','Blau polar','Vermell de nit','Plata i blau'], intensitat:'Intensitat',
       tempo:'Temporitzador', tempoOff:'Temporitzador desactivat', tempoAvis:n=>`La ràdio s'apagarà d'aquí a ${n} min`,
       aniv:'Aniversari', anivSub:'Opcional · només es desa en aquest aparell', anivNom:'Nom', anivNaix:'Data de naixement', anivAny:'Any', anivDesa:'Desa', anivEsborra:'Esborra', pma:'Per molts anys', tocaPastis:'Toca el pastís per continuar', anys:'anys',
       t12:'Properes 12 hores', t5:'Propers 5 dies', tdc:'Tal dia com avui', tsl:'Sol i lluna', tfe:'Properament', sant:'Sant del dia', efem:'Efemèride', curio:'Curiositat', solT:'Sol', llunaT:'Lluna', surt:'Surt', pon:'Es pon',
@@ -2375,6 +2377,7 @@ window.__aniv = (function(){
     },
     oc: {
       modeDia:'Mòde de dia', modeNit:'Mòde de nuet', modeNitFix:'Mòde de nuet · pantalha tostemp alugada', modeEtq:'Mòde', tanca:'Barra', midaNormal:'Mida normau',
+      temesNit:['Classic','Invertit','Ambre','Blu polar','Ròi de nuet','Argent e blu'], intensitat:'Intensitat',
       tempo:'Temporizador', tempoOff:'Temporizador desactivat', tempoAvis:n=>`Era ràdio s'amortarà d'aciu a ${n} min`,
       aniv:'Anniversari', anivSub:'Opcionau · sonque se guarde en aguest aparelh', anivNom:'Nòm', anivNaix:'Data de naishença', anivAny:'An', anivDesa:'Enregistra', anivEsborra:'Esborra', pma:'Bon anniversari', tocaPastis:'Toca eth pastís entà contunhar', anys:'ans',
       t12:'Es 12 ores que vien', t5:'Es 5 dies que vien', tdc:'Un dia com uei', tsl:'Solei e lua', tfe:'Lèu', sant:'Sant deth dia', efem:'Efemèride', curio:'Curiositat', solT:'Solei', llunaT:'Lua', surt:'Gess', pon:'Se pon',
@@ -2421,6 +2424,7 @@ window.__aniv = (function(){
     },
     gl: {
       modeDia:'Modo diúrno', modeNit:'Modo nocturno', modeNitFix:'Modo nocturno · pantalla sempre acesa', modeEtq:'Modo', tanca:'Pechar', midaNormal:'Tamaño normal',
+      temesNit:['Clásico','Invertido','Ámbar','Azul polar','Vermello de noite','Prata e azul'], intensitat:'Intensidade',
       tempo:'Temporizador', tempoOff:'Temporizador desactivado', tempoAvis:n=>`A radio apagarase dentro de ${n} min`,
       aniv:'Aniversario', anivSub:'Opcional · só se garda neste dispositivo', anivNom:'Nome', anivNaix:'Data de nacemento', anivAny:'Ano', anivDesa:'Gardar', anivEsborra:'Borrar', pma:'Parabéns', tocaPastis:'Toca o bolo para continuar', anys:'anos',
       t12:'Próximas 12 horas', t5:'Próximos 5 días', tdc:'Tal día coma hoxe', tsl:'Sol e lúa', tfe:'Proximamente', sant:'Santo do día', efem:'Efeméride', curio:'Curiosidade', solT:'Sol', llunaT:'Lúa', surt:'Sae', pon:'Ponse',
@@ -2467,6 +2471,7 @@ window.__aniv = (function(){
     },
     eu: {
       modeDia:'Egun modua', modeNit:'Gau modua', modeNitFix:'Gau modua · pantaila beti piztuta', modeEtq:'Modua', tanca:'Itxi', midaNormal:'Tamaina normala',
+      temesNit:['Klasikoa','Alderantzizkoa','Anbarra','Urdin polarra','Gaueko gorria','Zilarra eta urdina'], intensitat:'Intentsitatea',
       tempo:'Tenporizadorea', tempoOff:'Tenporizadorea desaktibatuta', tempoAvis:n=>`Irratia ${n} min barru itzaliko da`,
       aniv:'Urtebetetzea', anivSub:'Aukerakoa · gailu honetan bakarrik gordetzen da', anivNom:'Izena', anivNaix:'Jaiotze-data', anivAny:'Urtea', anivDesa:'Gorde', anivEsborra:'Ezabatu', pma:'Zorionak', tocaPastis:'Ukitu tarta jarraitzeko', anys:'urte',
       t12:'Hurrengo 12 orduak', t5:'Hurrengo 5 egunak', tdc:'Gaur bezalako egun batez', tsl:'Eguzkia eta ilargia', tfe:'Laster', sant:'Eguneko santua', efem:'Efemeridea', curio:'Bitxikeria', solT:'Eguzkia', llunaT:'Ilargia', surt:'Irteera', pon:'Sartzea',
@@ -2514,6 +2519,7 @@ window.__aniv = (function(){
     },
     fr: {
       modeDia:'Mode jour', modeNit:'Mode nuit', modeNitFix:'Mode nuit · écran toujours allumé', modeEtq:'Mode', tanca:'Fermer', midaNormal:'Taille normale',
+      temesNit:['Classique','Inversé','Ambre','Bleu polaire','Rouge de nuit','Argent et bleu'], intensitat:'Intensité',
       tempo:'Minuterie', tempoOff:'Minuterie désactivée', tempoAvis:n=>`La radio s'arrêtera dans ${n} min`,
       aniv:'Anniversaire', anivSub:'Facultatif · enregistré uniquement sur cet appareil', anivNom:'Prénom', anivNaix:'Date de naissance', anivAny:'Année', anivDesa:'Enregistrer', anivEsborra:'Effacer', pma:'Joyeux anniversaire', tocaPastis:'Touchez le gâteau pour continuer', anys:'ans',
       t12:'Les 12 prochaines heures', t5:'Les 5 prochains jours', tdc:"Un jour comme aujourd'hui", tsl:'Soleil et lune', tfe:'Prochainement', sant:'Saint du jour', efem:'Éphéméride', curio:'Curiosité', solT:'Soleil', llunaT:'Lune', surt:'Lever', pon:'Coucher',
@@ -2556,6 +2562,7 @@ window.__aniv = (function(){
     },
     en: {
       modeDia:'Day mode', modeNit:'Night mode', modeNitFix:'Night mode · screen always on', modeEtq:'Mode', tanca:'Close', midaNormal:'Normal size',
+      temesNit:['Classic','Inverted','Amber','Polar blue','Night red','Silver and blue'], intensitat:'Brightness',
       tempo:'Sleep timer', tempoOff:'Sleep timer off', tempoAvis:n=>`The radio will stop in ${n} min`,
       aniv:'Birthday', anivSub:'Optional · saved only on this device', anivNom:'Name', anivNaix:'Date of birth', anivAny:'Year', anivDesa:'Save', anivEsborra:'Delete', pma:'Happy birthday', tocaPastis:'Tap the cake to continue', anys:'years',
       t12:'Next 12 hours', t5:'Next 5 days', tdc:'On this day', tsl:'Sun and moon', tfe:'Coming up', sant:'Saint of the day', efem:'On this day', curio:'Did you know?', solT:'Sun', llunaT:'Moon', surt:'Rise', pon:'Set',
@@ -2598,6 +2605,7 @@ window.__aniv = (function(){
     },
     de: {
       modeDia:'Tagmodus', modeNit:'Nachtmodus', modeNitFix:'Nachtmodus · Bildschirm bleibt an', modeEtq:'Modus', tanca:'Schließen', midaNormal:'Normalgröße',
+      temesNit:['Klassisch','Umgekehrt','Bernstein','Polarblau','Nachtrot','Silber und Blau'], intensitat:'Helligkeit',
       tempo:'Schlaftimer', tempoOff:'Schlaftimer aus', tempoAvis:n=>`Das Radio geht in ${n} Min. aus`,
       aniv:'Geburtstag', anivSub:'Optional · nur auf diesem Gerät gespeichert', anivNom:'Name', anivNaix:'Geburtsdatum', anivAny:'Jahr', anivDesa:'Speichern', anivEsborra:'Löschen', pma:'Alles Gute zum Geburtstag', tocaPastis:'Tippe auf den Kuchen, um fortzufahren', anys:'Jahre',
       t12:'Nächste 12 Stunden', t5:'Nächste 5 Tage', tdc:'An diesem Tag', tsl:'Sonne und Mond', tfe:'Demnächst', sant:'Tagesheilige', efem:'Ereignis', curio:'Wussten Sie?', solT:'Sonne', llunaT:'Mond', surt:'Aufgang', pon:'Untergang',
@@ -2635,6 +2643,7 @@ window.__aniv = (function(){
     },
     it: {
       modeDia:'Modalità giorno', modeNit:'Modalità notte', modeNitFix:'Modalità notte · schermo sempre acceso', modeEtq:'Modalità', tanca:'Chiudi', midaNormal:'Dimensione normale',
+      temesNit:['Classico','Invertito','Ambra','Blu polare','Rosso notturno','Argento e blu'], intensitat:'Intensità',
       tempo:'Timer', tempoOff:'Timer disattivato', tempoAvis:n=>`La radio si spegnerà tra ${n} min`,
       aniv:'Compleanno', anivSub:'Facoltativo · salvato solo su questo dispositivo', anivNom:'Nome', anivNaix:'Data di nascita', anivAny:'Anno', anivDesa:'Salva', anivEsborra:'Cancella', pma:'Buon compleanno', tocaPastis:'Tocca la torta per continuare', anys:'anni',
       t12:'Prossime 12 ore', t5:'Prossimi 5 giorni', tdc:'Accadde oggi', tsl:'Sole e luna', tfe:'Prossimamente', sant:'Santo del giorno', efem:'Ricorrenza', curio:'Curiosità', solT:'Sole', llunaT:'Luna', surt:'Sorge', pon:'Tramonta',
@@ -2677,6 +2686,7 @@ window.__aniv = (function(){
     },
     pt: {
       modeDia:'Modo diurno', modeNit:'Modo noturno', modeNitFix:'Modo noturno · ecrã sempre ligado', modeEtq:'Modo', tanca:'Fechar', midaNormal:'Tamanho normal',
+      temesNit:['Clássico','Invertido','Âmbar','Azul polar','Vermelho noturno','Prata e azul'], intensitat:'Intensidade',
       tempo:'Temporizador', tempoOff:'Temporizador desativado', tempoAvis:n=>`O rádio desliga-se dentro de ${n} min`,
       aniv:'Aniversário', anivSub:'Opcional · guardado apenas neste dispositivo', anivNom:'Nome', anivNaix:'Data de nascimento', anivAny:'Ano', anivDesa:'Guardar', anivEsborra:'Apagar', pma:'Parabéns', tocaPastis:'Toca no bolo para continuar', anys:'anos',
       t12:'Próximas 12 horas', t5:'Próximos 5 dias', tdc:'Neste dia', tsl:'Sol e lua', tfe:'Brevemente', sant:'Santo do dia', efem:'Efeméride', curio:'Curiosidade', solT:'Sol', llunaT:'Lua', surt:'Nasce', pon:'Põe-se',
@@ -4177,9 +4187,84 @@ window.__aniv = (function(){
     avisEl.textContent = txt; avisEl.classList.add('visible');
     clearTimeout(tempsAvis); tempsAvis = setTimeout(() => avisEl.classList.remove('visible'), ms || 5000);
   }
+  // ========================= MODE Zz: JOCS DE COLORS (doble toc) I INTENSITAT (lliscar sobre el rellotge) =========================
+  const TEMES_NIT = [
+    ['#7dff8f', '#ff5a1f'],   // clàssic: lume verd, textos taronja
+    ['#ff7a3d', '#6dff86'],   // invertit
+    ['#ffc23a', '#ff4a2f'],   // ambre
+    ['#6fd3ff', '#ffe27a'],   // blau polar
+    ['#ff3b30', '#c0241b'],   // vermell de nit
+    ['#e6eeff', '#6f9dff']    // plata i blau
+  ];
+  let temaNit = 0, intensitat = 1;
+  try { temaNit = Math.min(TEMES_NIT.length - 1, Math.max(0, parseInt(localStorage.getItem('republica-tema-nit') || '0', 10) || 0)); } catch(e){}
+  try { const v = parseFloat(localStorage.getItem('republica-intensitat')); if (v >= .15 && v <= 1) intensitat = v; } catch(e){}
+  const matLume = document.querySelector('#filtreLume feColorMatrix'), matIcona = document.querySelector('#filtreNitIcona feColorMatrix');
+  const matLume0 = matLume.getAttribute('values'), matIcona0 = matIcona.getAttribute('values');
+  const hexRgb = h => [1,3,5].map(i => parseInt(h.slice(i, i+2), 16));
+  const escala = (h, k) => '#' + hexRgb(h).map(v => Math.round(v * k).toString(16).padStart(2, '0')).join('');
+  // matriu que pinta la lluna (o la icona) amb el color del tema, segons la lluminositat de cada punt
+  const matriu = (h, k) => { const fila = c => `${(.2126*c*k).toFixed(3)} ${(.7152*c*k).toFixed(3)} ${(.0722*c*k).toFixed(3)} 0 0`; return hexRgb(h).map(v => fila(v/255)).join('  ') + '  0 0 0 1 0'; };
+  function aplicaTemaNit(){
+    const st = document.documentElement.style;
+    if (mode === 'dia'){
+      st.removeProperty('--lume'); st.removeProperty('--nit');
+      matLume.setAttribute('values', matLume0); matIcona.setAttribute('values', matIcona0);
+      return;
+    }
+    const [lume, nit] = TEMES_NIT[temaNit], k = intensitat;
+    st.setProperty('--lume', escala(lume, k)); st.setProperty('--nit', escala(nit, k));
+    if (temaNit === 0 && k === 1){ matLume.setAttribute('values', matLume0); matIcona.setAttribute('values', matIcona0); }
+    else { matLume.setAttribute('values', matriu(lume, .62 * k)); matIcona.setAttribute('values', matriu(nit, .62 * k)); }
+  }
+  // doble toc a qualsevol lloc (menys botons, plaques, l'esfera i els formularis): següent joc de colors
+  let tocNit = null, tocAnt = 0;
+  const EXCLOSOS = 'button, a, input, select, textarea, label, .placa, #rellotge, .menu-idioma, .aniv-velo, .pastis, .al-cara, [data-audio-id]';
+  document.addEventListener('pointerdown', e => { tocNit = { x:e.clientX, y:e.clientY, t:performance.now() }; }, true);
+  document.addEventListener('pointerup', e => {
+    if (mode === 'dia' || !tocNit) return;
+    const mou = Math.hypot(e.clientX - tocNit.x, e.clientY - tocNit.y), llarg = performance.now() - tocNit.t; tocNit = null;
+    if (mou > 12 || llarg > 400 || (e.target.closest && e.target.closest(EXCLOSOS))){ tocAnt = 0; return; }
+    const ara = performance.now();
+    if (ara - tocAnt < 380){
+      tocAnt = 0;
+      temaNit = (temaNit + 1) % TEMES_NIT.length;
+      try { localStorage.setItem('republica-tema-nit', String(temaNit)); } catch(err){}
+      aplicaTemaNit();
+      avisa(L.temesNit[temaNit], 1600);
+    } else tocAnt = ara;
+  }, true);
+  // lliscar amunt i avall damunt del rellotge: més o menys intensitat (de tot el conjunt per igual)
+  let llisca = null;
+  const iniciLlisca = (x, y) => { if (mode === 'dia' || girant || zoom.z > 1) return; llisca = { x, y, v0: intensitat, actiu: false }; };
+  const mouLlisca = (x, y) => {
+    if (!llisca) return false;
+    const dx = x - llisca.x, dy = y - llisca.y;
+    if (!llisca.actiu){
+      if (Math.abs(dy) > 12 && Math.abs(dy) > Math.abs(dx) * 1.3) llisca.actiu = true;
+      else return false;
+    }
+    intensitat = Math.round(Math.max(.15, Math.min(1, llisca.v0 - dy / 260)) * 100) / 100;
+    aplicaTemaNit();
+    avisa(`${L.intensitat} · ${Math.round(intensitat * 100)} %`, 1200);
+    gestLupa = performance.now();   // que en aixecar el dit l'esfera no giri
+    return true;
+  };
+  const fiLlisca = () => {
+    if (llisca && llisca.actiu){ gestLupa = performance.now(); try { localStorage.setItem('republica-intensitat', String(intensitat)); } catch(e){} }
+    llisca = null;
+  };
+  rellotge.addEventListener('touchstart', e => { if (e.touches.length === 1) iniciLlisca(e.touches[0].clientX, e.touches[0].clientY); else llisca = null; }, {passive:true});
+  rellotge.addEventListener('touchmove', e => { if (e.touches.length === 1 && mouLlisca(e.touches[0].clientX, e.touches[0].clientY)) e.preventDefault(); }, {passive:false});
+  rellotge.addEventListener('touchend', fiLlisca);
+  rellotge.addEventListener('touchcancel', () => { llisca = null; });
+  rellotge.addEventListener('mousedown', e => iniciLlisca(e.clientX, e.clientY));
+  window.addEventListener('mousemove', e => { if (llisca) mouLlisca(e.clientX, e.clientY); });
+  window.addEventListener('mouseup', fiLlisca);
   function aplicaMode(mostraAvis){
     const html = document.documentElement;
     html.classList.toggle('nit', mode !== 'dia');
+    aplicaTemaNit();
     html.classList.toggle('encesa', mode === 'nitFix');
     pintaLema(new Date());
     document.querySelectorAll('.lume-lluna').forEach(g => {

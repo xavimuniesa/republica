@@ -849,6 +849,9 @@
   .boto-mode{ position:fixed; z-index:30; top: max(12px, env(safe-area-inset-top)); right: calc(max(12px, env(safe-area-inset-right)) + 48px); }
   .boto-mode .ic-dia, .boto-mode .ic-nit, .boto-mode .ic-espelma{ display:none; }
   html:not(.nit) .boto-mode .ic-dia{ display:inline; }
+  .boto-mode .ic-mini{ display:none; }
+  html.encesa:not(.nit) .boto-mode .ic-mini{ display:inline; }
+  html.encesa:not(.nit) .boto-mode .ic-dia{ transform: translate(-2.5px,-2.5px) scale(.8); transform-origin: 12px 12px; }
   html.nit:not(.encesa) .boto-mode .ic-nit{ display:inline; }
   html.nit.encesa .boto-mode .ic-espelma{ display:inline; }
   .avis-mode{ position:fixed; z-index:40; left:50%; top: calc(max(12px, env(safe-area-inset-top)) + 52px); transform: translateX(-50%) translateY(-6px);
@@ -879,6 +882,11 @@
       <path d="M5.6 5.6q1.4.4 1.5 1.6M18.4 5.6q-1.4.4-1.5 1.6M5.6 18.4q1.4-.4 1.5-1.6M18.4 18.4q-1.4-.4-1.5-1.6" stroke-width="1.4"/>
       <circle cx="10.6" cy="11.4" r=".55" fill="currentColor" stroke="none"/><circle cx="13.4" cy="11.4" r=".55" fill="currentColor" stroke="none"/>
       <path d="M10.5 13.6q1.5 1 3 0" stroke-width="1"/>
+    </g>
+    <!-- Espelma petita: mode diürn amb la pantalla sempre encesa -->
+    <g class="ic-mini" transform="translate(14.6 11.4) scale(.52)">
+      <path d="M12 2.6c1.7 1.9 2.1 3.2 1.3 4.5-.4.6-.8.9-1.3.9s-.9-.3-1.3-.9c-.8-1.3-.4-2.6 1.3-4.5z" fill="currentColor" stroke="none"/>
+      <rect x="9.6" y="9.4" width="4.8" height="10" rx=".6" stroke-width="2.4"/>
     </g>
     <!-- Lluna en quart amb dos estels -->
     <g class="ic-nit">
@@ -1386,7 +1394,7 @@ window.__aniv = (function(){
     ombresBusques(defs, 'a');
     gradient(defs, 'linearGradient', 'aNegre', {x1:'0', y1:'0', x2:'1', y2:'0'}, [['0%','#030201'],['42%','#1d1710'],['52%','#5a4e40'],['100%','#060403']]);
 
-    // Corona bisellada esglaonada (la mateixa de BLANCPAIN), en coure vell enfosquit
+    // Corona bisellada esglaonada (la mateixa de CAPITAINE), en coure vell enfosquit
     gradient(defs, 'linearGradient', 'aCoure', {x1:'0', y1:'0', x2:'0.35', y2:'1'}, [['0%','#d6a77f'],['30%','#a36a45'],['62%','#6e4127'],['100%','#331a0c']]);
     gradient(defs, 'linearGradient', 'aCoureInv', {x1:'0.35', y1:'1', x2:'0', y2:'0'}, [['0%','#c99772'],['35%','#8a5636'],['70%','#55301b'],['100%','#28140a']]);
     const fCV = el('filter', {id:'aCoureVell', x:'0', y:'0', width:'100%', height:'100%'}, defs);
@@ -1448,14 +1456,14 @@ window.__aniv = (function(){
       el('path', {d:'M 0,-8 L 5,4 L 0,1.5 L -5,4 Z', transform:`translate(${px(254,a)} ${py(254,a)}) rotate(${a})`, stroke:'none', fill:'#1a1209', class:'lume'}, tinta);
     }
     numeralRomans(tinta, 194, 66, {stroke:'none', fill:'#1a1209'}, {sx:0.7, sy:1.22, ls:-2}).classList.add('lume');
-    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de BLANCPAIN
+    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de CAPITAINE
     const marcaA = el('g', {transform:`translate(${C} ${C+82}) scale(0.72 1.18)`}, tinta);
     el('text', {x:0, y:0, 'text-anchor':'middle', 'dominant-baseline':'central', 'font-family':'Cinzel, serif', 'font-weight':700,
       'font-size':38, 'letter-spacing':-1, stroke:'none', fill:'#1a1209'}, marcaA).textContent = 'XM';
     el('line', {x1:C-22, y1:C+108, x2:C+22, y2:C+108, stroke:'#1a1209', 'stroke-width':.9}, tinta);
     el('path', {d:`M ${C},${C+105} L ${C+3},${C+108} L ${C},${C+111} L ${C-3},${C+108} Z`, stroke:'none', fill:'#1a1209'}, tinta);
 
-    // ---- Visor del dia de la setmana (com el de BLANCPAIN, però amb fons de pergamí) ----
+    // ---- Visor del dia de la setmana (com el de CAPITAINE, però amb fons de pergamí) ----
     const AX = C-80, AY = C-114, AW = 160, AH = 34;
     gradient(defs, 'linearGradient', 'aVisorPaper', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#f1dcae'],['55%','#e6c993'],['100%','#d4b072']]);
     gradient(defs, 'linearGradient', 'aOmbraVisor', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2a1604',.42],['24%','#2a1604',0],['80%','#2a1604',0],['100%','#2a1604',.28]]);
@@ -1623,7 +1631,7 @@ window.__aniv = (function(){
     // ---- Nom de la casa, imprès a l'esfera ----
     const nomCasa = el('text', {x:C, y:C-58, 'text-anchor':'middle', 'dominant-baseline':'central',
       'font-family':'Cinzel, serif', 'font-weight':700, 'font-size':17, 'letter-spacing':2.2, fill:'#2c241c'}, svg);
-    nomCasa.textContent = 'BLANCPAIN';
+    nomCasa.textContent = 'CAPITAINE';
     el('line', {x1:C-26, y1:C-45, x2:C+26, y2:C-45, stroke:'#b97752', 'stroke-width':.9}, svg);
     el('path', {d:`M ${C},${C-48} L ${C+3},${C-45} L ${C},${C-42} L ${C-3},${C-45} Z`, fill:'url(#cOrRosa)'}, svg);
 
@@ -1783,7 +1791,7 @@ window.__aniv = (function(){
     gradient(defs, 'radialGradient', 'dLluna', {cx:'40%', cy:'35%', r:'70%'}, [['0%','#fbfbf7'],['55%','#d9dad6'],['100%','#9c9fa3']]);
     gradient(defs, 'radialGradient', 'dCrater', {cx:'45%', cy:'40%', r:'60%'}, [['0%','#8e9195',.55],['70%','#a9acaf',.35],['100%','#ffffff',.25]]);
     gradient(defs, 'radialGradient', 'dOmbraInt', {cx:'50%', cy:'50%', r:'50%'}, [['84%','#3a2a14',0],['96%','#3a2a14',.22],['100%','#2a1a08',.5]]);
-    // Verd maragda: el mateix dels dissabtes a la finestra de BLANCPAIN
+    // Verd maragda: el mateix dels dissabtes a la finestra de CAPITAINE
     gradient(defs, 'linearGradient', 'dMaragdaV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#1f8a64'],['50%','#0f6b4c'],['100%','#094a35']]);
     gradient(defs, 'linearGradient', 'dBurdeusV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#9a2a24'],['50%','#7a1a16'],['100%','#55100e']]);
     gradient(defs, 'linearGradient', 'dCobaltV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2f62c4'],['50%','#0047ab'],['100%','#002e73']]);
@@ -1863,7 +1871,7 @@ window.__aniv = (function(){
     const turons = `A ${HR} ${HR} 0 0 0 ${C} ${CUSP} A ${HR} ${HR} 0 0 0 ${px(226,-angE)} ${py(226,-angE)}`;
     el('path', {d:`M ${px(226,-angE)} ${py(226,-angE)} A 226 226 0 0 1 ${px(226,angE)} ${py(226,angE)} ${turons} Z`}, clipCel);
     const cel = el('g', {'clip-path':'url(#dClipCel)'}, svg);
-    // Disc del firmament: gira mitja volta per llunació (com el de BLANCPAIN); la lluna plena passa sota el 12
+    // Disc del firmament: gira mitja volta per llunació (com el de CAPITAINE); la lluna plena passa sota el 12
     const firmament = el('g', {}, cel);
     el('circle', {cx:C, cy:C, r:228, fill:'url(#dCel)'}, firmament);
     gradient(defs, 'radialGradient', 'dViaLactia', {cx:'50%', cy:'50%', r:'50%'}, [['0%','#9fb4ff',.18],['100%','#9fb4ff',0]]);
@@ -1874,7 +1882,7 @@ window.__aniv = (function(){
       if (s > 0.9) el('path', {d:'M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z', transform:`translate(${px(r,a).toFixed(1)} ${py(r,a).toFixed(1)}) scale(${(0.6+s*0.5).toFixed(2)})`, fill:'#fffbe8', class:'estel', style:`animation-delay:${(i*0.37)%2.6}s`}, firmament);
       else el('circle', {cx:px(r,a).toFixed(1), cy:py(r,a).toFixed(1), r:(0.4+s*1.1).toFixed(2), fill:'#ffffff', opacity:(0.35+s*0.6).toFixed(2)}, firmament);
     }
-    // estels grossos amb raigs, com els de BLANCPAIN, repartits pel cel
+    // estels grossos amb raigs, com els de CAPITAINE, repartits pel cel
     [[-150,-40,1.4],[-95,-120,1.1],[30,-150,1.25],[120,-95,1.0],[160,20,1.3],[95,110,1.1],[-20,160,1.2],[-120,95,1.0],[-60,40,.8],[60,-30,.85],[-170,60,.9],[150,-150,.8]].forEach(([x,y,s],i)=>{
       el('path', {d:'M0,-7 L1.4,-1.4 L7,0 L1.4,1.4 L0,7 L-1.4,1.4 L-7,0 L-1.4,-1.4 Z', transform:`translate(${C+x} ${C+y}) scale(${s})`, fill:'#fff6da', class:'estel', style:`animation-delay:${(i*0.53)%2.6}s`}, firmament);
     });
@@ -2041,7 +2049,7 @@ window.__aniv = (function(){
       const d = ara.getDate();
       busDataRot.setAttribute('transform', `rotate(${((d-1)*360/31).toFixed(2)} ${C} ${C})`);
       textosData.forEach((t,i)=> t.setAttribute('fill', (i+1)===d ? '#b3261e' : '#2c241c'));
-      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de BLANCPAIN
+      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de CAPITAINE
       const iAvui = (ara.getDay()+6)%7;
       const fe = festiu(ara);
       textosDia.forEach((t,i)=>{
@@ -4166,7 +4174,8 @@ window.__aniv = (function(){
   });
 
   // ========================= MODES: DIÜRN · NOCTURN · NOCTURN AMB PANTALLA ENCESA =========================
-  const MODES = ['dia', 'nit', 'nitFix'];
+  const MODES = ['dia', 'diaFix', 'nit', 'nitFix'];   // diürn, diürn amb pantalla encesa, Zz, Zz amb pantalla encesa
+  const esNit = () => mode === 'nit' || mode === 'nitFix', esFix = () => mode === 'diaFix' || mode === 'nitFix';
   let mode = 'dia';
   try { const g = localStorage.getItem('rellotge-mode'); if (MODES.includes(g)) mode = g; } catch(e){}
   let bloqueig = null;
@@ -4179,7 +4188,7 @@ window.__aniv = (function(){
     } catch(e){ bloqueig = null; }
   }
   function alliberaPantalla(){ try { if (bloqueig) bloqueig.release(); } catch(e){} bloqueig = null; }
-  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && mode === 'nitFix') demanaPantallaEncesa(); });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && esFix()) demanaPantallaEncesa(); });
   // Avís breu (únic per a tota l'app: canvi de mode, ràdios, podcasts)
   const avisEl = document.getElementById('avisMode');
   let tempsAvis = null;
@@ -4207,7 +4216,7 @@ window.__aniv = (function(){
   const matriu = (h, k) => { const fila = c => `${(.2126*c*k).toFixed(3)} ${(.7152*c*k).toFixed(3)} ${(.0722*c*k).toFixed(3)} 0 0`; return hexRgb(h).map(v => fila(v/255)).join('  ') + '  0 0 0 1 0'; };
   function aplicaTemaNit(){
     const st = document.documentElement.style;
-    if (mode === 'dia'){
+    if (!esNit()){
       st.removeProperty('--lume'); st.removeProperty('--nit');
       matLume.setAttribute('values', matLume0); matIcona.setAttribute('values', matIcona0);
       return;
@@ -4222,7 +4231,7 @@ window.__aniv = (function(){
   const EXCLOSOS = 'button, a, input, select, textarea, label, .placa, #rellotge, .menu-idioma, .aniv-velo, .pastis, .al-cara, [data-audio-id]';
   document.addEventListener('pointerdown', e => { tocNit = { x:e.clientX, y:e.clientY, t:performance.now() }; }, true);
   document.addEventListener('pointerup', e => {
-    if (mode === 'dia' || !tocNit) return;
+    if (!esNit() || !tocNit) return;
     const mou = Math.hypot(e.clientX - tocNit.x, e.clientY - tocNit.y), llarg = performance.now() - tocNit.t; tocNit = null;
     if (mou > 12 || llarg > 400 || (e.target.closest && e.target.closest(EXCLOSOS))){ tocAnt = 0; return; }
     const ara = performance.now();
@@ -4236,7 +4245,7 @@ window.__aniv = (function(){
   }, true);
   // lliscar amunt i avall damunt del rellotge: més o menys intensitat (de tot el conjunt per igual)
   let llisca = null;
-  const iniciLlisca = (x, y) => { if (mode === 'dia' || girant || zoom.z > 1) return; llisca = { x, y, v0: intensitat, actiu: false }; };
+  const iniciLlisca = (x, y) => { if (!esNit() || girant || zoom.z > 1) return; llisca = { x, y, v0: intensitat, actiu: false }; };
   const mouLlisca = (x, y) => {
     if (!llisca) return false;
     const dx = x - llisca.x, dy = y - llisca.y;
@@ -4263,20 +4272,21 @@ window.__aniv = (function(){
   window.addEventListener('mouseup', fiLlisca);
   function aplicaMode(mostraAvis){
     const html = document.documentElement;
-    html.classList.toggle('nit', mode !== 'dia');
+    html.classList.toggle('nit', esNit());
     aplicaTemaNit();
-    html.classList.toggle('encesa', mode === 'nitFix');
+    html.classList.toggle('encesa', esFix());
     pintaLema(new Date());
     document.querySelectorAll('.lume-lluna').forEach(g => {
-      if (mode !== 'dia'){ if (!g.dataset.filtreOriginal) g.dataset.filtreOriginal = g.getAttribute('filter') || '-'; g.setAttribute('filter', 'url(#filtreLume)'); }
+      if (esNit()){ if (!g.dataset.filtreOriginal) g.dataset.filtreOriginal = g.getAttribute('filter') || '-'; g.setAttribute('filter', 'url(#filtreLume)'); }
       else if (g.dataset.filtreOriginal){ if (g.dataset.filtreOriginal === '-') g.removeAttribute('filter'); else g.setAttribute('filter', g.dataset.filtreOriginal); }
     });
-    const meta = document.querySelector('meta[name="theme-color"]'); if (meta) meta.setAttribute('content', mode === 'dia' ? '#140e09' : '#000000');
-    if (mode === 'nitFix') demanaPantallaEncesa(); else alliberaPantalla();
-    const txt = mode === 'dia' ? L.modeDia : mode === 'nit' ? L.modeNit : L.modeNitFix;
+    const meta = document.querySelector('meta[name="theme-color"]'); if (meta) meta.setAttribute('content', esNit() ? '#000000' : '#140e09');
+    if (esFix()) demanaPantallaEncesa(); else alliberaPantalla();
+    const encesa = L.modeNitFix.slice(L.modeNitFix.indexOf(' · '));   // « · pantalla sempre encesa»
+    const txt = mode === 'dia' ? L.modeDia : mode === 'diaFix' ? L.modeDia + encesa : mode === 'nit' ? L.modeNit : L.modeNitFix;
     const bm = document.getElementById('botoMode'); bm.setAttribute('aria-label', `${L.modeEtq}: ${txt}`); bm.title = txt;
     if (mostraAvis){
-      avisa(txt + (mode === 'nitFix' && !('wakeLock' in navigator) ? ' ✕' : ''), 2200);
+      avisa(txt + (esFix() && !('wakeLock' in navigator) ? ' ✕' : ''), 2200);
     }
   }
   document.getElementById('botoMode').addEventListener('click', e => {

@@ -722,8 +722,8 @@
   /* Mòbil apaisat: el mode i la campana passen a l'esquerra, al costat de la llengua i la veu,
      perquè no trepitgin la cinta de dades */
   @media (orientation: landscape) and (max-height: 540px){
-    .boto-mode{ right:auto; left: calc(max(12px, env(safe-area-inset-left)) + 96px); }
-    .boto-so{ right:auto; left: calc(max(12px, env(safe-area-inset-left)) + 144px); }
+    .boto-mode{ right:auto; left: calc(max(12px, env(safe-area-inset-left)) + 144px); }
+    .boto-so{ right:auto; left: calc(max(12px, env(safe-area-inset-left)) + 192px); }
     .app{ padding-right: max(12px, env(safe-area-inset-right)); }
   }
   /* Vertical (iPhone): calendari compacte i el rellotge s'queda tot l'espai restant */
@@ -778,7 +778,34 @@
   .menu-idioma li b{ font-family:'Cinzel', serif; font-size:11px; letter-spacing:1px; color:#8a5536; width:22px; }
   .menu-idioma li.actiu{ background: rgba(122,26,22,.12); color:#7a1a16; }
   .menu-idioma li:active{ background: rgba(122,26,22,.2); }
-  .capcalera{ text-align:center; line-height:1.1; min-height:40px; display:flex; flex-direction:column; justify-content:center; padding: 0 100px; }
+  .capcalera{ text-align:center; line-height:1.1; min-height:40px; display:flex; flex-direction:column; justify-content:center; padding: 0 100px 0 148px; }
+  /* Botó «?» i finestra d'instruccions */
+  .boto-ajuda span{ font-family:'Cinzel', serif; font-weight:700; font-size:20px; line-height:1; color:#3a2208; transform: translateY(1px); }
+  html.nit .boto-ajuda span{ color:var(--nit) !important; }
+  .ajuda-velo{ position:fixed; inset:0; z-index:210; background:rgba(10,6,3,.62); display:flex; align-items:center; justify-content:center; padding:16px; }
+  .ajuda-velo[hidden]{ display:none; }
+  .ajuda-marc{ width:min(520px, 100%); max-height: min(88svh, 760px); display:flex; padding:7px; border-radius:16px;
+    background:linear-gradient(145deg,#f3c9a8,#b97752 40%,#e8b28e 60%,#8a5536); box-shadow:0 14px 30px rgba(0,0,0,.6); }
+  .ajuda-cara{ position:relative; flex:1; min-height:0; display:flex; flex-direction:column; border-radius:11px; background:radial-gradient(ellipse at 50% 20%,#fbf5e7,#efe3c8); color:#2c241c; }
+  .ajuda-titol{ flex:0 0 auto; text-align:center; font-family:'Cinzel', serif; font-weight:700; letter-spacing:.3em; font-size:17px; color:#8a5536; text-transform:uppercase; padding:16px 44px 10px; }
+  .ajuda-titol::after{ content:''; display:block; width:90px; height:1px; margin:8px auto 0; background:linear-gradient(90deg,transparent,#b97752,transparent); }
+  .ajuda-cos{ flex:1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:2px 20px 18px; }
+  .ajuda-cos section{ padding:9px 0 10px; border-bottom:1px dotted rgba(154,94,60,.55); }
+  .ajuda-cos section:last-child{ border-bottom:0; }
+  .ajuda-cos h3{ margin:0 0 4px; font-family:'Cinzel', serif; font-weight:700; font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:#8a5536; }
+  .ajuda-cos ul{ margin:0; padding:0 0 0 1.05em; }
+  .ajuda-cos li{ font-family:'Cormorant Garamond', serif; font-weight:600; font-size:17.5px; line-height:1.28; margin:2px 0; font-variant-numeric:lining-nums; }
+  .ajuda-cos li::marker{ color:#b97752; }
+  .ajuda-tanca{ position:absolute; top:10px; right:10px; appearance:none; -webkit-appearance:none; border:0; padding:0; cursor:pointer; width:30px; height:30px; border-radius:50%; display:grid; place-items:center;
+    background: radial-gradient(circle at 35% 30%, #f6e2a6, #b58a3c 65%, #6e4c16); box-shadow: inset 0 1px 1px rgba(255,245,210,.8), 0 1px 2px rgba(0,0,0,.45); }
+  .ajuda-tanca svg{ width:15px; height:15px; stroke:#3a2608; stroke-width:2.4; fill:none; stroke-linecap:round; }
+  html.nit .ajuda-marc{ background:transparent; box-shadow: inset 0 0 0 1.5px var(--nit); }
+  html.nit .ajuda-cara{ background:#000; color:var(--nit); }
+  html.nit .ajuda-titol, html.nit .ajuda-cos h3{ color:var(--nit); }
+  html.nit .ajuda-cos section{ border-color: var(--nit); }
+  html.nit .ajuda-cos li::marker{ color:var(--nit); }
+  html.nit .ajuda-tanca{ background:transparent; box-shadow: inset 0 0 0 1.5px var(--nit); }
+  html.nit .ajuda-tanca svg{ stroke:var(--nit); }
   /* ===================== MODE NOCTURN ===================== */
   :root{ --lume:#7dff8f; --nit:#ff5a1f; }
   html.nit, html.nit body{ background:#000 !important; }
@@ -943,7 +970,15 @@
   <button class="boto-rodo boto-veu" id="botoVeu">
     <svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="ona1" d="M15.5 9a4 4 0 0 1 0 6"/><path class="ona2" d="M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
   </button>
+  <button class="boto-rodo boto-ajuda" id="botoAjuda" aria-label="Instruccions"><span>?</span></button>
   <ul class="menu-idioma" id="menuIdioma" role="menu" hidden></ul>
+</div>
+<div class="ajuda-velo" id="ajudaVelo" hidden>
+  <div class="ajuda-marc" role="dialog" aria-modal="true" aria-labelledby="ajudaTitol"><div class="ajuda-cara">
+    <button type="button" class="ajuda-tanca" id="ajudaTanca" data-i18n-aria="tanca" aria-label="Tanca"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg></button>
+    <div class="ajuda-titol" id="ajudaTitol">Com funciona</div>
+    <div class="ajuda-cos" id="ajudaCos"></div>
+  </div></div>
 </div>
 
 <main class="app">
@@ -1394,7 +1429,7 @@ window.__aniv = (function(){
     ombresBusques(defs, 'a');
     gradient(defs, 'linearGradient', 'aNegre', {x1:'0', y1:'0', x2:'1', y2:'0'}, [['0%','#030201'],['42%','#1d1710'],['52%','#5a4e40'],['100%','#060403']]);
 
-    // Corona bisellada esglaonada (la mateixa de BLANCPAIN), en coure vell enfosquit
+    // Corona bisellada esglaonada (la mateixa de CAPITAINE), en coure vell enfosquit
     gradient(defs, 'linearGradient', 'aCoure', {x1:'0', y1:'0', x2:'0.35', y2:'1'}, [['0%','#d6a77f'],['30%','#a36a45'],['62%','#6e4127'],['100%','#331a0c']]);
     gradient(defs, 'linearGradient', 'aCoureInv', {x1:'0.35', y1:'1', x2:'0', y2:'0'}, [['0%','#c99772'],['35%','#8a5636'],['70%','#55301b'],['100%','#28140a']]);
     const fCV = el('filter', {id:'aCoureVell', x:'0', y:'0', width:'100%', height:'100%'}, defs);
@@ -1456,14 +1491,14 @@ window.__aniv = (function(){
       el('path', {d:'M 0,-8 L 5,4 L 0,1.5 L -5,4 Z', transform:`translate(${px(254,a)} ${py(254,a)}) rotate(${a})`, stroke:'none', fill:'#1a1209', class:'lume'}, tinta);
     }
     numeralRomans(tinta, 194, 66, {stroke:'none', fill:'#1a1209'}, {sx:0.7, sy:1.22, ls:-2}).classList.add('lume');
-    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de BLANCPAIN
+    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de CAPITAINE
     const marcaA = el('g', {transform:`translate(${C} ${C+82}) scale(0.72 1.18)`}, tinta);
     el('text', {x:0, y:0, 'text-anchor':'middle', 'dominant-baseline':'central', 'font-family':'Cinzel, serif', 'font-weight':700,
       'font-size':38, 'letter-spacing':-1, stroke:'none', fill:'#1a1209'}, marcaA).textContent = 'XM';
     el('line', {x1:C-22, y1:C+108, x2:C+22, y2:C+108, stroke:'#1a1209', 'stroke-width':.9}, tinta);
     el('path', {d:`M ${C},${C+105} L ${C+3},${C+108} L ${C},${C+111} L ${C-3},${C+108} Z`, stroke:'none', fill:'#1a1209'}, tinta);
 
-    // ---- Visor del dia de la setmana (com el de BLANCPAIN, però amb fons de pergamí) ----
+    // ---- Visor del dia de la setmana (com el de CAPITAINE, però amb fons de pergamí) ----
     const AX = C-80, AY = C-114, AW = 160, AH = 34;
     gradient(defs, 'linearGradient', 'aVisorPaper', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#f1dcae'],['55%','#e6c993'],['100%','#d4b072']]);
     gradient(defs, 'linearGradient', 'aOmbraVisor', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2a1604',.42],['24%','#2a1604',0],['80%','#2a1604',0],['100%','#2a1604',.28]]);
@@ -1631,7 +1666,7 @@ window.__aniv = (function(){
     // ---- Nom de la casa, imprès a l'esfera ----
     const nomCasa = el('text', {x:C, y:C-58, 'text-anchor':'middle', 'dominant-baseline':'central',
       'font-family':'Cinzel, serif', 'font-weight':700, 'font-size':17, 'letter-spacing':2.2, fill:'#2c241c'}, svg);
-    nomCasa.textContent = 'BLANCPAIN';
+    nomCasa.textContent = 'CAPITAINE';
     el('line', {x1:C-26, y1:C-45, x2:C+26, y2:C-45, stroke:'#b97752', 'stroke-width':.9}, svg);
     el('path', {d:`M ${C},${C-48} L ${C+3},${C-45} L ${C},${C-42} L ${C-3},${C-45} Z`, fill:'url(#cOrRosa)'}, svg);
 
@@ -1791,7 +1826,7 @@ window.__aniv = (function(){
     gradient(defs, 'radialGradient', 'dLluna', {cx:'40%', cy:'35%', r:'70%'}, [['0%','#fbfbf7'],['55%','#d9dad6'],['100%','#9c9fa3']]);
     gradient(defs, 'radialGradient', 'dCrater', {cx:'45%', cy:'40%', r:'60%'}, [['0%','#8e9195',.55],['70%','#a9acaf',.35],['100%','#ffffff',.25]]);
     gradient(defs, 'radialGradient', 'dOmbraInt', {cx:'50%', cy:'50%', r:'50%'}, [['84%','#3a2a14',0],['96%','#3a2a14',.22],['100%','#2a1a08',.5]]);
-    // Verd maragda: el mateix dels dissabtes a la finestra de BLANCPAIN
+    // Verd maragda: el mateix dels dissabtes a la finestra de CAPITAINE
     gradient(defs, 'linearGradient', 'dMaragdaV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#1f8a64'],['50%','#0f6b4c'],['100%','#094a35']]);
     gradient(defs, 'linearGradient', 'dBurdeusV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#9a2a24'],['50%','#7a1a16'],['100%','#55100e']]);
     gradient(defs, 'linearGradient', 'dCobaltV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2f62c4'],['50%','#0047ab'],['100%','#002e73']]);
@@ -1871,7 +1906,7 @@ window.__aniv = (function(){
     const turons = `A ${HR} ${HR} 0 0 0 ${C} ${CUSP} A ${HR} ${HR} 0 0 0 ${px(226,-angE)} ${py(226,-angE)}`;
     el('path', {d:`M ${px(226,-angE)} ${py(226,-angE)} A 226 226 0 0 1 ${px(226,angE)} ${py(226,angE)} ${turons} Z`}, clipCel);
     const cel = el('g', {'clip-path':'url(#dClipCel)'}, svg);
-    // Disc del firmament: gira mitja volta per llunació (com el de BLANCPAIN); la lluna plena passa sota el 12
+    // Disc del firmament: gira mitja volta per llunació (com el de CAPITAINE); la lluna plena passa sota el 12
     const firmament = el('g', {}, cel);
     el('circle', {cx:C, cy:C, r:228, fill:'url(#dCel)'}, firmament);
     gradient(defs, 'radialGradient', 'dViaLactia', {cx:'50%', cy:'50%', r:'50%'}, [['0%','#9fb4ff',.18],['100%','#9fb4ff',0]]);
@@ -1882,7 +1917,7 @@ window.__aniv = (function(){
       if (s > 0.9) el('path', {d:'M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z', transform:`translate(${px(r,a).toFixed(1)} ${py(r,a).toFixed(1)}) scale(${(0.6+s*0.5).toFixed(2)})`, fill:'#fffbe8', class:'estel', style:`animation-delay:${(i*0.37)%2.6}s`}, firmament);
       else el('circle', {cx:px(r,a).toFixed(1), cy:py(r,a).toFixed(1), r:(0.4+s*1.1).toFixed(2), fill:'#ffffff', opacity:(0.35+s*0.6).toFixed(2)}, firmament);
     }
-    // estels grossos amb raigs, com els de BLANCPAIN, repartits pel cel
+    // estels grossos amb raigs, com els de CAPITAINE, repartits pel cel
     [[-150,-40,1.4],[-95,-120,1.1],[30,-150,1.25],[120,-95,1.0],[160,20,1.3],[95,110,1.1],[-20,160,1.2],[-120,95,1.0],[-60,40,.8],[60,-30,.85],[-170,60,.9],[150,-150,.8]].forEach(([x,y,s],i)=>{
       el('path', {d:'M0,-7 L1.4,-1.4 L7,0 L1.4,1.4 L0,7 L-1.4,1.4 L-7,0 L-1.4,-1.4 Z', transform:`translate(${C+x} ${C+y}) scale(${s})`, fill:'#fff6da', class:'estel', style:`animation-delay:${(i*0.53)%2.6}s`}, firmament);
     });
@@ -2049,7 +2084,7 @@ window.__aniv = (function(){
       const d = ara.getDate();
       busDataRot.setAttribute('transform', `rotate(${((d-1)*360/31).toFixed(2)} ${C} ${C})`);
       textosData.forEach((t,i)=> t.setAttribute('fill', (i+1)===d ? '#b3261e' : '#2c241c'));
-      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de BLANCPAIN
+      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de CAPITAINE
       const iAvui = (ara.getDay()+6)%7;
       const fe = festiu(ara);
       textosDia.forEach((t,i)=>{
@@ -4127,6 +4162,7 @@ window.__aniv = (function(){
     if (window.__mediaLlengua) window.__mediaLlengua();
     if (window.__alarmesLlengua) window.__alarmesLlengua();
     if (window.__anivLlengua) window.__anivLlengua();
+    if (window.__ajudaLlengua) window.__ajudaLlengua();
     pintaCinta();
     if (darrerLloc) geocodifica(...darrerLloc);
     if (darrerMeteoExtrem) mostraAvisExtrem(darrerMeteoExtrem);
@@ -5130,6 +5166,134 @@ window.__aniv = (function(){
   if ('serviceWorker' in navigator && location.protocol.startsWith('http')){
     window.addEventListener('load', ()=> navigator.serviceWorker.register('sw.js').catch(()=>{}));
   }
+
+  // ========================= INSTRUCCIONS (botó «?») =========================
+  // Finestra esquemàtica amb les possibilitats de l'app, en cada llengua
+  const AJUDA = {
+    ca: { titol:'Com funciona', boto:'Instruccions', s:[
+      ['Rellotge', ['Toca l’esfera: el cilindre gira i en mostra una altra (n’hi ha quatre).', 'Dos dits: amplia l’esfera; la lupa la torna a la mida normal.']],
+      ['Botons de dalt', ['CA: tria la llengua (nou llengües).', 'Altaveu: diu l’hora en veu alta.', 'Sol i lluna: mode de dia, dia amb pantalla encesa, Zz i Zz amb pantalla encesa.', 'Campana: campanades activades o silenciades.']],
+      ['Mode Zz (nit)', ['Doble toc a la pantalla: canvia els colors (sis jocs).', 'Llisca amunt o avall sobre el rellotge: més o menys intensitat.']],
+      ['Cinta de dades', ['Població, temperatura, humitat, sensació, pluja i altitud. Llisca-la de costat.', 'Si s’acosta temps extrem, hi surt un avís.']],
+      ['Finestres de sota', ['Llisca amunt i avall per canviar de finestra; algunes també es llisquen de costat.', 'Calendari · El temps (ara, 12 hores, 5 dies) · Avui (sant, efemèride, sol i lluna) · Properament · On som · Avisos · Ràdio · Podcasts · Notícies · Alarmes.']],
+      ['Calendari', ['Festius amb segell de lacre: toca’ls per veure’n el nom.', 'Fletxes per canviar de mes; doble toc al títol per tornar al mes actual.']],
+      ['Ràdio i podcasts', ['Toca una emissora. La placa «Ara sona» posa en pausa o reprèn.', 'Rellotge de sorra: apaga la ràdio al cap de 15, 30, 45, 60 o 90 minuts. La creu l’atura.']],
+      ['Alarmes', ['Tres alarmes amb l’app oberta.', 'El botó del mòbil la passa al rellotge del telèfon.']],
+      ['Instal·lar', ['Comparteix › Afegeix a la pantalla d’inici. Un cop instal·lada, funciona sense connexió.']]
+    ]},
+    oc: { titol:'Coma fonciona', boto:'Instruccions', s:[
+      ['Relòtge', ['Tòca era esfèra: eth cilindre vire e ne mòstre ua auta (n’i a quate).', 'Dus dits: agrandís era esfèra; era lópia la torne ara mida normau.']],
+      ['Botons de dauta', ['OC: tria era lengua (nau lengües).', 'Parlador: ditz era ora en votz nauta.', 'Solei e lua: mòde de dia, dia damb pantalha alugada, Zz e Zz damb pantalha alugada.', 'Campana: campanades actives o en silenci.']],
+      ['Mòde Zz (nuet)', ['Dobla tòca ena pantalha: cambie es colors (sies jòcs).', 'Lisa entà naut o entà baish sus eth relòtge: mès o mens intensitat.']],
+      ['Cinta de donades', ['Poblacion, temperatura, umiditat, sensacion, ploja e altitud. Lisa-la de costat.', 'Se s’apròche temps extrèm, i ges un avís.']],
+      ['Finèstres de baish', ['Lisa entà naut e entà baish entà cambiar de finèstra; quauqu’ues tanben se lisen de costat.', 'Calendari · Eth temps (ara, 12 ores, 5 dies) · Uei (sant, efemèride, solei e lua) · Lèu · A on èm · Avisi · Ràdio · Podcasts · Actualitat · Alarmes.']],
+      ['Calendari', ['Hèstes damb sagèth de cera: tòca-les entà veir-ne eth nòm.', 'Sagetes entà cambiar de mes; dobla tòca en títol entà tornar ath mes actuau.']],
+      ['Ràdio e podcasts', ['Tòca ua emissora. Era placa «Ara sone» la met en pausa o la torne a engegar.', 'Relòtge de sable: amòrte era ràdio dempús de 15, 30, 45, 60 o 90 minuts. Era crotz l’arrèste.']],
+      ['Alarmes', ['Tres alarmes damb era app dubèrta.', 'Eth boton deth mobil la passe ath relòtge deth telefòn.']],
+      ['Installar', ['Comparteish › Higer ara pantalha d’inici. Un còp installada, fonciona sense connexion.']]
+    ]},
+    gl: { titol:'Como funciona', boto:'Instrucións', s:[
+      ['Reloxo', ['Toca a esfera: o cilindro xira e amosa outra (hai catro).', 'Dous dedos: amplía a esfera; a lupa devólvea ao tamaño normal.']],
+      ['Botóns de arriba', ['GL: escolle a lingua (nove linguas).', 'Altofalante: di a hora en voz alta.', 'Sol e lúa: modo de día, día con pantalla acesa, Zz e Zz con pantalla acesa.', 'Campá: badaladas activadas ou silenciadas.']],
+      ['Modo Zz (noite)', ['Dobre toque na pantalla: cambia as cores (seis xogos).', 'Esvara cara arriba ou abaixo sobre o reloxo: máis ou menos intensidade.']],
+      ['Cinta de datos', ['Poboación, temperatura, humidade, sensación, choiva e altitude. Esvaraa de lado.', 'Se se achega tempo extremo, aparece un aviso.']],
+      ['Xanelas de abaixo', ['Esvara arriba e abaixo para cambiar de xanela; algunhas tamén esvaran de lado.', 'Calendario · O tempo (agora, 12 horas, 5 días) · Hoxe (santo, efeméride, sol e lúa) · Proximamente · Onde estamos · Avisos · Radio · Podcasts · Novas · Alarmas.']],
+      ['Calendario', ['Festivos con selo de lacre: tócaos para ver o nome.', 'Frechas para cambiar de mes; dobre toque no título para volver ao mes actual.']],
+      ['Radio e podcasts', ['Toca unha emisora. A placa «Agora soa» pon en pausa ou retoma.', 'Reloxo de area: apaga a radio despois de 15, 30, 45, 60 ou 90 minutos. A cruz detena.']],
+      ['Alarmas', ['Tres alarmas coa app aberta.', 'O botón do móbil pásaa ao reloxo do teléfono.']],
+      ['Instalar', ['Compartir › Engadir á pantalla de inicio. Unha vez instalada, funciona sen conexión.']]
+    ]},
+    eu: { titol:'Nola dabilen', boto:'Argibideak', s:[
+      ['Erlojua', ['Ukitu esfera: zilindroak bira egiten du eta beste bat erakusten du (lau daude).', 'Bi hatz: esfera handitzen du; lupak tamaina normalera itzultzen du.']],
+      ['Goiko botoiak', ['EU: aukeratu hizkuntza (bederatzi hizkuntza).', 'Bozgorailua: ordua ozen esaten du.', 'Eguzkia eta ilargia: egun modua, egun modua pantaila piztuta, Zz eta Zz pantaila piztuta.', 'Kanpaia: kanpai-hotsak aktibatuta edo isilduta.']],
+      ['Zz modua (gaua)', ['Ukitu bikoitza pantailan: koloreak aldatzen ditu (sei joko).', 'Irristatu gora edo behera erlojuaren gainean: intentsitate gehiago edo gutxiago.']],
+      ['Datu-zinta', ['Herria, tenperatura, hezetasuna, sentsazioa, euria eta altitudea. Irristatu alboetara.', 'Muturreko eguraldia hurbiltzen bada, abisu bat agertzen da.']],
+      ['Beheko leihoak', ['Irristatu gora eta behera leihoz aldatzeko; batzuk alboetara ere irristatzen dira.', 'Egutegia · Eguraldia (orain, 12 ordu, 5 egun) · Gaur (santua, efemeridea, eguzkia eta ilargia) · Laster · Non gaude · Abisuak · Irratia · Podcastak · Albisteak · Alarmak.']],
+      ['Egutegia', ['Jaiegunak lakre-zigiluarekin: ukitu izena ikusteko.', 'Geziak hilabetez aldatzeko; ukitu bikoitza izenburuan uneko hilabetera itzultzeko.']],
+      ['Irratia eta podcastak', ['Ukitu irrati-kate bat. «Orain entzuten» plakak eten edo berrabiarazten du.', 'Harea-erlojua: irratia 15, 30, 45, 60 edo 90 minuturen buruan itzaltzen du. Gurutzeak gelditzen du.']],
+      ['Alarmak', ['Hiru alarma, aplikazioa irekita dagoela.', 'Mugikorraren botoiak telefonoaren erlojura pasatzen du.']],
+      ['Instalatu', ['Partekatu › Gehitu hasierako pantailan. Instalatu ondoren, konexiorik gabe dabil.']]
+    ]},
+    fr: { titol:'Mode d’emploi', boto:'Mode d’emploi', s:[
+      ['Horloge', ['Touchez le cadran : le cylindre tourne et en montre un autre (il y en a quatre).', 'Deux doigts : agrandit le cadran ; la loupe le remet à la taille normale.']],
+      ['Boutons du haut', ['FR : choisit la langue (neuf langues).', 'Haut-parleur : dit l’heure à voix haute.', 'Soleil et lune : mode jour, jour écran allumé, Zz et Zz écran allumé.', 'Cloche : carillon activé ou silencieux.']],
+      ['Mode Zz (nuit)', ['Double toucher sur l’écran : change les couleurs (six jeux).', 'Glissez vers le haut ou le bas sur l’horloge : plus ou moins d’intensité.']],
+      ['Bandeau de données', ['Ville, température, humidité, ressenti, pluie et altitude. Faites-le glisser sur le côté.', 'Si un temps extrême approche, un avis apparaît.']],
+      ['Fenêtres du bas', ['Glissez vers le haut et le bas pour changer de fenêtre ; certaines glissent aussi sur le côté.', 'Calendrier · Météo (maintenant, 12 heures, 5 jours) · Aujourd’hui (saint, éphéméride, soleil et lune) · Prochainement · Où sommes-nous · Alertes · Radio · Podcasts · Actualités · Alarmes.']],
+      ['Calendrier', ['Jours fériés au sceau de cire : touchez-les pour voir leur nom.', 'Flèches pour changer de mois ; double toucher sur le titre pour revenir au mois actuel.']],
+      ['Radio et podcasts', ['Touchez une station. La plaque « En écoute » met en pause ou reprend.', 'Sablier : éteint la radio au bout de 15, 30, 45, 60 ou 90 minutes. La croix l’arrête.']],
+      ['Alarmes', ['Trois alarmes, l’app ouverte.', 'Le bouton du portable la transfère à l’horloge du téléphone.']],
+      ['Installer', ['Partager › Sur l’écran d’accueil. Une fois installée, elle fonctionne hors connexion.']]
+    ]},
+    en: { titol:'How it works', boto:'Instructions', s:[
+      ['Clock', ['Tap the dial: the cylinder spins and shows another one (there are four).', 'Two fingers: zoom into the dial; the magnifier returns it to normal size.']],
+      ['Top buttons', ['EN: choose the language (nine languages).', 'Speaker: says the time out loud.', 'Sun and moon: day mode, day with screen on, Zz and Zz with screen on.', 'Bell: chimes on or muted.']],
+      ['Zz mode (night)', ['Double-tap the screen: change the colours (six sets).', 'Swipe up or down over the clock: more or less brightness.']],
+      ['Data strip', ['Town, temperature, humidity, feels-like, rain and altitude. Swipe it sideways.', 'If extreme weather is coming, an alert appears.']],
+      ['Lower windows', ['Swipe up and down to change window; some also swipe sideways.', 'Calendar · Weather (now, 12 hours, 5 days) · Today (saint, on this day, sun and moon) · Coming up · Where we are · Warnings · Radio · Podcasts · News · Alarms.']],
+      ['Calendar', ['Holidays with a wax seal: tap them to see the name.', 'Arrows change the month; double-tap the title to go back to this month.']],
+      ['Radio and podcasts', ['Tap a station. The “Now playing” plate pauses or resumes.', 'Hourglass: switches the radio off after 15, 30, 45, 60 or 90 minutes. The cross stops it.']],
+      ['Alarms', ['Three alarms while the app is open.', 'The phone button sends it to the phone’s clock.']],
+      ['Install', ['Share › Add to Home Screen. Once installed, it works offline.']]
+    ]},
+    de: { titol:'So funktioniert es', boto:'Anleitung', s:[
+      ['Uhr', ['Zifferblatt antippen: der Zylinder dreht sich und zeigt ein anderes (es gibt vier).', 'Zwei Finger: Zifferblatt vergrößern; die Lupe stellt die normale Größe wieder her.']],
+      ['Tasten oben', ['DE: Sprache wählen (neun Sprachen).', 'Lautsprecher: sagt die Uhrzeit laut an.', 'Sonne und Mond: Tagmodus, Tag mit Bildschirm an, Zz und Zz mit Bildschirm an.', 'Glocke: Glockenschlag an oder stumm.']],
+      ['Zz-Modus (Nacht)', ['Doppeltippen auf den Bildschirm: Farben wechseln (sechs Sätze).', 'Über der Uhr nach oben oder unten wischen: mehr oder weniger Helligkeit.']],
+      ['Datenleiste', ['Ort, Temperatur, Feuchte, gefühlte Temperatur, Regen und Höhe. Seitlich wischen.', 'Bei drohendem Unwetter erscheint ein Hinweis.']],
+      ['Fenster unten', ['Nach oben und unten wischen, um das Fenster zu wechseln; manche lassen sich auch seitlich wischen.', 'Kalender · Wetter (jetzt, 12 Stunden, 5 Tage) · Heute (Heilige, Ereignis, Sonne und Mond) · Demnächst · Wo wir sind · Warnungen · Radio · Podcasts · Nachrichten · Wecker.']],
+      ['Kalender', ['Feiertage mit Wachssiegel: antippen, um den Namen zu sehen.', 'Pfeile wechseln den Monat; Doppeltippen auf den Titel führt zum aktuellen Monat.']],
+      ['Radio und Podcasts', ['Einen Sender antippen. Das Schild „Jetzt läuft“ pausiert oder setzt fort.', 'Sanduhr: schaltet das Radio nach 15, 30, 45, 60 oder 90 Minuten aus. Das Kreuz stoppt es.']],
+      ['Wecker', ['Drei Wecker bei geöffneter App.', 'Die Handy-Taste überträgt ihn in die Uhr-App des Telefons.']],
+      ['Installieren', ['Teilen › Zum Home-Bildschirm. Installiert funktioniert sie auch offline.']]
+    ]},
+    it: { titol:'Come funziona', boto:'Istruzioni', s:[
+      ['Orologio', ['Tocca il quadrante: il cilindro gira e ne mostra un altro (sono quattro).', 'Due dita: ingrandisce il quadrante; la lente lo riporta alla misura normale.']],
+      ['Pulsanti in alto', ['IT: sceglie la lingua (nove lingue).', 'Altoparlante: dice l’ora ad alta voce.', 'Sole e luna: modalità giorno, giorno con schermo acceso, Zz e Zz con schermo acceso.', 'Campana: rintocchi attivi o silenziati.']],
+      ['Modalità Zz (notte)', ['Doppio tocco sullo schermo: cambia i colori (sei combinazioni).', 'Scorri su o giù sopra l’orologio: più o meno intensità.']],
+      ['Nastro dei dati', ['Località, temperatura, umidità, percepita, pioggia e altitudine. Scorrilo di lato.', 'Se arriva maltempo estremo, compare un avviso.']],
+      ['Finestre in basso', ['Scorri su e giù per cambiare finestra; alcune scorrono anche di lato.', 'Calendario · Meteo (ora, 12 ore, 5 giorni) · Oggi (santo, ricorrenza, sole e luna) · Prossimamente · Dove siamo · Allerte · Radio · Podcast · Notizie · Sveglie.']],
+      ['Calendario', ['Festivi con sigillo di ceralacca: toccali per vederne il nome.', 'Frecce per cambiare mese; doppio tocco sul titolo per tornare al mese corrente.']],
+      ['Radio e podcast', ['Tocca un’emittente. La targa «In ascolto» mette in pausa o riprende.', 'Clessidra: spegne la radio dopo 15, 30, 45, 60 o 90 minuti. La croce la ferma.']],
+      ['Sveglie', ['Tre sveglie con l’app aperta.', 'Il pulsante del cellulare la passa all’orologio del telefono.']],
+      ['Installare', ['Condividi › Aggiungi alla schermata Home. Una volta installata, funziona offline.']]
+    ]},
+    pt: { titol:'Como funciona', boto:'Instruções', s:[
+      ['Relógio', ['Toca no mostrador: o cilindro gira e mostra outro (há quatro).', 'Dois dedos: amplia o mostrador; a lupa devolve-o ao tamanho normal.']],
+      ['Botões de cima', ['PT: escolhe a língua (nove línguas).', 'Altifalante: diz as horas em voz alta.', 'Sol e lua: modo de dia, dia com ecrã ligado, Zz e Zz com ecrã ligado.', 'Sino: badaladas ativas ou silenciadas.']],
+      ['Modo Zz (noite)', ['Toque duplo no ecrã: muda as cores (seis conjuntos).', 'Desliza para cima ou para baixo sobre o relógio: mais ou menos intensidade.']],
+      ['Faixa de dados', ['Localidade, temperatura, humidade, sensação, chuva e altitude. Desliza-a para o lado.', 'Se se aproxima tempo extremo, aparece um aviso.']],
+      ['Janelas de baixo', ['Desliza para cima e para baixo para mudar de janela; algumas também deslizam para o lado.', 'Calendário · O tempo (agora, 12 horas, 5 dias) · Hoje (santo, efeméride, sol e lua) · Brevemente · Onde estamos · Avisos · Rádio · Podcasts · Notícias · Alarmes.']],
+      ['Calendário', ['Feriados com selo de lacre: toca-lhes para ver o nome.', 'Setas para mudar de mês; toque duplo no título para voltar ao mês atual.']],
+      ['Rádio e podcasts', ['Toca numa estação. A placa «A tocar» pausa ou retoma.', 'Ampulheta: desliga o rádio ao fim de 15, 30, 45, 60 ou 90 minutos. A cruz para-o.']],
+      ['Alarmes', ['Três alarmes com a app aberta.', 'O botão do telemóvel passa-o para o relógio do telefone.']],
+      ['Instalar', ['Partilhar › Adicionar ao ecrã principal. Depois de instalada, funciona sem ligação.']]
+    ]}
+  };
+  (function(){
+    const velo = document.getElementById('ajudaVelo'), cos = document.getElementById('ajudaCos'), boto = document.getElementById('botoAjuda');
+    function pinta(){
+      const A = AJUDA[LLENGUA] || AJUDA.ca;
+      document.getElementById('ajudaTitol').textContent = A.titol;
+      boto.setAttribute('aria-label', A.boto); boto.title = A.boto;
+      cos.innerHTML = '';
+      A.s.forEach(([t, ll]) => {
+        const sec = document.createElement('section');
+        const h = document.createElement('h3'); h.textContent = t; sec.appendChild(h);
+        const ul = document.createElement('ul');
+        ll.forEach(x => { const li = document.createElement('li'); li.textContent = x; ul.appendChild(li); });
+        sec.appendChild(ul); cos.appendChild(sec);
+      });
+    }
+    function obre(){ pinta(); velo.hidden = false; cos.scrollTop = 0; }
+    function tanca(){ velo.hidden = true; }
+    boto.addEventListener('click', e => { e.stopPropagation(); obre(); });
+    document.getElementById('ajudaTanca').addEventListener('click', tanca);
+    velo.addEventListener('click', e => { if (e.target === velo) tanca(); });
+    document.addEventListener('keydown', e => { if (!velo.hidden && e.key === 'Escape') tanca(); });
+    window.__ajudaLlengua = () => { pinta(); };
+    pinta();
+  })();
 
   // ========================= ANIVERSARI (secret: doble toc a la placa de Població) =========================
   (function(){

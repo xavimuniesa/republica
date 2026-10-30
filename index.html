@@ -150,6 +150,10 @@
     cursor: grab;
   }
   .cinta::-webkit-scrollbar{ display:none; }
+  /* la cinta només amb els símbols i les dades (sense títols): plaques més baixes, més lloc per a l'esfera */
+  .cinta .placa .etq{ display:none; }
+  .cinta .placa{ gap:7px; padding-top: clamp(3px,.6svh,6px); padding-bottom: clamp(3px,.6svh,6px); }
+  .cinta .placa svg{ width:20px; height:20px; }
   .placa{
     flex:0 0 auto;
     position:relative;
@@ -727,7 +731,7 @@
   @media (orientation: portrait){
     :root{ --fila: clamp(22px, 3.6svh, 34px); }
     .columna.esq{ flex:1 1 auto; min-height:0; container-type:size; justify-content:center; }
-    .rellotge{ width: min(100cqw, calc(100cqh - 58px)); margin-bottom: 8px; }
+    .rellotge{ width: min(calc(100vw - 10px), calc(100cqh - 58px)); margin-bottom: 8px; }
     .columna.dre{ flex:0 0 auto; }
     .calendari{ flex:0 0 auto; }
     .cal-finestra{ flex:0 0 auto; height: calc(var(--fila) * 6 + 24px); }
@@ -754,6 +758,14 @@
     display:flex; justify-content:space-between; gap:8px; max-width: 620px; margin: 0 auto; }
   .botonera-esq .boto-mode, .botonera-esq .boto-so{ position:static; flex:0 0 auto; }
   @media (orientation: landscape){ .botonera-esq{ right:auto; justify-content:flex-start; margin:0; } }
+  /* botons més petits: més lloc per a l'esfera */
+  .botonera-esq{ top: max(8px, env(safe-area-inset-top)); }
+  .botonera-esq .boto-rodo, .botonera-esq .boto-so{ width:32px; height:32px; font-size:11px; letter-spacing:.5px; box-shadow: 0 2px 4px rgba(0,0,0,.55), inset 0 -1px 2px rgba(0,0,0,.35); }
+  .botonera-esq .boto-rodo svg, .botonera-esq .boto-so svg{ width:18px; height:18px; }
+  .botonera-esq .boto-ajuda span{ font-size:16px; }
+  .menu-idioma{ top:40px !important; }
+  .lema{ top: calc(max(8px, env(safe-area-inset-top)) + 46px) !important; }
+  .app{ padding-top: max(8px, env(safe-area-inset-top)) !important; }
   .boto-rodo{
     width:40px; height:40px; border-radius:50%; border:none; cursor:pointer; padding:0; display:grid; place-items:center;
     background: radial-gradient(circle at 35% 30%, #fbe7a8, #c1913c 55%, #6b4712);
@@ -778,7 +790,7 @@
   .menu-idioma li b{ font-family:'Cinzel', serif; font-size:11px; letter-spacing:1px; color:#8a5536; width:22px; }
   .menu-idioma li.actiu{ background: rgba(122,26,22,.12); color:#7a1a16; }
   .menu-idioma li:active{ background: rgba(122,26,22,.2); }
-  .capcalera{ text-align:center; line-height:1.1; min-height:40px; display:flex; flex-direction:column; justify-content:center; padding: 0 100px 0 148px; }
+  .capcalera{ text-align:center; line-height:1.1; min-height:22px; display:flex; flex-direction:column; justify-content:center; padding: 0 100px 0 148px; }
   /* Botó «?» i finestra d'instruccions */
   .boto-ajuda span{ font-family:'Cinzel', serif; font-weight:700; font-size:20px; line-height:1; color:#3a2208; transform: translateY(1px); }
   html.nit .boto-ajuda span{ color:var(--nit) !important; }

@@ -63,11 +63,16 @@
   .columna.esq{ flex:0 0 auto; }
   .columna.dre{ flex:1 1 auto; min-height:0; width: min(100%, 470px); }
 
+  /* «Carpe diem» / «Carpe noctem»: apareix uns segons en canviar de mode i s'esvaeix */
   .lema{
-    font-family:'Cinzel', serif; font-size: 11px; letter-spacing: 4px; text-transform:uppercase;
-    color: var(--or-clar); font-weight:700; margin-top:3px;
-    text-shadow: 0 1px 0 #000, 0 0 10px rgba(243,220,151,.35);
+    position:fixed; z-index:35; left:0; right:0; top: calc(max(12px, env(safe-area-inset-top)) + 60px); text-align:center; pointer-events:none;
+    font-family:'Cinzel', serif; font-size: 17px; letter-spacing: 7px; text-transform:uppercase;
+    color: var(--or-clar); font-weight:700; opacity:0; transition: opacity 1.4s ease;
+    text-shadow: 0 1px 0 #000, 0 0 12px rgba(0,0,0,.9), 0 0 18px rgba(243,220,151,.35);
   }
+  .lema.visible{ opacity:1; transition: opacity .5s ease; }
+  .lema small{ display:block; margin-top:6px; font-size:10px; letter-spacing:2.4px; font-weight:400; opacity:.85; }
+  .lema small:empty{ display:none; }
 
   /* ====================== RELLOTGE 3D ====================== */
   .rellotge{
@@ -708,23 +713,15 @@
   /* ====================== DISPOSICIONS ====================== */
   @media (orientation: landscape) and (min-width: 820px){
     :root{ --mida: min(46vw, 76svh, 640px); }
-    .app{ flex-direction:row; justify-content:center; gap: 5vw; padding-right: max(66px, env(safe-area-inset-right)); }
+    .app{ flex-direction:row; justify-content:center; gap: 5vw; }
     .columna.esq{ width:auto; }
     .columna.dre{ width: min(40vw, 470px); flex:0 1 auto; height: min(88svh, 640px); }
   }
   @media (orientation: landscape) and (max-height: 540px){
     :root{ --mida: min(42vw, 72svh); }
-    .app{ flex-direction:row; justify-content:center; gap: 3vw; min-height:0; padding-right: max(62px, env(safe-area-inset-right)); }
+    .app{ flex-direction:row; justify-content:center; gap: 3vw; min-height:0; }
     .columna.esq{ width:auto; }
     .columna.dre{ width: min(50vw, 420px); flex:0 1 auto; height:100%; }
-    .lema{ display:none; }
-  }
-  /* Mòbil apaisat: el mode i la campana passen a l'esquerra, al costat de la llengua i la veu,
-     perquè no trepitgin la cinta de dades */
-  @media (orientation: landscape) and (max-height: 540px){
-    .boto-mode{ right:auto; left: calc(max(12px, env(safe-area-inset-left)) + 144px); }
-    .boto-so{ right:auto; left: calc(max(12px, env(safe-area-inset-left)) + 192px); }
-    .app{ padding-right: max(12px, env(safe-area-inset-right)); }
   }
   /* Vertical (iPhone): calendari compacte i el rellotge s'queda tot l'espai restant */
   @media (orientation: portrait){
@@ -747,13 +744,16 @@
   }
   @media (orientation: portrait) and (max-height: 600px){
     :root{ --fila: 21px; }
-    .lema{ display:none; }
     .llegenda{ display:none; }
   }
   .estel{ animation: centelleig 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
   @keyframes centelleig{ 0%,100%{ opacity:.35; } 50%{ opacity:1; } }
   /* Botons de llengua i de veu (a l'esquerra, simètrics amb la campana) */
-  .botonera-esq{ position:fixed; z-index:30; top: max(12px, env(safe-area-inset-top)); left: max(12px, env(safe-area-inset-left)); display:flex; gap:8px; }
+  /* Els cinc botons repartits per igual a dalt (apaisat: junts a l'esquerra, sobre el rellotge) */
+  .botonera-esq{ position:fixed; z-index:30; top: max(12px, env(safe-area-inset-top)); left: max(12px, env(safe-area-inset-left)); right: max(12px, env(safe-area-inset-right));
+    display:flex; justify-content:space-between; gap:8px; max-width: 620px; margin: 0 auto; }
+  .botonera-esq .boto-mode, .botonera-esq .boto-so{ position:static; flex:0 0 auto; }
+  @media (orientation: landscape){ .botonera-esq{ right:auto; justify-content:flex-start; margin:0; } }
   .boto-rodo{
     width:40px; height:40px; border-radius:50%; border:none; cursor:pointer; padding:0; display:grid; place-items:center;
     background: radial-gradient(circle at 35% 30%, #fbe7a8, #c1913c 55%, #6b4712);
@@ -896,42 +896,11 @@
 </head>
 <body>
 
-<button class="boto-so" id="botoSo" data-i18n-aria="campanades" aria-label="Campanades de les hores i els quarts">
-  <svg viewBox="0 0 24 24"><path d="M6 17h12l-1.6-2.2V10a4.4 4.4 0 0 0-8.8 0v4.8z"/><path d="M10.2 19.2a1.9 1.9 0 0 0 3.6 0"/><path d="M12 4.2v1.4"/><path class="barra" d="M4 4l16 16" stroke="#7d1a10" stroke-width="2.2"/></svg>
-</button>
 
-<button class="boto-rodo boto-mode" id="botoMode">
-  <svg viewBox="0 0 24 24">
-    <!-- Sol d'almanac: disc amb raigs llargs rectes i raigs curts flamejants -->
-    <g class="ic-dia">
-      <circle cx="12" cy="12" r="4.3"/>
-      <path d="M12 1.6v3.3M12 19.1v3.3M1.6 12h3.3M19.1 12h3.3" stroke-width="1.6"/>
-      <path d="M5.6 5.6q1.4.4 1.5 1.6M18.4 5.6q-1.4.4-1.5 1.6M5.6 18.4q1.4-.4 1.5-1.6M18.4 18.4q-1.4-.4-1.5-1.6" stroke-width="1.4"/>
-      <circle cx="10.6" cy="11.4" r=".55" fill="currentColor" stroke="none"/><circle cx="13.4" cy="11.4" r=".55" fill="currentColor" stroke="none"/>
-      <path d="M10.5 13.6q1.5 1 3 0" stroke-width="1"/>
-    </g>
-    <!-- Espelma petita: mode diürn amb la pantalla sempre encesa -->
-    <g class="ic-mini" transform="translate(14.6 11.4) scale(.52)">
-      <path d="M12 2.6c1.7 1.9 2.1 3.2 1.3 4.5-.4.6-.8.9-1.3.9s-.9-.3-1.3-.9c-.8-1.3-.4-2.6 1.3-4.5z" fill="currentColor" stroke="none"/>
-      <rect x="9.6" y="9.4" width="4.8" height="10" rx=".6" stroke-width="2.4"/>
-    </g>
-    <!-- Lluna en quart amb dos estels -->
-    <g class="ic-nit">
-      <path d="M14.5 3.2a9 9 0 1 0 6.2 14.6A7.4 7.4 0 0 1 14.5 3.2z"/>
-      <path d="M18.6 3.4l.55 1.5 1.5.55-1.5.55-.55 1.5-.55-1.5-1.5-.55 1.5-.55z" fill="currentColor" stroke="none"/>
-      <path d="M21 8.6l.4 1 1 .4-1 .4-.4 1-.4-1-1-.4 1-.4z" fill="currentColor" stroke="none"/>
-    </g>
-    <!-- Espelma encesa: la llum no s'apaga -->
-    <g class="ic-espelma">
-      <path d="M12 2.6c1.7 1.9 2.1 3.2 1.3 4.5-.4.6-.8.9-1.3.9s-.9-.3-1.3-.9c-.8-1.3-.4-2.6 1.3-4.5z" fill="currentColor" stroke="none"/>
-      <path d="M12 8v1.4" stroke-width="1.2"/>
-      <rect x="9.8" y="9.4" width="4.4" height="9" rx=".6"/>
-      <path d="M5.5 20.6h13M7.2 20.6c.3-1.3 2.2-2 4.8-2s4.5.7 4.8 2"/>
-      <path d="M17.2 18.6c1.6 0 2.4-.8 2.4-1.8s-.8-1.6-1.7-1.6" stroke-width="1.3"/>
-    </g>
-  </svg>
-</button>
+
+
 <div class="avis-mode" id="avisMode" role="status"></div>
+<div class="lema" id="lema" aria-live="polite"><span id="lemaTxt">Carpe diem</span><small id="lemaSub"></small></div>
 <div class="al-sona al-drecera" id="alDrecera" role="dialog" aria-modal="true" hidden>
   <div class="al-sona-cara">
     <div class="al-sona-etq" id="drTitol">Alarmes</div>
@@ -971,6 +940,40 @@
     <svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="ona1" d="M15.5 9a4 4 0 0 1 0 6"/><path class="ona2" d="M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
   </button>
   <button class="boto-rodo boto-ajuda" id="botoAjuda" aria-label="Instruccions"><span>?</span></button>
+  <button class="boto-rodo boto-mode" id="botoMode">
+  <svg viewBox="0 0 24 24">
+    <!-- Sol d'almanac: disc amb raigs llargs rectes i raigs curts flamejants -->
+    <g class="ic-dia">
+      <circle cx="12" cy="12" r="4.3"/>
+      <path d="M12 1.6v3.3M12 19.1v3.3M1.6 12h3.3M19.1 12h3.3" stroke-width="1.6"/>
+      <path d="M5.6 5.6q1.4.4 1.5 1.6M18.4 5.6q-1.4.4-1.5 1.6M5.6 18.4q1.4-.4 1.5-1.6M18.4 18.4q-1.4-.4-1.5-1.6" stroke-width="1.4"/>
+      <circle cx="10.6" cy="11.4" r=".55" fill="currentColor" stroke="none"/><circle cx="13.4" cy="11.4" r=".55" fill="currentColor" stroke="none"/>
+      <path d="M10.5 13.6q1.5 1 3 0" stroke-width="1"/>
+    </g>
+    <!-- Espelma petita: mode diürn amb la pantalla sempre encesa -->
+    <g class="ic-mini" transform="translate(14.6 11.4) scale(.52)">
+      <path d="M12 2.6c1.7 1.9 2.1 3.2 1.3 4.5-.4.6-.8.9-1.3.9s-.9-.3-1.3-.9c-.8-1.3-.4-2.6 1.3-4.5z" fill="currentColor" stroke="none"/>
+      <rect x="9.6" y="9.4" width="4.8" height="10" rx=".6" stroke-width="2.4"/>
+    </g>
+    <!-- Lluna en quart amb dos estels -->
+    <g class="ic-nit">
+      <path d="M14.5 3.2a9 9 0 1 0 6.2 14.6A7.4 7.4 0 0 1 14.5 3.2z"/>
+      <path d="M18.6 3.4l.55 1.5 1.5.55-1.5.55-.55 1.5-.55-1.5-1.5-.55 1.5-.55z" fill="currentColor" stroke="none"/>
+      <path d="M21 8.6l.4 1 1 .4-1 .4-.4 1-.4-1-1-.4 1-.4z" fill="currentColor" stroke="none"/>
+    </g>
+    <!-- Espelma encesa: la llum no s'apaga -->
+    <g class="ic-espelma">
+      <path d="M12 2.6c1.7 1.9 2.1 3.2 1.3 4.5-.4.6-.8.9-1.3.9s-.9-.3-1.3-.9c-.8-1.3-.4-2.6 1.3-4.5z" fill="currentColor" stroke="none"/>
+      <path d="M12 8v1.4" stroke-width="1.2"/>
+      <rect x="9.8" y="9.4" width="4.4" height="9" rx=".6"/>
+      <path d="M5.5 20.6h13M7.2 20.6c.3-1.3 2.2-2 4.8-2s4.5.7 4.8 2"/>
+      <path d="M17.2 18.6c1.6 0 2.4-.8 2.4-1.8s-.8-1.6-1.7-1.6" stroke-width="1.3"/>
+    </g>
+  </svg>
+</button>
+  <button class="boto-so" id="botoSo" data-i18n-aria="campanades" aria-label="Campanades de les hores i els quarts">
+  <svg viewBox="0 0 24 24"><path d="M6 17h12l-1.6-2.2V10a4.4 4.4 0 0 0-8.8 0v4.8z"/><path d="M10.2 19.2a1.9 1.9 0 0 0 3.6 0"/><path d="M12 4.2v1.4"/><path class="barra" d="M4 4l16 16" stroke="#7d1a10" stroke-width="2.2"/></svg>
+</button>
   <ul class="menu-idioma" id="menuIdioma" role="menu" hidden></ul>
 </div>
 <div class="ajuda-velo" id="ajudaVelo" hidden>
@@ -984,7 +987,6 @@
 <main class="app">
   <div class="columna esq">
     <header class="capcalera">
-      <div class="lema" id="lema">Carpe diem</div>
     </header>
 
     <div class="rellotge" id="rellotge" role="button" tabindex="0" data-i18n-aria="girar" aria-label="Rellotge: prem per girar l'esfera">
@@ -1429,7 +1431,7 @@ window.__aniv = (function(){
     ombresBusques(defs, 'a');
     gradient(defs, 'linearGradient', 'aNegre', {x1:'0', y1:'0', x2:'1', y2:'0'}, [['0%','#030201'],['42%','#1d1710'],['52%','#5a4e40'],['100%','#060403']]);
 
-    // Corona bisellada esglaonada (la mateixa de BLANCPAIN), en coure vell enfosquit
+    // Corona bisellada esglaonada (la mateixa de CAPITAINE), en coure vell enfosquit
     gradient(defs, 'linearGradient', 'aCoure', {x1:'0', y1:'0', x2:'0.35', y2:'1'}, [['0%','#d6a77f'],['30%','#a36a45'],['62%','#6e4127'],['100%','#331a0c']]);
     gradient(defs, 'linearGradient', 'aCoureInv', {x1:'0.35', y1:'1', x2:'0', y2:'0'}, [['0%','#c99772'],['35%','#8a5636'],['70%','#55301b'],['100%','#28140a']]);
     const fCV = el('filter', {id:'aCoureVell', x:'0', y:'0', width:'100%', height:'100%'}, defs);
@@ -1491,14 +1493,14 @@ window.__aniv = (function(){
       el('path', {d:'M 0,-8 L 5,4 L 0,1.5 L -5,4 Z', transform:`translate(${px(254,a)} ${py(254,a)}) rotate(${a})`, stroke:'none', fill:'#1a1209', class:'lume'}, tinta);
     }
     numeralRomans(tinta, 194, 66, {stroke:'none', fill:'#1a1209'}, {sx:0.7, sy:1.22, ls:-2}).classList.add('lume');
-    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de BLANCPAIN
+    // Marca de la casa a la meitat inferior: «XM», amb la mateixa lletra que les XII de CAPITAINE
     const marcaA = el('g', {transform:`translate(${C} ${C+82}) scale(0.72 1.18)`}, tinta);
     el('text', {x:0, y:0, 'text-anchor':'middle', 'dominant-baseline':'central', 'font-family':'Cinzel, serif', 'font-weight':700,
       'font-size':38, 'letter-spacing':-1, stroke:'none', fill:'#1a1209'}, marcaA).textContent = 'XM';
     el('line', {x1:C-22, y1:C+108, x2:C+22, y2:C+108, stroke:'#1a1209', 'stroke-width':.9}, tinta);
     el('path', {d:`M ${C},${C+105} L ${C+3},${C+108} L ${C},${C+111} L ${C-3},${C+108} Z`, stroke:'none', fill:'#1a1209'}, tinta);
 
-    // ---- Visor del dia de la setmana (com el de BLANCPAIN, però amb fons de pergamí) ----
+    // ---- Visor del dia de la setmana (com el de CAPITAINE, però amb fons de pergamí) ----
     const AX = C-80, AY = C-114, AW = 160, AH = 34;
     gradient(defs, 'linearGradient', 'aVisorPaper', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#f1dcae'],['55%','#e6c993'],['100%','#d4b072']]);
     gradient(defs, 'linearGradient', 'aOmbraVisor', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2a1604',.42],['24%','#2a1604',0],['80%','#2a1604',0],['100%','#2a1604',.28]]);
@@ -1666,7 +1668,7 @@ window.__aniv = (function(){
     // ---- Nom de la casa, imprès a l'esfera ----
     const nomCasa = el('text', {x:C, y:C-58, 'text-anchor':'middle', 'dominant-baseline':'central',
       'font-family':'Cinzel, serif', 'font-weight':700, 'font-size':17, 'letter-spacing':2.2, fill:'#2c241c'}, svg);
-    nomCasa.textContent = 'BLANCPAIN';
+    nomCasa.textContent = 'CAPITAINE';
     el('line', {x1:C-26, y1:C-45, x2:C+26, y2:C-45, stroke:'#b97752', 'stroke-width':.9}, svg);
     el('path', {d:`M ${C},${C-48} L ${C+3},${C-45} L ${C},${C-42} L ${C-3},${C-45} Z`, fill:'url(#cOrRosa)'}, svg);
 
@@ -1826,7 +1828,7 @@ window.__aniv = (function(){
     gradient(defs, 'radialGradient', 'dLluna', {cx:'40%', cy:'35%', r:'70%'}, [['0%','#fbfbf7'],['55%','#d9dad6'],['100%','#9c9fa3']]);
     gradient(defs, 'radialGradient', 'dCrater', {cx:'45%', cy:'40%', r:'60%'}, [['0%','#8e9195',.55],['70%','#a9acaf',.35],['100%','#ffffff',.25]]);
     gradient(defs, 'radialGradient', 'dOmbraInt', {cx:'50%', cy:'50%', r:'50%'}, [['84%','#3a2a14',0],['96%','#3a2a14',.22],['100%','#2a1a08',.5]]);
-    // Verd maragda: el mateix dels dissabtes a la finestra de BLANCPAIN
+    // Verd maragda: el mateix dels dissabtes a la finestra de CAPITAINE
     gradient(defs, 'linearGradient', 'dMaragdaV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#1f8a64'],['50%','#0f6b4c'],['100%','#094a35']]);
     gradient(defs, 'linearGradient', 'dBurdeusV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#9a2a24'],['50%','#7a1a16'],['100%','#55100e']]);
     gradient(defs, 'linearGradient', 'dCobaltV', {x1:'0', y1:'0', x2:'0', y2:'1'}, [['0%','#2f62c4'],['50%','#0047ab'],['100%','#002e73']]);
@@ -1906,7 +1908,7 @@ window.__aniv = (function(){
     const turons = `A ${HR} ${HR} 0 0 0 ${C} ${CUSP} A ${HR} ${HR} 0 0 0 ${px(226,-angE)} ${py(226,-angE)}`;
     el('path', {d:`M ${px(226,-angE)} ${py(226,-angE)} A 226 226 0 0 1 ${px(226,angE)} ${py(226,angE)} ${turons} Z`}, clipCel);
     const cel = el('g', {'clip-path':'url(#dClipCel)'}, svg);
-    // Disc del firmament: gira mitja volta per llunació (com el de BLANCPAIN); la lluna plena passa sota el 12
+    // Disc del firmament: gira mitja volta per llunació (com el de CAPITAINE); la lluna plena passa sota el 12
     const firmament = el('g', {}, cel);
     el('circle', {cx:C, cy:C, r:228, fill:'url(#dCel)'}, firmament);
     gradient(defs, 'radialGradient', 'dViaLactia', {cx:'50%', cy:'50%', r:'50%'}, [['0%','#9fb4ff',.18],['100%','#9fb4ff',0]]);
@@ -1917,7 +1919,7 @@ window.__aniv = (function(){
       if (s > 0.9) el('path', {d:'M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z', transform:`translate(${px(r,a).toFixed(1)} ${py(r,a).toFixed(1)}) scale(${(0.6+s*0.5).toFixed(2)})`, fill:'#fffbe8', class:'estel', style:`animation-delay:${(i*0.37)%2.6}s`}, firmament);
       else el('circle', {cx:px(r,a).toFixed(1), cy:py(r,a).toFixed(1), r:(0.4+s*1.1).toFixed(2), fill:'#ffffff', opacity:(0.35+s*0.6).toFixed(2)}, firmament);
     }
-    // estels grossos amb raigs, com els de BLANCPAIN, repartits pel cel
+    // estels grossos amb raigs, com els de CAPITAINE, repartits pel cel
     [[-150,-40,1.4],[-95,-120,1.1],[30,-150,1.25],[120,-95,1.0],[160,20,1.3],[95,110,1.1],[-20,160,1.2],[-120,95,1.0],[-60,40,.8],[60,-30,.85],[-170,60,.9],[150,-150,.8]].forEach(([x,y,s],i)=>{
       el('path', {d:'M0,-7 L1.4,-1.4 L7,0 L1.4,1.4 L0,7 L-1.4,1.4 L-7,0 L-1.4,-1.4 Z', transform:`translate(${C+x} ${C+y}) scale(${s})`, fill:'#fff6da', class:'estel', style:`animation-delay:${(i*0.53)%2.6}s`}, firmament);
     });
@@ -2084,7 +2086,7 @@ window.__aniv = (function(){
       const d = ara.getDate();
       busDataRot.setAttribute('transform', `rotate(${((d-1)*360/31).toFixed(2)} ${C} ${C})`);
       textosData.forEach((t,i)=> t.setAttribute('fill', (i+1)===d ? '#b3261e' : '#2c241c'));
-      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de BLANCPAIN
+      // dies de la setmana (dilluns primer) i el d'avui destacat amb els colors de CAPITAINE
       const iAvui = (ara.getDay()+6)%7;
       const fe = festiu(ara);
       textosDia.forEach((t,i)=>{
@@ -2832,7 +2834,7 @@ window.__aniv = (function(){
   function pintaLema(ara){
     const republica = ara.getMonth()===9 && ara.getDate()===1;
     // en els modes nocturns, «Carpe noctem»
-    document.getElementById('lema').textContent = republica ? L.republica : (document.documentElement.classList.contains('nit') ? 'Carpe noctem' : 'Carpe diem');
+    document.getElementById('lemaTxt').textContent = republica ? L.republica : (document.documentElement.classList.contains('nit') ? 'Carpe noctem' : 'Carpe diem');
     if (window.__senyera) window.__senyera.style.display = republica ? '' : 'none';
   }
   let diaActualClau = '';
@@ -4176,7 +4178,7 @@ window.__aniv = (function(){
   function obreMenu(obre){ menu.hidden = !obre; botoIdioma.setAttribute('aria-expanded', obre ? 'true' : 'false'); }
   botoIdioma.addEventListener('click', e => { e.stopPropagation(); obreMenu(menu.hidden); });
   menu.addEventListener('click', e => { const li = e.target.closest('li'); if (!li) return; e.stopPropagation(); posaLlengua(li.dataset.codi); obreMenu(false); });
-  document.addEventListener('pointerdown', e => { if (!menu.hidden && !e.target.closest('.botonera-esq')) obreMenu(false); });
+  document.addEventListener('pointerdown', e => { if (!menu.hidden && !e.target.closest('#botoIdioma, #menuIdioma')) obreMenu(false); });
   pintaMenu(); pintaTextos();
 
   // ========================= VEU: DIU L'HORA =========================
@@ -4306,6 +4308,14 @@ window.__aniv = (function(){
   rellotge.addEventListener('mousedown', e => iniciLlisca(e.clientX, e.clientY));
   window.addEventListener('mousemove', e => { if (llisca) mouLlisca(e.clientX, e.clientY); });
   window.addEventListener('mouseup', fiLlisca);
+  // el lema apareix 5 segons, amb el nom del mode a sota, i s'esvaeix
+  let tempsLema = null;
+  function mostraLema(sub){
+    const el = document.getElementById('lema');
+    document.getElementById('lemaSub').textContent = sub || '';
+    el.classList.add('visible');
+    clearTimeout(tempsLema); tempsLema = setTimeout(() => el.classList.remove('visible'), 5000);
+  }
   function aplicaMode(mostraAvis){
     const html = document.documentElement;
     html.classList.toggle('nit', esNit());
@@ -4322,7 +4332,7 @@ window.__aniv = (function(){
     const txt = mode === 'dia' ? L.modeDia : mode === 'diaFix' ? L.modeDia + encesa : mode === 'nit' ? L.modeNit : L.modeNitFix;
     const bm = document.getElementById('botoMode'); bm.setAttribute('aria-label', `${L.modeEtq}: ${txt}`); bm.title = txt;
     if (mostraAvis){
-      avisa(txt + (esFix() && !('wakeLock' in navigator) ? ' ✕' : ''), 2200);
+      mostraLema(txt + (esFix() && !('wakeLock' in navigator) ? ' ✕' : ''));
     }
   }
   document.getElementById('botoMode').addEventListener('click', e => {

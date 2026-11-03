@@ -1697,20 +1697,18 @@ window.__aniv = (function(){
     const estel = 'M0,-4 L1,-1 L4,0 L1,1 L0,4 L-1,1 L-4,0 L-1,-1 Z';
     const posEstels = [[-48,-36,1.1],[-20,-60,.8],[26,-54,.9],[54,-26,1.1],[60,12,.8],[36,48,1],[-10,62,.8],[-56,34,1],[-62,-8,.7],[14,26,.55],[-28,10,.55],[8,-26,.55],[46,-58,.6],[-42,58,.7],[-36,-58,.6]];
     posEstels.forEach(([x,y,s],i)=>{
-      el('path', {d:estel, transform:`translate(${WX+x} ${WY+y}) scale(${s})`, fill:'#f3d39a', class:'estel', style:`animation-delay:${(i*0.37)%2.6}s`}, disc);
+      el('path', {d:estel, transform:`translate(${WX+x} ${WY+y}) scale(${s})`, fill:'#f4cf63', class:'estel', style:`animation-delay:${(i*0.37)%2.6}s`}, disc);
     });
     // dues llunes amb cara, oposades sobre el disc
+    // llunes planes d'or, amb un lleuger matís (com les esferes clàssiques de fase lunar)
+    gradient(defs, 'radialGradient', 'cLlunaOr', {cx:'40%', cy:'36%', r:'68%'}, [['0%','#fff3c4'],['38%','#f6d77a'],['78%','#e2b347'],['100%','#c8952c']]);
+    gradient(defs, 'linearGradient', 'cLlunaVora', {x1:'0', y1:'0', x2:'1', y2:'1'}, [['0%','#fff6d6',.9],['55%','#d7a43c',.6],['100%','#8f6418',.9]]);
     function llunaAmbCara(cx, cy, gir){
-      const k = LLR / 33;   // la cara es dibuixa a radi 33 i s'escala
-      const g = el('g', {transform:`rotate(${gir} ${cx} ${cy}) translate(${cx} ${cy}) scale(${k.toFixed(4)}) translate(${-cx} ${-cy})`, class:'lume-lluna'}, disc);
-      el('circle', {cx, cy, r:33, fill:'url(#cLluna)', stroke:'#8a5530', 'stroke-width':.8}, g);
-      const tr = el('g', {fill:'none', stroke:'#8a5530', 'stroke-width':1.5, 'stroke-linecap':'round', opacity:.85}, g);
-      el('path', {d:`M ${cx-15},${cy-6} q 5,-5 10,0`}, tr);         // ull esquerre
-      el('path', {d:`M ${cx+5},${cy-6} q 5,-5 10,0`}, tr);           // ull dret
-      el('path', {d:`M ${cx},${cy-5} q -2.5,8 0,11 q 2,1 3.5,0`}, tr); // nas
-      el('path', {d:`M ${cx-8},${cy+13} q 8,6 16,0`}, tr);           // boca
-      el('circle', {cx:cx-13, cy:cy+5, r:4, fill:'#d58f62', opacity:.35, stroke:'none'}, g);
-      el('circle', {cx:cx+13, cy:cy+5, r:4, fill:'#d58f62', opacity:.35, stroke:'none'}, g);
+      const g = el('g', {class:'lume-lluna'}, disc);
+      el('circle', {cx, cy, r:LLR, fill:'url(#cLlunaOr)'}, g);
+      el('circle', {cx, cy, r:LLR - .5, fill:'none', stroke:'url(#cLlunaVora)', 'stroke-width':1}, g);
+      // lluentor suau, com d'or satinat
+      el('ellipse', {cx:cx - LLR*.28, cy:cy - LLR*.3, rx:LLR*.42, ry:LLR*.26, fill:'#fffbe8', opacity:.28, transform:`rotate(-30 ${cx - LLR*.28} ${cy - LLR*.3})`}, g);
     }
     llunaAmbCara(WX, WY-LLD, 0);
     llunaAmbCara(WX, WY+LLD, 180);

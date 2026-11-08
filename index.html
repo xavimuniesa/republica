@@ -750,7 +750,7 @@
     :root{ --fila: 21px; }
     .llegenda{ display:none; }
   }
-  .estel{ animation: centelleig 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .estel{ animation: centelleig 2.6s steps(18) infinite; transform-box: fill-box; transform-origin: center; }
   @keyframes centelleig{ 0%,100%{ opacity:.35; } 50%{ opacity:1; } }
   /* Botons de llengua i de veu (a l'esquerra, simètrics amb la campana) */
   /* Els cinc botons repartits per igual a dalt (apaisat: junts a l'esquerra, sobre el rellotge) */
@@ -2881,16 +2881,29 @@ window.__aniv = (function(){
       b.m.setAttribute('transform', `rotate(${aM} ${C} ${C})`);
       b.s.setAttribute('transform', `rotate(${SALTA[i] ? aSalt : aS} ${C} ${C})`);
     });
-    requestAnimationFrame(mouBusques);
+    programaBusques(ara);
   }
-  requestAnimationFrame(mouBusques);
+  // Estalvi de bateria: les busques només es redibuixen quan es mouen de debò.
+  //  · durant el gir del cilindre i el rebot de l'escapament (0,26 s de cada segon): a cada fotograma
+  //  · segoneres que salten: en repòs fins al segon següent
+  //  · segoneres d'escombrada contínua: ~30 imatges per segon (un pas de 0,2°, imperceptible)
+  let tBusques = null, rBusques = 0;
+  function demanaBusques(){ if (!rBusques) rBusques = requestAnimationFrame(() => { rBusques = 0; mouBusques(); }); }
+  function programaBusques(ara){
+    clearTimeout(tBusques); tBusques = null;
+    const ms = ara.getMilliseconds(), salta = esferaActual === 1 || esferaActual === 3;
+    if (girant || (salta && ms < 260)) demanaBusques();
+    else tBusques = setTimeout(demanaBusques, salta ? 1000 - ms : 33);
+  }
+  window.__despertaBusques = () => { clearTimeout(tBusques); tBusques = null; demanaBusques(); };
+  demanaBusques();
   function programaTic(){
     actualitzaBusques();
     setTimeout(programaTic, 1000 - (Date.now() % 1000) + 5);
   }
 
   // ========================= SO: campanades i engranatge =========================
-  let ctxAudio = null;
+  let ctxAudio = null, ultimUsAudio = 0;
   let soActiu = true;
   try { soActiu = localStorage.getItem('rellotge-so') !== '0'; } catch(e){}
   const botoSo = document.getElementById('botoSo');
@@ -2906,6 +2919,7 @@ window.__aniv = (function(){
       ctxAudio = new AC();
     }
     if (ctxAudio.state === 'suspended') ctxAudio.resume();
+    ultimUsAudio = performance.now();
     return ctxAudio;
   }
   ['pointerdown','touchend','click','keydown'].forEach(ev=>
@@ -2952,15 +2966,23 @@ window.__aniv = (function(){
     const g = ctx.createGain(); g.gain.value = .94 + Math.random()*.08; src.connect(g); g.connect(ticSortida); src.start(quan);
   }
   // cada segon, just quan salta la segonera (només amb l'esfera sense marca o ANTAVIANA a la vista)
-  setInterval(() => {
-    if (!soActiu || !ctxAudio || ctxAudio.state !== 'running' || document.hidden) return;
-    if (girant || (esferaActual !== 1 && esferaActual !== 3)) return;
-    const ara = Date.now(), seg = Math.ceil(ara/1000)*1000, falta = seg - ara;
-    if (seg === ticDarrer || falta > 150) return;
-    ticDarrer = seg;
-    const quan = Math.max(ctxAudio.currentTime, ctxAudio.currentTime + falta/1000 - (ctxAudio.outputLatency || 0));
-    ticTac(ctxAudio, quan, (seg/1000) % 2 === 1);
-  }, 20);
+  function rellotgeTicTac(){
+    const ara = Date.now(), seg = Math.ceil((ara + 1)/1000)*1000;
+    setTimeout(() => {
+      const ticOn = soActiu && ctxAudio && !document.hidden && !girant && (esferaActual === 1 || esferaActual === 3);
+      if (ticOn && ctxAudio.state === 'suspended') ctxAudio.resume().catch(()=>{});
+      if (ticOn && ctxAudio.state === 'running' && seg !== ticDarrer){
+        ticDarrer = seg;
+        const falta = Math.max(0, seg - Date.now());
+        const quan = Math.max(ctxAudio.currentTime, ctxAudio.currentTime + falta/1000 - (ctxAudio.outputLatency || 0));
+        ticTac(ctxAudio, quan, (seg/1000) % 2 === 1);
+      }
+      // l'àudio s'adorm si fa estona que no sona res (estalvia bateria); es desperta sol quan cal
+      if (!ticOn && ctxAudio && ctxAudio.state === 'running' && performance.now() - ultimUsAudio > 90000) ctxAudio.suspend().catch(()=>{});
+      rellotgeTicTac();
+    }, Math.max(0, seg - ara - 60));
+  }
+  rellotgeTicTac();
 
   // Campana: parcials inharmònics típics d'una campana de bronze
   const PARCIALS = [[0.5,.35,1.8],[1,.55,1],[1.183,.28,.8],[1.506,.2,.6],[2,.14,.45],[2.514,.08,.3],[3.011,.05,.22]];
@@ -3013,6 +3035,7 @@ window.__aniv = (function(){
     const clau = ara.getHours()+':'+m;
     if (clau === darrerToc) return;
     darrerToc = clau;
+    audio();   // desperta l'àudio si s'havia adormit
     if (m === 0){
       const h12 = ara.getHours()%12 || 12;
       const t = tocaQuarts(4, 0);
@@ -3125,6 +3148,7 @@ window.__aniv = (function(){
     if (girant) return;
     if (zoom.z > 1) treuZoom();
     girant = true;
+    if (window.__despertaBusques) window.__despertaBusques();
     preparaAmagada();
     esferaActual = (esferaActual + 1) % ESFERES.length;
     pista.classList.remove('visible');
@@ -4332,6 +4356,10 @@ window.__aniv = (function(){
     aplicaTemaNit();
     html.classList.toggle('encesa', esFix());
     pintaLema(new Date());
+    document.querySelectorAll('g[filter*="OmbraH"], g[filter*="OmbraM"], g[filter*="OmbraS"], g[data-ombra]').forEach(g => {
+      if (esNit()){ if (!g.dataset.ombra) g.dataset.ombra = g.getAttribute('filter'); g.removeAttribute('filter'); }
+      else if (g.dataset.ombra) g.setAttribute('filter', g.dataset.ombra);
+    });
     document.querySelectorAll('.lume-lluna').forEach(g => {
       if (esNit()){ if (!g.dataset.filtreOriginal) g.dataset.filtreOriginal = g.getAttribute('filter') || '-'; g.setAttribute('filter', 'url(#filtreLume)'); }
       else if (g.dataset.filtreOriginal){ if (g.dataset.filtreOriginal === '-') g.removeAttribute('filter'); else g.setAttribute('filter', g.dataset.filtreOriginal); }
@@ -5171,8 +5199,11 @@ window.__aniv = (function(){
     pintaRadios();
     $('pCompetencia').innerHTML = `<div class="m-estat">${L.carregant}</div>`;
     setTimeout(() => { carregaProgrames(true); carregaNoticies(true); }, 1200);
-    setInterval(() => { if (document.visibilityState === 'visible') carregaProgrames(true); }, 20 * 60 * 1000);
-    setInterval(() => { if (document.visibilityState === 'visible') carregaNoticies(true); }, 10 * 60 * 1000);
+    // de nit (mode Zz) s'espaien: notícies cada 30 min i programes cada hora
+    let tornNot = 0, tornProg = 0;
+    const deNit = () => document.documentElement.classList.contains('nit');
+    setInterval(() => { if (document.visibilityState === 'visible' && (!deNit() || ++tornProg % 3 === 0)) carregaProgrames(true); }, 20 * 60 * 1000);
+    setInterval(() => { if (document.visibilityState === 'visible' && (!deNit() || ++tornNot % 3 === 0)) carregaNoticies(true); }, 10 * 60 * 1000);
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible'){ carregaNoticies(false); carregaProgrames(false); } });
   })();
 
